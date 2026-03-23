@@ -9,8 +9,10 @@ const supabase = createClient(
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "GET",
-  "Cache-Control": "public, max-age=3600",
+  "Cache-Control": "public, max-age=300",
 };
+
+const FREE_IMPRESSION_LIMIT = 500;
 
 interface LlmOutput {
   slides: unknown[];
@@ -38,6 +40,41 @@ async function getBrandKit(userId: string) {
   return data;
 }
 
+async function getUserPlan(userId: string): Promise<string> {
+  const { data } = await supabase
+    .from("profiles")
+    .select("plan")
+    .eq("id", userId)
+    .single();
+  return (data as { plan: string } | null)?.plan || "free";
+}
+
+async function getMonthlyImpressions(userId: string): Promise<number> {
+  const startOfMonth = new Date();
+  startOfMonth.setDate(1);
+  startOfMonth.setHours(0, 0, 0, 0);
+
+  const { count } = await supabase
+    .from("impressions")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .gte("created_at", startOfMonth.toISOString());
+
+  return count ?? 0;
+}
+
+async function trackImpression(
+  userId: string,
+  contentId: string | null,
+  widgetId: string | null
+) {
+  await supabase.from("impressions").insert({
+    user_id: userId,
+    content_id: contentId,
+    widget_id: widgetId,
+  });
+}
+
 function formatReview(content: { id: string; llm_output: unknown }) {
   const llm = content.llm_output as LlmOutput;
   return {
@@ -56,7 +93,14 @@ export async function GET(
   const { id } = await params;
 
   try {
-    // First, check if this is a widget (multi-review)
+    // Determine owner user_id and content
+    let userId: string | null = null;
+    let reviews: ReturnType<typeof formatReview>[] = [];
+    let isWidget = false;
+    let widgetId: string | null = null;
+    let contentId: string | null = null;
+
+    // Check if widget
     const { data: widget } = await supabase
       .from("widgets")
       .select("*")
@@ -64,60 +108,42 @@ export async function GET(
       .single();
 
     if (widget) {
-      // It's a widget — fetch all reviews in it
+      isWidget = true;
+      widgetId = widget.id;
+      userId = widget.user_id;
       const contentIds = widget.content_ids as string[];
-      const reviews = [];
-
-      for (const contentId of contentIds) {
-        const content = await getContentById(contentId);
-        if (content) {
-          reviews.push(formatReview(content));
-        }
+      for (const cid of contentIds) {
+        const content = await getContentById(cid);
+        if (content) reviews.push(formatReview(content));
       }
-
-      const brandKit = await getBrandKit(widget.user_id);
-
-      return NextResponse.json(
-        {
-          type: "widget",
-          id: widget.id,
-          name: widget.name,
-          reviews,
-          brandKit: brandKit
-            ? {
-                companyName: brandKit.company_name,
-                logoUrl: brandKit.logo_url,
-                primaryColor: brandKit.primary_color,
-                secondaryColor: brandKit.secondary_color,
-              }
-            : null,
-        },
-        { headers: CORS_HEADERS }
-      );
+    } else {
+      const content = await getContentById(id);
+      if (!content) {
+        return NextResponse.json({ error: "Not found" }, { status: 404 });
+      }
+      userId = content.user_id;
+      contentId = content.id;
+      reviews = [formatReview(content)];
     }
 
-    // Otherwise, it's a single content item (backward compatible)
-    const content = await getContentById(id);
+    // Get user plan and impression count
+    const plan = await getUserPlan(userId!);
+    const monthlyImpressions = await getMonthlyImpressions(userId!);
+    const isPro = plan === "pro";
+    const showWatermark = !isPro;
+    const limitReached = !isPro && monthlyImpressions >= FREE_IMPRESSION_LIMIT;
 
-    if (!content) {
-      return NextResponse.json(
-        { error: "Not found" },
-        { status: 404 }
-      );
-    }
+    // Track impression
+    trackImpression(userId!, contentId, widgetId);
 
-    const brandKit = await getBrandKit(content.user_id);
-    const llm = content.llm_output as LlmOutput;
+    // Get brand kit
+    const brandKit = await getBrandKit(userId!);
 
     return NextResponse.json(
       {
-        type: "single",
-        id: content.id,
-        reviews: [formatReview(content)],
-        slides: llm.slides,
-        hookLine: llm.hookLine,
-        reviewer: llm.reviewer,
-        reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+        type: isWidget ? "widget" : "single",
+        id,
+        reviews: limitReached ? reviews.slice(0, 1) : reviews,
         brandKit: brandKit
           ? {
               companyName: brandKit.company_name,
@@ -126,6 +152,13 @@ export async function GET(
               secondaryColor: brandKit.secondary_color,
             }
           : null,
+        // Plan-based flags
+        showWatermark,
+        limitReached,
+        impressions: {
+          current: monthlyImpressions,
+          limit: isPro ? null : FREE_IMPRESSION_LIMIT,
+        },
       },
       { headers: CORS_HEADERS }
     );

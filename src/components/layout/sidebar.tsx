@@ -8,6 +8,7 @@ import {
   Palette,
   Wand2,
   Clock,
+  BarChart3,
   LogOut,
   ArrowUpRight,
   Star,
@@ -18,6 +19,7 @@ const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Generate", href: "/generate", icon: Wand2 },
   { label: "History", href: "/history", icon: Clock },
+  { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
 ];
 

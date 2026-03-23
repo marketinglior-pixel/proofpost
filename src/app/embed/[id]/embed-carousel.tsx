@@ -26,6 +26,8 @@ interface EmbedData {
   id: string;
   reviews: Review[];
   brandKit: BrandKit;
+  showWatermark?: boolean;
+  limitReached?: boolean;
 }
 
 export function EmbedCarousel({
@@ -43,7 +45,9 @@ export function EmbedCarousel({
 
   const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const primaryColor = brand?.primaryColor || "#2563EB";
+  const primaryColor = brand?.primaryColor || "#10B981";
+  const showWatermark = data.showWatermark !== false;
+  const limitReached = data.limitReached === true;
 
   const goToNext = useCallback(() => {
     if (reviews.length <= 1) return;
@@ -316,14 +320,33 @@ export function EmbedCarousel({
           </div>
         </div>
 
-        <a
-          href="https://proofpost-alpha.vercel.app"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{ fontSize: "10px", color: "#ccc", textDecoration: "none" }}
-        >
-          ✦ ProofPost
-        </a>
+        {showWatermark ? (
+          <a
+            href="https://proofpost-alpha.vercel.app?ref=widget"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              fontSize: "11px",
+              color: "#10B981",
+              textDecoration: "none",
+              fontWeight: 600,
+              display: "flex",
+              alignItems: "center",
+              gap: "4px",
+            }}
+          >
+            <span style={{ fontSize: "8px" }}>✦</span> Powered by ProofPost
+          </a>
+        ) : (
+          <a
+            href="https://proofpost-alpha.vercel.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontSize: "10px", color: "#ccc", textDecoration: "none" }}
+          >
+            ✦ ProofPost
+          </a>
+        )}
       </div>
 
       {/* Progress bar */}
