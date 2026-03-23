@@ -105,6 +105,17 @@ export function EmbedCarousel({
       .slice(0, 2);
   }
 
+  function isRealPhoto(url: string | null | undefined): boolean {
+    if (!url) return false;
+    // Filter out generic LinkedIn/platform default avatars
+    if (url.includes("static.licdn.com/aero")) return false;
+    if (url.includes("default-avatar")) return false;
+    if (url.includes("placeholder")) return false;
+    if (url.includes("/sc/h/")) return false;
+    // Must be a reasonable image URL
+    return url.startsWith("http");
+  }
+
   if (reviews.length === 0) {
     return (
       <div style={{ padding: "40px", textAlign: "center", color: "#999" }}>
@@ -210,10 +221,10 @@ export function EmbedCarousel({
             gap: "10px",
           }}
         >
-          {review.reviewerPhotoUrl ? (
+          {isRealPhoto(review.reviewerPhotoUrl) ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={review.reviewerPhotoUrl}
+              src={review.reviewerPhotoUrl!}
               alt={review.reviewer.name}
               width={56}
               height={56}
