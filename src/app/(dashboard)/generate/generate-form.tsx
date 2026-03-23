@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import type { CarouselOutput } from "@/lib/ai/generate-carousel";
 import { CarouselPreview } from "./carousel-preview";
+import { EmbedCodeSection } from "./embed-code-section";
 
 interface ReviewerInfo {
   name: string;
@@ -399,6 +400,9 @@ export function GenerateForm() {
               )}
             </Button>
           </div>
+
+          {/* Embed Code */}
+          <EmbedCodeSection contentId={result.id} />
         </div>
       )}
     </div>
