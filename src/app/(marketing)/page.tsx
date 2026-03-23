@@ -47,48 +47,48 @@ export default function LandingPage() {
 
       {/* ============ SECTION 1: HERO ============ */}
       <section className="relative overflow-hidden bg-snow">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.08)_0%,_transparent_60%)]" />
-        <div className="relative max-w-4xl mx-auto px-6 pt-24 pb-20 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20 mb-8">
-            <Zap className="w-3.5 h-3.5 text-emerald-dark" aria-hidden="true" />
-            <span className="text-[13px] font-medium text-emerald-dark">
-              From static archives to kinetic trust capital
-            </span>
-          </div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.08)_0%,_transparent_60%)]" />
+        <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: Copy */}
+            <div className="space-y-8 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20">
+                <Zap className="w-3.5 h-3.5 text-emerald-dark" aria-hidden="true" />
+                <span className="text-[13px] font-medium text-emerald-dark">
+                  From static archives to kinetic trust capital
+                </span>
+              </div>
 
-          <h1 className="font-heading text-[48px] sm:text-[64px] leading-[1.08] text-slate-900 tracking-tight">
-            Your best reviews are
-            <br />
-            <em className="text-emerald">collecting dust.</em>
-          </h1>
+              <h1 className="font-heading text-[44px] sm:text-[56px] leading-[1.08] text-slate-900 tracking-tight">
+                Your best reviews are{" "}
+                <em className="text-emerald">collecting dust.</em>
+              </h1>
 
-          <p className="mt-8 text-[19px] text-slate-500 leading-relaxed max-w-2xl mx-auto">
-            You probably have dozens of great customer reviews sitting in emails
-            and G2. And they just... sit there. We turn them into auto-animated
-            website widgets that actually convert visitors into buyers. Takes
-            about 60 seconds.
-          </p>
+              <p className="text-[17px] text-slate-500 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                You have great customer reviews sitting in emails and G2. We
+                turn them into auto-animated website widgets that convert
+                visitors into buyers. Takes about 60 seconds.
+              </p>
 
-          <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/login"
-              className="flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
-            >
-              Try Free. No Card Required.
-              <ArrowRight className="w-5 h-5" aria-hidden="true" />
-            </Link>
-          </div>
+              <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
+                <Link
+                  href="/login"
+                  className="flex items-center gap-2 h-13 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
+                >
+                  Try Free. No Card Required.
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
 
-          <p className="mt-6 text-[13px] text-slate-400">
-            Free plan available. Pro starts at $19/mo.
-          </p>
+              <p className="text-[13px] text-slate-400">
+                Free plan available. Pro starts at $19/mo.
+              </p>
+            </div>
 
-          {/* Live Widget Demo */}
-          <div className="mt-16">
-            <p className="text-[12px] font-medium text-slate-400 uppercase tracking-wider mb-4">
-              This is what your widget looks like
-            </p>
-            <HeroCarousel />
+            {/* Right: Live Widget Demo */}
+            <div className="flex justify-center lg:justify-end">
+              <HeroCarousel />
+            </div>
           </div>
         </div>
       </section>
