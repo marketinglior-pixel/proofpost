@@ -132,46 +132,58 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ SECTION 3: MECHANISM REVEAL ============ */}
-      <section className="max-w-5xl mx-auto px-6 py-24">
-        <div className="rounded-2xl bg-navy p-8 sm:p-14 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-[400px] h-[400px] rounded-full bg-emerald/8 blur-[120px]" />
+      {/* ============ SECTION 3: HOW IT WORKS ============ */}
+      <section className="max-w-4xl mx-auto px-6 py-24">
+        <div className="text-center space-y-4 mb-14">
+          <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
+            How it works.
+          </h2>
+          <p className="text-[17px] text-slate-500 max-w-xl mx-auto">
+            AI reads your reviews and finds the one sentence that actually
+            sells. Then wraps it in a premium widget. 60 seconds, start to
+            finish.
+          </p>
+        </div>
 
-          <div className="relative space-y-8 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald/15 border border-emerald/25">
-              <Zap className="w-3 h-3 text-emerald" aria-hidden="true" />
-              <span className="text-[12px] font-semibold text-emerald uppercase tracking-wider">
-                The Golden Hook Engine
-              </span>
+        <div className="grid sm:grid-cols-3 gap-6">
+          {[
+            {
+              step: "01",
+              title: "Paste your review",
+              desc: "Drop a link or raw text from G2, email, LinkedIn, or anywhere. We accept it all.",
+              icon: "📋",
+            },
+            {
+              step: "02",
+              title: "AI extracts the hook",
+              desc: "Our AI reads the full review and pulls out the highest-converting sentence automatically.",
+              icon: "✨",
+            },
+            {
+              step: "03",
+              title: "Embed on your site",
+              desc: "Copy one line of code. A branded, auto-sliding testimonial widget is live on your site.",
+              icon: "🔗",
+            },
+          ].map((s) => (
+            <div
+              key={s.step}
+              className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4 text-center"
+            >
+              <span className="text-[32px]">{s.icon}</span>
+              <div className="space-y-1">
+                <span className="text-[11px] font-bold text-emerald tabular-nums uppercase tracking-wider">
+                  Step {s.step}
+                </span>
+                <h3 className="text-[16px] font-semibold text-slate-900">
+                  {s.title}
+                </h3>
+              </div>
+              <p className="text-[14px] text-slate-500 leading-relaxed">
+                {s.desc}
+              </p>
             </div>
-
-            <h2 className="text-[30px] font-bold text-white leading-tight">
-              AI that reads your reviews and finds the one sentence that
-              actually sells.
-            </h2>
-
-            <p className="text-[16px] text-slate-400 leading-relaxed">
-              When a customer writes a long review, there is usually only one
-              sentence that matters. The exact 12 words that prove ROI. Our AI
-              finds that sentence, strips away the fluff, and wraps it in a
-              premium, auto-sliding carousel. Your brand colors, your logo,
-              zero code.
-            </p>
-
-            <div className="grid sm:grid-cols-3 gap-4 pt-4">
-              {[
-                { step: "01", title: "Paste", desc: "Drop a link or raw text. G2, email, LinkedIn, anything." },
-                { step: "02", title: "AI extracts", desc: "Golden Hook Engine finds the highest-converting sentence." },
-                { step: "03", title: "Embed", desc: "Copy one line of code. Widget is live on your site." },
-              ].map((s) => (
-                <div key={s.step} className="rounded-xl bg-white/5 border border-white/10 p-5 space-y-2">
-                  <span className="text-[12px] font-bold text-emerald tabular-nums">{s.step}</span>
-                  <h3 className="text-[15px] font-semibold text-white">{s.title}</h3>
-                  <p className="text-[13px] text-slate-400 leading-relaxed">{s.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+          ))}
         </div>
       </section>
 
