@@ -160,48 +160,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ SECTION 4: SOCIAL PROOF ============ */}
-      <section className="max-w-3xl mx-auto px-6 py-24">
-        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
-          Growth architects who stopped paying the Canva Tax.
-        </h2>
-
-        <div className="space-y-5">
-          {[
-            {
-              quote: "I used to dread updating our customer love page. ProofPost entirely removed my developer from the equation. I updated our entire pricing page in ten minutes on a Tuesday morning.",
-              name: "Sarah K.",
-              title: "Growth Lead, Series A SaaS",
-              photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face",
-            },
-            {
-              quote: "The Canva fatigue was real. My team was spending hours every week designing little squares with quotes. The Kinetic Carousels look way more professional than our static images ever did.",
-              name: "Mark R.",
-              title: "Founder, Growth Agency",
-              photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
-            },
-            {
-              quote: "Since we added the scrolling carousel to our demo booking page, our conversion rate bumped up by about fourteen percent. For nineteen dollars a month, it is the most obvious software purchase I have made all year.",
-              name: "Elena T.",
-              title: "Marketing Director, B2B SaaS",
-              photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=face",
-            },
-          ].map((t, i) => (
-            <div key={i} className="flex gap-5 p-6 rounded-xl bg-white border border-slate-200">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={t.photo} alt="" width={48} height={48} className="rounded-full object-cover flex-shrink-0 mt-1" />
-              <div>
-                <p className="text-[15px] text-slate-700 leading-relaxed italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <p className="mt-3 text-[13px] font-medium text-slate-900">{t.name}</p>
-                <p className="text-[12px] text-slate-400">{t.title}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ============ SECTION 5: FEATURES ============ */}
       <section className="max-w-5xl mx-auto px-6 py-24">
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
