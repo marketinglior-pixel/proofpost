@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { HeroCarousel } from "./hero-carousel";
 import {
   ArrowRight,
   Zap,
@@ -81,6 +82,14 @@ export default function LandingPage() {
           <p className="mt-6 text-[13px] text-slate-400">
             Free plan available. Pro starts at $19/mo.
           </p>
+
+          {/* Live Widget Demo */}
+          <div className="mt-16">
+            <p className="text-[12px] font-medium text-slate-400 uppercase tracking-wider mb-4">
+              This is what your widget looks like
+            </p>
+            <HeroCarousel />
+          </div>
         </div>
       </section>
 
