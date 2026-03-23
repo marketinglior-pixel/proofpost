@@ -53,24 +53,35 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
+    // Check plan
+    const { data: profileData } = await supabase
+      .from("profiles")
+      .select("plan")
+      .eq("id", user.id)
+      .single();
 
-    const { count } = await supabase
-      .from("generated_content")
-      .select("*", { count: "exact", head: true })
-      .eq("user_id", user.id)
-      .gte("created_at", startOfMonth.toISOString());
+    const plan = (profileData as { plan: string } | null)?.plan || "free";
 
-    if ((count ?? 0) >= 3) {
-      return NextResponse.json(
-        {
-          error:
-            "You've reached your free plan limit (3/month). Upgrade to Pro for unlimited.",
-        },
-        { status: 403 }
-      );
+    if (plan !== "pro") {
+      const startOfMonth = new Date();
+      startOfMonth.setDate(1);
+      startOfMonth.setHours(0, 0, 0, 0);
+
+      const { count } = await supabase
+        .from("generated_content")
+        .select("*", { count: "exact", head: true })
+        .eq("user_id", user.id)
+        .gte("created_at", startOfMonth.toISOString());
+
+      if ((count ?? 0) >= 3) {
+        return NextResponse.json(
+          {
+            error:
+              "You've reached your free plan limit (3/month). Upgrade to Pro for unlimited.",
+          },
+          { status: 403 }
+        );
+      }
     }
 
     // Build reviewer info

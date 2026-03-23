@@ -85,7 +85,10 @@ export function Sidebar() {
       {/* Bottom */}
       <div className="px-3 py-4 space-y-2 relative z-10">
         {/* Upgrade */}
-        <div className="px-3 py-3 rounded-lg bg-amber/10 border border-amber/20">
+        <Link
+          href="/pricing"
+          className="block px-3 py-3 rounded-lg bg-amber/10 border border-amber/20 hover:bg-amber/15 transition-colors"
+        >
           <div className="flex items-center justify-between mb-1">
             <span className="text-[12px] font-medium text-amber">
               Free Plan
@@ -95,7 +98,7 @@ export function Sidebar() {
           <p className="text-[11px] text-cream/40">
             3 carousels/mo · Upgrade for unlimited
           </p>
-        </div>
+        </Link>
 
         {/* Sign Out */}
         <form action={signOut}>
