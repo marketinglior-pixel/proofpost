@@ -2,17 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
-interface Slide {
-  slideNumber: number;
-  heading: string;
-  body: string;
-  footer?: string;
-}
-
-interface Reviewer {
-  name: string;
-  title: string;
-  company: string;
+interface Review {
+  id: string;
+  hookLine: string;
+  quote: string;
+  reviewer: {
+    name: string;
+    title: string;
+    company: string;
+  };
+  reviewerPhotoUrl: string | null;
 }
 
 interface BrandKit {
@@ -23,11 +22,9 @@ interface BrandKit {
 }
 
 interface EmbedData {
+  type: "widget" | "single";
   id: string;
-  slides: Slide[];
-  hookLine: string;
-  reviewer: Reviewer;
-  reviewerPhotoUrl: string | null;
+  reviews: Review[];
   brandKit: BrandKit;
 }
 
@@ -40,61 +37,40 @@ export function EmbedCarousel({
 }) {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [slideDirection, setSlideDirection] = useState<"left" | "right">(
-    "left"
-  );
+  const [direction, setDirection] = useState<"left" | "right">("left");
   const [paused, setPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const reviewer = data.reviewer;
+  const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const slides = data.slides;
   const primaryColor = brand?.primaryColor || "#2563EB";
 
   const goToNext = useCallback(() => {
-    setSlideDirection("left");
+    if (reviews.length <= 1) return;
+    setDirection("left");
     setIsAnimating(true);
     setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % slides.length);
+      setCurrent((prev) => (prev + 1) % reviews.length);
       setIsAnimating(false);
-    }, 300);
-  }, [slides.length]);
-
-  function goToPrev() {
-    setSlideDirection("right");
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
-      setIsAnimating(false);
-    }, 300);
-  }
+    }, 350);
+  }, [reviews.length]);
 
   function goToSlide(index: number) {
-    setSlideDirection(index > current ? "left" : "right");
+    if (index === current) return;
+    setDirection(index > current ? "left" : "right");
     setIsAnimating(true);
     setTimeout(() => {
       setCurrent(index);
       setIsAnimating(false);
-    }, 300);
+    }, 350);
   }
 
   // Auto-slide every 5 seconds
   useEffect(() => {
-    if (paused) return;
-    timerRef.current = setInterval(goToNext, 5000);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [paused, goToNext]);
-
-  // Pause on hover
-  function handleMouseEnter() {
-    setPaused(true);
-  }
-  function handleMouseLeave() {
-    setPaused(false);
-  }
+    if (paused || reviews.length <= 1) return;
+    const timer = setInterval(goToNext, 5000);
+    return () => clearInterval(timer);
+  }, [paused, goToNext, reviews.length]);
 
   // Auto-resize for iframe
   useEffect(() => {
@@ -125,20 +101,29 @@ export function EmbedCarousel({
       .slice(0, 2);
   }
 
-  // Animation styles
-  const slideStyle: React.CSSProperties = {
-    transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
+  if (reviews.length === 0) {
+    return (
+      <div style={{ padding: "40px", textAlign: "center", color: "#999" }}>
+        No reviews yet
+      </div>
+    );
+  }
+
+  const review = reviews[current];
+
+  const animStyle: React.CSSProperties = {
+    transition: "all 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
     opacity: isAnimating ? 0 : 1,
     transform: isAnimating
-      ? `translateX(${slideDirection === "left" ? "-30px" : "30px"})`
+      ? `translateX(${direction === "left" ? "-40px" : "40px"})`
       : "translateX(0)",
   };
 
   return (
     <div
       ref={containerRef}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
       style={{
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
@@ -147,168 +132,119 @@ export function EmbedCarousel({
         overflow: "hidden",
         border: "1px solid rgba(0,0,0,0.08)",
         boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
-        position: "relative",
       }}
     >
-      {/* Navigation arrows */}
-      <button
-        onClick={goToPrev}
+      {/* Content */}
+      <div
         style={{
-          position: "absolute",
-          left: "12px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: "32px",
-          height: "32px",
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.9)",
-          border: "1px solid rgba(0,0,0,0.08)",
-          cursor: "pointer",
+          padding: "48px 48px 36px",
           display: "flex",
+          flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          fontSize: "14px",
-          color: "#1a1a2e",
-          zIndex: 10,
-          opacity: 0,
-          transition: "opacity 0.2s",
-          backdropFilter: "blur(8px)",
+          textAlign: "center",
         }}
-        className="embed-nav"
       >
-        ‹
-      </button>
-      <button
-        onClick={goToNext}
-        style={{
-          position: "absolute",
-          right: "12px",
-          top: "50%",
-          transform: "translateY(-50%)",
-          width: "32px",
-          height: "32px",
-          borderRadius: "50%",
-          background: "rgba(255,255,255,0.9)",
-          border: "1px solid rgba(0,0,0,0.08)",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "14px",
-          color: "#1a1a2e",
-          zIndex: 10,
-          opacity: 0,
-          transition: "opacity 0.2s",
-          backdropFilter: "blur(8px)",
-        }}
-        className="embed-nav"
-      >
-        ›
-      </button>
+        {/* Quote mark */}
+        <span
+          style={{
+            fontSize: "72px",
+            color: primaryColor,
+            opacity: 0.15,
+            lineHeight: 0.6,
+            fontFamily: "Georgia, serif",
+            marginBottom: "8px",
+          }}
+        >
+          &ldquo;
+        </span>
 
-      {/* Card Content */}
-      <div style={{ padding: "36px 36px 24px" }}>
+        {/* Animated Quote */}
+        <div
+          style={{
+            ...animStyle,
+            minHeight: "80px",
+            marginBottom: "28px",
+            maxWidth: "440px",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "18px",
+              lineHeight: 1.75,
+              color: "#1a1a2e",
+              margin: 0,
+              fontStyle: "italic",
+            }}
+          >
+            {review.quote}
+          </p>
+        </div>
+
         {/* Stars */}
         <div
           style={{
             display: "flex",
-            gap: "3px",
+            gap: "4px",
             marginBottom: "24px",
+            ...animStyle,
           }}
         >
           {[1, 2, 3, 4, 5].map((i) => (
-            <span key={i} style={{ fontSize: "18px", color: "#e2a84b" }}>
+            <span key={i} style={{ fontSize: "16px", color: "#e2a84b" }}>
               ★
             </span>
           ))}
         </div>
 
-        {/* Animated Quote */}
-        <div style={{ ...slideStyle, position: "relative", minHeight: "80px", marginBottom: "28px" }}>
-          <span
-            style={{
-              position: "absolute",
-              top: "-16px",
-              left: "-6px",
-              fontSize: "72px",
-              color: primaryColor,
-              opacity: 0.12,
-              lineHeight: 1,
-              fontFamily: "Georgia, serif",
-              pointerEvents: "none",
-            }}
-          >
-            &ldquo;
-          </span>
-          <p
-            style={{
-              fontSize: "17px",
-              lineHeight: 1.65,
-              color: "#1a1a2e",
-              margin: 0,
-              paddingLeft: "4px",
-              fontStyle: "italic",
-              letterSpacing: "-0.01em",
-            }}
-          >
-            {slides[current]?.body}
-          </p>
-        </div>
-
         {/* Animated Reviewer */}
         <div
           style={{
-            ...slideStyle,
+            ...animStyle,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            gap: "14px",
+            gap: "10px",
           }}
         >
-          {data.reviewerPhotoUrl ? (
+          {review.reviewerPhotoUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={data.reviewerPhotoUrl}
-              alt={reviewer?.name}
-              width={48}
-              height={48}
+              src={review.reviewerPhotoUrl}
+              alt={review.reviewer.name}
+              width={56}
+              height={56}
               style={{
                 borderRadius: "50%",
                 objectFit: "cover",
-                border: `2px solid ${primaryColor}20`,
+                border: `3px solid ${primaryColor}25`,
               }}
             />
           ) : (
             <div
               style={{
-                width: "48px",
-                height: "48px",
+                width: "56px",
+                height: "56px",
                 borderRadius: "50%",
                 background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "17px",
+                fontSize: "18px",
                 fontWeight: 700,
-                flexShrink: 0,
               }}
             >
-              {getInitials(reviewer?.name || "C")}
+              {getInitials(review.reviewer.name)}
             </div>
           )}
-          <div>
+          <div style={{ textAlign: "center" }}>
             <div
-              style={{
-                fontSize: "15px",
-                fontWeight: 600,
-                color: "#1a1a2e",
-                letterSpacing: "-0.01em",
-              }}
+              style={{ fontSize: "15px", fontWeight: 600, color: "#1a1a2e" }}
             >
-              {reviewer?.name || "Customer"}
+              {review.reviewer.name}
             </div>
-            <div style={{ fontSize: "13px", color: "#6b7094", marginTop: "1px" }}>
-              {[reviewer?.title, reviewer?.company]
+            <div style={{ fontSize: "13px", color: "#6b7094", marginTop: "3px" }}>
+              {[review.reviewer.title, review.reviewer.company]
                 .filter(Boolean)
                 .join(", ")}
             </div>
@@ -327,28 +263,29 @@ export function EmbedCarousel({
           background: "#faf8f6",
         }}
       >
-        {/* Dots + Brand */}
         <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          {/* Navigation Dots */}
-          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-            {slides.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => goToSlide(i)}
-                style={{
-                  width: i === current ? "24px" : "6px",
-                  height: "6px",
-                  borderRadius: "3px",
-                  backgroundColor:
-                    i === current ? primaryColor : "rgba(26,26,46,0.15)",
-                  border: "none",
-                  cursor: "pointer",
-                  padding: 0,
-                  transition: "all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
-                }}
-              />
-            ))}
-          </div>
+          {/* Dots */}
+          {reviews.length > 1 && (
+            <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+              {reviews.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => goToSlide(i)}
+                  style={{
+                    width: i === current ? "24px" : "6px",
+                    height: "6px",
+                    borderRadius: "3px",
+                    backgroundColor:
+                      i === current ? primaryColor : "rgba(26,26,46,0.15)",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: 0,
+                    transition: "all 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
+                  }}
+                />
+              ))}
+            </div>
+          )}
 
           {/* Brand */}
           <div
@@ -356,8 +293,9 @@ export function EmbedCarousel({
               display: "flex",
               alignItems: "center",
               gap: "6px",
-              paddingLeft: "12px",
-              borderLeft: "1px solid rgba(0,0,0,0.08)",
+              paddingLeft: reviews.length > 1 ? "12px" : "0",
+              borderLeft:
+                reviews.length > 1 ? "1px solid rgba(0,0,0,0.08)" : "none",
             }}
           >
             {brand?.logoUrl && (
@@ -378,26 +316,43 @@ export function EmbedCarousel({
           </div>
         </div>
 
-        {/* Powered by */}
         <a
           href="https://proofpost-alpha.vercel.app"
           target="_blank"
           rel="noopener noreferrer"
-          style={{
-            fontSize: "10px",
-            color: "#bbb",
-            textDecoration: "none",
-            transition: "color 0.2s",
-          }}
+          style={{ fontSize: "10px", color: "#ccc", textDecoration: "none" }}
         >
           ✦ ProofPost
         </a>
       </div>
 
-      {/* CSS for hover nav arrows */}
+      {/* Progress bar */}
+      {reviews.length > 1 && (
+        <div
+          style={{
+            height: "2px",
+            background: "rgba(0,0,0,0.03)",
+            overflow: "hidden",
+          }}
+        >
+          <div
+            key={current}
+            style={{
+              height: "100%",
+              backgroundColor: primaryColor,
+              animation: paused ? "none" : "pp-progress 5s linear forwards",
+              width: "0%",
+              opacity: 0.5,
+            }}
+          />
+        </div>
+      )}
+
       <style>{`
-        div:hover .embed-nav { opacity: 1 !important; }
-        .embed-nav:hover { background: rgba(255,255,255,1) !important; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        @keyframes pp-progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
       `}</style>
     </div>
   );

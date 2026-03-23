@@ -402,7 +402,24 @@ export function GenerateForm() {
           </div>
 
           {/* Embed Code */}
-          <EmbedCodeSection contentId={result.id} />
+          <EmbedCodeSection
+            contentId={result.id}
+            hookLine={result.llmOutput.hookLine}
+            reviewerName={result.llmOutput.reviewer?.name}
+            onAddAnother={() => {
+              // Scroll to top and reset form for new review
+              setResult(null);
+              setRawInput("");
+              setReviewerName("");
+              setReviewerTitle("");
+              setReviewerPhotoUrl("");
+              setUrl("");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+              toast.success(
+                "Add another review, then come back to the embed section"
+              );
+            }}
+          />
         </div>
       )}
     </div>
