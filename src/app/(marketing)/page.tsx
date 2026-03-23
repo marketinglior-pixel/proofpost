@@ -42,13 +42,6 @@ export default function LandingPage() {
         <div className="absolute top-20 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full bg-amber/8 blur-[120px]" />
 
         <div className="relative max-w-3xl mx-auto px-6 pt-24 pb-20 text-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber/10 border border-amber/20 mb-8">
-            <Sparkles className="w-3.5 h-3.5 text-amber-dark" />
-            <span className="text-[12px] font-medium text-amber-dark">
-              Free tier. No credit card.
-            </span>
-          </div>
-
           <h1 className="font-heading text-[52px] sm:text-[64px] leading-[1.05] text-ink tracking-tight">
             Your reviews are<br />
             <em className="text-amber">collecting dust.</em>
