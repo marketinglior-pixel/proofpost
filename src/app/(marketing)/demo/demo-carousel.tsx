@@ -130,9 +130,9 @@ export function DemoCarousel() {
           <span
             style={{
               position: "absolute",
-              top: "-20px",
+              top: "-45px",
               left: "-8px",
-              fontSize: "80px",
+              fontSize: "100px",
               color: t.color,
               opacity: 0.1,
               lineHeight: 1,
