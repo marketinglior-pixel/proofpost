@@ -204,7 +204,7 @@ export function EmbedCodeSection({
       <Button
         onClick={handleCopy}
         disabled={creating}
-        className="w-full h-11 bg-ink hover:bg-ink-light text-cream font-medium shadow-none transition-all duration-200"
+        className="w-full h-11 bg-ink hover:bg-ink-light text-cream font-medium shadow-none transition-colors duration-200"
       >
         {creating ? (
           <>

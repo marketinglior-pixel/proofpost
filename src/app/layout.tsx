@@ -26,6 +26,7 @@ export const metadata: Metadata = {
   title: "ProofPost — Turn Reviews into LinkedIn Carousels",
   description:
     "Transform text reviews into branded LinkedIn carousel content in seconds using AI.",
+  themeColor: "#faf8f4",
 };
 
 export default function RootLayout({

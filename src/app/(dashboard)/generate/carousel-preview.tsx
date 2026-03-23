@@ -225,7 +225,7 @@ export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProp
             <button
               key={i}
               onClick={() => setCurrentSlide(i)}
-              className={`h-2.5 rounded-full transition-all ${
+              className={`h-2.5 rounded-full transition-colors ${
                 i === currentSlide
                   ? "w-8 bg-amber"
                   : "w-2.5 bg-cream-dark hover:bg-ink-muted/30"
@@ -241,7 +241,7 @@ export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProp
           <button
             key={i}
             onClick={() => setCurrentSlide(i)}
-            className={`aspect-[4/5] rounded-lg overflow-hidden border-2 transition-all ${
+            className={`aspect-[4/5] rounded-lg overflow-hidden border-2 transition-colors ${
               i === currentSlide
                 ? "border-amber shadow-md"
                 : "border-cream-dark hover:border-ink-muted/30"
@@ -266,7 +266,7 @@ export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProp
         <Button
           onClick={handleDownloadPdf}
           disabled={downloadingPdf}
-          className="h-11 bg-ink hover:bg-ink-light text-cream font-medium shadow-none transition-all duration-200"
+          className="h-11 bg-ink hover:bg-ink-light text-cream font-medium shadow-none transition-colors duration-200"
         >
           {downloadingPdf ? (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
@@ -279,7 +279,7 @@ export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProp
           onClick={handleDownloadAll}
           disabled={downloading}
           variant="outline"
-          className="h-11 border-cream-dark text-ink hover:bg-cream-dark/50 font-medium shadow-none transition-all duration-200"
+          className="h-11 border-cream-dark text-ink hover:bg-cream-dark/50 font-medium shadow-none transition-colors duration-200"
         >
           {downloading ? (
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />

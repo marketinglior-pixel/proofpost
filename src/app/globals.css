@@ -99,13 +99,30 @@
   }
   body {
     @apply bg-background text-foreground;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
   html {
     @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  /* Focus-visible: visible ring on keyboard focus only */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+  /* Tabular nums for number columns */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  /* Heading text wrap */
+  h1, h2, h3 {
+    text-wrap: balance;
   }
 }
 
-/* Noise grain overlay for premium texture */
+/* Noise grain overlay */
 .grain::before {
   content: "";
   position: fixed;
@@ -116,21 +133,32 @@
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
-/* Serif heading utility */
+/* Serif heading */
 .font-heading {
   font-family: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
-/* Smooth transitions globally */
-* {
-  transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
-}
-
-/* Premium card hover */
+/* Card hover — only transform + shadow, no transition-all */
 .card-hover {
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .card-hover:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 30px rgba(26, 26, 46, 0.08);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .card-hover:hover {
+    transform: none;
+  }
 }

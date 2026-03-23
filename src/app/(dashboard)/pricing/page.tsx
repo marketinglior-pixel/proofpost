@@ -45,7 +45,7 @@ export default async function PricingPage() {
           </p>
           <Link
             href="/generate"
-            className="inline-flex items-center gap-2 h-10 px-6 bg-ink text-cream text-sm font-medium rounded-lg transition-all duration-200 hover:bg-ink-light"
+            className="inline-flex items-center gap-2 h-10 px-6 bg-ink text-cream text-sm font-medium rounded-lg transition-colors duration-200 hover:bg-ink-light"
           >
             Generate a carousel
           </Link>
@@ -83,7 +83,7 @@ export default async function PricingPage() {
             </ul>
             <Link
               href={`/api/checkout?products=${MONTHLY_ID}&customerEmail=${user?.email}`}
-              className="flex items-center justify-center w-full h-11 rounded-lg bg-ink hover:bg-ink-light text-cream text-[14px] font-medium transition-all duration-200"
+              className="flex items-center justify-center w-full h-11 rounded-lg bg-ink hover:bg-ink-light text-cream text-[14px] font-medium transition-colors duration-200"
             >
               Subscribe Monthly
             </Link>
@@ -130,7 +130,7 @@ export default async function PricingPage() {
             </ul>
             <Link
               href={`/api/checkout?products=${ANNUAL_ID}&customerEmail=${user?.email}`}
-              className="relative flex items-center justify-center w-full h-11 rounded-lg bg-amber hover:bg-amber-light text-ink text-[14px] font-semibold transition-all duration-200"
+              className="relative flex items-center justify-center w-full h-11 rounded-lg bg-amber hover:bg-amber-light text-ink text-[14px] font-semibold transition-colors duration-200"
             >
               Subscribe Annual
             </Link>

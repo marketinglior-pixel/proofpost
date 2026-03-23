@@ -57,7 +57,7 @@ export function HistoryList({ items, brandKit }: HistoryListProps) {
         </div>
         <Link
           href="/generate"
-          className="inline-flex items-center gap-2 h-10 px-5 bg-ink hover:bg-ink-light text-cream text-sm font-medium rounded-lg transition-all duration-200"
+          className="inline-flex items-center gap-2 h-10 px-5 bg-ink hover:bg-ink-light text-cream text-sm font-medium rounded-lg transition-colors duration-200"
         >
           <Wand2 className="w-4 h-4" />
           Generate Carousel
@@ -104,7 +104,7 @@ export function HistoryList({ items, brandKit }: HistoryListProps) {
         return (
           <div
             key={item.id}
-            className="rounded-xl bg-white border border-cream-dark overflow-hidden transition-all duration-200"
+            className="rounded-xl bg-white border border-cream-dark overflow-hidden transition-colors duration-200"
           >
             {/* Collapsed Header */}
             <button

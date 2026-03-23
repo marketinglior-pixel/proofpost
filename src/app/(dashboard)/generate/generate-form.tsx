@@ -144,7 +144,7 @@ export function GenerateForm() {
       <div className="flex gap-1 p-1 bg-cream-dark/50 rounded-lg w-fit">
         <button
           onClick={() => setMode("link")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
             mode === "link"
               ? "bg-white text-ink shadow-sm"
               : "text-ink-muted hover:text-ink"
@@ -155,7 +155,7 @@ export function GenerateForm() {
         </button>
         <button
           onClick={() => setMode("text")}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-all duration-200 ${
+          className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
             mode === "text"
               ? "bg-white text-ink shadow-sm"
               : "text-ink-muted hover:text-ink"
@@ -315,7 +315,7 @@ export function GenerateForm() {
         <Button
           onClick={handleGenerate}
           disabled={loading || rawInput.trim().length < 20}
-          className="w-full h-12 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg shadow-none transition-all duration-300 hover:shadow-lg hover:shadow-ink/10 disabled:opacity-40"
+          className="w-full h-12 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg shadow-none transition-colors duration-300 hover:shadow-lg hover:shadow-ink/10 disabled:opacity-40"
         >
           {loading ? (
             <>

@@ -29,7 +29,7 @@ export default function LandingPage() {
             </Link>
             <Link
               href="/login"
-              className="text-sm font-medium text-cream bg-ink hover:bg-ink-light px-4 py-2 rounded-lg transition-all duration-200"
+              className="text-sm font-medium text-cream bg-ink hover:bg-ink-light px-4 py-2 rounded-lg transition-colors duration-200"
             >
               Start free
             </Link>
@@ -56,7 +56,7 @@ export default function LandingPage() {
           <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
               href="/login"
-              className="flex items-center gap-2 h-12 px-8 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-ink/10"
+              className="flex items-center gap-2 h-12 px-8 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg transition-colors duration-300 hover:shadow-lg hover:shadow-ink/10"
             >
               Try it free
               <ArrowRight className="w-4 h-4" />
@@ -343,7 +343,7 @@ export default function LandingPage() {
             </ul>
             <Link
               href="/login"
-              className="relative flex items-center justify-center w-full h-11 rounded-lg bg-amber hover:bg-amber-light text-ink text-[14px] font-semibold transition-all duration-200"
+              className="relative flex items-center justify-center w-full h-11 rounded-lg bg-amber hover:bg-amber-light text-ink text-[14px] font-semibold transition-colors duration-200"
             >
               Start Pro trial
             </Link>
@@ -363,7 +363,7 @@ export default function LandingPage() {
         </p>
         <Link
           href="/login"
-          className="inline-flex items-center gap-2 mt-8 h-12 px-8 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-ink/10"
+          className="inline-flex items-center gap-2 mt-8 h-12 px-8 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg transition-colors duration-300 hover:shadow-lg hover:shadow-ink/10"
         >
           Try it free
           <ArrowRight className="w-4 h-4" />
