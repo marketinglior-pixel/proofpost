@@ -52,13 +52,6 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Copy */}
             <div className="space-y-8 text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20">
-                <Zap className="w-3.5 h-3.5 text-emerald-dark" aria-hidden="true" />
-                <span className="text-[13px] font-medium text-emerald-dark">
-                  From static archives to kinetic trust capital
-                </span>
-              </div>
-
               <h1 className="font-heading text-[44px] sm:text-[56px] leading-[1.08] text-slate-900 tracking-tight">
                 Your best reviews are{" "}
                 <em className="text-emerald">collecting dust.</em>
