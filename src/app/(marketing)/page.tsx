@@ -111,7 +111,7 @@ export default function LandingPage() {
       {/* ============ SECTION 2: PROBLEM AGITATION ============ */}
       <section className="max-w-3xl mx-auto px-6 py-24">
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-6">
-          The &ldquo;Canva Tax&rdquo; is killing your productivity.
+          The manual process is broken.
         </h2>
         <div className="text-[17px] text-slate-500 leading-relaxed space-y-5 max-w-2xl mx-auto">
           <p>
@@ -120,10 +120,10 @@ export default function LandingPage() {
             Everyone reacts with the fire emoji. And then... nothing.
           </p>
           <p>
-            To get that review onto your website, you have to open Canva, paste
-            the text, find the user&apos;s headshot, fiddle with fonts and
-            padding, export a PNG, and then message your dev team to please
-            upload it. They tell you to create a Jira ticket. Weeks go by.
+            To get that review onto your website, you have to manually format
+            it, find the user&apos;s headshot, fiddle with layouts, export a
+            file, and then message your dev team to please upload it. They tell
+            you to create a Jira ticket. Weeks go by.
           </p>
           <p>
             And even when you do all that, nobody reads a 300-word paragraph on
