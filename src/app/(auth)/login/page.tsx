@@ -84,18 +84,27 @@ export default function LoginPage() {
 
           {/* Social proof */}
           <div className="flex items-center gap-4 pt-4">
-            <div className="flex -space-x-2">
-              {["bg-amber", "bg-ink-light", "bg-amber-dark", "bg-warm-gray"].map(
-                (bg, i) => (
-                  <div
-                    key={i}
-                    className={`w-8 h-8 rounded-full ${bg} border-2 border-ink`}
-                  />
-                )
-              )}
+            <div className="flex -space-x-3">
+              {[
+                "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face",
+                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
+                "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=face",
+                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
+                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face",
+              ].map((src, i) => (
+                /* eslint-disable-next-line @next/next/no-img-element */
+                <img
+                  key={i}
+                  src={src}
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="rounded-full border-2 border-navy object-cover"
+                />
+              ))}
             </div>
             <p className="text-sm text-warm-gray">
-              <span className="text-cream font-medium">200+</span> marketers
+              <span className="text-white font-medium">200+</span> marketers
               creating carousels
             </p>
           </div>
