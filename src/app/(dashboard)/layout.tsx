@@ -17,7 +17,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <div className="grain flex min-h-screen bg-cream">
+    <div className="flex min-h-screen bg-snow">
       <Sidebar />
       <main className="flex-1 overflow-y-auto">
         <div className="mx-auto max-w-3xl px-10 py-12">{children}</div>

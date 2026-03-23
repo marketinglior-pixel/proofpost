@@ -46,51 +46,66 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-  /* Custom colors */
-  --color-ink: #1a1a2e;
-  --color-ink-light: #2d2d44;
-  --color-ink-muted: #6b7094;
-  --color-amber: #e2a84b;
-  --color-amber-light: #f0c878;
-  --color-amber-dark: #c4872a;
-  --color-cream: #faf8f4;
-  --color-cream-dark: #f0ece4;
-  --color-warm-gray: #9a9ab0;
+  /* New premium palette */
+  --color-navy: #0F172A;
+  --color-navy-light: #1E293B;
+  --color-indigo: #1E3A8A;
+  --color-emerald: #10B981;
+  --color-emerald-dark: #059669;
+  --color-emerald-light: #34D399;
+  --color-snow: #F8FAFC;
+  --color-slate-100: #F1F5F9;
+  --color-slate-200: #E2E8F0;
+  --color-slate-300: #CBD5E1;
+  --color-slate-400: #94A3B8;
+  --color-slate-500: #64748B;
+  --color-slate-700: #334155;
+  --color-slate-900: #0F172A;
+  /* Legacy aliases */
+  --color-ink: #0F172A;
+  --color-ink-light: #1E293B;
+  --color-ink-muted: #64748B;
+  --color-amber: #10B981;
+  --color-amber-light: #34D399;
+  --color-amber-dark: #059669;
+  --color-cream: #F8FAFC;
+  --color-cream-dark: #E2E8F0;
+  --color-warm-gray: #94A3B8;
 }
 
 :root {
-  --background: #faf8f4;
-  --foreground: #1a1a2e;
-  --card: #ffffff;
-  --card-foreground: #1a1a2e;
-  --popover: #ffffff;
-  --popover-foreground: #1a1a2e;
-  --primary: #1a1a2e;
-  --primary-foreground: #faf8f4;
-  --secondary: #f0ece4;
-  --secondary-foreground: #1a1a2e;
-  --muted: #f0ece4;
-  --muted-foreground: #6b7094;
-  --accent: #e2a84b;
-  --accent-foreground: #1a1a2e;
-  --destructive: #d94f4f;
-  --border: #e8e4dc;
-  --input: #e8e4dc;
-  --ring: #e2a84b;
-  --chart-1: #e2a84b;
-  --chart-2: #1a1a2e;
-  --chart-3: #6b7094;
-  --chart-4: #c4872a;
-  --chart-5: #9a9ab0;
-  --radius: 0.5rem;
-  --sidebar: #1a1a2e;
-  --sidebar-foreground: #e8e4dc;
-  --sidebar-primary: #e2a84b;
-  --sidebar-primary-foreground: #1a1a2e;
-  --sidebar-accent: #2d2d44;
-  --sidebar-accent-foreground: #faf8f4;
-  --sidebar-border: #2d2d44;
-  --sidebar-ring: #e2a84b;
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #0F172A;
+  --primary-foreground: #F8FAFC;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #10B981;
+  --accent-foreground: #FFFFFF;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #10B981;
+  --chart-1: #10B981;
+  --chart-2: #1E3A8A;
+  --chart-3: #64748B;
+  --chart-4: #059669;
+  --chart-5: #94A3B8;
+  --radius: 0.625rem;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #CBD5E1;
+  --sidebar-primary: #10B981;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F8FAFC;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #10B981;
 }
 
 @layer base {
@@ -106,31 +121,17 @@
     @apply font-sans;
     scroll-behavior: smooth;
   }
-  /* Focus-visible: visible ring on keyboard focus only */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
     border-radius: 4px;
   }
-  /* Tabular nums for number columns */
   .tabular-nums {
     font-variant-numeric: tabular-nums;
   }
-  /* Heading text wrap */
   h1, h2, h3 {
     text-wrap: balance;
   }
-}
-
-/* Noise grain overlay */
-.grain::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  pointer-events: none;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
 /* Serif heading */
@@ -138,17 +139,26 @@
   font-family: var(--font-serif), Georgia, "Times New Roman", serif;
 }
 
-/* Card hover — only transform + shadow, no transition-all */
+/* Card hover */
 .card-hover {
-  transition: transform 0.3s cubic-bezier(0.25, 0.1, 0.25, 1),
-    box-shadow 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1),
+    box-shadow 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 .card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(26, 26, 46, 0.08);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(15, 23, 42, 0.1);
 }
 
-/* Respect reduced motion */
+/* Emerald glow for CTA */
+.glow-emerald {
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  transition: box-shadow 0.3s;
+}
+.glow-emerald:hover {
+  box-shadow: 0 8px 32px rgba(16, 185, 129, 0.25);
+}
+
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
