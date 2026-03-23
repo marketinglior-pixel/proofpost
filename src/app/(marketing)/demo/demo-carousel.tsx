@@ -9,7 +9,7 @@ const testimonials = [
     name: "Sarah Chen",
     title: "VP Sales",
     company: "TechFlow",
-    initials: "SC",
+    photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=120&h=120&fit=crop&crop=face",
     color: "#7c3aed",
   },
   {
@@ -18,7 +18,7 @@ const testimonials = [
     name: "Marcus Johnson",
     title: "Head of Revenue",
     company: "Beacon AI",
-    initials: "MJ",
+    photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face",
     color: "#2563eb",
   },
   {
@@ -27,7 +27,7 @@ const testimonials = [
     name: "Priya Patel",
     title: "CRO",
     company: "ScaleStack",
-    initials: "PP",
+    photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&h=120&fit=crop&crop=face",
     color: "#059669",
   },
   {
@@ -36,7 +36,7 @@ const testimonials = [
     name: "Tom Andersson",
     title: "Sales Director",
     company: "NordCloud",
-    initials: "TA",
+    photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=120&h=120&fit=crop&crop=face",
     color: "#dc2626",
   },
   {
@@ -45,7 +45,7 @@ const testimonials = [
     name: "Lisa Wang",
     title: "CEO",
     company: "Momentic",
-    initials: "LW",
+    photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=120&h=120&fit=crop&crop=face",
     color: "#d97706",
   },
 ];
@@ -166,24 +166,19 @@ export function DemoCarousel() {
             gap: "14px",
           }}
         >
-          <div
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={t.photo}
+            alt={t.name}
+            width={50}
+            height={50}
             style={{
-              width: "50px",
-              height: "50px",
               borderRadius: "50%",
-              background: `linear-gradient(135deg, ${t.color}, ${t.color}bb)`,
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "17px",
-              fontWeight: 700,
+              objectFit: "cover",
               flexShrink: 0,
-              transition: "background 0.45s ease",
+              border: `2px solid ${t.color}30`,
             }}
-          >
-            {t.initials}
-          </div>
+          />
           <div>
             <div
               style={{
