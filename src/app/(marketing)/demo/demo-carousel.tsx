@@ -108,45 +108,43 @@ export function DemoCarousel() {
       }}
     >
       {/* Content */}
-      <div style={{ padding: "40px 40px 28px" }}>
-        {/* Stars */}
-        <div style={{ display: "flex", gap: "3px", marginBottom: "28px" }}>
-          {[1, 2, 3, 4, 5].map((i) => (
-            <span key={i} style={{ fontSize: "19px", color: "#e2a84b" }}>
-              ★
-            </span>
-          ))}
-        </div>
+      <div
+        style={{
+          padding: "48px 48px 36px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          textAlign: "center",
+        }}
+      >
+        {/* Quote mark — decorative, above everything */}
+        <span
+          style={{
+            fontSize: "72px",
+            color: t.color,
+            opacity: 0.15,
+            lineHeight: 0.6,
+            fontFamily: "Georgia, serif",
+            transition: "color 0.45s ease",
+            marginBottom: "8px",
+          }}
+        >
+          &ldquo;
+        </span>
 
         {/* Animated Quote */}
         <div
           style={{
             ...animStyle,
-            position: "relative",
-            minHeight: "110px",
+            minHeight: "100px",
             marginBottom: "32px",
+            maxWidth: "440px",
           }}
         >
-          <span
-            style={{
-              position: "absolute",
-              top: "-45px",
-              left: "-8px",
-              fontSize: "100px",
-              color: t.color,
-              opacity: 0.1,
-              lineHeight: 1,
-              fontFamily: "Georgia, serif",
-              pointerEvents: "none",
-              transition: "color 0.45s ease",
-            }}
-          >
-            &ldquo;
-          </span>
           <p
             style={{
               fontSize: "18px",
-              lineHeight: 1.7,
+              lineHeight: 1.75,
               color: "#1a1a2e",
               margin: 0,
               fontStyle: "italic",
@@ -157,32 +155,48 @@ export function DemoCarousel() {
           </p>
         </div>
 
+        {/* Stars */}
+        <div
+          style={{
+            display: "flex",
+            gap: "4px",
+            marginBottom: "24px",
+            ...animStyle,
+          }}
+        >
+          {[1, 2, 3, 4, 5].map((i) => (
+            <span key={i} style={{ fontSize: "16px", color: "#e2a84b" }}>
+              ★
+            </span>
+          ))}
+        </div>
+
         {/* Animated Reviewer */}
         <div
           style={{
             ...animStyle,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
-            gap: "14px",
+            gap: "10px",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={t.photo}
             alt={t.name}
-            width={50}
-            height={50}
+            width={56}
+            height={56}
             style={{
               borderRadius: "50%",
               objectFit: "cover",
-              flexShrink: 0,
-              border: `2px solid ${t.color}30`,
+              border: `3px solid ${t.color}25`,
             }}
           />
-          <div>
+          <div style={{ textAlign: "center" }}>
             <div
               style={{
-                fontSize: "16px",
+                fontSize: "15px",
                 fontWeight: 600,
                 color: "#1a1a2e",
               }}
@@ -193,7 +207,7 @@ export function DemoCarousel() {
               style={{
                 fontSize: "13px",
                 color: "#6b7094",
-                marginTop: "2px",
+                marginTop: "3px",
               }}
             >
               {t.title}, {t.company}
