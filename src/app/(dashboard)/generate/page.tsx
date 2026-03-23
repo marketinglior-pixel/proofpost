@@ -11,7 +11,6 @@ export default async function GeneratePage() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Check if brand kit exists
   const { data: brandKitData } = await supabase
     .from("brand_kits")
     .select("*")
@@ -25,14 +24,13 @@ export default async function GeneratePage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">
-          Generate Carousel
+        <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
+          Build Your Carousel
         </h1>
-        <p className="text-slate-500 mt-1">
-          Paste a customer review and we&apos;ll create a branded LinkedIn
-          carousel in seconds.
+        <p className="text-[15px] text-slate-500 mt-1">
+          Add reviews on the left. Your carousel builds on the right.
         </p>
       </div>
 
