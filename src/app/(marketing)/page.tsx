@@ -216,7 +216,7 @@ export default function LandingPage() {
             <span className="col-span-2">Feature</span>
             <span className="text-center">ProofPost</span>
             <span className="text-center">Senja</span>
-            <span className="text-center">Canva</span>
+            <span className="text-center">Manual DIY</span>
           </div>
           {[
             { feature: "AI Hook Extraction", pp: true, senja: false, canva: false },
@@ -224,7 +224,7 @@ export default function LandingPage() {
             { feature: "One-Line Embed Code", pp: true, senja: true, canva: false },
             { feature: "No Developer Needed", pp: true, senja: true, canva: false },
             { feature: "Mobile Responsive", pp: true, senja: true, canva: false },
-            { feature: "Price", pp: "$19/mo", senja: "$19-39/mo", canva: "$13/mo + time" },
+            { feature: "Price", pp: "$19/mo", senja: "$19-39/mo", canva: "Free + hours" },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-5 px-5 py-3 border-t border-slate-100 text-[13px]">
               <span className="col-span-2 text-slate-700">{row.feature}</span>
@@ -328,7 +328,7 @@ export default function LandingPage() {
         <div className="rounded-2xl bg-emerald/5 border border-emerald/20 p-10 text-center space-y-4">
           <Shield className="w-10 h-10 text-emerald mx-auto" aria-hidden="true" />
           <h2 className="text-[22px] font-bold text-slate-900">
-            The 60-Second Canva-Killer Guarantee
+            The 60-Second Guarantee
           </h2>
           <p className="text-[15px] text-slate-500 max-w-lg mx-auto leading-relaxed">
             Start Pro today. If you cannot paste your reviews, let the AI
