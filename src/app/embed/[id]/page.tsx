@@ -1,24 +1,127 @@
 import { EmbedCarousel } from "./embed-carousel";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 interface PageProps {
   params: Promise<{ id: string }>;
 }
 
+interface LlmOutput {
+  slides: { body: string }[];
+  hookLine: string;
+  reviewer: { name: string; title: string; company: string };
+  reviewerPhotoUrl?: string | null;
+}
+
 export default async function EmbedPage({ params }: PageProps) {
   const { id } = await params;
 
-  const baseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    ? "https://proofpost-alpha.vercel.app"
-    : "http://localhost:3000";
-
-  // Fetch embed data server-side
+  // Fetch directly from Supabase (no self-calling API)
   let data = null;
+
   try {
-    const res = await fetch(`${baseUrl}/api/embed/${id}`, {
-      cache: "no-store",
-    });
-    if (res.ok) {
-      data = await res.json();
+    // Check widget first
+    const { data: widget } = await supabase
+      .from("widgets")
+      .select("*")
+      .eq("id", id)
+      .single();
+
+    if (widget) {
+      const contentIds = widget.content_ids as string[];
+      const reviews = [];
+      for (const cid of contentIds) {
+        const { data: content } = await supabase
+          .from("generated_content")
+          .select("id, user_id, llm_output")
+          .eq("id", cid)
+          .single();
+        if (content) {
+          const llm = content.llm_output as unknown as LlmOutput;
+          reviews.push({
+            id: content.id,
+            hookLine: llm.hookLine,
+            quote: llm.slides?.[1]?.body || llm.hookLine,
+            reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
+            reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+          });
+        }
+      }
+      const { data: brandKit } = await supabase
+        .from("brand_kits")
+        .select("company_name, logo_url, primary_color, secondary_color")
+        .eq("user_id", widget.user_id)
+        .single();
+
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan")
+        .eq("id", widget.user_id)
+        .single();
+
+      const isPro = (profile as { plan: string } | null)?.plan === "pro";
+
+      data = {
+        type: "widget" as const,
+        id: widget.id,
+        reviews,
+        brandKit: brandKit ? {
+          companyName: brandKit.company_name,
+          logoUrl: brandKit.logo_url,
+          primaryColor: brandKit.primary_color,
+          secondaryColor: brandKit.secondary_color,
+        } : null,
+        showWatermark: !isPro,
+        limitReached: false,
+      };
+    } else {
+      // Single content
+      const { data: content } = await supabase
+        .from("generated_content")
+        .select("id, user_id, llm_output")
+        .eq("id", id)
+        .single();
+
+      if (content) {
+        const llm = content.llm_output as unknown as LlmOutput;
+        const { data: brandKit } = await supabase
+          .from("brand_kits")
+          .select("company_name, logo_url, primary_color, secondary_color")
+          .eq("user_id", content.user_id)
+          .single();
+
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("plan")
+          .eq("id", content.user_id)
+          .single();
+
+        const isPro = (profile as { plan: string } | null)?.plan === "pro";
+
+        data = {
+          type: "single" as const,
+          id: content.id,
+          reviews: [{
+            id: content.id,
+            hookLine: llm.hookLine,
+            quote: llm.slides?.[1]?.body || llm.hookLine,
+            reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
+            reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+          }],
+          brandKit: brandKit ? {
+            companyName: brandKit.company_name,
+            logoUrl: brandKit.logo_url,
+            primaryColor: brandKit.primary_color,
+            secondaryColor: brandKit.secondary_color,
+          } : null,
+          showWatermark: !isPro,
+          limitReached: false,
+        };
+      }
     }
   } catch {
     // Will show error state

@@ -25,7 +25,7 @@ interface EmbedData {
   type: "widget" | "single";
   id: string;
   reviews: Review[];
-  brandKit: BrandKit;
+  brandKit: BrandKit | null;
   showWatermark?: boolean;
   limitReached?: boolean;
 }
