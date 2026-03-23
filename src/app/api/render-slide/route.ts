@@ -3,7 +3,6 @@ import satori from "satori";
 import sharp from "sharp";
 import React from "react";
 
-// LinkedIn carousel optimal size (1080x1350 for portrait, 4:5 ratio)
 const SLIDE_WIDTH = 1080;
 const SLIDE_HEIGHT = 1350;
 
@@ -21,7 +20,13 @@ interface BrandData {
   secondaryColor: string;
 }
 
-// Fetch font at build/request time
+interface ReviewerData {
+  name: string;
+  title: string;
+  company: string;
+  photoUrl?: string | null;
+}
+
 async function getFont(): Promise<ArrayBuffer> {
   const res = await fetch(
     "https://cdn.jsdelivr.net/fontsource/fonts/inter@latest/latin-700-normal.woff"
@@ -41,12 +46,96 @@ function getContrastColor(hex: string): string {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.5 ? "#1E293B" : "#FFFFFF";
+  return luminance > 0.5 ? "#1a1a2e" : "#FFFFFF";
 }
 
-function SlideOne(slide: SlideData, brand: BrandData) {
+function getInitials(name: string): string {
+  return name
+    .split(" ")
+    .map((w) => w[0])
+    .join("")
+    .toUpperCase()
+    .slice(0, 2);
+}
+
+// Stars component
+function Stars() {
+  return React.createElement(
+    "div",
+    { style: { display: "flex", gap: "8px" } },
+    [1, 2, 3, 4, 5].map((i) =>
+      React.createElement(
+        "span",
+        {
+          key: i,
+          style: { fontSize: 32, color: "#e2a84b" },
+        },
+        "\u2605"
+      )
+    )
+  );
+}
+
+// Slide dots
+function SlideDots(current: number) {
+  return React.createElement(
+    "div",
+    { style: { display: "flex", gap: "12px", alignItems: "center" } },
+    [1, 2, 3].map((n) =>
+      React.createElement("div", {
+        key: n,
+        style: {
+          width: n === current ? "48px" : "12px",
+          height: "12px",
+          borderRadius: "6px",
+          backgroundColor: n === current ? "#e2a84b" : "rgba(255,255,255,0.3)",
+        },
+      })
+    )
+  );
+}
+
+// Avatar (photo or initials)
+function Avatar(reviewer: ReviewerData, size: number) {
+  if (reviewer.photoUrl) {
+    return React.createElement("img", {
+      src: reviewer.photoUrl,
+      width: size,
+      height: size,
+      style: {
+        borderRadius: "50%",
+        objectFit: "cover",
+      },
+    });
+  }
+
+  return React.createElement(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        width: size,
+        height: size,
+        borderRadius: "50%",
+        backgroundColor: "#e2a84b",
+        color: "#1a1a2e",
+        fontSize: size * 0.4,
+        fontWeight: 700,
+      },
+    },
+    getInitials(reviewer.name)
+  );
+}
+
+// ========== SLIDE 1: Hook Card ==========
+function SlideOne(
+  slide: SlideData,
+  brand: BrandData,
+  _reviewer: ReviewerData
+) {
   const textColor = getContrastColor(brand.primaryColor);
-  const subtleColor = textColor === "#FFFFFF" ? "rgba(255,255,255,0.7)" : "rgba(30,41,59,0.6)";
 
   return React.createElement(
     "div",
@@ -62,7 +151,7 @@ function SlideOne(slide: SlideData, brand: BrandData) {
         fontFamily: "Inter",
       },
     },
-    // Top: Logo area
+    // Top: Logo
     React.createElement(
       "div",
       { style: { display: "flex", alignItems: "center", gap: "16px" } },
@@ -71,23 +160,16 @@ function SlideOne(slide: SlideData, brand: BrandData) {
             src: brand.logoUrl,
             width: 48,
             height: 48,
-            style: { borderRadius: "8px", objectFit: "contain" },
+            style: { borderRadius: "12px", objectFit: "contain" },
           })
         : null,
       React.createElement(
         "span",
-        {
-          style: {
-            fontSize: 28,
-            fontWeight: 700,
-            color: textColor,
-            opacity: 0.8,
-          },
-        },
+        { style: { fontSize: 26, fontWeight: 700, color: textColor, opacity: 0.7 } },
         brand.companyName
       )
     ),
-    // Center: Main content
+    // Center: Hook content
     React.createElement(
       "div",
       {
@@ -99,14 +181,23 @@ function SlideOne(slide: SlideData, brand: BrandData) {
           justifyContent: "center",
         },
       },
+      // Divider line
+      React.createElement("div", {
+        style: {
+          width: "60px",
+          height: "4px",
+          backgroundColor: "#e2a84b",
+          borderRadius: "2px",
+        },
+      }),
       React.createElement(
         "h1",
         {
           style: {
-            fontSize: 72,
+            fontSize: 64,
             fontWeight: 700,
             color: textColor,
-            lineHeight: 1.1,
+            lineHeight: 1.15,
             margin: 0,
           },
         },
@@ -116,45 +207,44 @@ function SlideOne(slide: SlideData, brand: BrandData) {
         "p",
         {
           style: {
-            fontSize: 36,
-            color: subtleColor,
+            fontSize: 32,
+            color: textColor,
+            opacity: 0.7,
             lineHeight: 1.5,
             margin: 0,
           },
         },
         slide.body
+      ),
+      // Swipe hint
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            marginTop: "16px",
+          },
+        },
+        React.createElement(
+          "span",
+          { style: { fontSize: 22, color: "#e2a84b", fontWeight: 600 } },
+          "Swipe to see the proof \u2192"
+        )
       )
     ),
-    // Bottom: Slide indicator
-    React.createElement(
-      "div",
-      {
-        style: {
-          display: "flex",
-          gap: "12px",
-          alignItems: "center",
-        },
-      },
-      [1, 2, 3].map((n) =>
-        React.createElement("div", {
-          key: n,
-          style: {
-            width: n === slide.slideNumber ? "48px" : "12px",
-            height: "12px",
-            borderRadius: "6px",
-            backgroundColor: textColor,
-            opacity: n === slide.slideNumber ? 1 : 0.3,
-          },
-        })
-      )
-    )
+    // Bottom: Dots
+    SlideDots(1)
   );
 }
 
-function SlideTwo(slide: SlideData, brand: BrandData) {
-  const textColor = getContrastColor(brand.secondaryColor);
-  const accentColor = brand.primaryColor;
-
+// ========== SLIDE 2: Testimonial Card ==========
+function SlideTwo(
+  slide: SlideData,
+  brand: BrandData,
+  reviewer: ReviewerData
+) {
   return React.createElement(
     "div",
     {
@@ -164,21 +254,14 @@ function SlideTwo(slide: SlideData, brand: BrandData) {
         justifyContent: "space-between",
         width: SLIDE_WIDTH,
         height: SLIDE_HEIGHT,
-        backgroundColor: brand.secondaryColor,
+        backgroundColor: "#FAFAF8",
         padding: "80px",
         fontFamily: "Inter",
       },
     },
-    // Top accent bar
-    React.createElement("div", {
-      style: {
-        width: "80px",
-        height: "6px",
-        backgroundColor: accentColor,
-        borderRadius: "3px",
-      },
-    }),
-    // Center content
+    // Top: Stars
+    Stars(),
+    // Center: Quote
     React.createElement(
       "div",
       {
@@ -190,102 +273,119 @@ function SlideTwo(slide: SlideData, brand: BrandData) {
           justifyContent: "center",
         },
       },
-      // Heading
+      // Large quote mark
       React.createElement(
-        "h2",
+        "span",
         {
           style: {
-            fontSize: 48,
-            fontWeight: 700,
-            color: accentColor,
-            margin: 0,
+            fontSize: 120,
+            color: brand.primaryColor,
+            opacity: 0.2,
+            lineHeight: 0.5,
+            marginBottom: "-20px",
           },
         },
-        slide.heading
+        "\u201C"
       ),
-      // Quote mark + body
+      // Quote text
+      React.createElement(
+        "p",
+        {
+          style: {
+            fontSize: 38,
+            fontWeight: 400,
+            color: "#1a1a2e",
+            lineHeight: 1.5,
+            margin: 0,
+            fontStyle: "italic",
+          },
+        },
+        slide.body
+      ),
+      // Reviewer info
       React.createElement(
         "div",
         {
           style: {
             display: "flex",
-            flexDirection: "column",
-            gap: "24px",
+            alignItems: "center",
+            gap: "20px",
+            marginTop: "16px",
           },
         },
+        Avatar(reviewer, 64),
         React.createElement(
-          "span",
-          {
-            style: {
-              fontSize: 120,
-              color: accentColor,
-              opacity: 0.3,
-              lineHeight: 0.5,
-              marginBottom: "-20px",
-            },
-          },
-          "\u201C"
-        ),
-        React.createElement(
-          "p",
-          {
-            style: {
-              fontSize: 40,
-              fontWeight: 400,
-              color: textColor,
-              lineHeight: 1.5,
-              margin: 0,
-              fontStyle: "italic",
-            },
-          },
-          slide.body
-        )
-      ),
-      // Footer (customer name)
-      slide.footer
-        ? React.createElement(
-            "p",
-            {
-              style: {
-                fontSize: 28,
-                color: textColor,
-                opacity: 0.6,
-                margin: 0,
-              },
-            },
-            slide.footer
+          "div",
+          { style: { display: "flex", flexDirection: "column", gap: "4px" } },
+          React.createElement(
+            "span",
+            { style: { fontSize: 24, fontWeight: 700, color: "#1a1a2e" } },
+            reviewer.name
+          ),
+          React.createElement(
+            "span",
+            { style: { fontSize: 20, color: "#6b7094" } },
+            `${reviewer.title}${reviewer.company ? `, ${reviewer.company}` : ""}`
           )
-        : null
+        )
+      )
     ),
-    // Bottom: Slide indicator
+    // Bottom: Brand + dots
     React.createElement(
       "div",
       {
         style: {
           display: "flex",
-          gap: "12px",
           alignItems: "center",
+          justifyContent: "space-between",
         },
       },
-      [1, 2, 3].map((n) =>
-        React.createElement("div", {
-          key: n,
-          style: {
-            width: n === slide.slideNumber ? "48px" : "12px",
-            height: "12px",
-            borderRadius: "6px",
-            backgroundColor: textColor,
-            opacity: n === slide.slideNumber ? 1 : 0.3,
-          },
-        })
+      // Brand
+      React.createElement(
+        "div",
+        { style: { display: "flex", alignItems: "center", gap: "12px" } },
+        brand.logoUrl
+          ? React.createElement("img", {
+              src: brand.logoUrl,
+              width: 36,
+              height: 36,
+              style: { borderRadius: "8px", objectFit: "contain" },
+            })
+          : null,
+        React.createElement(
+          "span",
+          { style: { fontSize: 20, fontWeight: 600, color: "#6b7094" } },
+          brand.companyName
+        )
+      ),
+      // Dots
+      React.createElement(
+        "div",
+        { style: { display: "flex", gap: "10px", alignItems: "center" } },
+        [1, 2, 3].map((n) =>
+          React.createElement("div", {
+            key: n,
+            style: {
+              width: n === 2 ? "40px" : "10px",
+              height: "10px",
+              borderRadius: "5px",
+              backgroundColor:
+                n === 2 ? brand.primaryColor : "rgba(26,26,46,0.15)",
+            },
+          })
+        )
       )
     )
   );
 }
 
-function SlideThree(slide: SlideData, brand: BrandData) {
-  const bgColor = "#FFFFFF";
-  const textColor = "#1E293B";
+// ========== SLIDE 3: CTA Card ==========
+function SlideThree(
+  slide: SlideData,
+  brand: BrandData,
+  _reviewer: ReviewerData
+) {
+  const textColor = getContrastColor(brand.secondaryColor);
 
   return React.createElement(
     "div",
@@ -297,14 +397,14 @@ function SlideThree(slide: SlideData, brand: BrandData) {
         alignItems: "center",
         width: SLIDE_WIDTH,
         height: SLIDE_HEIGHT,
-        backgroundColor: bgColor,
+        backgroundColor: brand.secondaryColor,
         padding: "80px",
         fontFamily: "Inter",
       },
     },
-    // Spacer
+    // Top spacer
     React.createElement("div", { style: { display: "flex" } }),
-    // Center content
+    // Center: CTA content
     React.createElement(
       "div",
       {
@@ -328,7 +428,7 @@ function SlideThree(slide: SlideData, brand: BrandData) {
         "h2",
         {
           style: {
-            fontSize: 56,
+            fontSize: 52,
             fontWeight: 700,
             color: textColor,
             margin: 0,
@@ -341,8 +441,9 @@ function SlideThree(slide: SlideData, brand: BrandData) {
         "p",
         {
           style: {
-            fontSize: 32,
-            color: "#64748B",
+            fontSize: 28,
+            color: textColor,
+            opacity: 0.6,
             margin: 0,
             lineHeight: 1.5,
           },
@@ -355,18 +456,18 @@ function SlideThree(slide: SlideData, brand: BrandData) {
         {
           style: {
             display: "flex",
-            backgroundColor: brand.primaryColor,
-            padding: "24px 64px",
-            borderRadius: "16px",
-            marginTop: "20px",
+            backgroundColor: "#e2a84b",
+            padding: "24px 56px",
+            borderRadius: "14px",
+            marginTop: "16px",
           },
         },
         React.createElement(
           "span",
           {
             style: {
-              color: getContrastColor(brand.primaryColor),
-              fontSize: 30,
+              color: "#1a1a2e",
+              fontSize: 28,
               fontWeight: 700,
             },
           },
@@ -374,25 +475,18 @@ function SlideThree(slide: SlideData, brand: BrandData) {
         )
       )
     ),
-    // Bottom: Slide indicator
+    // Bottom: Dots
     React.createElement(
       "div",
-      {
-        style: {
-          display: "flex",
-          gap: "12px",
-          alignItems: "center",
-        },
-      },
+      { style: { display: "flex", gap: "10px", alignItems: "center" } },
       [1, 2, 3].map((n) =>
         React.createElement("div", {
           key: n,
           style: {
-            width: n === 3 ? "48px" : "12px",
-            height: "12px",
-            borderRadius: "6px",
-            backgroundColor: brand.primaryColor,
-            opacity: n === 3 ? 1 : 0.3,
+            width: n === 3 ? "40px" : "10px",
+            height: "10px",
+            borderRadius: "5px",
+            backgroundColor: n === 3 ? "#e2a84b" : "rgba(255,255,255,0.2)",
           },
         })
       )
@@ -402,49 +496,42 @@ function SlideThree(slide: SlideData, brand: BrandData) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { slide, brand, slideIndex } = (await request.json()) as {
+    const { slide, brand, slideIndex, reviewer } = (await request.json()) as {
       slide: SlideData;
       brand: BrandData;
       slideIndex: number;
+      reviewer?: ReviewerData;
     };
 
-    // Fetch fonts
+    const reviewerData: ReviewerData = reviewer || {
+      name: "Customer",
+      title: "",
+      company: "",
+    };
+
     const [fontBold, fontRegular] = await Promise.all([
       getFont(),
       getFontRegular(),
     ]);
 
-    // Pick the right slide layout
     let element: React.ReactNode;
     if (slideIndex === 0) {
-      element = SlideOne(slide, brand);
+      element = SlideOne(slide, brand, reviewerData);
     } else if (slideIndex === 1) {
-      element = SlideTwo(slide, brand);
+      element = SlideTwo(slide, brand, reviewerData);
     } else {
-      element = SlideThree(slide, brand);
+      element = SlideThree(slide, brand, reviewerData);
     }
 
-    // Render to SVG with Satori
     const svg = await satori(element as React.ReactNode, {
       width: SLIDE_WIDTH,
       height: SLIDE_HEIGHT,
       fonts: [
-        {
-          name: "Inter",
-          data: fontBold,
-          weight: 700,
-          style: "normal",
-        },
-        {
-          name: "Inter",
-          data: fontRegular,
-          weight: 400,
-          style: "normal",
-        },
+        { name: "Inter", data: fontBold, weight: 700, style: "normal" },
+        { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
       ],
     });
 
-    // Convert SVG to PNG using sharp
     const pngBuffer = await sharp(Buffer.from(svg))
       .resize(SLIDE_WIDTH, SLIDE_HEIGHT)
       .png()

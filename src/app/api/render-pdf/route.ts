@@ -23,9 +23,10 @@ interface BrandData {
 
 export async function POST(request: NextRequest) {
   try {
-    const { slides, brand } = (await request.json()) as {
+    const { slides, brand, reviewer } = (await request.json()) as {
       slides: SlideData[];
       brand: BrandData;
+      reviewer?: { name: string; title: string; company: string; photoUrl?: string | null };
     };
 
     if (!slides || slides.length === 0) {
@@ -47,6 +48,7 @@ export async function POST(request: NextRequest) {
           slide: slides[i],
           brand,
           slideIndex: i,
+          reviewer,
         }),
       });
 

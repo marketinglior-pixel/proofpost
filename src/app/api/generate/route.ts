@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { generateCarouselContent } from "@/lib/ai/generate-carousel";
+import type { ReviewerInfo } from "@/lib/ai/generate-carousel";
 import type { Database } from "@/types/database";
 
 type BrandKit = Database["public"]["Tables"]["brand_kits"]["Row"];
@@ -9,7 +10,6 @@ export async function POST(request: NextRequest) {
   try {
     const supabase = await createClient();
 
-    // Verify auth
     const {
       data: { user },
       error: authError,
@@ -19,17 +19,25 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Parse body
-    const { rawInput } = await request.json();
+    const {
+      rawInput,
+      reviewerName,
+      reviewerTitle,
+      reviewerCompany,
+      reviewerPhotoUrl,
+    } = await request.json();
 
-    if (!rawInput || typeof rawInput !== "string" || rawInput.trim().length < 20) {
+    if (
+      !rawInput ||
+      typeof rawInput !== "string" ||
+      rawInput.trim().length < 20
+    ) {
       return NextResponse.json(
         { error: "Review text must be at least 20 characters" },
         { status: 400 }
       );
     }
 
-    // Get brand kit
     const { data: brandKitData } = await supabase
       .from("brand_kits")
       .select("*")
@@ -45,7 +53,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Check free plan limit (3 per month)
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
@@ -57,7 +64,6 @@ export async function POST(request: NextRequest) {
       .gte("created_at", startOfMonth.toISOString());
 
     if ((count ?? 0) >= 3) {
-      // TODO: Check if user is on Pro plan
       return NextResponse.json(
         {
           error:
@@ -67,17 +73,33 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate with AI
+    // Build reviewer info
+    const reviewerInfo: ReviewerInfo | undefined =
+      reviewerName || reviewerTitle || reviewerCompany
+        ? {
+            name: reviewerName || undefined,
+            title: reviewerTitle || undefined,
+            company: reviewerCompany || undefined,
+            photoUrl: reviewerPhotoUrl || undefined,
+          }
+        : undefined;
+
     const llmOutput = await generateCarouselContent(
       rawInput.trim(),
-      brandKit.company_name
+      brandKit.company_name,
+      reviewerInfo
     );
 
-    // Save to database
+    // Merge reviewer photo URL into the output for rendering
+    const outputWithPhoto = {
+      ...llmOutput,
+      reviewerPhotoUrl: reviewerPhotoUrl || null,
+    };
+
     const savePayload = {
       user_id: user.id,
       raw_input: rawInput.trim(),
-      llm_output: llmOutput as unknown as Record<string, unknown>,
+      llm_output: outputWithPhoto as unknown as Record<string, unknown>,
     };
 
     const { data: saved, error: saveError } = await supabase
@@ -96,7 +118,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       id: (saved as Record<string, unknown>).id,
-      llmOutput,
+      llmOutput: outputWithPhoto,
       brandKit: {
         companyName: brandKit.company_name,
         logoUrl: brandKit.logo_url,

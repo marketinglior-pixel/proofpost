@@ -25,12 +25,20 @@ interface BrandData {
   secondaryColor: string;
 }
 
+interface ReviewerData {
+  name: string;
+  title: string;
+  company: string;
+  photoUrl?: string | null;
+}
+
 interface CarouselPreviewProps {
   slides: SlideData[];
   brand: BrandData;
+  reviewer?: ReviewerData;
 }
 
-export function CarouselPreview({ slides, brand }: CarouselPreviewProps) {
+export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProps) {
   const [slideImages, setSlideImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -51,6 +59,7 @@ export function CarouselPreview({ slides, brand }: CarouselPreviewProps) {
               slide: slides[i],
               brand,
               slideIndex: i,
+              reviewer,
             }),
           });
 
@@ -115,7 +124,7 @@ export function CarouselPreview({ slides, brand }: CarouselPreviewProps) {
       const res = await fetch("/api/render-pdf", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slides, brand }),
+        body: JSON.stringify({ slides, brand, reviewer }),
       });
 
       if (!res.ok) {
