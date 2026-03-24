@@ -3,7 +3,11 @@ import { google } from "googleapis";
 const SCOPES = ["https://www.googleapis.com/auth/spreadsheets"];
 
 function getAuth() {
-  const privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY?.replace(/\\n/g, "\n");
+  // Handle both formats: literal \n (from .env) and real newlines (from Vercel)
+  let privateKey = process.env.GOOGLE_SHEETS_PRIVATE_KEY;
+  if (privateKey && !privateKey.includes("\n")) {
+    privateKey = privateKey.replace(/\\n/g, "\n");
+  }
   const clientEmail = process.env.GOOGLE_SHEETS_CLIENT_EMAIL;
 
   if (!privateKey || !clientEmail) {
