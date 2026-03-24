@@ -141,6 +141,11 @@ export function EmbedCarousel({
     return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
   }
 
+  // Detect RTL from review content
+  const hasRTL = reviews.some((r) =>
+    /[\u0590-\u05FF\u0600-\u06FF]/.test(r.quote + r.hookLine + r.reviewer.name)
+  );
+
   if (reviews.length === 0) {
     return (
       <div style={{ padding: "40px", textAlign: "center", color: "#999", fontFamily: "system-ui, sans-serif" }}>
@@ -154,6 +159,7 @@ export function EmbedCarousel({
   return (
     <div
       ref={containerRef}
+      dir={hasRTL ? "rtl" : "ltr"}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
@@ -163,6 +169,7 @@ export function EmbedCarousel({
         overflow: "hidden",
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 25px 50px -12px rgba(148,163,184,0.15)",
+        direction: hasRTL ? "rtl" : "ltr",
       }}
     >
       {/* Card content */}

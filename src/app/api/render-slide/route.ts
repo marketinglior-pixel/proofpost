@@ -43,6 +43,26 @@ async function getFontRegular(): Promise<ArrayBuffer> {
   return res.arrayBuffer();
 }
 
+// Hebrew font (Noto Sans Hebrew) for RTL support
+async function getHebrewFont(): Promise<ArrayBuffer> {
+  const res = await fetch(
+    "https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-hebrew@latest/hebrew-700-normal.woff"
+  );
+  return res.arrayBuffer();
+}
+
+async function getHebrewFontRegular(): Promise<ArrayBuffer> {
+  const res = await fetch(
+    "https://cdn.jsdelivr.net/fontsource/fonts/noto-sans-hebrew@latest/hebrew-400-normal.woff"
+  );
+  return res.arrayBuffer();
+}
+
+// Detect if text contains RTL characters (Hebrew, Arabic)
+function isRTL(text: string): boolean {
+  return /[\u0590-\u05FF\u0600-\u06FF\u0750-\u077F\uFB50-\uFDFF\uFE70-\uFEFF]/.test(text);
+}
+
 function getContrastColor(hex: string): string {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -833,10 +853,20 @@ export async function POST(request: NextRequest) {
       company: "",
     };
 
-    const [fontBold, fontRegular] = await Promise.all([
-      getFont(),
-      getFontRegular(),
-    ]);
+    // Detect RTL from slide content
+    const textToCheck = `${slide.heading} ${slide.body} ${slide.footer || ""} ${reviewerData.name}`;
+    const rtl = isRTL(textToCheck);
+
+    // Load fonts (including Hebrew if RTL detected)
+    const fontPromises: Promise<ArrayBuffer>[] = [getFont(), getFontRegular()];
+    if (rtl) {
+      fontPromises.push(getHebrewFont(), getHebrewFontRegular());
+    }
+    const fontBuffers = await Promise.all(fontPromises);
+    const fontBold = fontBuffers[0];
+    const fontRegular = fontBuffers[1];
+    const hebrewBold = fontBuffers[2];
+    const hebrewRegular = fontBuffers[3];
 
     let element: React.ReactNode;
     let renderWidth = SLIDE_WIDTH;
@@ -854,13 +884,38 @@ export async function POST(request: NextRequest) {
       element = SlideThree(slide, brand, reviewerData);
     }
 
+    // Wrap in RTL container if needed (sets font-family fallback to Hebrew font)
+    if (rtl) {
+      element = React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            width: renderWidth,
+            height: renderHeight,
+            fontFamily: "Noto Sans Hebrew, Inter",
+          },
+        },
+        element
+      );
+    }
+
+    // Build font list
+    const fonts: Array<{ name: string; data: ArrayBuffer; weight: 400 | 700; style: "normal" }> = [
+      { name: "Inter", data: fontBold, weight: 700, style: "normal" },
+      { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
+    ];
+    if (rtl && hebrewBold && hebrewRegular) {
+      fonts.push(
+        { name: "Noto Sans Hebrew", data: hebrewBold, weight: 700, style: "normal" },
+        { name: "Noto Sans Hebrew", data: hebrewRegular, weight: 400, style: "normal" }
+      );
+    }
+
     const svg = await satori(element as React.ReactNode, {
       width: renderWidth,
       height: renderHeight,
-      fonts: [
-        { name: "Inter", data: fontBold, weight: 700, style: "normal" },
-        { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
-      ],
+      fonts,
     });
 
     const pngBuffer = await sharp(Buffer.from(svg))
