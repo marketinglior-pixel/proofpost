@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { generateCarouselContent } from "@/lib/ai/generate-carousel";
 import type { ReviewerInfo } from "@/lib/ai/generate-carousel";
 import type { Database } from "@/types/database";
+import { rateLimit } from "@/lib/rate-limit";
 
 type BrandKit = Database["public"]["Tables"]["brand_kits"]["Row"];
 
@@ -17,6 +18,10 @@ export async function POST(request: NextRequest) {
 
     if (authError || !user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    if (!rateLimit(`generate:${user.id}`, { maxRequests: 10, windowMs: 60_000 }).success) {
+      return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
     }
 
     const {

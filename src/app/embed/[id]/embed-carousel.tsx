@@ -339,7 +339,7 @@ export function EmbedCarousel({
 
         {showWatermark ? (
           <a
-            href="https://proofpost-alpha.vercel.app?ref=widget"
+            href="https://proofpst.com?ref=widget"
             target="_blank"
             rel="noopener noreferrer"
             style={{
@@ -356,7 +356,7 @@ export function EmbedCarousel({
           </a>
         ) : (
           <a
-            href="https://proofpost-alpha.vercel.app"
+            href="https://proofpst.com"
             target="_blank"
             rel="noopener noreferrer"
             style={{ fontSize: "10px", color: "#ccc", textDecoration: "none" }}

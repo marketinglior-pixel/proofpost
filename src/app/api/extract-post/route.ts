@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import mql from "@microlink/mql";
 import OpenAI from "openai";
+import { rateLimit } from "@/lib/rate-limit";
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -22,6 +23,11 @@ export async function POST(request: NextRequest) {
         { error: "Please provide a valid URL" },
         { status: 400 }
       );
+    }
+
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    if (!rateLimit(`extract:${ip}`, { maxRequests: 20, windowMs: 60_000 }).success) {
+      return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
     }
 
     // Step 1: Use Microlink to extract metadata + screenshot

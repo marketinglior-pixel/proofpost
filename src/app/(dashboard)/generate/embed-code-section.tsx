@@ -15,7 +15,7 @@ import {
   Trash2,
 } from "lucide-react";
 
-const PROOFPOST_HOST = "https://proofpost-alpha.vercel.app";
+const PROOFPOST_HOST = "https://proofpst.com";
 
 interface ReviewItem {
   contentId: string;

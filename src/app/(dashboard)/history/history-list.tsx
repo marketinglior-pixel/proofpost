@@ -35,9 +35,10 @@ interface LlmOutput {
 interface HistoryListProps {
   items: GeneratedContent[];
   brandKit: BrandKit | null;
+  plan?: "free" | "pro";
 }
 
-export function HistoryList({ items, brandKit }: HistoryListProps) {
+export function HistoryList({ items, brandKit, plan = "free" }: HistoryListProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
@@ -192,6 +193,7 @@ export function HistoryList({ items, brandKit }: HistoryListProps) {
                         primaryColor: brandKit.primary_color,
                         secondaryColor: brandKit.secondary_color,
                       }}
+                      plan={plan}
                     />
                   </div>
                 )}

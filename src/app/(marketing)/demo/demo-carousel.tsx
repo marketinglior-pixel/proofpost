@@ -281,7 +281,7 @@ export function DemoCarousel() {
         </div>
 
         <a
-          href="https://proofpost-alpha.vercel.app"
+          href="https://proofpst.com"
           target="_blank"
           rel="noopener noreferrer"
           style={{

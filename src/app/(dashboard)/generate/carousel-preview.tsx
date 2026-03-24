@@ -36,9 +36,10 @@ interface CarouselPreviewProps {
   slides: SlideData[];
   brand: BrandData;
   reviewer?: ReviewerData;
+  plan?: "free" | "pro";
 }
 
-export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProps) {
+export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: CarouselPreviewProps) {
   const [slideImages, setSlideImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -119,6 +120,12 @@ export function CarouselPreview({ slides, brand, reviewer }: CarouselPreviewProp
   }
 
   async function handleDownloadPdf() {
+    if (plan !== "pro") {
+      toast.error("PDF download is a Pro feature. Upgrade to unlock.", {
+        action: { label: "Upgrade", onClick: () => window.location.href = "/pricing" },
+      });
+      return;
+    }
     setDownloadingPdf(true);
     try {
       const res = await fetch("/api/render-pdf", {

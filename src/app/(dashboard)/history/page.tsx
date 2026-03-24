@@ -24,8 +24,15 @@ export default async function HistoryPage() {
     .eq("user_id", user!.id)
     .single();
 
+  const { data: profileData } = await supabase
+    .from("profiles")
+    .select("plan")
+    .eq("id", user!.id)
+    .single();
+
   const items = (contentData ?? []) as GeneratedContent[];
   const brandKit = brandKitData as BrandKit | null;
+  const plan = ((profileData as { plan: string } | null)?.plan || "free") as "free" | "pro";
 
   return (
     <div className="space-y-10">
@@ -38,7 +45,7 @@ export default async function HistoryPage() {
         </p>
       </div>
 
-      <HistoryList items={items} brandKit={brandKit} />
+      <HistoryList items={items} brandKit={brandKit} plan={plan} />
     </div>
   );
 }

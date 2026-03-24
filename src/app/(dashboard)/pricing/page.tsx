@@ -92,7 +92,7 @@ export default async function PricingPage() {
             </div>
           </div>
           <Link
-            href={`/api/checkout?productId=${MONTHLY_ID}&email=${user?.email}`}
+            href={`/api/checkout?productId=${MONTHLY_ID}&email=${encodeURIComponent(user?.email || "")}`}
             className="flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald"
           >
             Upgrade to Pro
@@ -114,7 +114,7 @@ export default async function PricingPage() {
             <p className="text-[13px] text-slate-400 mt-1">$144 billed annually</p>
           </div>
           <Link
-            href={`/api/checkout?productId=${ANNUAL_ID}&email=${user?.email}`}
+            href={`/api/checkout?productId=${ANNUAL_ID}&email=${encodeURIComponent(user?.email || "")}`}
             className="relative flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald"
           >
             Upgrade Annual

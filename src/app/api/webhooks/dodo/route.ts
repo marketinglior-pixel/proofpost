@@ -37,11 +37,14 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get("webhook-signature") || request.headers.get("x-dodo-signature") || "";
     const webhookKey = process.env.DODO_PAYMENTS_WEBHOOK_KEY || "";
 
-    // Verify signature if key exists
-    if (webhookKey && webhookKey !== "placeholder_waiting_for_real_key") {
-      if (!verifySignature(body, signature, webhookKey)) {
-        return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
-      }
+    // Always verify webhook signature in production
+    if (!webhookKey) {
+      console.error("DODO_PAYMENTS_WEBHOOK_KEY is not configured");
+      return NextResponse.json({ error: "Webhook not configured" }, { status: 500 });
+    }
+
+    if (!verifySignature(body, signature, webhookKey)) {
+      return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
     }
 
     const payload = JSON.parse(body);
