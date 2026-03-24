@@ -22,9 +22,18 @@ export async function appendLeadToSheet(email: string, plan: string) {
   const spreadsheetId = process.env.GOOGLE_SHEETS_SPREADSHEET_ID;
 
   if (!auth || !spreadsheetId) {
-    console.warn("Google Sheets not configured — skipping lead log");
+    console.warn(
+      "Google Sheets not configured — skipping lead log",
+      JSON.stringify({
+        hasEmail: !!process.env.GOOGLE_SHEETS_CLIENT_EMAIL,
+        hasKey: !!process.env.GOOGLE_SHEETS_PRIVATE_KEY,
+        hasSheet: !!spreadsheetId,
+      })
+    );
     return;
   }
+
+  console.log("Appending lead to Google Sheets:", email, plan);
 
   const sheets = google.sheets({ version: "v4", auth });
 
@@ -36,4 +45,6 @@ export async function appendLeadToSheet(email: string, plan: string) {
       values: [[email, new Date().toISOString(), plan]],
     },
   });
+
+  console.log("Lead appended successfully");
 }
