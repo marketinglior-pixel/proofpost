@@ -510,23 +510,26 @@ export default function LandingPage() {
       </section>
 
       {/* ============ SECTION 8: FAQ ============ */}
-      <section id="faq" className="max-w-2xl mx-auto px-6 py-24">
-        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
+      <section id="faq" className="max-w-2xl mx-auto px-6 py-20">
+        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-8">
           Common questions.
         </h2>
-        <div className="space-y-6">
+        <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
           {[
-            { q: "Will this slow down my website?", a: "No. Our embed scripts load asynchronously and weigh under 12kb. Your page loads first, the carousel glides in after. Zero impact on Core Web Vitals." },
-            { q: "What if the AI extracts the wrong quote?", a: "You never lose the original text. The AI suggests the best hook, but you can edit it with one click. You are always in full control of what gets published." },
-            { q: "How is this different from Senja or Testimonial.to?", a: "They display static text grids. We use AI to extract the converting sentence and wrap it in an animated, auto-sliding carousel. Plus we offer collection forms, Wall of Love, and SEO rich snippets — all at a lower price." },
-            { q: "Can my customers submit reviews directly?", a: "Yes! Create a collection form, share the link with your customers, and they can submit text reviews with ratings. You approve them, and we auto-generate the carousel." },
-            { q: "I only have 3 reviews. Is that enough?", a: "Products with just 5 reviews are 270% more likely to sell. You do not need a massive Wall of Love. You need to maximize the reviews you already have. That is exactly what ProofPost does." },
-            { q: "Can I cancel easily?", a: "One click in your dashboard. No retention calls, no hoops. If it does not save you time, you should not be paying for it." },
+            { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
+            { q: "What if the AI extracts the wrong quote?", a: "You keep the original. Edit the hook with one click. You control what gets published." },
+            { q: "How is this different from Senja or Testimonial.to?", a: "They show static text grids. We use AI to find the converting sentence and animate it. Plus collection forms, Wall of Love, SEO snippets — at a lower price." },
+            { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. Customers submit reviews, you approve, we auto-generate the carousel." },
+            { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to maximize what you have." },
+            { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
           ].map((faq, i) => (
-            <div key={i} className="rounded-xl bg-white border border-slate-200 p-6">
-              <h3 className="text-[15px] font-semibold text-slate-900">{faq.q}</h3>
-              <p className="mt-2 text-[14px] text-slate-500 leading-relaxed">{faq.a}</p>
-            </div>
+            <details key={i} className="group">
+              <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-slate-50/50 transition-colors list-none">
+                <span className="text-[14px] font-semibold text-slate-900 pr-4">{faq.q}</span>
+                <span className="text-slate-300 group-open:rotate-45 transition-transform text-lg flex-shrink-0">+</span>
+              </summary>
+              <p className="px-5 pb-4 -mt-1 text-[13px] text-slate-500 leading-relaxed">{faq.a}</p>
+            </details>
           ))}
         </div>
       </section>
