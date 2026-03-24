@@ -240,24 +240,6 @@ function SlideOne(slide: SlideData, brand: BrandData, _reviewer: ReviewerData) {
         backgroundColor: "rgba(255,255,255,0.04)",
       },
     }),
-    // Top: Logo + Company
-    React.createElement(
-      "div",
-      { style: { display: "flex", alignItems: "center", gap: "16px", position: "relative" } },
-      brand.logoUrl
-        ? React.createElement("img", {
-            src: brand.logoUrl,
-            width: 52,
-            height: 52,
-            style: { borderRadius: "14px", objectFit: "contain" },
-          })
-        : null,
-      React.createElement(
-        "span",
-        { style: { fontSize: 24, fontWeight: 700, color: textColor, opacity: 0.8 } },
-        brand.companyName
-      )
-    ),
     // Center: Hook content
     React.createElement(
       "div",
@@ -388,18 +370,19 @@ function SlideTwo(slide: SlideData, brand: BrandData, reviewer: ReviewerData) {
         background: `radial-gradient(circle at top right, ${brand.primaryColor}10 0%, transparent 70%)`,
       },
     }),
-    // Top: Stars + Brand
+    // Top spacer
+    React.createElement("div", { style: { display: "flex" } }),
+    // Placeholder to maintain structure
     React.createElement(
       "div",
       {
         style: {
           display: "flex",
           alignItems: "center",
-          justifyContent: "space-between",
+          justifyContent: "flex-end",
           position: "relative",
         },
       },
-      Stars(36),
       React.createElement(
         "div",
         { style: { display: "flex", alignItems: "center", gap: "10px" } },
