@@ -201,6 +201,7 @@ export function EmbedCarousel({
 
         {/* Quote text */}
         <p
+          dir={currentRTL ? "rtl" : "ltr"}
           style={{
             fontSize: "15px",
             lineHeight: 1.625,
@@ -210,6 +211,8 @@ export function EmbedCarousel({
             minHeight: "48px",
             transition: "opacity 0.3s ease",
             opacity: isAnimating ? 0 : 1,
+            direction: currentRTL ? "rtl" : "ltr",
+            textAlign: "center",
           }}
         >
           {review.quote}
@@ -217,12 +220,15 @@ export function EmbedCarousel({
 
         {/* Reviewer - horizontal layout like hero */}
         <div
+          dir="ltr"
           style={{
             display: "flex",
             alignItems: "center",
             gap: "12px",
             transition: "opacity 0.3s ease",
             opacity: isAnimating ? 0 : 1,
+            marginTop: "16px",
+            direction: "ltr",
           }}
         >
           {isRealPhoto(review.reviewerPhotoUrl) ? (
@@ -263,8 +269,9 @@ export function EmbedCarousel({
         </div>
       </div>
 
-      {/* Bottom bar */}
+      {/* Bottom bar - always LTR */}
       <div
+        dir="ltr"
         style={{
           display: "flex",
           alignItems: "center",
@@ -272,6 +279,7 @@ export function EmbedCarousel({
           padding: "12px 28px",
           borderTop: "1px solid rgba(241,245,249,1)",
           background: "rgba(248,250,252,0.5)",
+          direction: "ltr",
         }}
       >
         <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
