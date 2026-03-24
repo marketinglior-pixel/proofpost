@@ -5,6 +5,8 @@ import React from "react";
 
 const SLIDE_WIDTH = 1080;
 const SLIDE_HEIGHT = 1350;
+const BANNER_WIDTH = 1200;
+const BANNER_HEIGHT = 628;
 
 interface SlideData {
   slideNumber: number;
@@ -68,10 +70,32 @@ function Stars() {
         "span",
         {
           key: i,
-          style: { fontSize: 32, color: "#e2a84b" },
+          style: { fontSize: 32, color: "#FBBF24" },
         },
         "\u2605"
       )
+    )
+  );
+}
+
+// Powered by footer
+function PoweredBy() {
+  return React.createElement(
+    "div",
+    {
+      style: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "8px",
+        paddingTop: "20px",
+      },
+    },
+    React.createElement("span", { style: { fontSize: 16, color: "#10B981" } }, "\u2726"),
+    React.createElement(
+      "span",
+      { style: { fontSize: 16, color: "#94a3b8", fontWeight: 500 } },
+      "powered by proofpst.com"
     )
   );
 }
@@ -88,7 +112,7 @@ function SlideDots(current: number) {
           width: n === current ? "48px" : "12px",
           height: "12px",
           borderRadius: "6px",
-          backgroundColor: n === current ? "#e2a84b" : "rgba(255,255,255,0.3)",
+          backgroundColor: n === current ? "#FBBF24" : "rgba(255,255,255,0.3)",
         },
       })
     )
@@ -119,7 +143,7 @@ function Avatar(reviewer: ReviewerData, size: number) {
         width: size,
         height: size,
         borderRadius: "50%",
-        backgroundColor: "#e2a84b",
+        backgroundColor: "#FBBF24",
         color: "#1a1a2e",
         fontSize: size * 0.4,
         fontWeight: 700,
@@ -186,7 +210,7 @@ function SlideOne(
         style: {
           width: "60px",
           height: "4px",
-          backgroundColor: "#e2a84b",
+          backgroundColor: "#FBBF24",
           borderRadius: "2px",
         },
       }),
@@ -229,13 +253,18 @@ function SlideOne(
         },
         React.createElement(
           "span",
-          { style: { fontSize: 22, color: "#e2a84b", fontWeight: 600 } },
+          { style: { fontSize: 22, color: "#FBBF24", fontWeight: 600 } },
           "Swipe to see the proof \u2192"
         )
       )
     ),
-    // Bottom: Dots
-    SlideDots(1)
+    // Bottom: Dots + Powered by
+    React.createElement(
+      "div",
+      { style: { display: "flex", flexDirection: "column", gap: "12px" } },
+      SlideDots(1),
+      PoweredBy()
+    )
   );
 }
 
@@ -361,19 +390,24 @@ function SlideTwo(
       // Dots
       React.createElement(
         "div",
-        { style: { display: "flex", gap: "10px", alignItems: "center" } },
-        [1, 2, 3].map((n) =>
-          React.createElement("div", {
-            key: n,
-            style: {
-              width: n === 2 ? "40px" : "10px",
-              height: "10px",
-              borderRadius: "5px",
-              backgroundColor:
-                n === 2 ? brand.primaryColor : "rgba(26,26,46,0.15)",
-            },
-          })
-        )
+        { style: { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "12px" } },
+        React.createElement(
+          "div",
+          { style: { display: "flex", gap: "10px", alignItems: "center" } },
+          [1, 2, 3].map((n) =>
+            React.createElement("div", {
+              key: n,
+              style: {
+                width: n === 2 ? "40px" : "10px",
+                height: "10px",
+                borderRadius: "5px",
+                backgroundColor:
+                  n === 2 ? brand.primaryColor : "rgba(26,26,46,0.15)",
+              },
+            })
+          )
+        ),
+        PoweredBy()
       )
     )
   );
@@ -456,7 +490,7 @@ function SlideThree(
         {
           style: {
             display: "flex",
-            backgroundColor: "#e2a84b",
+            backgroundColor: "#FBBF24",
             padding: "24px 56px",
             borderRadius: "14px",
             marginTop: "16px",
@@ -475,20 +509,195 @@ function SlideThree(
         )
       )
     ),
-    // Bottom: Dots
+    // Bottom: Dots + Powered by
     React.createElement(
       "div",
-      { style: { display: "flex", gap: "10px", alignItems: "center" } },
-      [1, 2, 3].map((n) =>
-        React.createElement("div", {
-          key: n,
+      { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" } },
+      React.createElement(
+        "div",
+        { style: { display: "flex", gap: "10px", alignItems: "center" } },
+        [1, 2, 3].map((n) =>
+          React.createElement("div", {
+            key: n,
+            style: {
+              width: n === 3 ? "40px" : "10px",
+              height: "10px",
+              borderRadius: "5px",
+              backgroundColor: n === 3 ? "#FBBF24" : "rgba(255,255,255,0.2)",
+            },
+          })
+        )
+      ),
+      PoweredBy()
+    )
+  );
+}
+
+// ========== BANNER: Website Social Proof Banner (1200x628) ==========
+function BannerSlide(
+  slide: SlideData,
+  brand: BrandData,
+  reviewer: ReviewerData
+) {
+  const textColor = getContrastColor(brand.primaryColor);
+
+  return React.createElement(
+    "div",
+    {
+      style: {
+        display: "flex",
+        width: BANNER_WIDTH,
+        height: BANNER_HEIGHT,
+        fontFamily: "Inter",
+      },
+    },
+    // Left side: Quote + Reviewer (~60%)
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          width: "60%",
+          padding: "48px 56px",
+          backgroundColor: "#FAFAF8",
+          gap: "24px",
+        },
+      },
+      // Stars
+      React.createElement(
+        "div",
+        { style: { display: "flex", gap: "4px" } },
+        [1, 2, 3, 4, 5].map((i) =>
+          React.createElement(
+            "span",
+            { key: i, style: { fontSize: 20, color: "#FBBF24" } },
+            "\u2605"
+          )
+        )
+      ),
+      // Quote mark + text
+      React.createElement(
+        "div",
+        {
           style: {
-            width: n === 3 ? "40px" : "10px",
-            height: "10px",
-            borderRadius: "5px",
-            backgroundColor: n === 3 ? "#e2a84b" : "rgba(255,255,255,0.2)",
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
           },
-        })
+        },
+        React.createElement(
+          "span",
+          {
+            style: {
+              fontSize: 72,
+              color: brand.primaryColor,
+              opacity: 0.15,
+              lineHeight: 0.5,
+              marginBottom: "-4px",
+            },
+          },
+          "\u201C"
+        ),
+        React.createElement(
+          "p",
+          {
+            style: {
+              fontSize: 24,
+              fontWeight: 400,
+              color: "#1a1a2e",
+              lineHeight: 1.5,
+              margin: 0,
+              fontStyle: "italic",
+            },
+          },
+          slide.body
+        )
+      ),
+      // Reviewer info
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "14px",
+            marginTop: "8px",
+          },
+        },
+        Avatar(reviewer, 44),
+        React.createElement(
+          "div",
+          { style: { display: "flex", flexDirection: "column", gap: "2px" } },
+          React.createElement(
+            "span",
+            { style: { fontSize: 16, fontWeight: 700, color: "#1a1a2e" } },
+            reviewer.name
+          ),
+          React.createElement(
+            "span",
+            { style: { fontSize: 14, color: "#6b7094" } },
+            `${reviewer.title}${reviewer.company ? `, ${reviewer.company}` : ""}`
+          )
+        )
+      )
+    ),
+    // Right side: Brand panel (~40%)
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          width: "40%",
+          backgroundColor: brand.primaryColor,
+          padding: "48px 40px",
+          gap: "24px",
+        },
+      },
+      brand.logoUrl
+        ? React.createElement("img", {
+            src: brand.logoUrl,
+            width: 64,
+            height: 64,
+            style: { borderRadius: "14px", objectFit: "contain" },
+          })
+        : null,
+      React.createElement(
+        "span",
+        {
+          style: {
+            fontSize: 28,
+            fontWeight: 700,
+            color: textColor,
+            textAlign: "center",
+          },
+        },
+        brand.companyName
+      ),
+      // Divider
+      React.createElement("div", {
+        style: {
+          width: "40px",
+          height: "3px",
+          backgroundColor: "#FBBF24",
+          borderRadius: "2px",
+        },
+      }),
+      React.createElement(
+        "span",
+        {
+          style: {
+            fontSize: 16,
+            color: textColor,
+            opacity: 0.7,
+            textAlign: "center",
+          },
+        },
+        "Trusted by real customers"
       )
     )
   );
@@ -496,11 +705,12 @@ function SlideThree(
 
 export async function POST(request: NextRequest) {
   try {
-    const { slide, brand, slideIndex, reviewer } = (await request.json()) as {
+    const { slide, brand, slideIndex, reviewer, type } = (await request.json()) as {
       slide: SlideData;
       brand: BrandData;
       slideIndex: number;
       reviewer?: ReviewerData;
+      type?: "banner";
     };
 
     const reviewerData: ReviewerData = reviewer || {
@@ -515,7 +725,14 @@ export async function POST(request: NextRequest) {
     ]);
 
     let element: React.ReactNode;
-    if (slideIndex === 0) {
+    let renderWidth = SLIDE_WIDTH;
+    let renderHeight = SLIDE_HEIGHT;
+
+    if (type === "banner") {
+      element = BannerSlide(slide, brand, reviewerData);
+      renderWidth = BANNER_WIDTH;
+      renderHeight = BANNER_HEIGHT;
+    } else if (slideIndex === 0) {
       element = SlideOne(slide, brand, reviewerData);
     } else if (slideIndex === 1) {
       element = SlideTwo(slide, brand, reviewerData);
@@ -524,8 +741,8 @@ export async function POST(request: NextRequest) {
     }
 
     const svg = await satori(element as React.ReactNode, {
-      width: SLIDE_WIDTH,
-      height: SLIDE_HEIGHT,
+      width: renderWidth,
+      height: renderHeight,
       fonts: [
         { name: "Inter", data: fontBold, weight: 700, style: "normal" },
         { name: "Inter", data: fontRegular, weight: 400, style: "normal" },
@@ -533,7 +750,7 @@ export async function POST(request: NextRequest) {
     });
 
     const pngBuffer = await sharp(Buffer.from(svg))
-      .resize(SLIDE_WIDTH, SLIDE_HEIGHT)
+      .resize(renderWidth, renderHeight)
       .png()
       .toBuffer();
 
