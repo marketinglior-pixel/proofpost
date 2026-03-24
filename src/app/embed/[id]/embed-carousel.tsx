@@ -46,7 +46,6 @@ export function EmbedCarousel({
 }) {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [direction, setDirection] = useState<"left" | "right">("left");
   const [paused, setPaused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -54,7 +53,6 @@ export function EmbedCarousel({
   const brand = data.brandKit;
   const primaryColor = brand?.primaryColor || "#10B981";
   const showWatermark = data.showWatermark !== false;
-  const limitReached = data.limitReached === true;
 
   // A/B Testing: select hook variant for each review
   const selectedVariants = useRef<Record<string, string>>({});
@@ -63,7 +61,6 @@ export function EmbedCarousel({
     if (variants.length === 0) {
       return { text: review.hookLine, variantId: "default" };
     }
-    // Sticky selection per review (random on first render)
     if (!selectedVariants.current[review.id]) {
       const idx = Math.floor(Math.random() * variants.length);
       selectedVariants.current[review.id] = variants[idx].id;
@@ -90,41 +87,28 @@ export function EmbedCarousel({
 
   const goToNext = useCallback(() => {
     if (reviews.length <= 1) return;
-    setDirection("left");
     setIsAnimating(true);
     setTimeout(() => {
       const nextIdx = (current + 1) % reviews.length;
       setCurrent(nextIdx);
       setIsAnimating(false);
-      // Track hook impression for the new slide
       trackHookEvent(reviews[nextIdx], "impression");
-    }, 350);
+    }, 300);
   }, [reviews, current, trackHookEvent]);
 
-  function goToSlide(index: number) {
-    if (index === current) return;
-    setDirection(index > current ? "left" : "right");
-    setIsAnimating(true);
-    setTimeout(() => {
-      setCurrent(index);
-      setIsAnimating(false);
-    }, 350);
-  }
-
-  // Track impression on mount (client-side only)
+  // Track impression on mount
   useEffect(() => {
     fetch(`/api/embed/${embedId}`).catch(() => {});
-    // Track hook variant impression for A/B testing
     if (reviews.length > 0) {
       trackHookEvent(reviews[0], "impression");
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-slide every 5 seconds
+  // Auto-slide every 3.5 seconds (matches hero)
   useEffect(() => {
     if (paused || reviews.length <= 1) return;
-    const timer = setInterval(goToNext, 5000);
+    const timer = setInterval(goToNext, 3500);
     return () => clearInterval(timer);
   }, [paused, goToNext, reviews.length]);
 
@@ -133,11 +117,7 @@ export function EmbedCarousel({
     function sendHeight() {
       if (containerRef.current && window.parent !== window) {
         window.parent.postMessage(
-          {
-            type: "proofpost-resize",
-            id: embedId,
-            height: containerRef.current.scrollHeight,
-          },
+          { type: "proofpost-resize", id: embedId, height: containerRef.current.scrollHeight },
           "*"
         );
       }
@@ -148,44 +128,28 @@ export function EmbedCarousel({
     return () => observer.disconnect();
   }, [embedId, current]);
 
-  function getInitials(name: string): string {
-    return name
-      .split(" ")
-      .map((w) => w[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
-  }
-
   function isRealPhoto(url: string | null | undefined): boolean {
     if (!url) return false;
-    // Filter out generic LinkedIn/platform default avatars
     if (url.includes("static.licdn.com/aero")) return false;
     if (url.includes("default-avatar")) return false;
     if (url.includes("placeholder")) return false;
     if (url.includes("/sc/h/")) return false;
-    // Must be a reasonable image URL
     return url.startsWith("http");
+  }
+
+  function getInitials(name: string): string {
+    return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
   }
 
   if (reviews.length === 0) {
     return (
-      <div style={{ padding: "40px", textAlign: "center", color: "#999" }}>
+      <div style={{ padding: "40px", textAlign: "center", color: "#999", fontFamily: "system-ui, sans-serif" }}>
         No reviews yet
       </div>
     );
   }
 
   const review = reviews[current];
-  const activeHook = getActiveHook(review);
-
-  const animStyle: React.CSSProperties = {
-    transition: "all 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
-    opacity: isAnimating ? 0 : 1,
-    transform: isAnimating
-      ? `translateX(${direction === "left" ? "-40px" : "40px"})`
-      : "translateX(0)",
-  };
 
   return (
     <div
@@ -193,19 +157,18 @@ export function EmbedCarousel({
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         background: "#fff",
         borderRadius: "16px",
         overflow: "hidden",
-        border: "1px solid rgba(0,0,0,0.08)",
-        boxShadow: "0 4px 24px rgba(0,0,0,0.06)",
+        border: "1px solid rgba(226,232,240,0.8)",
+        boxShadow: "0 25px 50px -12px rgba(148,163,184,0.15)",
       }}
     >
-      {/* Content */}
+      {/* Card content */}
       <div
         style={{
-          padding: "48px 48px 36px",
+          padding: "28px 28px 20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
@@ -215,10 +178,10 @@ export function EmbedCarousel({
         {/* Quote mark */}
         <span
           style={{
-            fontSize: "72px",
+            fontSize: "56px",
+            lineHeight: "0.5",
             color: primaryColor,
             opacity: 0.15,
-            lineHeight: 0.6,
             fontFamily: "Georgia, serif",
             marginBottom: "8px",
           }}
@@ -226,95 +189,79 @@ export function EmbedCarousel({
           &ldquo;
         </span>
 
-        {/* Animated Quote */}
-        <div
+        {/* Quote text */}
+        <p
           style={{
-            ...animStyle,
-            minHeight: "80px",
-            marginBottom: "28px",
-            maxWidth: "440px",
+            fontSize: "15px",
+            lineHeight: 1.625,
+            color: "#334155",
+            margin: 0,
+            fontStyle: "italic",
+            minHeight: "48px",
+            transition: "opacity 0.3s ease",
+            opacity: isAnimating ? 0 : 1,
           }}
         >
-          <p
-            style={{
-              fontSize: "18px",
-              lineHeight: 1.75,
-              color: "#1a1a2e",
-              margin: 0,
-              fontStyle: "italic",
-            }}
-          >
-            {review.quote}
-          </p>
-        </div>
+          {review.quote}
+        </p>
 
         {/* Stars */}
         <div
           style={{
             display: "flex",
-            gap: "4px",
-            marginBottom: "24px",
-            ...animStyle,
+            gap: "2px",
+            marginTop: "16px",
+            marginBottom: "16px",
           }}
         >
           {[1, 2, 3, 4, 5].map((i) => (
-            <span key={i} style={{ fontSize: "16px", color: "#e2a84b" }}>
-              ★
-            </span>
+            <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
           ))}
         </div>
 
-        {/* Animated Reviewer */}
+        {/* Reviewer - horizontal layout like hero */}
         <div
           style={{
-            ...animStyle,
             display: "flex",
-            flexDirection: "column",
             alignItems: "center",
-            gap: "10px",
+            gap: "12px",
+            transition: "opacity 0.3s ease",
+            opacity: isAnimating ? 0 : 1,
           }}
         >
           {isRealPhoto(review.reviewerPhotoUrl) ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={review.reviewerPhotoUrl!}
-              alt={review.reviewer.name}
-              width={56}
-              height={56}
-              style={{
-                borderRadius: "50%",
-                objectFit: "cover",
-                border: `3px solid ${primaryColor}25`,
-              }}
+              alt=""
+              width={40}
+              height={40}
+              style={{ borderRadius: "50%", objectFit: "cover" }}
             />
           ) : (
             <div
               style={{
-                width: "56px",
-                height: "56px",
+                width: "40px",
+                height: "40px",
                 borderRadius: "50%",
                 background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
                 color: "#fff",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                fontSize: "18px",
+                fontSize: "14px",
                 fontWeight: 700,
               }}
             >
               {getInitials(review.reviewer.name)}
             </div>
           )}
-          <div style={{ textAlign: "center" }}>
-            <div
-              style={{ fontSize: "15px", fontWeight: 600, color: "#1a1a2e" }}
-            >
+          <div style={{ textAlign: "left" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>
               {review.reviewer.name}
             </div>
-            <div style={{ fontSize: "13px", color: "#6b7094", marginTop: "3px" }}>
-              {[review.reviewer.title, review.reviewer.company]
-                .filter(Boolean)
-                .join(", ")}
+            <div style={{ fontSize: "11px", color: "#94a3b8" }}>
+              {[review.reviewer.title, review.reviewer.company].filter(Boolean).join(", ")}
             </div>
           </div>
         </div>
@@ -326,62 +273,31 @@ export function EmbedCarousel({
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          padding: "14px 36px",
-          borderTop: "1px solid rgba(0,0,0,0.05)",
-          background: "#faf8f6",
+          padding: "12px 28px",
+          borderTop: "1px solid rgba(241,245,249,1)",
+          background: "rgba(248,250,252,0.5)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-          {/* Dots */}
-          {reviews.length > 1 && (
-            <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-              {reviews.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => goToSlide(i)}
-                  style={{
-                    width: i === current ? "24px" : "6px",
-                    height: "6px",
-                    borderRadius: "3px",
-                    backgroundColor:
-                      i === current ? primaryColor : "rgba(26,26,46,0.15)",
-                    border: "none",
-                    cursor: "pointer",
-                    padding: 0,
-                    transition: "all 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
-                  }}
-                />
-              ))}
-            </div>
-          )}
-
-          {/* Brand */}
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: "6px",
-              paddingLeft: reviews.length > 1 ? "12px" : "0",
-              borderLeft:
-                reviews.length > 1 ? "1px solid rgba(0,0,0,0.08)" : "none",
-            }}
-          >
-            {brand?.logoUrl && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={brand.logoUrl}
-                alt={brand.companyName}
-                width={18}
-                height={18}
-                style={{ borderRadius: "4px", objectFit: "contain" }}
-              />
-            )}
-            <span
-              style={{ fontSize: "11px", fontWeight: 600, color: "#9a9ab0" }}
-            >
-              {brand?.companyName}
-            </span>
-          </div>
+        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+          {reviews.length > 1 && reviews.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => {
+                setIsAnimating(true);
+                setTimeout(() => { setCurrent(i); setIsAnimating(false); }, 300);
+              }}
+              style={{
+                width: i === current ? "20px" : "6px",
+                height: "6px",
+                borderRadius: "3px",
+                backgroundColor: i === current ? primaryColor : "rgba(15,23,42,0.12)",
+                border: "none",
+                cursor: "pointer",
+                padding: 0,
+                transition: "all 0.3s ease",
+              }}
+            />
+          ))}
         </div>
 
         {showWatermark ? (
@@ -391,23 +307,23 @@ export function EmbedCarousel({
             rel="noopener noreferrer"
             onClick={() => trackHookEvent(review, "click")}
             style={{
-              fontSize: "11px",
-              color: "#10B981",
+              fontSize: "10px",
+              color: primaryColor,
               textDecoration: "none",
-              fontWeight: 600,
+              fontWeight: 500,
               display: "flex",
               alignItems: "center",
-              gap: "4px",
+              gap: "3px",
             }}
           >
-            <span style={{ fontSize: "8px" }}>✦</span> Powered by ProofPost
+            <span style={{ fontSize: "8px" }}>✦</span> ProofPost Widget
           </a>
         ) : (
           <a
             href="https://proofpst.com"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ fontSize: "10px", color: "#ccc", textDecoration: "none" }}
+            style={{ fontSize: "10px", color: "#cbd5e1", textDecoration: "none" }}
           >
             ✦ ProofPost
           </a>
@@ -416,21 +332,15 @@ export function EmbedCarousel({
 
       {/* Progress bar */}
       {reviews.length > 1 && (
-        <div
-          style={{
-            height: "2px",
-            background: "rgba(0,0,0,0.03)",
-            overflow: "hidden",
-          }}
-        >
+        <div style={{ height: "2px", background: "rgba(241,245,249,1)", overflow: "hidden" }}>
           <div
             key={current}
             style={{
               height: "100%",
               backgroundColor: primaryColor,
-              animation: paused ? "none" : "pp-progress 5s linear forwards",
+              opacity: 0.4,
+              animation: paused ? "none" : "pp-progress 3.5s linear forwards",
               width: "0%",
-              opacity: 0.5,
             }}
           />
         </div>
