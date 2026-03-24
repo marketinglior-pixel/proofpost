@@ -48,38 +48,22 @@ function getContrastColor(hex: string): string {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-  return luminance > 0.5 ? "#1a1a2e" : "#FFFFFF";
+  return luminance > 0.5 ? "#0f172a" : "#FFFFFF";
+}
+
+function lightenColor(hex: string, amount: number): string {
+  const r = Math.min(255, parseInt(hex.slice(1, 3), 16) + amount);
+  const g = Math.min(255, parseInt(hex.slice(3, 5), 16) + amount);
+  const b = Math.min(255, parseInt(hex.slice(5, 7), 16) + amount);
+  return `#${r.toString(16).padStart(2, "0")}${g.toString(16).padStart(2, "0")}${b.toString(16).padStart(2, "0")}`;
 }
 
 function getInitials(name: string): string {
-  return name
-    .split(" ")
-    .map((w) => w[0])
-    .join("")
-    .toUpperCase()
-    .slice(0, 2);
-}
-
-// Stars component
-function Stars() {
-  return React.createElement(
-    "div",
-    { style: { display: "flex", gap: "8px" } },
-    [1, 2, 3, 4, 5].map((i) =>
-      React.createElement(
-        "span",
-        {
-          key: i,
-          style: { fontSize: 32, color: "#FBBF24" },
-        },
-        "\u2605"
-      )
-    )
-  );
+  return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 }
 
 // Powered by footer
-function PoweredBy() {
+function PoweredBy(textColor: string) {
   return React.createElement(
     "div",
     {
@@ -88,49 +72,68 @@ function PoweredBy() {
         alignItems: "center",
         justifyContent: "center",
         gap: "8px",
-        paddingTop: "20px",
       },
     },
-    React.createElement("span", { style: { fontSize: 16, color: "#10B981" } }, "\u2726"),
     React.createElement(
-      "span",
-      { style: { fontSize: 16, color: "#94a3b8", fontWeight: 500 } },
-      "powered by proofpst.com"
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          gap: "6px",
+          padding: "8px 16px",
+          borderRadius: "20px",
+          backgroundColor: "rgba(255,255,255,0.1)",
+        },
+      },
+      React.createElement("span", { style: { fontSize: 14, color: "#10B981" } }, "\u2726"),
+      React.createElement(
+        "span",
+        { style: { fontSize: 14, color: textColor, opacity: 0.5, fontWeight: 500 } },
+        "proofpst.com"
+      )
     )
   );
 }
 
-// Slide dots
-function SlideDots(current: number) {
+// Stars component
+function Stars(size: number) {
   return React.createElement(
     "div",
-    { style: { display: "flex", gap: "12px", alignItems: "center" } },
-    [1, 2, 3].map((n) =>
-      React.createElement("div", {
-        key: n,
-        style: {
-          width: n === current ? "48px" : "12px",
-          height: "12px",
-          borderRadius: "6px",
-          backgroundColor: n === current ? "#FBBF24" : "rgba(255,255,255,0.3)",
-        },
-      })
+    { style: { display: "flex", gap: "6px" } },
+    [1, 2, 3, 4, 5].map((i) =>
+      React.createElement(
+        "span",
+        { key: i, style: { fontSize: size, color: "#FBBF24" } },
+        "\u2605"
+      )
     )
   );
 }
 
-// Avatar (photo or initials)
-function Avatar(reviewer: ReviewerData, size: number) {
+// Avatar with brand border
+function Avatar(reviewer: ReviewerData, size: number, borderColor: string) {
   if (reviewer.photoUrl) {
-    return React.createElement("img", {
-      src: reviewer.photoUrl,
-      width: size,
-      height: size,
-      style: {
-        borderRadius: "50%",
-        objectFit: "cover",
+    return React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          width: size + 8,
+          height: size + 8,
+          borderRadius: "50%",
+          background: `linear-gradient(135deg, ${borderColor}, #FBBF24)`,
+          alignItems: "center",
+          justifyContent: "center",
+        },
       },
-    });
+      React.createElement("img", {
+        src: reviewer.photoUrl,
+        width: size,
+        height: size,
+        style: { borderRadius: "50%", objectFit: "cover" },
+      })
+    );
   }
 
   return React.createElement(
@@ -143,9 +146,9 @@ function Avatar(reviewer: ReviewerData, size: number) {
         width: size,
         height: size,
         borderRadius: "50%",
-        backgroundColor: "#FBBF24",
-        color: "#1a1a2e",
-        fontSize: size * 0.4,
+        background: `linear-gradient(135deg, ${borderColor}, ${lightenColor(borderColor, 40)})`,
+        color: "#fff",
+        fontSize: size * 0.38,
         fontWeight: 700,
       },
     },
@@ -153,13 +156,29 @@ function Avatar(reviewer: ReviewerData, size: number) {
   );
 }
 
-// ========== SLIDE 1: Hook Card ==========
-function SlideOne(
-  slide: SlideData,
-  brand: BrandData,
-  _reviewer: ReviewerData
-) {
+// Slide dots
+function SlideDots(current: number, activeColor: string, inactiveColor: string) {
+  return React.createElement(
+    "div",
+    { style: { display: "flex", gap: "10px", alignItems: "center" } },
+    [1, 2, 3].map((n) =>
+      React.createElement("div", {
+        key: n,
+        style: {
+          width: n === current ? "44px" : "12px",
+          height: "12px",
+          borderRadius: "6px",
+          backgroundColor: n === current ? activeColor : inactiveColor,
+        },
+      })
+    )
+  );
+}
+
+// ========== SLIDE 1: Hook Card (LinkedIn-inspired) ==========
+function SlideOne(slide: SlideData, brand: BrandData, _reviewer: ReviewerData) {
   const textColor = getContrastColor(brand.primaryColor);
+  const gradientEnd = lightenColor(brand.primaryColor, -30);
 
   return React.createElement(
     "div",
@@ -170,26 +189,52 @@ function SlideOne(
         justifyContent: "space-between",
         width: SLIDE_WIDTH,
         height: SLIDE_HEIGHT,
-        backgroundColor: brand.primaryColor,
+        background: `linear-gradient(145deg, ${brand.primaryColor} 0%, ${gradientEnd} 100%)`,
         padding: "80px",
         fontFamily: "Inter",
+        position: "relative",
+        overflow: "hidden",
       },
     },
-    // Top: Logo
+    // Decorative circle top-right
+    React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: "-120px",
+        right: "-120px",
+        width: "400px",
+        height: "400px",
+        borderRadius: "50%",
+        backgroundColor: "rgba(255,255,255,0.06)",
+      },
+    }),
+    // Decorative circle bottom-left
+    React.createElement("div", {
+      style: {
+        position: "absolute",
+        bottom: "-80px",
+        left: "-80px",
+        width: "300px",
+        height: "300px",
+        borderRadius: "50%",
+        backgroundColor: "rgba(255,255,255,0.04)",
+      },
+    }),
+    // Top: Logo + Company
     React.createElement(
       "div",
-      { style: { display: "flex", alignItems: "center", gap: "16px" } },
+      { style: { display: "flex", alignItems: "center", gap: "16px", position: "relative" } },
       brand.logoUrl
         ? React.createElement("img", {
             src: brand.logoUrl,
-            width: 48,
-            height: 48,
-            style: { borderRadius: "12px", objectFit: "contain" },
+            width: 52,
+            height: 52,
+            style: { borderRadius: "14px", objectFit: "contain" },
           })
         : null,
       React.createElement(
         "span",
-        { style: { fontSize: 26, fontWeight: 700, color: textColor, opacity: 0.7 } },
+        { style: { fontSize: 24, fontWeight: 700, color: textColor, opacity: 0.8 } },
         brand.companyName
       )
     ),
@@ -200,80 +245,102 @@ function SlideOne(
         style: {
           display: "flex",
           flexDirection: "column",
-          gap: "32px",
+          gap: "36px",
           flex: 1,
           justifyContent: "center",
+          position: "relative",
         },
       },
-      // Divider line
+      // Accent line
       React.createElement("div", {
         style: {
-          width: "60px",
-          height: "4px",
-          backgroundColor: "#FBBF24",
-          borderRadius: "2px",
+          width: "64px",
+          height: "5px",
+          borderRadius: "3px",
+          background: "linear-gradient(90deg, #FBBF24, #F59E0B)",
         },
       }),
+      // Heading
       React.createElement(
         "h1",
         {
           style: {
-            fontSize: 64,
+            fontSize: 68,
             fontWeight: 700,
             color: textColor,
-            lineHeight: 1.15,
+            lineHeight: 1.12,
             margin: 0,
+            letterSpacing: "-0.02em",
           },
         },
         slide.heading
       ),
+      // Body
       React.createElement(
         "p",
         {
           style: {
-            fontSize: 32,
+            fontSize: 30,
             color: textColor,
             opacity: 0.7,
             lineHeight: 1.5,
             margin: 0,
+            maxWidth: "85%",
           },
         },
         slide.body
       ),
-      // Swipe hint
+      // Swipe hint with arrow
       React.createElement(
         "div",
         {
           style: {
             display: "flex",
             alignItems: "center",
-            gap: "8px",
-            marginTop: "16px",
+            gap: "12px",
+            marginTop: "8px",
           },
         },
         React.createElement(
-          "span",
-          { style: { fontSize: 22, color: "#FBBF24", fontWeight: 600 } },
-          "Swipe to see the proof \u2192"
+          "div",
+          {
+            style: {
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
+              padding: "12px 24px",
+              borderRadius: "30px",
+              backgroundColor: "rgba(251,191,36,0.15)",
+              border: "1px solid rgba(251,191,36,0.3)",
+            },
+          },
+          React.createElement(
+            "span",
+            { style: { fontSize: 20, color: "#FBBF24", fontWeight: 600 } },
+            "Swipe to see the proof \u2192"
+          )
         )
       )
     ),
     // Bottom: Dots + Powered by
     React.createElement(
       "div",
-      { style: { display: "flex", flexDirection: "column", gap: "12px" } },
-      SlideDots(1),
-      PoweredBy()
+      {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          position: "relative",
+        },
+      },
+      SlideDots(1, "#FBBF24", "rgba(255,255,255,0.2)"),
+      PoweredBy(textColor)
     )
   );
 }
 
-// ========== SLIDE 2: Testimonial Card ==========
-function SlideTwo(
-  slide: SlideData,
-  brand: BrandData,
-  reviewer: ReviewerData
-) {
+// ========== SLIDE 2: Testimonial Card (Instagram-inspired) ==========
+function SlideTwo(slide: SlideData, brand: BrandData, reviewer: ReviewerData) {
   return React.createElement(
     "div",
     {
@@ -283,13 +350,54 @@ function SlideTwo(
         justifyContent: "space-between",
         width: SLIDE_WIDTH,
         height: SLIDE_HEIGHT,
-        backgroundColor: "#FAFAF8",
+        backgroundColor: "#FAFBFC",
         padding: "80px",
         fontFamily: "Inter",
+        position: "relative",
+        overflow: "hidden",
       },
     },
-    // Top: Stars
-    Stars(),
+    // Subtle decorative gradient corner
+    React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: "0",
+        right: "0",
+        width: "500px",
+        height: "500px",
+        background: `radial-gradient(circle at top right, ${brand.primaryColor}10 0%, transparent 70%)`,
+      },
+    }),
+    // Top: Stars + Brand
+    React.createElement(
+      "div",
+      {
+        style: {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          position: "relative",
+        },
+      },
+      Stars(36),
+      React.createElement(
+        "div",
+        { style: { display: "flex", alignItems: "center", gap: "10px" } },
+        brand.logoUrl
+          ? React.createElement("img", {
+              src: brand.logoUrl,
+              width: 32,
+              height: 32,
+              style: { borderRadius: "8px", objectFit: "contain" },
+            })
+          : null,
+        React.createElement(
+          "span",
+          { style: { fontSize: 18, fontWeight: 600, color: "#94a3b8" } },
+          brand.companyName
+        )
+      )
+    ),
     // Center: Quote
     React.createElement(
       "div",
@@ -300,38 +408,41 @@ function SlideTwo(
           gap: "40px",
           flex: 1,
           justifyContent: "center",
+          position: "relative",
         },
       },
-      // Large quote mark
+      // Large decorative quote mark
       React.createElement(
         "span",
         {
           style: {
-            fontSize: 120,
+            fontSize: 160,
             color: brand.primaryColor,
-            opacity: 0.2,
-            lineHeight: 0.5,
-            marginBottom: "-20px",
+            opacity: 0.1,
+            lineHeight: 0.4,
+            fontFamily: "Georgia, serif",
+            marginBottom: "-30px",
           },
         },
         "\u201C"
       ),
-      // Quote text
+      // Quote text - hero sized
       React.createElement(
         "p",
         {
           style: {
-            fontSize: 38,
+            fontSize: 42,
             fontWeight: 400,
-            color: "#1a1a2e",
-            lineHeight: 1.5,
+            color: "#0f172a",
+            lineHeight: 1.45,
             margin: 0,
             fontStyle: "italic",
+            letterSpacing: "-0.01em",
           },
         },
         slide.body
       ),
-      // Reviewer info
+      // Reviewer info with bordered avatar
       React.createElement(
         "div",
         {
@@ -339,27 +450,27 @@ function SlideTwo(
             display: "flex",
             alignItems: "center",
             gap: "20px",
-            marginTop: "16px",
+            marginTop: "20px",
           },
         },
-        Avatar(reviewer, 64),
+        Avatar(reviewer, 72, brand.primaryColor),
         React.createElement(
           "div",
           { style: { display: "flex", flexDirection: "column", gap: "4px" } },
           React.createElement(
             "span",
-            { style: { fontSize: 24, fontWeight: 700, color: "#1a1a2e" } },
+            { style: { fontSize: 26, fontWeight: 700, color: "#0f172a" } },
             reviewer.name
           ),
           React.createElement(
             "span",
-            { style: { fontSize: 20, color: "#6b7094" } },
+            { style: { fontSize: 20, color: "#64748b" } },
             `${reviewer.title}${reviewer.company ? `, ${reviewer.company}` : ""}`
           )
         )
       )
     ),
-    // Bottom: Brand + dots
+    // Bottom: Dots + Powered by
     React.createElement(
       "div",
       {
@@ -367,59 +478,19 @@ function SlideTwo(
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          position: "relative",
         },
       },
-      // Brand
-      React.createElement(
-        "div",
-        { style: { display: "flex", alignItems: "center", gap: "12px" } },
-        brand.logoUrl
-          ? React.createElement("img", {
-              src: brand.logoUrl,
-              width: 36,
-              height: 36,
-              style: { borderRadius: "8px", objectFit: "contain" },
-            })
-          : null,
-        React.createElement(
-          "span",
-          { style: { fontSize: 20, fontWeight: 600, color: "#6b7094" } },
-          brand.companyName
-        )
-      ),
-      // Dots
-      React.createElement(
-        "div",
-        { style: { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "12px" } },
-        React.createElement(
-          "div",
-          { style: { display: "flex", gap: "10px", alignItems: "center" } },
-          [1, 2, 3].map((n) =>
-            React.createElement("div", {
-              key: n,
-              style: {
-                width: n === 2 ? "40px" : "10px",
-                height: "10px",
-                borderRadius: "5px",
-                backgroundColor:
-                  n === 2 ? brand.primaryColor : "rgba(26,26,46,0.15)",
-              },
-            })
-          )
-        ),
-        PoweredBy()
-      )
+      SlideDots(2, brand.primaryColor, "rgba(15,23,42,0.1)"),
+      PoweredBy("#0f172a")
     )
   );
 }
 
-// ========== SLIDE 3: CTA Card ==========
-function SlideThree(
-  slide: SlideData,
-  brand: BrandData,
-  _reviewer: ReviewerData
-) {
+// ========== SLIDE 3: CTA Card (Premium) ==========
+function SlideThree(slide: SlideData, brand: BrandData, _reviewer: ReviewerData) {
   const textColor = getContrastColor(brand.secondaryColor);
+  const gradientEnd = lightenColor(brand.secondaryColor, -25);
 
   return React.createElement(
     "div",
@@ -431,11 +502,38 @@ function SlideThree(
         alignItems: "center",
         width: SLIDE_WIDTH,
         height: SLIDE_HEIGHT,
-        backgroundColor: brand.secondaryColor,
+        background: `linear-gradient(160deg, ${brand.secondaryColor} 0%, ${gradientEnd} 100%)`,
         padding: "80px",
         fontFamily: "Inter",
+        position: "relative",
+        overflow: "hidden",
       },
     },
+    // Decorative elements
+    React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        width: "600px",
+        height: "600px",
+        borderRadius: "50%",
+        backgroundColor: "rgba(255,255,255,0.04)",
+        transform: "translate(-50%, -50%)",
+      },
+    }),
+    React.createElement("div", {
+      style: {
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        width: "400px",
+        height: "400px",
+        borderRadius: "50%",
+        backgroundColor: "rgba(255,255,255,0.03)",
+        transform: "translate(-50%, -50%)",
+      },
+    }),
     // Top spacer
     React.createElement("div", { style: { display: "flex" } }),
     // Center: CTA content
@@ -448,61 +546,69 @@ function SlideThree(
           alignItems: "center",
           gap: "40px",
           textAlign: "center",
+          position: "relative",
         },
       },
+      // Logo
       brand.logoUrl
         ? React.createElement("img", {
             src: brand.logoUrl,
-            width: 80,
-            height: 80,
-            style: { borderRadius: "16px", objectFit: "contain" },
+            width: 88,
+            height: 88,
+            style: { borderRadius: "20px", objectFit: "contain" },
           })
         : null,
+      // Heading
       React.createElement(
         "h2",
         {
           style: {
-            fontSize: 52,
+            fontSize: 56,
             fontWeight: 700,
             color: textColor,
             margin: 0,
-            lineHeight: 1.2,
+            lineHeight: 1.15,
+            letterSpacing: "-0.02em",
           },
         },
         slide.heading
       ),
+      // Body
       React.createElement(
         "p",
         {
           style: {
-            fontSize: 28,
+            fontSize: 26,
             color: textColor,
             opacity: 0.6,
             margin: 0,
             lineHeight: 1.5,
+            maxWidth: "80%",
           },
         },
         slide.body
       ),
-      // CTA Button
+      // CTA Button - premium style
       React.createElement(
         "div",
         {
           style: {
             display: "flex",
-            backgroundColor: "#FBBF24",
-            padding: "24px 56px",
-            borderRadius: "14px",
-            marginTop: "16px",
+            background: "linear-gradient(135deg, #FBBF24, #F59E0B)",
+            padding: "26px 64px",
+            borderRadius: "16px",
+            marginTop: "12px",
+            boxShadow: "0 8px 32px rgba(251,191,36,0.3)",
           },
         },
         React.createElement(
           "span",
           {
             style: {
-              color: "#1a1a2e",
+              color: "#0f172a",
               fontSize: 28,
               fontWeight: 700,
+              letterSpacing: "-0.01em",
             },
           },
           `Visit ${brand.companyName}`
@@ -512,33 +618,23 @@ function SlideThree(
     // Bottom: Dots + Powered by
     React.createElement(
       "div",
-      { style: { display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" } },
-      React.createElement(
-        "div",
-        { style: { display: "flex", gap: "10px", alignItems: "center" } },
-        [1, 2, 3].map((n) =>
-          React.createElement("div", {
-            key: n,
-            style: {
-              width: n === 3 ? "40px" : "10px",
-              height: "10px",
-              borderRadius: "5px",
-              backgroundColor: n === 3 ? "#FBBF24" : "rgba(255,255,255,0.2)",
-            },
-          })
-        )
-      ),
-      PoweredBy()
+      {
+        style: {
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "16px",
+          position: "relative",
+        },
+      },
+      SlideDots(3, "#FBBF24", "rgba(255,255,255,0.2)"),
+      PoweredBy(textColor)
     )
   );
 }
 
-// ========== BANNER: Website Social Proof Banner (1200x628) ==========
-function BannerSlide(
-  slide: SlideData,
-  brand: BrandData,
-  reviewer: ReviewerData
-) {
+// ========== BANNER: Social Proof Banner (1200x628) ==========
+function BannerSlide(slide: SlideData, brand: BrandData, reviewer: ReviewerData) {
   const textColor = getContrastColor(brand.primaryColor);
 
   return React.createElement(
@@ -549,9 +645,10 @@ function BannerSlide(
         width: BANNER_WIDTH,
         height: BANNER_HEIGHT,
         fontFamily: "Inter",
+        overflow: "hidden",
       },
     },
-    // Left side: Quote + Reviewer (~60%)
+    // Left: Quote + Reviewer (~58%)
     React.createElement(
       "div",
       {
@@ -559,63 +656,47 @@ function BannerSlide(
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          width: "60%",
-          padding: "48px 56px",
-          backgroundColor: "#FAFAF8",
+          width: "58%",
+          padding: "48px 52px",
+          backgroundColor: "#FAFBFC",
           gap: "24px",
+          position: "relative",
         },
       },
-      // Stars
+      // Decorative quote mark
       React.createElement(
-        "div",
-        { style: { display: "flex", gap: "4px" } },
-        [1, 2, 3, 4, 5].map((i) =>
-          React.createElement(
-            "span",
-            { key: i, style: { fontSize: 20, color: "#FBBF24" } },
-            "\u2605"
-          )
-        )
-      ),
-      // Quote mark + text
-      React.createElement(
-        "div",
+        "span",
         {
           style: {
-            display: "flex",
-            flexDirection: "column",
-            gap: "8px",
+            position: "absolute",
+            top: "20px",
+            left: "40px",
+            fontSize: 100,
+            color: brand.primaryColor,
+            opacity: 0.08,
+            fontFamily: "Georgia, serif",
+            lineHeight: 0.5,
           },
         },
-        React.createElement(
-          "span",
-          {
-            style: {
-              fontSize: 72,
-              color: brand.primaryColor,
-              opacity: 0.15,
-              lineHeight: 0.5,
-              marginBottom: "-4px",
-            },
-          },
-          "\u201C"
-        ),
-        React.createElement(
-          "p",
-          {
-            style: {
-              fontSize: 24,
-              fontWeight: 400,
-              color: "#1a1a2e",
-              lineHeight: 1.5,
-              margin: 0,
-              fontStyle: "italic",
-            },
-          },
-          slide.body
-        )
+        "\u201C"
       ),
-      // Reviewer info
+      Stars(22),
+      React.createElement(
+        "p",
+        {
+          style: {
+            fontSize: 24,
+            fontWeight: 400,
+            color: "#0f172a",
+            lineHeight: 1.5,
+            margin: 0,
+            fontStyle: "italic",
+            position: "relative",
+          },
+        },
+        slide.body
+      ),
+      // Reviewer
       React.createElement(
         "div",
         {
@@ -626,24 +707,24 @@ function BannerSlide(
             marginTop: "8px",
           },
         },
-        Avatar(reviewer, 44),
+        Avatar(reviewer, 48, brand.primaryColor),
         React.createElement(
           "div",
           { style: { display: "flex", flexDirection: "column", gap: "2px" } },
           React.createElement(
             "span",
-            { style: { fontSize: 16, fontWeight: 700, color: "#1a1a2e" } },
+            { style: { fontSize: 17, fontWeight: 700, color: "#0f172a" } },
             reviewer.name
           ),
           React.createElement(
             "span",
-            { style: { fontSize: 14, color: "#6b7094" } },
+            { style: { fontSize: 14, color: "#64748b" } },
             `${reviewer.title}${reviewer.company ? `, ${reviewer.company}` : ""}`
           )
         )
       )
     ),
-    // Right side: Brand panel (~40%)
+    // Right: Brand panel (~42%)
     React.createElement(
       "div",
       {
@@ -652,18 +733,31 @@ function BannerSlide(
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          width: "40%",
-          backgroundColor: brand.primaryColor,
+          width: "42%",
+          background: `linear-gradient(145deg, ${brand.primaryColor}, ${lightenColor(brand.primaryColor, -25)})`,
           padding: "48px 40px",
           gap: "24px",
+          position: "relative",
+          overflow: "hidden",
         },
       },
+      React.createElement("div", {
+        style: {
+          position: "absolute",
+          top: "-60px",
+          right: "-60px",
+          width: "200px",
+          height: "200px",
+          borderRadius: "50%",
+          backgroundColor: "rgba(255,255,255,0.06)",
+        },
+      }),
       brand.logoUrl
         ? React.createElement("img", {
             src: brand.logoUrl,
             width: 64,
             height: 64,
-            style: { borderRadius: "14px", objectFit: "contain" },
+            style: { borderRadius: "14px", objectFit: "contain", position: "relative" },
           })
         : null,
       React.createElement(
@@ -674,30 +768,50 @@ function BannerSlide(
             fontWeight: 700,
             color: textColor,
             textAlign: "center",
+            position: "relative",
           },
         },
         brand.companyName
       ),
-      // Divider
       React.createElement("div", {
         style: {
           width: "40px",
           height: "3px",
-          backgroundColor: "#FBBF24",
           borderRadius: "2px",
+          background: "linear-gradient(90deg, #FBBF24, #F59E0B)",
+          position: "relative",
         },
       }),
       React.createElement(
         "span",
         {
           style: {
-            fontSize: 16,
+            fontSize: 15,
             color: textColor,
-            opacity: 0.7,
+            opacity: 0.6,
             textAlign: "center",
+            position: "relative",
           },
         },
         "Trusted by real customers"
+      ),
+      React.createElement(
+        "div",
+        {
+          style: {
+            display: "flex",
+            alignItems: "center",
+            gap: "6px",
+            position: "relative",
+            marginTop: "8px",
+          },
+        },
+        React.createElement("span", { style: { fontSize: 12, color: "#10B981" } }, "\u2726"),
+        React.createElement(
+          "span",
+          { style: { fontSize: 12, color: textColor, opacity: 0.4 } },
+          "proofpst.com"
+        )
       )
     )
   );
