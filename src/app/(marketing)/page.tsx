@@ -395,29 +395,46 @@ export default function LandingPage() {
             ].map((t) => (
               <div
                 key={t.name}
-                className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-5"
+                className="rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/40"
               >
-                <div className="flex gap-0.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <span key={i} className="text-[13px] text-amber-400">★</span>
-                  ))}
-                </div>
-                <p className="text-[14px] text-slate-600 leading-relaxed italic">
-                  &ldquo;{t.quote}&rdquo;
-                </p>
-                <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={t.photo}
-                    alt={t.name}
-                    width={36}
-                    height={36}
-                    className="rounded-full object-cover"
-                  />
-                  <div>
-                    <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
-                    <p className="text-[11px] text-slate-400">{t.title}</p>
+                {/* Card content */}
+                <div className="p-7 pb-5 flex flex-col items-center text-center">
+                  <span className="text-[56px] leading-[0.5] text-emerald/15 font-serif mb-2" aria-hidden="true">&ldquo;</span>
+                  <p className="text-[15px] leading-relaxed text-slate-700 italic min-h-[52px]">
+                    {t.quote}
+                  </p>
+                  <div className="flex gap-0.5 mt-4 mb-4">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <span key={i} className="text-[14px] text-amber-400">★</span>
+                    ))}
                   </div>
+                  <div className="flex items-center gap-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={t.photo}
+                      alt={t.name}
+                      width={40}
+                      height={40}
+                      className="rounded-full object-cover"
+                    />
+                    <div className="text-left">
+                      <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
+                      <p className="text-[11px] text-slate-400">{t.title}</p>
+                    </div>
+                  </div>
+                </div>
+                {/* Bottom bar */}
+                <div className="flex items-center justify-between px-7 py-3 border-t border-slate-100 bg-slate-50/50">
+                  <div className="flex gap-1.5">
+                    <span className="w-5 h-1.5 rounded-full bg-emerald" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-900/10" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-slate-900/10" />
+                  </div>
+                  <span className="text-[10px] text-slate-300 font-medium">✦ ProofPost Widget</span>
+                </div>
+                {/* Progress bar */}
+                <div className="h-[2px] bg-slate-100">
+                  <div className="h-full w-[70%] bg-emerald/40" />
                 </div>
               </div>
             ))}
