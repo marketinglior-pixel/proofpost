@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 
 const reviews = [
   {
-    quote: "Cut our sales cycle from 45 days to 28 days. Not magic, just people stopped wasting time on data entry.",
+    quote: "Cut our sales cycle from 45 to 28 days. People stopped wasting time on data entry.",
     name: "Sarah Chen",
     title: "VP Sales, TechFlow",
     photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=100&h=100&fit=crop&crop=face",
@@ -16,13 +16,13 @@ const reviews = [
     photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "Our board asked what changed in Q3. We switched tools and people actually used it. Revenue up 31%.",
+    quote: "Board asked what changed in Q3. We switched tools, people used it. Revenue up 31%.",
     name: "Lisa Wang",
     title: "CEO, Momentic",
     photo: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face",
   },
   {
-    quote: "We tried 4 CRMs before this. Onboarding took 2 days, not 2 months. AEs actually asked to use it more.",
+    quote: "Tried 4 CRMs before this. Onboarding took 2 days, not 2 months. AEs asked for more.",
     name: "Priya Patel",
     title: "CRO, ScaleStack",
     photo: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=100&h=100&fit=crop&crop=face",
@@ -65,7 +65,7 @@ export function HeroCarousel() {
 
           {/* Quote */}
           <p
-            className="text-[16px] leading-relaxed text-slate-700 italic min-h-[72px] transition-opacity duration-300"
+            className="text-[15px] leading-relaxed text-slate-700 italic min-h-[52px] transition-opacity duration-300"
             style={{ opacity: isAnimating ? 0 : 1 }}
           >
             {r.quote}
