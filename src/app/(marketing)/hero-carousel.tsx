@@ -73,7 +73,7 @@ export function HeroCarousel() {
 
           {/* Reviewer */}
           <div
-            className="flex items-center gap-3 transition-opacity duration-300"
+            className="flex items-center gap-3 mt-4 transition-opacity duration-300"
             style={{ opacity: isAnimating ? 0 : 1 }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
