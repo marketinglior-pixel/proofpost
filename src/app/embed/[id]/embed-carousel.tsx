@@ -141,10 +141,10 @@ export function EmbedCarousel({
     return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
   }
 
-  // Detect RTL from review content
-  const hasRTL = reviews.some((r) =>
-    /[\u0590-\u05FF\u0600-\u06FF]/.test(r.quote + r.hookLine + r.reviewer.name)
-  );
+  // Detect RTL per current review (not entire widget)
+  function isReviewRTL(r: Review): boolean {
+    return /[\u0590-\u05FF\u0600-\u06FF]/.test(r.quote + r.hookLine);
+  }
 
   if (reviews.length === 0) {
     return (
@@ -155,11 +155,12 @@ export function EmbedCarousel({
   }
 
   const review = reviews[current];
+  const currentRTL = isReviewRTL(review);
 
   return (
     <div
       ref={containerRef}
-      dir={hasRTL ? "rtl" : "ltr"}
+      dir={currentRTL ? "rtl" : "ltr"}
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
@@ -169,7 +170,7 @@ export function EmbedCarousel({
         overflow: "hidden",
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 25px 50px -12px rgba(148,163,184,0.15)",
-        direction: hasRTL ? "rtl" : "ltr",
+        direction: currentRTL ? "rtl" : "ltr",
         maxWidth: "448px",
         margin: "0 auto",
       }}
