@@ -1,5 +1,6 @@
-import { Webhooks } from "@dodopayments/nextjs";
+import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import crypto from "crypto";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -9,52 +10,57 @@ const supabase = createClient(
 async function upgradeUser(email: string) {
   const { data: users } = await supabase.auth.admin.listUsers();
   const user = users?.users?.find((u) => u.email === email);
-  if (!user) {
-    console.error("User not found for email:", email);
-    return;
-  }
-  await supabase
-    .from("profiles")
-    .update({ plan: "pro", updated_at: new Date().toISOString() })
-    .eq("id", user.id);
-  console.log("User upgraded to pro:", user.id);
+  if (!user) { console.error("User not found:", email); return; }
+  await supabase.from("profiles").update({ plan: "pro", updated_at: new Date().toISOString() }).eq("id", user.id);
+  console.log("Upgraded to pro:", user.id);
 }
 
 async function downgradeUser(email: string) {
   const { data: users } = await supabase.auth.admin.listUsers();
   const user = users?.users?.find((u) => u.email === email);
   if (!user) return;
-  await supabase
-    .from("profiles")
-    .update({ plan: "free", updated_at: new Date().toISOString() })
-    .eq("id", user.id);
-  console.log("User downgraded to free:", user.id);
+  await supabase.from("profiles").update({ plan: "free", updated_at: new Date().toISOString() }).eq("id", user.id);
+  console.log("Downgraded to free:", user.id);
 }
 
-export const POST = Webhooks({
-  webhookKey: process.env.DODO_PAYMENTS_WEBHOOK_KEY!,
+function verifySignature(payload: string, signature: string, secret: string): boolean {
+  if (!secret) return false;
+  const hmac = crypto.createHmac("sha256", secret);
+  hmac.update(payload);
+  const expected = hmac.digest("hex");
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected));
+}
 
-  onPaymentSucceeded: async (payload) => {
-    console.log("Payment succeeded:", payload.data?.payment_id);
-    const email = payload.data?.customer?.email;
-    if (email) await upgradeUser(email);
-  },
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.text();
+    const signature = request.headers.get("webhook-signature") || request.headers.get("x-dodo-signature") || "";
+    const webhookKey = process.env.DODO_PAYMENTS_WEBHOOK_KEY || "";
 
-  onSubscriptionActive: async (payload) => {
-    console.log("Subscription active:", payload.data?.subscription_id);
-    const email = payload.data?.customer?.email;
-    if (email) await upgradeUser(email);
-  },
+    // Verify signature if key exists
+    if (webhookKey && webhookKey !== "placeholder_waiting_for_real_key") {
+      if (!verifySignature(body, signature, webhookKey)) {
+        return NextResponse.json({ error: "Invalid signature" }, { status: 401 });
+      }
+    }
 
-  onSubscriptionCancelled: async (payload) => {
-    console.log("Subscription cancelled:", payload.data?.subscription_id);
-    const email = payload.data?.customer?.email;
-    if (email) await downgradeUser(email);
-  },
+    const payload = JSON.parse(body);
+    const eventType = payload.type || payload.event_type || "";
+    const email = payload.data?.customer?.email || payload.customer?.email || "";
 
-  onSubscriptionExpired: async (payload) => {
-    console.log("Subscription expired:", payload.data?.subscription_id);
-    const email = payload.data?.customer?.email;
-    if (email) await downgradeUser(email);
-  },
-});
+    console.log("Dodo webhook:", eventType, email);
+
+    if (eventType.includes("payment.succeeded") || eventType.includes("subscription.active")) {
+      if (email) await upgradeUser(email);
+    }
+
+    if (eventType.includes("subscription.cancelled") || eventType.includes("subscription.expired")) {
+      if (email) await downgradeUser(email);
+    }
+
+    return NextResponse.json({ received: true });
+  } catch (error) {
+    console.error("Webhook error:", error);
+    return NextResponse.json({ error: "Webhook processing failed" }, { status: 500 });
+  }
+}
