@@ -1,7 +1,8 @@
-import { Checkout } from "@polar-sh/nextjs";
+import { Checkout } from "@dodopayments/nextjs";
 
 export const GET = Checkout({
-  accessToken: process.env.POLAR_ACCESS_TOKEN!,
-  successUrl: "https://proofpost-alpha.vercel.app/dashboard?upgraded=true",
-  server: "production",
+  bearerToken: process.env.DODO_PAYMENTS_API_KEY!,
+  returnUrl: process.env.DODO_PAYMENTS_RETURN_URL!,
+  environment: (process.env.DODO_PAYMENTS_ENVIRONMENT as "test_mode" | "live_mode") || "test_mode",
+  type: "static",
 });
