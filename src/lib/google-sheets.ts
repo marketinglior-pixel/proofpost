@@ -10,7 +10,11 @@ function getAuth() {
     return null;
   }
 
-  return new google.auth.JWT(clientEmail, undefined, privateKey, SCOPES);
+  return new google.auth.JWT({
+    email: clientEmail,
+    key: privateKey,
+    scopes: SCOPES,
+  });
 }
 
 export async function appendLeadToSheet(email: string, plan: string) {
