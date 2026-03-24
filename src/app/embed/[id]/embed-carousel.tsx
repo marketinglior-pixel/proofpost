@@ -170,6 +170,8 @@ export function EmbedCarousel({
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 25px 50px -12px rgba(148,163,184,0.15)",
         direction: hasRTL ? "rtl" : "ltr",
+        maxWidth: "448px",
+        margin: "0 auto",
       }}
     >
       {/* Card content */}
