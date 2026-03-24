@@ -22,8 +22,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Create a payment link via Dodo API
-    const res = await fetch(`${DODO_API_BASE}/payments`, {
+    // Use subscriptions endpoint for recurring products
+    const res = await fetch(`${DODO_API_BASE}/subscriptions`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.DODO_PAYMENTS_API_KEY}`,
@@ -31,9 +31,10 @@ export async function GET(request: NextRequest) {
       },
       body: JSON.stringify({
         billing: { city: "", country: "US", state: "", street: "", zipcode: "" },
-        customer: { email: email || "customer@example.com", name: "Customer" },
+        customer: { email, name: email.split("@")[0] },
+        product_id: productId,
+        quantity: 1,
         payment_link: true,
-        product_cart: [{ product_id: productId, quantity: 1 }],
         return_url: process.env.DODO_PAYMENTS_RETURN_URL || "https://proofpst.com/dashboard",
       }),
     });
@@ -42,23 +43,23 @@ export async function GET(request: NextRequest) {
 
     if (!res.ok) {
       console.error("Dodo checkout error:", data);
-      const errorCode = data.code || data.error || "";
-      let userMessage = "Checkout failed. Please try again later.";
-      if (errorCode === "MERCHANT_NOT_LIVE" || (data.message && data.message.includes("not live"))) {
-        userMessage = "Payments are being set up. Please try again later.";
-      } else if (errorCode === "Unauthorized" || res.status === 401) {
-        userMessage = "Payment system configuration error. Please contact support.";
+      const msg = data.message || data.code || "";
+      if (res.status === 401) {
+        return NextResponse.json({ error: "Payment system configuration error. Please contact support." }, { status: 401 });
       }
-      return NextResponse.json({ error: userMessage }, { status: res.status });
+      if (msg.includes("not live") || msg.includes("MERCHANT_NOT_LIVE")) {
+        return NextResponse.json({ error: "Payments are being set up. Please try again later." }, { status: 503 });
+      }
+      return NextResponse.json({ error: "Checkout failed. Please try again later." }, { status: res.status });
     }
 
     // Redirect to checkout URL
-    const checkoutUrl = data.payment_link || data.checkout_url || data.url;
+    const checkoutUrl = data.payment_link;
     if (checkoutUrl) {
       return NextResponse.redirect(checkoutUrl);
     }
 
-    return NextResponse.json({ error: "No checkout URL returned", data }, { status: 500 });
+    return NextResponse.json({ error: "No checkout URL returned" }, { status: 500 });
   } catch (error) {
     console.error("Checkout error:", error);
     return NextResponse.json({ error: "Checkout failed" }, { status: 500 });
