@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroCarousel } from "./hero-carousel";
+import { SocialProofCarousel } from "./social-proof-carousel";
 import {
   ArrowRight,
   Zap,
@@ -372,72 +373,8 @@ export default function LandingPage() {
             See what growth teams are saying after switching to ProofPost.
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-6">
-            {[
-              {
-                quote: "We had 47 five-star reviews sitting in G2, doing nothing. ProofPost turned them into conversion machines on our landing page.",
-                name: "Daniel Moreno",
-                title: "CMO, Launchpad HQ",
-                photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
-              },
-              {
-                quote: "The animated carousels stop the scroll. Our bounce rate on the pricing page dropped 18% the week we added them.",
-                name: "Emily Rhodes",
-                title: "Growth Manager, Nuvio",
-                photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face",
-              },
-              {
-                quote: "I sent collection forms to 20 customers on Monday. By Friday I had 14 reviews live on our site. Zero design work.",
-                name: "James Park",
-                title: "Founder, Crestline",
-                photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
-              },
-            ].map((t) => (
-              <div
-                key={t.name}
-                className="rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/40"
-              >
-                {/* Card content */}
-                <div className="p-7 pb-5 flex flex-col items-center text-center">
-                  <span className="text-[56px] leading-[0.5] text-emerald/15 font-serif mb-2" aria-hidden="true">&ldquo;</span>
-                  <p className="text-[15px] leading-relaxed text-slate-700 italic min-h-[52px]">
-                    {t.quote}
-                  </p>
-                  <div className="flex gap-0.5 mt-4 mb-4">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="text-[14px] text-amber-400">★</span>
-                    ))}
-                  </div>
-                  <div className="flex items-center gap-3">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={t.photo}
-                      alt={t.name}
-                      width={40}
-                      height={40}
-                      className="rounded-full object-cover"
-                    />
-                    <div className="text-left">
-                      <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
-                      <p className="text-[11px] text-slate-400">{t.title}</p>
-                    </div>
-                  </div>
-                </div>
-                {/* Bottom bar */}
-                <div className="flex items-center justify-between px-7 py-3 border-t border-slate-100 bg-slate-50/50">
-                  <div className="flex gap-1.5">
-                    <span className="w-5 h-1.5 rounded-full bg-emerald" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-900/10" />
-                    <span className="w-1.5 h-1.5 rounded-full bg-slate-900/10" />
-                  </div>
-                  <span className="text-[10px] text-slate-300 font-medium">✦ ProofPost Widget</span>
-                </div>
-                {/* Progress bar */}
-                <div className="h-[2px] bg-slate-100">
-                  <div className="h-full w-[70%] bg-emerald/40" />
-                </div>
-              </div>
-            ))}
+          <div className="flex justify-center">
+            <SocialProofCarousel />
           </div>
         </div>
       </section>
