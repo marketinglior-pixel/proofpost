@@ -11,9 +11,11 @@ import {
   Quote,
   ArrowUpRight,
   Sparkles,
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import type { Database, Json } from "@/types/database";
+import { WidgetList } from "./widget-list";
 
 type GeneratedContent = Database["public"]["Tables"]["generated_content"]["Row"];
 
@@ -59,6 +61,42 @@ export default async function DashboardPage() {
     .limit(5);
 
   const recentItems = (recentData ?? []) as GeneratedContent[];
+
+  // Widgets with content details
+  const { data: widgetsData } = await supabase
+    .from("widgets")
+    .select("id, name, content_ids, created_at")
+    .eq("user_id", user!.id)
+    .order("created_at", { ascending: false });
+
+  // Also get single content items (not in widgets) for embed
+  const { data: singleContent } = await supabase
+    .from("generated_content")
+    .select("id, llm_output, created_at")
+    .eq("user_id", user!.id)
+    .order("created_at", { ascending: false })
+    .limit(20);
+
+  const embedItems = [
+    ...(widgetsData || []).map((w) => ({
+      id: w.id,
+      name: w.name || "Widget",
+      type: "widget" as const,
+      reviewCount: (w.content_ids as string[])?.length || 0,
+      createdAt: w.created_at,
+    })),
+    ...(singleContent || []).map((c) => {
+      const llm = c.llm_output as Record<string, unknown>;
+      const reviewer = llm?.reviewer as Record<string, unknown> | undefined;
+      return {
+        id: c.id,
+        name: (llm?.hookLine as string) || "Carousel",
+        type: "single" as const,
+        reviewCount: 1,
+        createdAt: c.created_at,
+      };
+    }),
+  ];
 
   const { data: profile } = await supabase
     .from("profiles").select("plan").eq("id", user!.id).single();
@@ -141,6 +179,11 @@ export default async function DashboardPage() {
           </div>
         ))}
       </div>
+
+      {/* My Widgets */}
+      {embedItems.length > 0 && (
+        <WidgetList items={embedItems} />
+      )}
 
       {/* Two columns */}
       <div className="grid lg:grid-cols-5 gap-6">
