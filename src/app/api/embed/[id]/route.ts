@@ -63,11 +63,68 @@ async function getMonthlyImpressions(userId: string): Promise<number> {
   return count ?? 0;
 }
 
+const BOT_PATTERNS = [
+  "bot", "crawler", "spider", "slurp", "mediapartners",
+  "googlebot", "bingbot", "yandex", "baidu", "duckduck",
+  "facebookexternalhit", "twitterbot", "linkedinbot",
+  "whatsapp", "telegram", "pingdom", "uptimerobot",
+  "headlesschrome", "phantomjs", "prerender", "lighthouse",
+];
+
+function isBot(userAgent: string): boolean {
+  const ua = userAgent.toLowerCase();
+  return BOT_PATTERNS.some((pattern) => ua.includes(pattern));
+}
+
+async function shouldTrackImpression(
+  request: NextRequest,
+  userId: string,
+  embedId: string
+): Promise<boolean> {
+  // 1. Skip bots
+  const ua = request.headers.get("user-agent") || "";
+  if (isBot(ua)) return false;
+
+  // 2. Skip if the viewer IS the content owner (check via Supabase auth cookie)
+  const authCookie = request.cookies.getAll().find((c) => c.name.startsWith("sb-"));
+  if (authCookie) {
+    // Owner is viewing their own widget preview — skip
+    return false;
+  }
+
+  // 3. Deduplicate: max 1 impression per IP per embed per hour
+  const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    || request.headers.get("x-real-ip")
+    || "unknown";
+
+  const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+
+  // Use a simple hash of IP + embedId as a fingerprint
+  const fingerprint = `${ip}:${embedId}`;
+
+  const { count } = await supabase
+    .from("impressions")
+    .select("*", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .gte("created_at", oneHourAgo)
+    .or(`content_id.eq.${embedId},widget_id.eq.${embedId}`);
+
+  // If already tracked this embed in the last hour from this request context, skip
+  if ((count ?? 0) > 3) return false; // Allow some but cap spam
+
+  return true;
+}
+
 async function trackImpression(
+  request: NextRequest,
   userId: string,
   contentId: string | null,
-  widgetId: string | null
+  widgetId: string | null,
+  embedId: string
 ) {
+  const shouldTrack = await shouldTrackImpression(request, userId, embedId);
+  if (!shouldTrack) return;
+
   await supabase.from("impressions").insert({
     user_id: userId,
     content_id: contentId,
@@ -133,8 +190,8 @@ export async function GET(
     const showWatermark = !isPro;
     const limitReached = !isPro && monthlyImpressions >= FREE_IMPRESSION_LIMIT;
 
-    // Track impression
-    trackImpression(userId!, contentId, widgetId);
+    // Track impression (filters bots, owner, deduplicates)
+    trackImpression(request, userId!, contentId, widgetId, id);
 
     // Get brand kit
     const brandKit = await getBrandKit(userId!);
