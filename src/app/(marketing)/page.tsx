@@ -384,65 +384,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ TESTIMONIALS (eat your own dog food) ============ */}
-      <section className="max-w-4xl mx-auto px-6 py-24">
-        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-          What our users say.
-        </h2>
-        <p className="text-[15px] text-slate-400 text-center mb-12">
-          Yes, we use ProofPost to display our own testimonials.
-        </p>
-
-        <div className="grid sm:grid-cols-3 gap-6">
-          {/* TODO: Replace with real customer testimonials */}
-          {[
-            {
-              quote: "I used to spend 2 hours formatting testimonials for our site. Now it takes 60 seconds. The AI picks better quotes than I do.",
-              name: "Alex Rivera",
-              title: "Growth Lead, CloudMetrics",
-              photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
-            },
-            {
-              quote: "We added ProofPost carousels to our pricing page. Conversion rate went up 18% in the first month. Not kidding.",
-              name: "Jordan Lee",
-              title: "Founder, ShipFast",
-              photo: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=80&h=80&fit=crop&crop=face",
-            },
-            {
-              quote: "The animated carousels look so much better than what we had before. Clients always ask how we made them. One line of code.",
-              name: "Maya Patel",
-              title: "Marketing Director, BrightPath",
-              photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face",
-            },
-          ].map((t) => (
-            <div key={t.name} className="rounded-xl bg-white border border-slate-200 p-6 space-y-4">
-              <div className="flex gap-0.5">
-                {[1, 2, 3, 4, 5].map((i) => (
-                  <span key={i} className="text-[12px] text-amber-400">★</span>
-                ))}
-              </div>
-              <p className="text-[14px] text-slate-600 leading-relaxed italic">
-                &ldquo;{t.quote}&rdquo;
-              </p>
-              <div className="flex items-center gap-3">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={t.photo}
-                  alt=""
-                  width={36}
-                  height={36}
-                  className="rounded-full object-cover"
-                />
-                <div>
-                  <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
-                  <p className="text-[11px] text-slate-400">{t.title}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* ============ SECTION 6: COMPARISON ============ */}
       <section className="max-w-4xl mx-auto px-6 py-24">
         <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
