@@ -11,12 +11,15 @@ import {
   ArrowRight,
   Check,
   Copy,
+  Globe,
   ImageIcon,
+  Link as LinkIcon,
   Loader2,
   Palette,
   Plus,
   Sparkles,
   Star,
+  Type,
   Upload,
   Wand2,
 } from "lucide-react";
@@ -54,6 +57,9 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
   const [savingBrand, setSavingBrand] = useState(false);
 
   // Step 2: Generate
+  const [inputMode, setInputMode] = useState<"text" | "link">("text");
+  const [url, setUrl] = useState("");
+  const [extractingUrl, setExtractingUrl] = useState(false);
   const [rawInput, setRawInput] = useState("");
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerTitle, setReviewerTitle] = useState("");
@@ -146,6 +152,36 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
   }
 
   // ----- Step 2 handlers -----
+
+  async function handleExtractUrl() {
+    if (!url.trim()) {
+      toast.error("Please paste a URL");
+      return;
+    }
+    setExtractingUrl(true);
+    try {
+      const res = await fetch("/api/extract-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to extract");
+        return;
+      }
+      setRawInput(data.reviewText || "");
+      setReviewerName(data.reviewerName || "");
+      setReviewerTitle(
+        [data.reviewerTitle, data.reviewerCompany].filter(Boolean).join(", ")
+      );
+      toast.success("Post extracted!");
+    } catch {
+      toast.error("Failed to extract");
+    } finally {
+      setExtractingUrl(false);
+    }
+  }
 
   async function handleGenerate() {
     if (rawInput.trim().length < 20) {
@@ -425,32 +461,107 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
               </p>
             </div>
 
-            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Review Text
-                  </label>
-                  <button
-                    onClick={() => {
-                      setRawInput(EXAMPLE_REVIEW);
-                      setReviewerName("Sarah Chen");
-                      setReviewerTitle("VP Sales, TechFlow");
-                    }}
-                    className="text-[12px] text-emerald-dark hover:text-emerald transition-colors font-medium"
-                  >
-                    Try an example
-                  </button>
-                </div>
-                <Textarea
-                  placeholder="Paste your customer review here..."
-                  value={rawInput}
-                  onChange={(e) => setRawInput(e.target.value)}
-                  rows={5}
-                  className="resize-none border-slate-200"
-                />
-              </div>
+            {/* Mode tabs */}
+            <div className="flex gap-1 p-1 bg-slate-100 rounded-lg w-fit">
+              <button
+                onClick={() => setInputMode("link")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
+                  inputMode === "link"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                <LinkIcon className="w-3.5 h-3.5" aria-hidden="true" />
+                Paste Link
+              </button>
+              <button
+                onClick={() => setInputMode("text")}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
+                  inputMode === "text"
+                    ? "bg-white text-slate-900 shadow-sm"
+                    : "text-slate-500 hover:text-slate-700"
+                }`}
+              >
+                <Type className="w-3.5 h-3.5" aria-hidden="true" />
+                Paste Text
+              </button>
+            </div>
 
+            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+              {inputMode === "link" ? (
+                <div className="space-y-3">
+                  <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                    Post URL
+                  </label>
+                  <div className="flex gap-2">
+                    <div className="flex-1 relative">
+                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" aria-hidden="true" />
+                      <Input
+                        placeholder="https://linkedin.com/posts/..."
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        className="pl-10 h-11 border-slate-200"
+                      />
+                    </div>
+                    <Button
+                      onClick={handleExtractUrl}
+                      disabled={extractingUrl || !url.trim()}
+                      className="h-11 px-5 bg-navy hover:bg-navy-light text-white shadow-none"
+                    >
+                      {extractingUrl ? (
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Extract"
+                      )}
+                    </Button>
+                  </div>
+                  <p className="text-[11px] text-slate-400">
+                    Works with LinkedIn, Twitter/X, G2, Capterra, and more
+                  </p>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                      Review Text
+                    </label>
+                    <button
+                      onClick={() => {
+                        setRawInput(EXAMPLE_REVIEW);
+                        setReviewerName("Sarah Chen");
+                        setReviewerTitle("VP Sales, TechFlow");
+                      }}
+                      className="text-[12px] text-emerald-dark hover:text-emerald transition-colors font-medium"
+                    >
+                      Try an example
+                    </button>
+                  </div>
+                  <Textarea
+                    placeholder="Paste your customer review here..."
+                    value={rawInput}
+                    onChange={(e) => setRawInput(e.target.value)}
+                    rows={5}
+                    className="resize-none border-slate-200"
+                  />
+                </div>
+              )}
+
+              {/* Extracted text (shown in link mode after extraction) */}
+              {inputMode === "link" && rawInput && (
+                <div className="space-y-2 pt-2 border-t border-slate-100">
+                  <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                    Extracted Review
+                  </label>
+                  <Textarea
+                    value={rawInput}
+                    onChange={(e) => setRawInput(e.target.value)}
+                    rows={3}
+                    className="resize-none text-[14px] border-slate-200"
+                  />
+                </div>
+              )}
+
+              {/* Reviewer fields */}
               <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                   <label className="text-[12px] text-slate-500">
