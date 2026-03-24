@@ -158,27 +158,49 @@ export default function LandingPage() {
       </section>
 
       {/* ============ WORKS WITH ============ */}
-      <section className="border-y border-slate-100 bg-white py-8">
-        <div className="max-w-4xl mx-auto px-6">
+      <section className="bg-white py-6">
+        <div className="max-w-5xl mx-auto px-6">
           <p className="text-[11px] font-medium text-slate-300 uppercase tracking-wider text-center mb-5">
-            Works with your stack
+            One line of code. Works everywhere.
           </p>
-          <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
-            {[
-              { name: "Webflow", letter: "W" },
-              { name: "Framer", letter: "F" },
-              { name: "WordPress", letter: "WP" },
-              { name: "Shopify", letter: "S" },
-              { name: "React", letter: "R" },
-              { name: "Next.js", letter: "N" },
-            ].map((p) => (
-              <div key={p.name} className="flex items-center gap-2 text-slate-300 hover:text-slate-500 transition-colors">
-                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[11px] font-bold text-slate-400">
-                  {p.letter}
-                </div>
-                <span className="text-[13px] font-medium hidden sm:block">{p.name}</span>
-              </div>
-            ))}
+          <div className="flex items-center justify-center gap-10 sm:gap-14 flex-wrap opacity-40 hover:opacity-60 transition-opacity">
+            {/* Webflow */}
+            <svg width="90" height="20" viewBox="0 0 200 40" aria-label="Webflow">
+              <text x="0" y="30" fill="#4353FF" fontFamily="system-ui" fontWeight="700" fontSize="28">Webflow</text>
+            </svg>
+            {/* Framer */}
+            <svg width="75" height="20" viewBox="0 0 160 40" aria-label="Framer">
+              <text x="0" y="30" fill="#0055FF" fontFamily="system-ui" fontWeight="700" fontSize="28">Framer</text>
+            </svg>
+            {/* WordPress */}
+            <div className="flex items-center gap-1.5">
+              <svg width="22" height="22" viewBox="0 0 24 24" aria-label="WordPress">
+                <path fill="#21759B" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.007 17.667L7.168 8.29c.573-.03 1.088-.065 1.088-.065.512-.06.452-.812-.06-.783 0 0-1.54.121-2.535.121-.179 0-.39-.005-.61-.014C6.81 4.86 9.24 3.2 12 3.2c2.054 0 3.926.784 5.33 2.068-.034-.002-.066-.008-.1-.008-1.001 0-1.712.872-1.712 1.808 0 .84.484 1.55.998 2.39.39.675.838 1.54.838 2.79 0 .867-.334 1.872-.778 3.273l-1.02 3.408-3.563-10.63zm8.203-5.458c0 1.253-.047 2.15-.263 3.1l-2.67 7.712c2.633-1.533 4.408-4.385 4.408-7.67 0-1.53-.388-2.97-1.07-4.227.04.423.06.856.06 1.085zm-7.63 1.66l2.98 8.15c.02.044.043.085.068.123-1.098.383-2.27.59-3.495.59-.914 0-1.796-.119-2.637-.34l2.8-8.13.284-.393zm-8.6-4.636A8.751 8.751 0 0 0 3.2 12c0 3.2 1.722 5.997 4.293 7.52L3.966 9.233z"/>
+              </svg>
+              <span className="text-[14px] font-bold text-[#21759B]">WordPress</span>
+            </div>
+            {/* Shopify */}
+            <svg width="75" height="22" viewBox="0 0 160 44" aria-label="Shopify">
+              <text x="0" y="32" fill="#96BF48" fontFamily="system-ui" fontWeight="700" fontSize="28">Shopify</text>
+            </svg>
+            {/* React */}
+            <div className="flex items-center gap-1.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-label="React">
+                <circle cx="12" cy="12" r="2.2" fill="#61DAFB"/>
+                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1"/>
+                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1" transform="rotate(60 12 12)"/>
+                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1" transform="rotate(120 12 12)"/>
+              </svg>
+              <span className="text-[14px] font-bold text-[#61DAFB]">React</span>
+            </div>
+            {/* Next.js */}
+            <div className="flex items-center gap-1.5">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-label="Next.js">
+                <circle cx="12" cy="12" r="12" fill="#000"/>
+                <path d="M9.5 8v8l6.5-4z" fill="#fff"/>
+              </svg>
+              <span className="text-[14px] font-bold text-slate-900">Next.js</span>
+            </div>
           </div>
         </div>
       </section>
