@@ -205,20 +205,6 @@ export function EmbedCarousel({
           {review.quote}
         </p>
 
-        {/* Stars */}
-        <div
-          style={{
-            display: "flex",
-            gap: "2px",
-            marginTop: "16px",
-            marginBottom: "16px",
-          }}
-        >
-          {[1, 2, 3, 4, 5].map((i) => (
-            <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
-          ))}
-        </div>
-
         {/* Reviewer - horizontal layout like hero */}
         <div
           style={{

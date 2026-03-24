@@ -71,13 +71,6 @@ export function HeroCarousel() {
             {r.quote}
           </p>
 
-          {/* Stars */}
-          <div className="flex gap-0.5 mt-4 mb-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <span key={i} className="text-[14px] text-amber-400">★</span>
-            ))}
-          </div>
-
           {/* Reviewer */}
           <div
             className="flex items-center gap-3 transition-opacity duration-300"
