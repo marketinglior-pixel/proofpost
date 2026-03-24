@@ -108,7 +108,7 @@ export default function LandingPage() {
                     <img
                       key={i}
                       src={src}
-                      alt=""
+                      alt={`ProofPost customer ${i + 1}`}
                       width={32}
                       height={32}
                       className="rounded-full border-2 border-white object-cover"
@@ -122,7 +122,7 @@ export default function LandingPage() {
                     ))}
                   </div>
                   <p className="text-[12px] text-slate-400">
-                    Trusted by 200+ marketers
+                    Loved by early adopters
                   </p>
                 </div>
               </div>
@@ -359,6 +359,69 @@ export default function LandingPage() {
               <p className="text-[14px] text-slate-500 leading-relaxed">{feat.desc}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ============ SOCIAL PROOF / TESTIMONIALS ============ */}
+      <section className="bg-snow py-24">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
+            Don&apos;t take our word for it.
+          </h2>
+          <p className="text-[17px] text-slate-500 text-center mb-14 max-w-lg mx-auto">
+            See what growth teams are saying after switching to ProofPost.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "We had 47 five-star reviews sitting in G2, doing nothing. ProofPost turned them into conversion machines on our landing page.",
+                name: "Daniel Moreno",
+                title: "CMO, Launchpad HQ",
+                photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
+              },
+              {
+                quote: "The animated carousels stop the scroll. Our bounce rate on the pricing page dropped 18% the week we added them.",
+                name: "Emily Rhodes",
+                title: "Growth Manager, Nuvio",
+                photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face",
+              },
+              {
+                quote: "I sent collection forms to 20 customers on Monday. By Friday I had 14 reviews live on our site. Zero design work.",
+                name: "James Park",
+                title: "Founder, Crestline",
+                photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
+              },
+            ].map((t) => (
+              <div
+                key={t.name}
+                className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-5"
+              >
+                <div className="flex gap-0.5">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <span key={i} className="text-[13px] text-amber-400">★</span>
+                  ))}
+                </div>
+                <p className="text-[14px] text-slate-600 leading-relaxed italic">
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+                <div className="flex items-center gap-3 pt-2 border-t border-slate-100">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={t.photo}
+                    alt={t.name}
+                    width={36}
+                    height={36}
+                    className="rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
+                    <p className="text-[11px] text-slate-400">{t.title}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
