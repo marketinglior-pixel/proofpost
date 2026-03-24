@@ -5,7 +5,7 @@ import { useState, useEffect, useCallback } from "react";
 const testimonials = [
   {
     quote:
-      "We had 47 five-star reviews sitting in G2, doing nothing. ProofPost turned them into conversion machines on our landing page.",
+      "47 G2 reviews sat idle for months. ProofPost turned them into landing page conversion machines.",
     name: "Daniel Moreno",
     title: "CMO, Launchpad HQ",
     photo:
@@ -13,7 +13,7 @@ const testimonials = [
   },
   {
     quote:
-      "The animated carousels stop the scroll. Our bounce rate on the pricing page dropped 18% the week we added them.",
+      "Animated carousels stopped the scroll. Pricing page bounce rate dropped 18% in one week.",
     name: "Emily Rhodes",
     title: "Growth Manager, Nuvio",
     photo:
@@ -21,7 +21,7 @@ const testimonials = [
   },
   {
     quote:
-      "I sent collection forms to 20 customers on Monday. By Friday I had 14 reviews live on our site. Zero design work.",
+      "Sent collection forms Monday, had 14 reviews live by Friday. Zero design work needed.",
     name: "James Park",
     title: "Founder, Crestline",
     photo:
@@ -66,14 +66,6 @@ export function SocialProofCarousel() {
           >
             {t.quote}
           </p>
-
-          <div className="flex gap-0.5 mt-4 mb-4">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <span key={i} className="text-[14px] text-amber-400">
-                ★
-              </span>
-            ))}
-          </div>
 
           <div
             className="flex items-center gap-3 transition-opacity duration-300"
