@@ -17,8 +17,10 @@ import {
   Loader2,
   Palette,
   Plus,
+  Quote,
   Sparkles,
   Star,
+  Trash2,
   Type,
   Upload,
   Wand2,
@@ -64,10 +66,13 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerTitle, setReviewerTitle] = useState("");
   const [generating, setGenerating] = useState(false);
-  const [contentId, setContentId] = useState<string | null>(null);
-  const [hookLine, setHookLine] = useState("");
+  const [reviews, setReviews] = useState<
+    { contentId: string; hookLine: string; reviewerName: string }[]
+  >([]);
 
   // Step 3: Embed
+  const [embedId, setEmbedId] = useState<string | null>(null);
+  const [creatingWidget, setCreatingWidget] = useState(false);
   const [copied, setCopied] = useState(false);
 
   // ----- Step 1 handlers -----
@@ -206,10 +211,23 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
         return;
       }
 
-      setContentId(data.id);
-      setHookLine(data.llmOutput?.hookLine || "Your Carousel");
-      toast.success("Carousel generated!");
-      setStep(3);
+      setReviews((prev) => [
+        ...prev,
+        {
+          contentId: data.id,
+          hookLine: data.llmOutput?.hookLine || "Review",
+          reviewerName: data.llmOutput?.reviewer?.name || reviewerName || "Customer",
+        },
+      ]);
+
+      // Reset form for next review
+      setRawInput("");
+      setReviewerName("");
+      setReviewerTitle("");
+      setUrl("");
+
+      const count = reviews.length + 1;
+      toast.success(`Review ${count}/3 added!`);
     } catch {
       toast.error("Network error");
     } finally {
@@ -217,10 +235,48 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
     }
   }
 
+  function handleRemoveReview(contentId: string) {
+    setReviews((prev) => prev.filter((r) => r.contentId !== contentId));
+  }
+
+  async function handleContinueToEmbed() {
+    if (reviews.length === 0) return;
+
+    if (reviews.length === 1) {
+      setEmbedId(reviews[0].contentId);
+      setStep(3);
+      return;
+    }
+
+    // Multiple reviews: create a widget
+    setCreatingWidget(true);
+    try {
+      const res = await fetch("/api/widgets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "My Testimonials",
+          contentIds: reviews.map((r) => r.contentId),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to create widget");
+        return;
+      }
+      setEmbedId(data.id);
+      setStep(3);
+    } catch {
+      toast.error("Failed to create widget");
+    } finally {
+      setCreatingWidget(false);
+    }
+  }
+
   // ----- Step 3 handlers -----
 
-  const embedCode = contentId
-    ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${contentId}"></script>`
+  const embedCode = embedId
+    ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${embedId}"></script>`
     : null;
 
   async function handleCopyCode() {
@@ -589,7 +645,7 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
 
               <Button
                 onClick={handleGenerate}
-                disabled={generating || rawInput.trim().length < 20}
+                disabled={generating || rawInput.trim().length < 20 || reviews.length >= 3}
                 className="w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-lg shadow-none glow-emerald disabled:opacity-40"
               >
                 {generating ? (
@@ -599,12 +655,76 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
                   </>
                 ) : (
                   <>
-                    <Wand2 className="w-4 h-4 mr-2" />
-                    Generate Carousel
+                    <Plus className="w-4 h-4 mr-2" />
+                    {reviews.length === 0 ? "Add Review" : `Add Review (${reviews.length}/3)`}
                   </>
                 )}
               </Button>
             </div>
+
+            {/* Reviews list */}
+            {reviews.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-[13px] font-semibold text-slate-900 flex items-center gap-2">
+                    <Wand2 className="w-3.5 h-3.5 text-emerald" aria-hidden="true" />
+                    Your Carousel
+                    <span className="text-[12px] font-medium text-slate-400">
+                      ({reviews.length}/3)
+                    </span>
+                  </h3>
+                </div>
+
+                <div className="rounded-xl bg-white border border-slate-200 overflow-hidden divide-y divide-slate-100">
+                  {reviews.map((review, i) => (
+                    <div key={review.contentId} className="flex items-center gap-3 px-4 py-3">
+                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald/10 text-[11px] font-bold text-emerald-dark flex-shrink-0">
+                        {i + 1}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13px] font-medium text-slate-800 truncate">
+                          {review.hookLine}
+                        </p>
+                        <p className="text-[11px] text-slate-400 mt-0.5">
+                          {review.reviewerName}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => handleRemoveReview(review.contentId)}
+                        className="text-slate-300 hover:text-red-500 transition-colors p-1 flex-shrink-0"
+                        aria-label="Remove review"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <Button
+                  onClick={handleContinueToEmbed}
+                  disabled={creatingWidget}
+                  className="w-full h-11 bg-navy hover:bg-navy-light text-white font-medium shadow-none"
+                >
+                  {creatingWidget ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Creating widget...
+                    </>
+                  ) : (
+                    <>
+                      Get Embed Code
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </>
+                  )}
+                </Button>
+
+                {reviews.length < 3 && (
+                  <p className="text-[11px] text-slate-400 text-center">
+                    You can add up to {3 - reviews.length} more review{3 - reviews.length !== 1 ? "s" : ""}, or continue with what you have.
+                  </p>
+                )}
+              </div>
+            )}
 
             <div className="flex items-center justify-between">
               <button
@@ -616,7 +736,7 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
               <button
                 onClick={() => {
                   setStep(3);
-                  setContentId(null);
+                  setEmbedId(reviews.length === 1 ? reviews[0].contentId : null);
                 }}
                 className="text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
               >
@@ -634,11 +754,11 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
                 <Sparkles className="w-7 h-7 text-emerald-dark" aria-hidden="true" />
               </div>
               <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
-                {contentId ? "Your carousel is ready!" : "You are all set!"}
+                {embedId ? "Your carousel is ready!" : "You are all set!"}
               </h1>
               <p className="text-[15px] text-slate-500 mt-1">
-                {contentId
-                  ? "Copy the embed code and paste it into your website."
+                {embedId
+                  ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} in your carousel. Copy the embed code and paste it into your website.`
                   : "Head to your dashboard to start creating carousels."}
               </p>
             </div>
@@ -649,9 +769,9 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
                   <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
                     Embed Code
                   </span>
-                  {hookLine && (
-                    <span className="text-[12px] text-slate-500 truncate max-w-[200px]">
-                      {hookLine}
+                  {reviews.length > 0 && (
+                    <span className="text-[12px] text-slate-500">
+                      {reviews.length} review{reviews.length !== 1 ? "s" : ""}
                     </span>
                   )}
                 </div>
