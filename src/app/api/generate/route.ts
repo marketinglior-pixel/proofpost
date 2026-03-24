@@ -4,6 +4,7 @@ import { generateCarouselContent } from "@/lib/ai/generate-carousel";
 import type { ReviewerInfo } from "@/lib/ai/generate-carousel";
 import type { Database } from "@/types/database";
 import { rateLimit } from "@/lib/rate-limit";
+import { appendLeadToSheet } from "@/lib/google-sheets";
 
 type BrandKit = Database["public"]["Tables"]["brand_kits"]["Row"];
 
@@ -123,6 +124,11 @@ export async function POST(request: NextRequest) {
       .insert(savePayload as never)
       .select()
       .single();
+
+    // Log lead to Google Sheets (fire-and-forget)
+    appendLeadToSheet(user.email ?? "unknown", plan).catch((err) =>
+      console.error("Google Sheets error:", err)
+    );
 
     if (saveError) {
       console.error("Save error:", saveError);
