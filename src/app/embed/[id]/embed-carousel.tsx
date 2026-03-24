@@ -177,7 +177,7 @@ export function EmbedCarousel({
       {/* Card content */}
       <div
         style={{
-          padding: "28px 28px 20px",
+          padding: "36px 28px 20px",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
