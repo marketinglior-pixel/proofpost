@@ -14,9 +14,16 @@ const CORS_HEADERS = {
 
 const FREE_IMPRESSION_LIMIT = 500;
 
+interface HookVariant {
+  id: string;
+  text: string;
+  context: string;
+}
+
 interface LlmOutput {
   slides: unknown[];
   hookLine: string;
+  hookVariants?: HookVariant[];
   linkedinPost: string;
   reviewer: { name: string; title: string; company: string };
   reviewerPhotoUrl?: string | null;
@@ -132,11 +139,12 @@ async function trackImpression(
   });
 }
 
-function formatReview(content: { id: string; llm_output: unknown }) {
+function formatReview(content: { id: string; llm_output: unknown }, isPro: boolean) {
   const llm = content.llm_output as LlmOutput;
   return {
     id: content.id,
     hookLine: llm.hookLine,
+    hookVariants: isPro ? (llm.hookVariants || []) : [],
     quote: (llm.slides as { body: string }[])?.[1]?.body || llm.hookLine,
     reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
     reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
@@ -168,10 +176,12 @@ export async function GET(
       isWidget = true;
       widgetId = widget.id;
       userId = widget.user_id;
+      const widgetPlan = await getUserPlan(userId!);
+      const proUser = widgetPlan === "pro";
       const contentIds = widget.content_ids as string[];
       for (const cid of contentIds) {
         const content = await getContentById(cid);
-        if (content) reviews.push(formatReview(content));
+        if (content) reviews.push(formatReview(content, proUser));
       }
     } else {
       const content = await getContentById(id);
@@ -180,10 +190,12 @@ export async function GET(
       }
       userId = content.user_id;
       contentId = content.id;
-      reviews = [formatReview(content)];
+      const contentPlan = await getUserPlan(userId!);
+      const proUser = contentPlan === "pro";
+      reviews = [formatReview(content, proUser)];
     }
 
-    // Get user plan and impression count
+    // Get impression count (plan already fetched above)
     const plan = await getUserPlan(userId!);
     const monthlyImpressions = await getMonthlyImpressions(userId!);
     const isPro = plan === "pro";

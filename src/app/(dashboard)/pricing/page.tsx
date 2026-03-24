@@ -47,13 +47,18 @@ export default async function PricingPage() {
 
   const features = [
     { name: "Testimonial carousels", free: "3 / month", pro: "Unlimited" },
+    { name: "AI Hook Extraction", free: "1 hook", pro: "3 variants" },
+    { name: "A/B Hook Testing", free: false, pro: true },
+    { name: "Hook Performance Analytics", free: false, pro: true },
     { name: "Embed widgets", free: "Yes", pro: "Yes" },
     { name: "Widget impressions", free: "500 / month", pro: "Unlimited" },
+    { name: "Collection Forms", free: "1", pro: "Unlimited" },
+    { name: "Wall of Love", free: true, pro: true },
     { name: "Brand Kits", free: "1", pro: "Unlimited" },
     { name: "Remove watermark", free: false, pro: true },
     { name: "Analytics dashboard", free: false, pro: true },
+    { name: "SEO Rich Snippets", free: false, pro: true },
     { name: "PDF carousel download", free: false, pro: true },
-    { name: "Custom widget styling", free: false, pro: true },
     { name: "Priority support", free: false, pro: true },
   ];
 

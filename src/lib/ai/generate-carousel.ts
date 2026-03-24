@@ -5,6 +5,12 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+const hookVariantSchema = z.object({
+  id: z.string(),
+  text: z.string(),
+  context: z.string(),
+});
+
 export const carouselOutputSchema = z.object({
   slides: z.array(
     z.object({
@@ -16,6 +22,7 @@ export const carouselOutputSchema = z.object({
   ),
   linkedinPost: z.string(),
   hookLine: z.string(),
+  hookVariants: z.array(hookVariantSchema).optional(),
   reviewer: z.object({
     name: z.string(),
     title: z.string(),
@@ -24,6 +31,7 @@ export const carouselOutputSchema = z.object({
 });
 
 export type CarouselOutput = z.infer<typeof carouselOutputSchema>;
+export type HookVariant = z.infer<typeof hookVariantSchema>;
 
 const SYSTEM_PROMPT = `You are a world-class B2B content strategist who turns customer testimonials into high-converting LinkedIn carousel posts.
 
@@ -34,8 +42,12 @@ RULES:
 2. Slide 2 (The Proof): The strongest quote from the review showing TRANSFORMATION or RESULT. Heading under 6 words. Body (the quote) under 40 words. Footer should be "— [Reviewer Name]".
 3. Slide 3 (The CTA): Action-oriented call-to-action. Heading like "Ready for similar results?" Body: 1 short sentence.
 4. LinkedIn Post: Short, punchy (3-5 sentences) with hook, insight, and soft CTA. Line breaks between sentences. No hashtags.
-5. Hook Line: Single powerful sentence under 12 words.
-6. Reviewer: Extract or confirm reviewer name, title, and company from the provided info.
+5. Hook Line: Single powerful sentence under 12 words. This is the PRIMARY hook.
+6. Hook Variants: Generate 3 different hook variants, each under 12 words, each with a different angle:
+   - "roi" (id): Focus on measurable RESULTS and NUMBERS from the review (e.g., "Closed 23% more deals in one quarter")
+   - "pain" (id): Focus on the PROBLEM that was SOLVED (e.g., "No more 45-day sales cycles killing revenue")
+   - "trust" (id): Focus on SOCIAL PROOF and AUTHORITY (e.g., "Why 200+ sales teams made the switch")
+7. Reviewer: Extract or confirm reviewer name, title, and company from the provided info.
 
 FORMAT: Return valid JSON:
 {
@@ -46,6 +58,11 @@ FORMAT: Return valid JSON:
   ],
   "linkedinPost": "...",
   "hookLine": "...",
+  "hookVariants": [
+    { "id": "roi", "text": "...", "context": "results-focused" },
+    { "id": "pain", "text": "...", "context": "pain-point" },
+    { "id": "trust", "text": "...", "context": "social-proof" }
+  ],
   "reviewer": { "name": "...", "title": "...", "company": "..." }
 }`;
 
@@ -68,7 +85,7 @@ export async function generateCarouselContent(
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.7,
-    max_tokens: 1000,
+    max_tokens: 1200,
     response_format: { type: "json_object" },
     messages: [
       { role: "system", content: SYSTEM_PROMPT },
@@ -81,7 +98,7 @@ Raw customer review/testimonial:
 ${rawReview}
 """
 
-Generate the 3-slide carousel content and LinkedIn post. The CTA slide (Slide 3) should mention "${companyName}". Return valid JSON.`,
+Generate the 3-slide carousel content, LinkedIn post, and 3 hook variants. The CTA slide (Slide 3) should mention "${companyName}". Return valid JSON.`,
       },
     ],
   });
@@ -92,5 +109,11 @@ Generate the 3-slide carousel content and LinkedIn post. The CTA slide (Slide 3)
   }
 
   const parsed = JSON.parse(content);
+
+  // Ensure hookLine is set to the first variant if missing
+  if (!parsed.hookLine && parsed.hookVariants?.[0]) {
+    parsed.hookLine = parsed.hookVariants[0].text;
+  }
+
   return carouselOutputSchema.parse(parsed);
 }

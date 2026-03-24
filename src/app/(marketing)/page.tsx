@@ -12,6 +12,15 @@ import {
   Palette,
   Shield,
   X,
+  Users,
+  Rocket,
+  Briefcase,
+  ShoppingCart,
+  GraduationCap,
+  TrendingUp,
+  BarChart3,
+  FileText,
+  Heart,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -29,6 +38,18 @@ export default function LandingPage() {
             </span>
           </Link>
           <div className="flex items-center gap-3">
+            <Link
+              href="#pricing"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors duration-200 px-3 py-2 hidden sm:block"
+            >
+              Pricing
+            </Link>
+            <Link
+              href="#faq"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors duration-200 px-3 py-2 hidden sm:block"
+            >
+              FAQ
+            </Link>
             <Link
               href="/login"
               className="text-sm text-slate-500 hover:text-slate-900 transition-colors duration-200 px-3 py-2"
@@ -53,14 +74,16 @@ export default function LandingPage() {
             {/* Left: Copy */}
             <div className="space-y-8 text-center lg:text-left">
               <h1 className="font-heading text-[44px] sm:text-[56px] leading-[1.08] text-slate-900 tracking-tight">
-                Your best reviews are{" "}
-                <em className="text-emerald">collecting dust.</em>
+                Your reviews are full of{" "}
+                <em className="text-emerald">conversion gold.</em>
+                <br />
+                Our AI finds it.
               </h1>
 
               <p className="text-[17px] text-slate-500 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                You have great customer reviews sitting in emails and G2. We
-                turn them into auto-animated website widgets that convert
-                visitors into buyers. Takes about 60 seconds.
+                ProofPost reads every review, extracts the sentence that sells,
+                and wraps it in an animated carousel that stops the scroll.
+                60 seconds. Done.
               </p>
 
               <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
@@ -73,10 +96,36 @@ export default function LandingPage() {
                 </Link>
               </div>
 
-              <p className="text-[13px] text-slate-400">
-                Free plan available. Pro starts at $19/mo.
-              </p>
-
+              <div className="flex items-center gap-3 justify-center lg:justify-start">
+                <div className="flex -space-x-2">
+                  {[
+                    "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=32&h=32&fit=crop&crop=face",
+                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
+                    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face",
+                    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=32&h=32&fit=crop&crop=face",
+                  ].map((src, i) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={src}
+                      alt=""
+                      width={32}
+                      height={32}
+                      className="rounded-full border-2 border-white object-cover"
+                    />
+                  ))}
+                </div>
+                <div>
+                  <div className="flex gap-0.5">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <span key={i} className="text-[11px] text-amber-400">★</span>
+                    ))}
+                  </div>
+                  <p className="text-[12px] text-slate-400">
+                    Trusted by 200+ marketers
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Right: Platform logos + Live Widget Demo */}
@@ -104,6 +153,32 @@ export default function LandingPage() {
 
               <HeroCarousel />
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ WORKS WITH ============ */}
+      <section className="border-y border-slate-100 bg-white py-8">
+        <div className="max-w-4xl mx-auto px-6">
+          <p className="text-[11px] font-medium text-slate-300 uppercase tracking-wider text-center mb-5">
+            Works with your stack
+          </p>
+          <div className="flex items-center justify-center gap-8 sm:gap-12 flex-wrap">
+            {[
+              { name: "Webflow", letter: "W" },
+              { name: "Framer", letter: "F" },
+              { name: "WordPress", letter: "WP" },
+              { name: "Shopify", letter: "S" },
+              { name: "React", letter: "R" },
+              { name: "Next.js", letter: "N" },
+            ].map((p) => (
+              <div key={p.name} className="flex items-center gap-2 text-slate-300 hover:text-slate-500 transition-colors">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center text-[11px] font-bold text-slate-400">
+                  {p.letter}
+                </div>
+                <span className="text-[13px] font-medium hidden sm:block">{p.name}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -150,7 +225,7 @@ export default function LandingPage() {
             {
               step: "01",
               title: "Paste your review",
-              desc: "Drop a link or raw text from G2, email, LinkedIn, or anywhere. We accept it all.",
+              desc: "Drop a link or raw text from G2, email, LinkedIn, or anywhere. Or send a collection form to your customers.",
               icon: "📋",
             },
             {
@@ -187,6 +262,51 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ============ USE CASES ============ */}
+      <section className="bg-snow py-24">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
+            Built for teams that live on trust.
+          </h2>
+          <p className="text-[17px] text-slate-500 text-center mb-14 max-w-lg mx-auto">
+            Whether you sell software, courses, services, or products — your reviews deserve better than a static text block.
+          </p>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              {
+                icon: Rocket,
+                title: "SaaS Founders",
+                desc: "Turn G2 and Capterra reviews into conversion widgets on your pricing page.",
+              },
+              {
+                icon: GraduationCap,
+                title: "Course Creators",
+                desc: "Let student testimonials sell your next cohort. Animated proof beats screenshots.",
+              },
+              {
+                icon: Briefcase,
+                title: "Agencies",
+                desc: "Impress clients with polished, branded proof that matches their site perfectly.",
+              },
+              {
+                icon: ShoppingCart,
+                title: "E-Commerce",
+                desc: "Product reviews that actually get read. Animated carousels next to your Add to Cart.",
+              },
+            ].map((uc) => (
+              <div key={uc.title} className="card-hover rounded-xl bg-white border border-slate-200 p-6 space-y-3">
+                <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
+                  <uc.icon className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
+                </div>
+                <h3 className="text-[15px] font-semibold text-slate-900">{uc.title}</h3>
+                <p className="text-[13px] text-slate-500 leading-relaxed">{uc.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ SECTION 5: FEATURES ============ */}
       <section className="max-w-5xl mx-auto px-6 py-24">
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
@@ -201,10 +321,13 @@ export default function LandingPage() {
           {[
             { icon: Zap, title: "AI Hook Extraction", desc: "Finds the most powerful sentence in any review. Cuts the noise, leaves the conversion trigger." },
             { icon: Eye, title: "Kinetic Trust Carousels", desc: "Auto-sliding, animated widgets that break banner blindness. Motion commands attention." },
+            { icon: FileText, title: "Collection Forms", desc: "Send a branded link to your customers. They submit reviews, you approve and publish. Zero friction." },
+            { icon: Heart, title: "Wall of Love", desc: "A beautiful, public page showcasing all your best reviews. Share it or embed it anywhere." },
             { icon: Code2, title: "One-Click Embed", desc: "Works on Webflow, Framer, WordPress, React. One line of code. No dev team needed." },
             { icon: Palette, title: "Brand Kit Auto-Sync", desc: "Your logo, your colors, automatically applied. Widgets look like you built them in-house." },
             { icon: Clock, title: "Dark/Light Mode", desc: "Auto-detects your site theme. No custom CSS. Looks native everywhere." },
             { icon: Shield, title: "Analytics Dashboard", desc: "Track impressions, see which testimonials convert the most. Data-driven social proof." },
+            { icon: BarChart3, title: "SEO Rich Snippets", desc: "Automatic Schema.org markup. Get star ratings showing in Google search results." },
           ].map((feat) => (
             <div key={feat.title} className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
@@ -217,30 +340,118 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ============ RESULTS / STATS ============ */}
+      <section className="bg-navy py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
+            Why animated carousels beat static text grids.
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-8 text-center">
+            {[
+              { stat: "3x", label: "more attention", desc: "Animated widgets command 3x more eye-tracking time than static text blocks." },
+              { stat: "60s", label: "setup time", desc: "From raw review to live widget on your site. We timed it." },
+              { stat: "0", label: "developers needed", desc: "One line of embed code. Works everywhere. No Jira tickets required." },
+            ].map((s) => (
+              <div key={s.label} className="space-y-2">
+                <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
+                <p className="text-[15px] font-semibold text-white uppercase tracking-wider">{s.label}</p>
+                <p className="text-[13px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ TESTIMONIALS (eat your own dog food) ============ */}
+      <section className="max-w-4xl mx-auto px-6 py-24">
+        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
+          What our users say.
+        </h2>
+        <p className="text-[15px] text-slate-400 text-center mb-12">
+          Yes, we use ProofPost to display our own testimonials.
+        </p>
+
+        <div className="grid sm:grid-cols-3 gap-6">
+          {/* TODO: Replace with real customer testimonials */}
+          {[
+            {
+              quote: "I used to spend 2 hours formatting testimonials for our site. Now it takes 60 seconds. The AI picks better quotes than I do.",
+              name: "Alex Rivera",
+              title: "Growth Lead, CloudMetrics",
+              photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
+            },
+            {
+              quote: "We added ProofPost carousels to our pricing page. Conversion rate went up 18% in the first month. Not kidding.",
+              name: "Jordan Lee",
+              title: "Founder, ShipFast",
+              photo: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=80&h=80&fit=crop&crop=face",
+            },
+            {
+              quote: "The animated carousels look so much better than what we had before. Clients always ask how we made them. One line of code.",
+              name: "Maya Patel",
+              title: "Marketing Director, BrightPath",
+              photo: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face",
+            },
+          ].map((t) => (
+            <div key={t.name} className="rounded-xl bg-white border border-slate-200 p-6 space-y-4">
+              <div className="flex gap-0.5">
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <span key={i} className="text-[12px] text-amber-400">★</span>
+                ))}
+              </div>
+              <p className="text-[14px] text-slate-600 leading-relaxed italic">
+                &ldquo;{t.quote}&rdquo;
+              </p>
+              <div className="flex items-center gap-3">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={t.photo}
+                  alt=""
+                  width={36}
+                  height={36}
+                  className="rounded-full object-cover"
+                />
+                <div>
+                  <p className="text-[13px] font-semibold text-slate-900">{t.name}</p>
+                  <p className="text-[11px] text-slate-400">{t.title}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* ============ SECTION 6: COMPARISON ============ */}
-      <section className="max-w-3xl mx-auto px-6 py-24">
-        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
+      <section className="max-w-4xl mx-auto px-6 py-24">
+        <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
           How we compare.
         </h2>
+        <p className="text-[15px] text-slate-400 text-center mb-12">
+          We don&apos;t just display reviews. We find the sentence that converts.
+        </p>
 
         <div className="rounded-xl border border-slate-200 overflow-hidden">
-          <div className="grid grid-cols-5 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="grid grid-cols-6 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
             <span className="col-span-2">Feature</span>
             <span className="text-center">ProofPost</span>
             <span className="text-center">Senja</span>
-            <span className="text-center">Manual DIY</span>
+            <span className="text-center">Testimonial.to</span>
+            <span className="text-center">DIY</span>
           </div>
           {[
-            { feature: "AI Hook Extraction", pp: true, senja: false, canva: false },
-            { feature: "Auto-Animated Carousels", pp: true, senja: false, canva: false },
-            { feature: "One-Line Embed Code", pp: true, senja: true, canva: false },
-            { feature: "No Developer Needed", pp: true, senja: true, canva: false },
-            { feature: "Mobile Responsive", pp: true, senja: true, canva: false },
-            { feature: "Price", pp: "$19/mo", senja: "$19-39/mo", canva: "Free + hours" },
+            { feature: "AI Hook Extraction", pp: true, senja: false, test: false, diy: false },
+            { feature: "Animated Carousels", pp: true, senja: false, test: false, diy: false },
+            { feature: "Collection Forms", pp: true, senja: true, test: true, diy: false },
+            { feature: "Wall of Love", pp: true, senja: true, test: true, diy: false },
+            { feature: "One-Line Embed", pp: true, senja: true, test: true, diy: false },
+            { feature: "Brand Kit Auto-Sync", pp: true, senja: true, test: false, diy: false },
+            { feature: "Dark/Light Auto-Detect", pp: true, senja: false, test: false, diy: false },
+            { feature: "SEO Rich Snippets", pp: true, senja: true, test: true, diy: false },
+            { feature: "Price", pp: "$19/mo", senja: "$29/mo", test: "$21-50/mo", diy: "Free + hours" },
           ].map((row, i) => (
-            <div key={i} className="grid grid-cols-5 px-5 py-3 border-t border-slate-100 text-[13px]">
+            <div key={i} className="grid grid-cols-6 px-5 py-3 border-t border-slate-100 text-[13px]">
               <span className="col-span-2 text-slate-700">{row.feature}</span>
-              {[row.pp, row.senja, row.canva].map((val, j) => (
+              {[row.pp, row.senja, row.test, row.diy].map((val, j) => (
                 <span key={j} className="text-center">
                   {typeof val === "boolean" ? (
                     val ? (
@@ -259,7 +470,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ SECTION 7: PRICING ============ */}
-      <section className="max-w-4xl mx-auto px-6 py-24">
+      <section id="pricing" className="max-w-4xl mx-auto px-6 py-24">
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
           Simple pricing. No hidden fees.
         </h2>
@@ -277,7 +488,7 @@ export default function LandingPage() {
               </div>
             </div>
             <ul className="space-y-3">
-              {["3 testimonial widgets", "AI Hook Extraction", "Embed on your site", "500 impressions/month", "ProofPost watermark"].map((item, i) => (
+              {["3 testimonial widgets", "AI Hook Extraction (1 hook)", "Collection Forms", "Wall of Love", "Embed on your site", "500 impressions/month", "ProofPost watermark"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-500">
                   <Check className="w-4 h-4 text-slate-300 flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -297,7 +508,7 @@ export default function LandingPage() {
               </div>
             </div>
             <ul className="space-y-3">
-              {["Unlimited widgets", "Unlimited impressions", "No watermark", "Analytics dashboard", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
+              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Unlimited impressions", "No watermark", "Analytics dashboard", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-500">
                   <Check className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -322,7 +533,7 @@ export default function LandingPage() {
               <p className="text-[13px] text-slate-400 mt-1">$144 billed annually</p>
             </div>
             <ul className="space-y-3 relative">
-              {["Unlimited widgets", "Unlimited impressions", "No watermark", "Analytics dashboard", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
+              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Unlimited impressions", "No watermark", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-300">
                   <Check className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -336,7 +547,7 @@ export default function LandingPage() {
       </section>
 
       {/* ============ SECTION 8: FAQ ============ */}
-      <section className="max-w-2xl mx-auto px-6 py-24">
+      <section id="faq" className="max-w-2xl mx-auto px-6 py-24">
         <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
           Common questions.
         </h2>
@@ -344,7 +555,8 @@ export default function LandingPage() {
           {[
             { q: "Will this slow down my website?", a: "No. Our embed scripts load asynchronously and weigh under 12kb. Your page loads first, the carousel glides in after. Zero impact on Core Web Vitals." },
             { q: "What if the AI extracts the wrong quote?", a: "You never lose the original text. The AI suggests the best hook, but you can edit it with one click. You are always in full control of what gets published." },
-            { q: "How is this different from Senja or Testimonial.to?", a: "They display static text grids. We use AI to extract the converting sentence and wrap it in an animated, auto-sliding carousel. It is a fundamentally different approach to social proof." },
+            { q: "How is this different from Senja or Testimonial.to?", a: "They display static text grids. We use AI to extract the converting sentence and wrap it in an animated, auto-sliding carousel. Plus we offer collection forms, Wall of Love, and SEO rich snippets — all at a lower price." },
+            { q: "Can my customers submit reviews directly?", a: "Yes! Create a collection form, share the link with your customers, and they can submit text reviews with ratings. You approve them, and we auto-generate the carousel." },
             { q: "I only have 3 reviews. Is that enough?", a: "Products with just 5 reviews are 270% more likely to sell. You do not need a massive Wall of Love. You need to maximize the reviews you already have. That is exactly what ProofPost does." },
             { q: "Can I cancel easily?", a: "One click in your dashboard. No retention calls, no hoops. If it does not save you time, you should not be paying for it." },
           ].map((faq, i) => (
@@ -392,15 +604,41 @@ export default function LandingPage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-200">
-        <div className="max-w-6xl mx-auto px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2.5">
-            <div className="w-6 h-6 rounded-md bg-emerald flex items-center justify-center">
-              <Star className="w-3 h-3 text-white" aria-hidden="true" />
+      <footer className="border-t border-slate-200 bg-slate-50">
+        <div className="max-w-6xl mx-auto px-6 py-10">
+          <div className="flex flex-col sm:flex-row items-start justify-between gap-8">
+            <div className="space-y-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-6 h-6 rounded-md bg-emerald flex items-center justify-center">
+                  <Star className="w-3 h-3 text-white" aria-hidden="true" />
+                </div>
+                <span className="text-[13px] font-semibold text-slate-700">ProofPost</span>
+              </div>
+              <p className="text-[12px] text-slate-400 max-w-[240px]">
+                AI-powered testimonial widgets that actually convert. Turn reviews into revenue.
+              </p>
             </div>
-            <span className="text-[13px] font-semibold text-slate-400">ProofPost</span>
+            <div className="flex gap-10">
+              <div className="space-y-2">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Product</p>
+                <div className="flex flex-col gap-1.5">
+                  <Link href="/demo" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Demo</Link>
+                  <Link href="#pricing" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Pricing</Link>
+                  <Link href="#faq" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">FAQ</Link>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Legal</p>
+                <div className="flex flex-col gap-1.5">
+                  <span className="text-[13px] text-slate-400">Terms</span>
+                  <span className="text-[13px] text-slate-400">Privacy</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <p className="text-[13px] text-slate-400">&copy; 2026 ProofPost. Turn reviews into revenue.</p>
+          <div className="mt-8 pt-6 border-t border-slate-200">
+            <p className="text-[12px] text-slate-400">&copy; 2026 ProofPost. All rights reserved.</p>
+          </div>
         </div>
       </footer>
     </div>

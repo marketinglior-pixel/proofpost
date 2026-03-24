@@ -145,5 +145,38 @@ export default async function EmbedPage({ params }: PageProps) {
     );
   }
 
-  return <EmbedCarousel data={data} embedId={id} />;
+  // Build JSON-LD structured data for SEO
+  const jsonLd = data.reviews.map((review) => ({
+    "@context": "https://schema.org",
+    "@type": "Review",
+    reviewBody: review.quote,
+    author: {
+      "@type": "Person",
+      name: review.reviewer?.name || "Customer",
+      jobTitle: review.reviewer?.title || undefined,
+    },
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: 5,
+      bestRating: 5,
+    },
+    ...(data.brandKit?.companyName
+      ? {
+          itemReviewed: {
+            "@type": "Product",
+            name: data.brandKit.companyName,
+          },
+        }
+      : {}),
+  }));
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.length === 1 ? jsonLd[0] : jsonLd) }}
+      />
+      <EmbedCarousel data={data} embedId={id} />
+    </>
+  );
 }

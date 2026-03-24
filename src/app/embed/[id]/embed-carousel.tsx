@@ -2,9 +2,16 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 
+interface HookVariant {
+  id: string;
+  text: string;
+  context: string;
+}
+
 interface Review {
   id: string;
   hookLine: string;
+  hookVariants?: HookVariant[];
   quote: string;
   reviewer: {
     name: string;
@@ -49,15 +56,50 @@ export function EmbedCarousel({
   const showWatermark = data.showWatermark !== false;
   const limitReached = data.limitReached === true;
 
+  // A/B Testing: select hook variant for each review
+  const selectedVariants = useRef<Record<string, string>>({});
+  const getActiveHook = useCallback((review: Review): { text: string; variantId: string } => {
+    const variants = review.hookVariants || [];
+    if (variants.length === 0) {
+      return { text: review.hookLine, variantId: "default" };
+    }
+    // Sticky selection per review (random on first render)
+    if (!selectedVariants.current[review.id]) {
+      const idx = Math.floor(Math.random() * variants.length);
+      selectedVariants.current[review.id] = variants[idx].id;
+    }
+    const selectedId = selectedVariants.current[review.id];
+    const variant = variants.find((v) => v.id === selectedId) || variants[0];
+    return { text: variant.text, variantId: variant.id };
+  }, []);
+
+  // Track hook events
+  const trackHookEvent = useCallback((review: Review, eventType: "impression" | "click") => {
+    const { variantId } = getActiveHook(review);
+    fetch("/api/hook-events", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contentId: review.id,
+        widgetId: data.type === "widget" ? data.id : null,
+        hookVariantId: variantId,
+        eventType,
+      }),
+    }).catch(() => {});
+  }, [data.type, data.id, getActiveHook]);
+
   const goToNext = useCallback(() => {
     if (reviews.length <= 1) return;
     setDirection("left");
     setIsAnimating(true);
     setTimeout(() => {
-      setCurrent((prev) => (prev + 1) % reviews.length);
+      const nextIdx = (current + 1) % reviews.length;
+      setCurrent(nextIdx);
       setIsAnimating(false);
+      // Track hook impression for the new slide
+      trackHookEvent(reviews[nextIdx], "impression");
     }, 350);
-  }, [reviews.length]);
+  }, [reviews, current, trackHookEvent]);
 
   function goToSlide(index: number) {
     if (index === current) return;
@@ -72,6 +114,10 @@ export function EmbedCarousel({
   // Track impression on mount (client-side only)
   useEffect(() => {
     fetch(`/api/embed/${embedId}`).catch(() => {});
+    // Track hook variant impression for A/B testing
+    if (reviews.length > 0) {
+      trackHookEvent(reviews[0], "impression");
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -131,6 +177,7 @@ export function EmbedCarousel({
   }
 
   const review = reviews[current];
+  const activeHook = getActiveHook(review);
 
   const animStyle: React.CSSProperties = {
     transition: "all 0.45s cubic-bezier(0.4, 0, 0.2, 1)",
@@ -342,6 +389,7 @@ export function EmbedCarousel({
             href="https://proofpst.com?ref=widget"
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackHookEvent(review, "click")}
             style={{
               fontSize: "11px",
               color: "#10B981",

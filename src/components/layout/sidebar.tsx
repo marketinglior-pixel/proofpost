@@ -12,12 +12,18 @@ import {
   LogOut,
   ArrowUpRight,
   Star,
+  FileText,
+  Heart,
+  BookOpen,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Generate", href: "/generate", icon: Wand2 },
+  { label: "Forms", href: "/forms", icon: FileText },
+  { label: "Wall of Love", href: "/wall-of-love", icon: Heart },
+  { label: "Case Studies", href: "/case-studies", icon: BookOpen },
   { label: "History", href: "/history", icon: Clock },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },

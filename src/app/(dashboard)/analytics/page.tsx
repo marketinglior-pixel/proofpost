@@ -270,10 +270,10 @@ export default async function AnalyticsPage() {
               <div className="absolute top-0 right-0 w-[120px] h-[120px] rounded-full bg-emerald/10 blur-[50px]" />
               <Lock className="w-6 h-6 text-emerald/50 mx-auto relative z-10" aria-hidden="true" />
               <h3 className="text-[14px] font-semibold text-white relative z-10">
-                Unlock Full Analytics
+                Unlock A/B Hook Testing
               </h3>
               <p className="text-[12px] text-slate-400 relative z-10">
-                Daily trends, top performers, conversion tracking.
+                3 AI hook variants per review. See which converts best.
               </p>
               <Link
                 href="/pricing"
@@ -288,17 +288,175 @@ export default async function AnalyticsPage() {
               <div className="flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-emerald-dark" aria-hidden="true" />
                 <span className="text-[13px] font-semibold text-emerald-dark">
-                  Pro Insights
+                  A/B Hook Testing
                 </span>
               </div>
               <p className="text-[12px] text-slate-500">
-                Detailed analytics, conversion tracking, and A/B testing
-                are coming soon to Pro members.
+                Each review generates 3 AI hook variants. Your widgets automatically
+                rotate them and track which one gets the most clicks.
+                Check the Hook Performance section below.
               </p>
             </div>
           )}
         </div>
       </div>
+      {/* Hook Performance (Pro only) */}
+      {isPro && <HookPerformanceSection />}
+    </div>
+  );
+}
+
+async function HookPerformanceSection() {
+  // This is a server component that fetches hook event data
+  const supabaseAdmin = (await import("@supabase/supabase-js")).createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return null;
+
+  // Get user's content
+  const { data: contents } = await supabaseAdmin
+    .from("generated_content")
+    .select("id, llm_output")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(10);
+
+  if (!contents || contents.length === 0) return null;
+
+  const contentIds = contents.map((c) => c.id);
+
+  // Get hook events
+  const { data: events } = await supabaseAdmin
+    .from("hook_events")
+    .select("content_id, hook_variant_id, event_type")
+    .in("content_id", contentIds) as { data: Array<{ content_id: string; hook_variant_id: string; event_type: string }> | null };
+
+  // Aggregate
+  type VariantStats = { id: string; text: string; impressions: number; clicks: number; ctr: number };
+  type ContentPerf = { contentId: string; hookLine: string; reviewerName: string; variants: VariantStats[] };
+
+  const perfData: ContentPerf[] = contents.map((c) => {
+    const llm = c.llm_output as Record<string, unknown>;
+    const variants = (llm?.hookVariants as Array<{ id: string; text: string }>) || [];
+    const hookLine = (llm?.hookLine as string) || "Review";
+    const reviewer = llm?.reviewer as Record<string, unknown> | undefined;
+    const reviewerName = (reviewer?.name as string) || "Customer";
+
+    const contentEvents = (events || []).filter((e) => e.content_id === c.id);
+
+    const variantStats: VariantStats[] = variants.map((v) => {
+      const vEvents = contentEvents.filter((e) => e.hook_variant_id === v.id);
+      const impressions = vEvents.filter((e) => e.event_type === "impression").length;
+      const clicks = vEvents.filter((e) => e.event_type === "click").length;
+      return {
+        id: v.id,
+        text: v.text,
+        impressions,
+        clicks,
+        ctr: impressions > 0 ? Math.round((clicks / impressions) * 10000) / 100 : 0,
+      };
+    });
+
+    // Also count "default" events (for older content without variants)
+    if (variants.length === 0) {
+      const defaultEvents = contentEvents.filter((e) => e.hook_variant_id === "default");
+      const impressions = defaultEvents.filter((e) => e.event_type === "impression").length;
+      const clicks = defaultEvents.filter((e) => e.event_type === "click").length;
+      variantStats.push({
+        id: "default",
+        text: hookLine,
+        impressions,
+        clicks,
+        ctr: impressions > 0 ? Math.round((clicks / impressions) * 10000) / 100 : 0,
+      });
+    }
+
+    return { contentId: c.id, hookLine, reviewerName, variants: variantStats };
+  }).filter((p) => p.variants.some((v) => v.impressions > 0));
+
+  // Overall totals
+  const totalImpressions = perfData.reduce((s, p) => s + p.variants.reduce((s2, v) => s2 + v.impressions, 0), 0);
+  const totalClicks = perfData.reduce((s, p) => s + p.variants.reduce((s2, v) => s2 + v.clicks, 0), 0);
+  const overallCtr = totalImpressions > 0 ? Math.round((totalClicks / totalImpressions) * 10000) / 100 : 0;
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <h2 className="text-[15px] font-semibold text-slate-900 flex items-center gap-2">
+          <Sparkles className="w-4 h-4 text-emerald" aria-hidden="true" />
+          Hook A/B Performance
+        </h2>
+        {totalImpressions > 0 && (
+          <div className="text-[12px] text-slate-500">
+            {totalClicks} clicks / {totalImpressions} impressions ({overallCtr}% CTR)
+          </div>
+        )}
+      </div>
+
+      {perfData.length === 0 ? (
+        <div className="rounded-xl bg-white border border-slate-200 p-8 text-center">
+          <p className="text-[14px] text-slate-400">
+            No hook performance data yet. Data will appear once your widgets get views.
+          </p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {perfData.map((perf) => {
+            const bestVariant = perf.variants.reduce((best, v) =>
+              v.ctr > best.ctr ? v : best, perf.variants[0]);
+
+            return (
+              <div key={perf.contentId} className="rounded-xl bg-white border border-slate-200 p-5">
+                <div className="flex items-center gap-2 mb-3">
+                  <Quote className="w-4 h-4 text-emerald" aria-hidden="true" />
+                  <span className="text-[13px] font-semibold text-slate-900 truncate">
+                    {perf.reviewerName}
+                  </span>
+                </div>
+                <div className="space-y-2">
+                  {perf.variants.map((v) => {
+                    const isWinner = v.id === bestVariant.id && v.impressions > 10;
+                    return (
+                      <div
+                        key={v.id}
+                        className={`flex items-center gap-3 px-3 py-2 rounded-lg text-[13px] ${
+                          isWinner ? "bg-emerald/5 border border-emerald/20" : "bg-slate-50"
+                        }`}
+                      >
+                        <span className={`px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${
+                          v.id === "roi" ? "bg-blue-100 text-blue-600" :
+                          v.id === "pain" ? "bg-red-100 text-red-600" :
+                          v.id === "trust" ? "bg-purple-100 text-purple-600" :
+                          "bg-slate-200 text-slate-600"
+                        }`}>
+                          {v.id}
+                        </span>
+                        <span className="flex-1 text-slate-700 truncate">{v.text}</span>
+                        <span className="text-slate-400 tabular-nums text-[12px]">
+                          {v.impressions} views
+                        </span>
+                        <span className="text-slate-400 tabular-nums text-[12px]">
+                          {v.clicks} clicks
+                        </span>
+                        <span className={`font-semibold tabular-nums text-[12px] ${
+                          isWinner ? "text-emerald" : "text-slate-500"
+                        }`}>
+                          {v.ctr}%
+                          {isWinner && " ★"}
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

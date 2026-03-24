@@ -145,6 +145,138 @@ export interface Database {
         };
         Relationships: [];
       };
+      collection_forms: {
+        Row: {
+          id: string;
+          user_id: string;
+          brand_kit_id: string | null;
+          title: string;
+          description: string | null;
+          questions: Json;
+          slug: string;
+          active: boolean;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          brand_kit_id?: string | null;
+          title?: string;
+          description?: string | null;
+          questions?: Json;
+          slug: string;
+          active?: boolean;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          brand_kit_id?: string | null;
+          title?: string;
+          description?: string | null;
+          questions?: Json;
+          slug?: string;
+          active?: boolean;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      submissions: {
+        Row: {
+          id: string;
+          form_id: string;
+          user_id: string;
+          reviewer_name: string;
+          reviewer_title: string | null;
+          reviewer_company: string | null;
+          reviewer_photo_url: string | null;
+          review_text: string;
+          rating: number;
+          status: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          form_id: string;
+          user_id: string;
+          reviewer_name: string;
+          reviewer_title?: string | null;
+          reviewer_company?: string | null;
+          reviewer_photo_url?: string | null;
+          review_text: string;
+          rating?: number;
+          status?: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          form_id?: string;
+          user_id?: string;
+          reviewer_name?: string;
+          reviewer_title?: string | null;
+          reviewer_company?: string | null;
+          reviewer_photo_url?: string | null;
+          review_text?: string;
+          rating?: number;
+          status?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      case_studies: {
+        Row: {
+          id: string;
+          user_id: string;
+          content_id: string;
+          title: string;
+          body: Json;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          content_id: string;
+          title: string;
+          body: Json;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          content_id?: string;
+          title?: string;
+          body?: Json;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
+      hook_events: {
+        Row: {
+          id: string;
+          content_id: string;
+          widget_id: string | null;
+          hook_variant_id: string;
+          event_type: string;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          content_id: string;
+          widget_id?: string | null;
+          hook_variant_id: string;
+          event_type: string;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          content_id?: string;
+          widget_id?: string | null;
+          hook_variant_id?: string;
+          event_type?: string;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
