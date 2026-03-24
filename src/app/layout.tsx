@@ -23,10 +23,38 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ProofPost — Turn Reviews into LinkedIn Carousels",
+  metadataBase: new URL("https://proofpst.com"),
+  title: {
+    default: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    template: "%s | ProofPost",
+  },
   description:
-    "Transform text reviews into branded LinkedIn carousel content in seconds using AI.",
+    "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds. Transform testimonials into LinkedIn posts that convert.",
   themeColor: "#faf8f4",
+  openGraph: {
+    title: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    description:
+      "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds.",
+    type: "website",
+    locale: "en_US",
+    url: "https://proofpst.com",
+    siteName: "ProofPost",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ProofPost — Turn Reviews into LinkedIn Carousels",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    description:
+      "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds.",
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
@@ -36,7 +64,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-US"
       className={`${dmSans.variable} ${instrumentSerif.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">

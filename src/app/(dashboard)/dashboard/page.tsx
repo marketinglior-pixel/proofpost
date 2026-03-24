@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 import {
   Palette,
   ArrowRight,
@@ -30,6 +31,11 @@ export default async function DashboardPage() {
     .from("generated_content")
     .select("*", { count: "exact", head: true })
     .eq("user_id", user!.id);
+
+  // Redirect new users to onboarding
+  if (!brandKit && (contentCount ?? 0) === 0) {
+    redirect("/onboarding");
+  }
 
   const { count: widgetCount } = await supabase
     .from("widgets")
@@ -138,22 +144,6 @@ export default async function DashboardPage() {
           New Carousel
         </Link>
       </div>
-
-      {/* Brand kit CTA */}
-      {!brandKit && (
-        <Link href="/brand-kit" className="block">
-          <div className="card-hover rounded-xl border-2 border-dashed border-emerald/30 bg-emerald/5 p-5 flex items-center gap-4">
-            <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/15">
-              <Palette className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-[15px] font-semibold text-slate-900">Set Up Your Brand Kit</h3>
-              <p className="text-[13px] text-slate-500">Upload your logo and colors to start generating</p>
-            </div>
-            <ArrowRight className="w-4 h-4 text-emerald-dark" aria-hidden="true" />
-          </div>
-        </Link>
-      )}
 
       {/* Stats row */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">

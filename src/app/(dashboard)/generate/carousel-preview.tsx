@@ -8,6 +8,7 @@ import {
   ChevronLeft,
   ChevronRight,
   FileText,
+  Image,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -41,10 +42,12 @@ interface CarouselPreviewProps {
 
 export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: CarouselPreviewProps) {
   const [slideImages, setSlideImages] = useState<string[]>([]);
+  const [bannerImage, setBannerImage] = useState<string>("");
   const [loading, setLoading] = useState(true);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [downloading, setDownloading] = useState(false);
   const [downloadingPdf, setDownloadingPdf] = useState(false);
+  const [downloadingBanner, setDownloadingBanner] = useState(false);
 
   useEffect(() => {
     async function renderSlides() {
@@ -76,6 +79,29 @@ export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: Caro
       }
 
       setSlideImages(images);
+
+      // Render banner using slide 2 (testimonial) data
+      try {
+        const bannerRes = await fetch("/api/render-slide", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            slide: slides[1] || slides[0],
+            brand,
+            slideIndex: 0,
+            reviewer,
+            type: "banner",
+          }),
+        });
+
+        if (bannerRes.ok) {
+          const bannerBlob = await bannerRes.blob();
+          setBannerImage(URL.createObjectURL(bannerBlob));
+        }
+      } catch {
+        console.error("Failed to render banner");
+      }
+
       setLoading(false);
     }
 
@@ -85,6 +111,7 @@ export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: Caro
       slideImages.forEach((url) => {
         if (url) URL.revokeObjectURL(url);
       });
+      if (bannerImage) URL.revokeObjectURL(bannerImage);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slides, brand]);
@@ -157,6 +184,30 @@ export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: Caro
       );
     } finally {
       setDownloadingPdf(false);
+    }
+  }
+
+  async function handleDownloadBanner() {
+    if (!bannerImage) return;
+    setDownloadingBanner(true);
+    try {
+      const res = await fetch(bannerImage);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "proofpost-banner.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      toast.success("Banner downloaded!");
+    } catch {
+      toast.error("Failed to download banner");
+    } finally {
+      setDownloadingBanner(false);
     }
   }
 
@@ -296,6 +347,40 @@ export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: Caro
           Download PNGs
         </Button>
       </div>
+
+      {/* Website Banner */}
+      {bannerImage && (
+        <div className="space-y-3 pt-4 border-t border-cream-dark">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-ink">Website Banner</h3>
+            <Button
+              onClick={handleDownloadBanner}
+              disabled={downloadingBanner}
+              size="sm"
+              variant="outline"
+              className="h-8 border-cream-dark text-ink hover:bg-cream-dark/50 font-medium shadow-none transition-colors duration-200"
+            >
+              {downloadingBanner ? (
+                <Loader2 className="w-3.5 h-3.5 mr-1.5 animate-spin" />
+              ) : (
+                <Image className="w-3.5 h-3.5 mr-1.5" />
+              )}
+              Download Banner
+            </Button>
+          </div>
+          <div className="rounded-xl overflow-hidden border border-cream-dark shadow-sm">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={bannerImage}
+              alt="Website social proof banner"
+              className="w-full h-auto"
+            />
+          </div>
+          <p className="text-xs text-ink-muted">
+            1200 &times; 628px &mdash; Perfect for website embeds, blog posts, and social ads.
+          </p>
+        </div>
+      )}
     </div>
   );
 }
