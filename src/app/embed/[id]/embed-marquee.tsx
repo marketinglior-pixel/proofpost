@@ -103,7 +103,16 @@ function TestimonialCard({
             alt=""
             width={36}
             height={36}
-            style={{ borderRadius: "50%", objectFit: "cover" as const }}
+            style={{
+              borderRadius: "50%",
+              objectFit: "cover" as const,
+              width: "36px",
+              height: "36px",
+              minWidth: "36px",
+              minHeight: "36px",
+              maxWidth: "36px",
+              maxHeight: "36px",
+            }}
           />
         ) : (
           <div
