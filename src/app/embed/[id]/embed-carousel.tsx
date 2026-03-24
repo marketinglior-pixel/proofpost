@@ -69,6 +69,12 @@ export function EmbedCarousel({
     }, 350);
   }
 
+  // Track impression on mount (client-side only)
+  useEffect(() => {
+    fetch(`/api/embed/${embedId}`).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   // Auto-slide every 5 seconds
   useEffect(() => {
     if (paused || reviews.length <= 1) return;
