@@ -267,7 +267,7 @@ export default function LandingPage() {
           I think paying eighty dollars a month for a text widget is absurd.
         </p>
 
-        <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+        <div className="grid sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
           <div className="rounded-xl bg-white border border-slate-200 p-8 space-y-6">
             <div>
               <h3 className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">Free</h3>
@@ -288,17 +288,38 @@ export default function LandingPage() {
             </Link>
           </div>
 
+          <div className="rounded-xl bg-white border border-slate-200 p-8 space-y-6">
+            <div>
+              <h3 className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">Pro Monthly</h3>
+              <div className="mt-3 flex items-baseline gap-1">
+                <span className="text-[44px] font-bold text-slate-900 tabular-nums">$19</span>
+                <span className="text-slate-400">/mo</span>
+              </div>
+            </div>
+            <ul className="space-y-3">
+              {["Unlimited widgets", "Unlimited impressions", "No watermark", "Analytics dashboard", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
+                <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-500">
+                  <Check className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />{item}
+                </li>
+              ))}
+            </ul>
+            <Link href="/login" className="flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald">
+              Start Pro
+            </Link>
+          </div>
+
           <div className="relative rounded-xl bg-navy p-8 space-y-6 overflow-hidden">
             <div className="absolute top-0 right-0 w-[150px] h-[150px] rounded-full bg-emerald/12 blur-[60px]" />
             <div className="relative">
               <div className="flex items-center gap-2">
-                <h3 className="text-[13px] font-semibold text-emerald uppercase tracking-wider">Pro</h3>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald/20 text-emerald">Most Popular</span>
+                <h3 className="text-[13px] font-semibold text-emerald uppercase tracking-wider">Pro Annual</h3>
+                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald/20 text-emerald">Save 37%</span>
               </div>
               <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-[44px] font-bold text-white tabular-nums">$19</span>
+                <span className="text-[44px] font-bold text-white tabular-nums">$12</span>
                 <span className="text-slate-400">/mo</span>
               </div>
+              <p className="text-[13px] text-slate-400 mt-1">$144 billed annually</p>
             </div>
             <ul className="space-y-3 relative">
               {["Unlimited widgets", "Unlimited impressions", "No watermark", "Analytics dashboard", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
@@ -308,7 +329,7 @@ export default function LandingPage() {
               ))}
             </ul>
             <Link href="/login" className="relative flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald">
-              Start Pro
+              Start Pro Annual
             </Link>
           </div>
         </div>
