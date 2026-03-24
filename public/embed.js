@@ -9,8 +9,9 @@
   scripts.forEach(function (script) {
     const id = script.getAttribute("data-proofpost-id");
     const theme = script.getAttribute("data-theme") || "light";
+    const style = script.getAttribute("data-style") || "carousel"; // "carousel" or "marquee"
     const width = script.getAttribute("data-width") || "100%";
-    const maxWidth = script.getAttribute("data-max-width") || "500px";
+    const maxWidth = script.getAttribute("data-max-width") || (style === "marquee" ? "100%" : "500px");
 
     if (!id) return;
 
@@ -22,7 +23,7 @@
 
     // Create iframe
     var iframe = document.createElement("iframe");
-    iframe.src = PROOFPOST_HOST + "/embed/" + id + "?theme=" + theme;
+    iframe.src = PROOFPOST_HOST + "/embed/" + id + "?theme=" + theme + "&style=" + style;
     iframe.style.width = "100%";
     iframe.style.border = "none";
     iframe.style.borderRadius = "12px";

@@ -1,4 +1,5 @@
 import { EmbedCarousel } from "./embed-carousel";
+import { EmbedMarquee } from "./embed-marquee";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -8,6 +9,7 @@ const supabase = createClient(
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }
 
 interface LlmOutput {
@@ -17,8 +19,10 @@ interface LlmOutput {
   reviewerPhotoUrl?: string | null;
 }
 
-export default async function EmbedPage({ params }: PageProps) {
+export default async function EmbedPage({ params, searchParams }: PageProps) {
   const { id } = await params;
+  const { style } = await searchParams;
+  const widgetStyle = style || "carousel"; // "carousel" or "marquee"
 
   // Fetch directly from Supabase (no self-calling API)
   let data = null;
@@ -176,7 +180,11 @@ export default async function EmbedPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.length === 1 ? jsonLd[0] : jsonLd) }}
       />
-      <EmbedCarousel data={data} embedId={id} />
+      {widgetStyle === "marquee" ? (
+        <EmbedMarquee data={data} embedId={id} />
+      ) : (
+        <EmbedCarousel data={data} embedId={id} />
+      )}
     </>
   );
 }
