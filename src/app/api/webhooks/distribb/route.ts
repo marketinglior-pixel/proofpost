@@ -31,12 +31,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const payload = await request.json();
+    const body = await request.text();
+    console.log("Distribb webhook raw payload:", body.substring(0, 1000));
+
+    let payload: Record<string, unknown>;
+    try {
+      payload = JSON.parse(body);
+    } catch {
+      // Non-JSON payload (ping/health check) - just acknowledge
+      return NextResponse.json({ received: true, type: "ping" });
+    }
+
     console.log("Distribb webhook payload keys:", Object.keys(payload));
 
+    // Handle test/ping payloads that may not have article content
     const title = payload.title || payload.name || "";
     const rawSlug = payload.slug || payload.url_slug || "";
-    const slug = rawSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const slug = rawSlug || (typeof title === "string" ? title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") : "");
     const content_html = payload.content_html || payload.content || payload.body || payload.html || "";
     const content_markdown = payload.content_markdown || payload.markdown || null;
     const meta_description = payload.meta_description || payload.description || payload.excerpt || null;
@@ -46,12 +57,10 @@ export async function POST(request: NextRequest) {
     const author = payload.author || "ProofPost";
     const status = payload.status || "draft";
 
+    // If no title or content, treat as a test/ping and just acknowledge
     if (!title || !content_html) {
-      console.error("Distribb webhook missing fields. Payload:", JSON.stringify(payload).substring(0, 500));
-      return NextResponse.json(
-        { error: "Missing required fields: title and content_html (or content/body/html)" },
-        { status: 400 }
-      );
+      console.log("Distribb webhook: no article content, treating as test ping. Keys:", Object.keys(payload));
+      return NextResponse.json({ received: true, type: "test" });
     }
 
     const { error } = await supabase.from("blog_posts").upsert(
