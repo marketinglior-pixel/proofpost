@@ -146,24 +146,24 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {[
           { label: "Monthly Views", value: monthly, icon: Eye, color: "text-emerald", bg: "bg-emerald/10", suffix: isPro ? "" : " / 500" },
           { label: "Total Impressions", value: total, icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-50" },
           { label: "Carousels", value: carousels, icon: Layers, color: "text-violet-500", bg: "bg-violet-50" },
           { label: "Widgets", value: widgets, icon: Code2, color: "text-amber-500", bg: "bg-amber-50" },
         ].map((stat) => (
-          <div key={stat.label} className="card-hover rounded-xl bg-white border border-slate-200 p-3 sm:p-5">
+          <div key={stat.label} className="card-hover rounded-xl bg-white border border-slate-200 p-3 sm:p-5 overflow-hidden">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
-              <div className={`flex items-center justify-center w-9 h-9 rounded-lg ${stat.bg}`}>
-                <stat.icon className={`w-4 h-4 ${stat.color}`} aria-hidden="true" />
+              <div className={`flex items-center justify-center w-7 h-7 sm:w-9 sm:h-9 rounded-lg ${stat.bg}`}>
+                <stat.icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${stat.color}`} aria-hidden="true" />
               </div>
-              <ArrowUpRight className="w-3.5 h-3.5 text-slate-300" aria-hidden="true" />
+              <ArrowUpRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-slate-300 hidden sm:block" aria-hidden="true" />
             </div>
             <span className="text-[22px] sm:text-[32px] font-bold text-slate-900 tabular-nums leading-none">
               {stat.value.toLocaleString()}
             </span>
-            <p className="text-[12px] text-slate-400 mt-1.5 whitespace-nowrap">
+            <p className="text-[11px] sm:text-[12px] text-slate-400 mt-1.5 truncate">
               {stat.label}{stat.suffix}
             </p>
           </div>

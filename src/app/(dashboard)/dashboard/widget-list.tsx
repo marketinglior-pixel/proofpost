@@ -126,10 +126,10 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-[15px] font-semibold text-slate-900 flex items-center gap-2">
-          <Code2 className="w-4 h-4 text-slate-400" />
-          My Widgets
+      <div className="flex items-center justify-between gap-2">
+        <h2 className="text-[14px] sm:text-[15px] font-semibold text-slate-900 flex items-center gap-2 min-w-0">
+          <Code2 className="w-4 h-4 text-slate-400 flex-shrink-0" />
+          <span className="truncate">My Widgets</span>
         </h2>
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {hasMultipleSingles && !multiSelect && (

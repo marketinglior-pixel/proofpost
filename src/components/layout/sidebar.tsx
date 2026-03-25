@@ -123,7 +123,7 @@ export function Sidebar() {
   return (
     <>
       {/* Mobile top bar */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 px-4 h-14 bg-navy">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 px-4 h-12 bg-navy">
         <button
           onClick={() => setMobileOpen(true)}
           className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors"
