@@ -18,22 +18,12 @@ export default async function DashboardLayout({
   }
 
   return (
-    <>
+    <div className="min-h-screen bg-snow md:flex md:h-screen md:overflow-hidden">
       <PostHogIdentify userId={user.id} email={user.email} />
-      {/* Mobile layout: no flex, main is full-width block */}
-      <div className="md:hidden h-screen bg-snow">
-        <Sidebar />
-        <main className="w-full overflow-y-auto overflow-x-hidden">
-          <div className="px-4 pt-14 pb-8 min-h-full">{children}</div>
-        </main>
-      </div>
-      {/* Desktop layout: flex with sidebar */}
-      <div className="hidden md:flex h-screen overflow-hidden bg-snow">
-        <Sidebar />
-        <main className="flex-1 min-w-0 overflow-y-auto overflow-x-hidden">
-          <div className="max-w-5xl mx-auto px-8 py-10 min-h-full">{children}</div>
-        </main>
-      </div>
-    </>
+      <Sidebar />
+      <main className="w-full overflow-x-hidden md:flex-1 md:min-w-0 md:overflow-y-auto">
+        <div className="px-4 pt-14 pb-8 md:max-w-5xl md:mx-auto md:px-8 md:py-10 min-h-full">{children}</div>
+      </main>
+    </div>
   );
 }
