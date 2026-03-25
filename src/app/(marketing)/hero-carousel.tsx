@@ -57,7 +57,7 @@ export function HeroCarousel() {
         <div className="p-7 pb-5 flex flex-col items-center text-center">
           {/* Quote mark */}
           <span
-            className="text-[56px] leading-[0.5] text-emerald/15 font-serif mb-2"
+            className="text-[40px] leading-none text-emerald/15 font-serif mb-1"
             aria-hidden="true"
           >
             &ldquo;
