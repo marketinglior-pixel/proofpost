@@ -106,8 +106,8 @@ export default function TermsPage() {
           <h2>14. Contact</h2>
           <p>
             If you have questions about these Terms, contact us at{" "}
-            <a href="mailto:support@proofpost.com" className="text-emerald hover:underline">
-              support@proofpost.com
+            <a href="mailto:marketinglior@gmail.com" className="text-emerald hover:underline">
+              marketinglior@gmail.com
             </a>
             .
           </p>

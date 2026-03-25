@@ -82,8 +82,8 @@ export default function PrivacyPage() {
           </ul>
           <p>
             To exercise these rights, contact us at{" "}
-            <a href="mailto:support@proofpost.com" className="text-emerald hover:underline">
-              support@proofpost.com
+            <a href="mailto:marketinglior@gmail.com" className="text-emerald hover:underline">
+              marketinglior@gmail.com
             </a>
             .
           </p>
@@ -106,8 +106,8 @@ export default function PrivacyPage() {
           <h2>12. Contact Us</h2>
           <p>
             If you have questions about this Privacy Policy or our data practices, contact us at{" "}
-            <a href="mailto:support@proofpost.com" className="text-emerald hover:underline">
-              support@proofpost.com
+            <a href="mailto:marketinglior@gmail.com" className="text-emerald hover:underline">
+              marketinglior@gmail.com
             </a>
             .
           </p>
