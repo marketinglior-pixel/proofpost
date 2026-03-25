@@ -75,99 +75,45 @@ export default function LandingPage() {
 
       {/* ============ SECTION 1: HERO ============ */}
       <section className="relative overflow-hidden bg-snow">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.08)_0%,_transparent_60%)]" />
-        <div className="relative max-w-6xl mx-auto px-6 pt-20 pb-24">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            {/* Left: Copy */}
-            <div className="space-y-8 text-center lg:text-left">
-              <h1 className="font-heading text-[44px] sm:text-[56px] leading-[1.08] text-slate-900 tracking-tight">
-                Your reviews are full of{" "}
-                <em className="text-emerald">conversion gold.</em>
-                <br />
-                Our AI finds it.
-              </h1>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
+        <div className="relative max-w-4xl mx-auto px-6 pt-24 sm:pt-32 pb-20 sm:pb-28">
+          <div className="flex flex-col items-center text-center space-y-8">
+            <h1 className="font-heading text-[clamp(2.5rem,8vw,5rem)] leading-[1.05] text-slate-900 tracking-tight max-w-3xl">
+              Your reviews are full of{" "}
+              <span className="hand-underline sparkle">conversion gold.</span>
+              <br />
+              Our AI finds it.
+            </h1>
 
-              <p className="text-[17px] text-slate-500 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                ProofPost reads every review, extracts the sentence that sells,
-                and wraps it in an animated carousel that stops the scroll.
-                60 seconds. Done.
-              </p>
+            <p className="text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed">
+              Paste any review. Get the sentence that sells.
+              Wrapped in a scroll-stopping animated widget. 60 seconds.
+            </p>
 
-              <div className="flex flex-col sm:flex-row items-center lg:items-start gap-4">
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 h-13 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
-                >
-                  Try Free. No Card Required.
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </Link>
-                <Link
-                  href="/demo"
-                  className="flex items-center gap-2 h-13 px-8 border-2 border-slate-200 text-slate-700 hover:border-emerald hover:text-emerald text-[15px] font-semibold rounded-xl transition-colors duration-200"
-                >
-                  See Live Demo
-                  <Eye className="w-4 h-4" aria-hidden="true" />
-                </Link>
-              </div>
-
-              <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <div className="flex -space-x-2">
-                  {[
-                    "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=32&h=32&fit=crop&crop=face",
-                    "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=32&h=32&fit=crop&crop=face",
-                    "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=32&h=32&fit=crop&crop=face",
-                    "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=32&h=32&fit=crop&crop=face",
-                  ].map((src, i) => (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img
-                      key={i}
-                      src={src}
-                      alt={`ProofPost customer ${i + 1}`}
-                      width={32}
-                      height={32}
-                      className="rounded-full border-2 border-white object-cover"
-                    />
-                  ))}
-                </div>
-                <div>
-                  <div className="flex gap-0.5">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <span key={i} className="text-[11px] text-amber-400">★</span>
-                    ))}
-                  </div>
-                  <p className="text-[12px] text-slate-400">
-                    Loved by early adopters
-                  </p>
-                </div>
-              </div>
+            <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
+              <Link
+                href="/login"
+                className="flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+              >
+                Try Free. No Card Required.
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
             </div>
 
-            {/* Right: Platform logos + Live Widget Demo */}
-            <div className="flex flex-col items-center gap-5 w-full max-w-md mx-auto lg:mx-0">
-              {/* Platform logos */}
-              <div className="w-full space-y-2 text-center">
-                <p className="text-[11px] font-medium text-slate-400 uppercase tracking-wider">
-                  Import reviews from
-                </p>
-                <div className="flex items-center justify-center gap-4">
-                  <svg width="18" height="18" viewBox="0 0 24 24" className="text-slate-300 hover:text-[#0A66C2] transition-colors" aria-label="LinkedIn">
-                    <path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                  <svg width="16" height="16" viewBox="0 0 24 24" className="text-slate-300 hover:text-slate-900 transition-colors" aria-label="X">
-                    <path fill="currentColor" d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-                  </svg>
-                  <span className="text-[13px] font-bold text-slate-300 hover:text-[#FF492C] transition-colors">G2</span>
-                  <svg width="18" height="18" viewBox="0 0 24 24" className="text-slate-300 hover:text-[#1877F2] transition-colors" aria-label="Facebook">
-                    <path fill="currentColor" d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-                  </svg>
-                  <span className="text-[11px] font-bold text-slate-300 hover:text-[#FF9D28] transition-colors">Capterra</span>
-                  <span className="text-[11px] font-bold text-slate-300 hover:text-slate-500 transition-colors">Email</span>
-                </div>
-              </div>
-
-              <HeroCarousel />
-            </div>
+            <p className="text-sm text-slate-300 pt-2">
+              Loved by early adopters
+            </p>
           </div>
+        </div>
+      </section>
+
+      {/* ============ PRODUCT DEMO ============ */}
+      <section className="bg-snow pb-16">
+        <div className="max-w-md mx-auto px-6">
+          <p className="text-xs font-medium text-slate-400 uppercase tracking-wider text-center mb-4">
+            See it in action
+          </p>
+          <HeroCarousel />
         </div>
       </section>
 
