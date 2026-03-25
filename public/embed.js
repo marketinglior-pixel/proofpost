@@ -9,9 +9,10 @@
   scripts.forEach(function (script) {
     const id = script.getAttribute("data-proofpost-id");
     const theme = script.getAttribute("data-theme") || "light";
-    const style = script.getAttribute("data-style") || "carousel"; // "carousel" or "marquee"
+    const style = script.getAttribute("data-style") || "carousel"; // "carousel", "marquee", "grid", or "stack"
     const width = script.getAttribute("data-width") || "100%";
-    const maxWidth = script.getAttribute("data-max-width") || (style === "marquee" ? "100%" : "500px");
+    const wideStyles = ["marquee", "grid"];
+    const maxWidth = script.getAttribute("data-max-width") || (wideStyles.indexOf(style) !== -1 ? "100%" : "500px");
 
     if (!id) return;
 

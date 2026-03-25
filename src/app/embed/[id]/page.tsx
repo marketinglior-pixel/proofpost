@@ -1,5 +1,7 @@
 import { EmbedCarousel } from "./embed-carousel";
 import { EmbedMarquee } from "./embed-marquee";
+import { EmbedGrid } from "./embed-grid";
+import { EmbedStack } from "./embed-stack";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -22,7 +24,7 @@ interface LlmOutput {
 export default async function EmbedPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { style } = await searchParams;
-  const widgetStyle = style || "carousel"; // "carousel" or "marquee"
+  const widgetStyle = style || "carousel"; // "carousel", "marquee", "grid", or "stack"
 
   // Fetch directly from Supabase (no self-calling API)
   let data = null;
@@ -182,6 +184,10 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
       />
       {widgetStyle === "marquee" ? (
         <EmbedMarquee data={data} embedId={id} />
+      ) : widgetStyle === "grid" ? (
+        <EmbedGrid data={data} embedId={id} />
+      ) : widgetStyle === "stack" ? (
+        <EmbedStack data={data} embedId={id} />
       ) : (
         <EmbedCarousel data={data} embedId={id} />
       )}

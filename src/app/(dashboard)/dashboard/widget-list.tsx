@@ -29,7 +29,7 @@ interface EmbedItem {
   createdAt: string;
 }
 
-type WidgetStyle = "carousel" | "marquee";
+type WidgetStyle = "carousel" | "marquee" | "grid" | "stack";
 
 export function WidgetList({ items }: { items: EmbedItem[] }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -47,10 +47,10 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
   const hasMultipleSingles = singleItems.length >= 2;
 
   function getEmbedCode(id: string, style: WidgetStyle) {
-    if (style === "marquee") {
-      return `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${id}" data-style="marquee" data-max-width="100%"></script>`;
+    if (style === "carousel") {
+      return `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${id}"></script>`;
     }
-    return `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${id}"></script>`;
+    return `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${id}" data-style="${style}" data-max-width="100%"></script>`;
   }
 
   function copyCode() {
@@ -297,29 +297,29 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
             {/* Style selector */}
             <div className="flex items-center gap-2">
               <span className="text-[12px] font-medium text-slate-500">
-                Widget style:
+                Style:
               </span>
               <div className="flex rounded-lg border border-slate-200 overflow-hidden">
-                <button
-                  onClick={() => setSelectedStyle("carousel")}
-                  className={`px-3 py-1.5 text-[12px] font-medium transition-colors ${
-                    selectedStyle === "carousel"
-                      ? "bg-emerald text-white"
-                      : "bg-white text-slate-600 hover:bg-slate-50"
-                  }`}
-                >
-                  Carousel
-                </button>
-                <button
-                  onClick={() => setSelectedStyle("marquee")}
-                  className={`px-3 py-1.5 text-[12px] font-medium transition-colors border-l border-slate-200 ${
-                    selectedStyle === "marquee"
-                      ? "bg-emerald text-white"
-                      : "bg-white text-slate-600 hover:bg-slate-50"
-                  }`}
-                >
-                  Marquee
-                </button>
+                {([
+                  { value: "carousel", label: "Carousel" },
+                  { value: "marquee", label: "Marquee" },
+                  { value: "grid", label: "Grid" },
+                  { value: "stack", label: "Stack" },
+                ] as const).map((opt, i) => (
+                  <button
+                    key={opt.value}
+                    onClick={() => setSelectedStyle(opt.value)}
+                    className={`px-3 py-1.5 text-[12px] font-medium transition-colors ${
+                      i > 0 ? "border-l border-slate-200" : ""
+                    } ${
+                      selectedStyle === opt.value
+                        ? "bg-emerald text-white"
+                        : "bg-white text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
             </div>
 
