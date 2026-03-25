@@ -123,6 +123,13 @@ export default function LandingPage() {
                   Try Free. No Card Required.
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
+                <Link
+                  href="/demo"
+                  className="flex items-center gap-2 h-13 px-8 border-2 border-slate-200 text-slate-700 hover:border-emerald hover:text-emerald text-[15px] font-semibold rounded-xl transition-colors duration-200"
+                >
+                  See Live Demo
+                  <Eye className="w-4 h-4" aria-hidden="true" />
+                </Link>
               </div>
 
               <div className="flex items-center gap-3 justify-center lg:justify-start">
@@ -313,8 +320,72 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ USE CASES ============ */}
+      {/* ============ EASY TO EMBED ============ */}
       <section className="bg-snow py-24">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center space-y-4 mb-12">
+            <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
+              Works on every platform.
+              <br />
+              <span className="text-emerald">Zero dev skills needed.</span>
+            </h2>
+            <p className="text-[17px] text-slate-500 max-w-xl mx-auto">
+              Paste one line of code. Your testimonial widget is live.
+              We wrote a quick guide for every platform.
+            </p>
+          </div>
+
+          {/* Platform grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 mb-10">
+            {[
+              { name: "Webflow", id: "webflow", color: "#4353FF" },
+              { name: "WordPress", id: "wordpress", color: "#21759B" },
+              { name: "Shopify", id: "shopify", color: "#96BF48" },
+              { name: "Framer", id: "framer", color: "#0055FF" },
+              { name: "React", id: "react", color: "#61DAFB" },
+              { name: "Any HTML", id: "html", color: "#374151" },
+            ].map((p) => (
+              <Link
+                key={p.id}
+                href={`/guide#${p.id}`}
+                className="group flex flex-col items-center gap-2 p-4 rounded-xl border border-slate-200 bg-white hover:border-emerald/40 hover:shadow-sm transition-all duration-200"
+              >
+                <div
+                  className="w-3 h-3 rounded-full transition-transform group-hover:scale-125"
+                  style={{ backgroundColor: p.color }}
+                />
+                <span className="text-[13px] font-medium text-slate-600 group-hover:text-slate-900">
+                  {p.name}
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Code preview */}
+          <div className="rounded-xl bg-slate-900 px-6 py-4 flex items-center justify-between gap-4 overflow-x-auto">
+            <code className="text-[13px] text-amber-300/80 font-mono whitespace-nowrap">
+              {'<script src="proofpst.com/embed.js" data-proofpost-id="..."></script>'}
+            </code>
+            <span className="text-[11px] text-slate-500 whitespace-nowrap">
+              That&apos;s it.
+            </span>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-8">
+            <Link
+              href="/guide"
+              className="inline-flex items-center gap-2 text-[14px] font-medium text-emerald hover:text-emerald-dark transition-colors"
+            >
+              See full install guide
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ============ USE CASES ============ */}
+      <section className="bg-white py-24">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
             Built for teams that live on trust.
@@ -631,6 +702,7 @@ export default function LandingPage() {
                 <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Product</p>
                 <div className="flex flex-col gap-1.5">
                   <Link href="/demo" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Demo</Link>
+                  <Link href="/guide" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Install Guide</Link>
                   <Link href="#pricing" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Pricing</Link>
                   <Link href="#faq" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">FAQ</Link>
                 </div>
