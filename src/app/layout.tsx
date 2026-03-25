@@ -4,6 +4,7 @@ import { Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { PostHogProvider } from "@/components/posthog-provider";
 import { PostHogPageview } from "@/components/posthog-pageview";
+import { AdTrackingPixels } from "@/components/ad-tracking-pixels";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -75,6 +76,7 @@ export default function RootLayout({
           <Suspense fallback={null}>
             <PostHogPageview />
           </Suspense>
+          <AdTrackingPixels />
           {children}
         </PostHogProvider>
         <Toaster position="top-center" richColors />

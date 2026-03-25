@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Loader2 } from "lucide-react";
 import posthog from "posthog-js";
+import { trackFbEvent, trackLinkedinConversion } from "@/components/ad-tracking-pixels";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -47,6 +48,8 @@ export default function LoginPage() {
         setMessage({ type: "error", text: error.message });
       } else {
         posthog.capture("user_signed_up", { method: "email" });
+        trackFbEvent("Lead", { content_name: "signup", method: "email" });
+        trackLinkedinConversion(process.env.NEXT_PUBLIC_LINKEDIN_SIGNUP_CONVERSION_ID ?? "");
         setMessage({
           type: "success",
           text: "Check your email for a confirmation link!",

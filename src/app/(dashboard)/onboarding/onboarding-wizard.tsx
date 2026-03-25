@@ -2,7 +2,9 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { usePostHog } from "posthog-js/react";
 import { createClient } from "@/lib/supabase/client";
+import { trackFbEvent, trackLinkedinConversion } from "@/components/ad-tracking-pixels";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -45,6 +47,7 @@ interface OnboardingWizardProps {
 
 export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps) {
   const router = useRouter();
+  const posthog = usePostHog();
   const supabase = createClient();
   const [step, setStep] = useState(initialStep);
 
@@ -802,7 +805,18 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
             )}
 
             <Button
-              onClick={() => router.push("/dashboard")}
+              onClick={() => {
+                posthog?.capture("onboarding_completed", {
+                  has_embed: !!embedId,
+                  review_count: reviews.length,
+                });
+                trackFbEvent("CompleteRegistration", {
+                  content_name: "onboarding",
+                  review_count: reviews.length,
+                });
+                trackLinkedinConversion(process.env.NEXT_PUBLIC_LINKEDIN_ONBOARDING_CONVERSION_ID ?? "");
+                router.push("/dashboard");
+              }}
               className="w-full h-12 bg-navy hover:bg-navy-light text-white text-[15px] font-medium rounded-lg shadow-none"
             >
               Go to Dashboard
