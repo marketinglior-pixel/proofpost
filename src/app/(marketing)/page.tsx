@@ -419,27 +419,26 @@ export default function LandingPage() {
         </p>
 
         <div className="rounded-xl border border-slate-200 overflow-hidden">
-          <div className="grid grid-cols-6 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-            <span className="col-span-2">Feature</span>
+          <div className="grid grid-cols-4 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+            <span>Feature</span>
             <span className="text-center">ProofPost</span>
-            <span className="text-center">Senja</span>
-            <span className="text-center">Testimonial.to</span>
+            <span className="text-center">Other Tools</span>
             <span className="text-center">DIY</span>
           </div>
           {[
-            { feature: "AI Hook Extraction", pp: true, senja: false, test: false, diy: false },
-            { feature: "Animated Carousels", pp: true, senja: false, test: false, diy: false },
-            { feature: "Collection Forms", pp: true, senja: true, test: true, diy: false },
-            { feature: "Wall of Love", pp: true, senja: true, test: true, diy: false },
-            { feature: "One-Line Embed", pp: true, senja: true, test: true, diy: false },
-            { feature: "Brand Kit Auto-Sync", pp: true, senja: true, test: false, diy: false },
-            { feature: "Dark/Light Auto-Detect", pp: true, senja: false, test: false, diy: false },
-            { feature: "SEO Rich Snippets", pp: true, senja: true, test: true, diy: false },
-            { feature: "Price", pp: "$19/mo", senja: "$29/mo", test: "$21-50/mo", diy: "Free + hours" },
+            { feature: "AI Hook Extraction", pp: true, others: false, diy: false },
+            { feature: "Animated Carousels", pp: true, others: false, diy: false },
+            { feature: "Collection Forms", pp: true, others: "Some", diy: false },
+            { feature: "Wall of Love", pp: true, others: "Some", diy: false },
+            { feature: "One-Line Embed", pp: true, others: true, diy: false },
+            { feature: "Brand Kit Auto-Sync", pp: true, others: "Partial", diy: false },
+            { feature: "Dark/Light Auto-Detect", pp: true, others: false, diy: false },
+            { feature: "SEO Rich Snippets", pp: true, others: "Some", diy: false },
+            { feature: "Price", pp: "$19/mo", others: "$21-50/mo", diy: "Free + hours" },
           ].map((row, i) => (
-            <div key={i} className="grid grid-cols-6 px-5 py-3 border-t border-slate-100 text-[13px]">
-              <span className="col-span-2 text-slate-700">{row.feature}</span>
-              {[row.pp, row.senja, row.test, row.diy].map((val, j) => (
+            <div key={i} className="grid grid-cols-4 px-5 py-3 border-t border-slate-100 text-[13px]">
+              <span className="text-slate-700">{row.feature}</span>
+              {[row.pp, row.others, row.diy].map((val, j) => (
                 <span key={j} className="text-center">
                   {typeof val === "boolean" ? (
                     val ? (
@@ -543,7 +542,7 @@ export default function LandingPage() {
           {[
             { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
             { q: "What if the AI extracts the wrong quote?", a: "You keep the original. Edit the hook with one click. You control what gets published." },
-            { q: "How is this different from Senja or Testimonial.to?", a: "They show static text grids. We use AI to find the converting sentence and animate it. Plus collection forms, Wall of Love, SEO snippets — at a lower price." },
+            { q: "How is this different from other testimonial tools?", a: "They show static text grids. We use AI to find the converting sentence and animate it. Plus collection forms, Wall of Love, SEO snippets — at a lower price." },
             { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. Customers submit reviews, you approve, we auto-generate the carousel." },
             { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to maximize what you have." },
             { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
