@@ -162,14 +162,10 @@
   box-shadow: 0 8px 32px rgba(16, 185, 129, 0.25);
 }
 
-/* Hand-drawn wavy underline for emphasis words */
+/* Highlight-marker underline for emphasis words */
 .hand-underline {
   text-decoration: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 10' preserveAspectRatio='none'%3E%3Cpath d='M0 7 Q50 2, 100 6 T200 5' fill='none' stroke='%2310B981' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: 0 100%;
-  background-size: 100% 0.18em;
-  padding-bottom: 0.1em;
+  background: linear-gradient(transparent 65%, rgba(16, 185, 129, 0.2) 65%);
   box-decoration-break: clone;
   -webkit-box-decoration-break: clone;
 }
