@@ -240,6 +240,11 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ============ SOCIAL PROOF / TESTIMONIALS MARQUEE ============ */}
+      <section className="bg-snow py-16 overflow-hidden">
+        <LandingMarquee />
+      </section>
+
       {/* ============ EASY TO EMBED ============ */}
       <section className="bg-snow py-24">
         <div className="max-w-4xl mx-auto px-6">
@@ -380,19 +385,6 @@ export default function LandingPage() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* ============ SOCIAL PROOF / TESTIMONIALS MARQUEE ============ */}
-      <section className="bg-snow py-24 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6 mb-14">
-          <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Don&apos;t take our word for it.
-          </h2>
-          <p className="text-[17px] text-slate-500 text-center max-w-lg mx-auto">
-            See what growth teams are saying after switching to ProofPost.
-          </p>
-        </div>
-        <LandingMarquee />
       </section>
 
       {/* ============ RESULTS / STATS ============ */}
