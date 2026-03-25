@@ -67,6 +67,28 @@ export default function LandingPage() {
         </div>
       </nav>
 
+      {/* ============ PRODUCT HUNT BANNER ============ */}
+      <div className="bg-[#ff6154]/5 border-b border-[#ff6154]/10">
+        <div className="max-w-6xl mx-auto px-6 py-2 flex items-center justify-center gap-3">
+          <span className="text-sm text-slate-700 font-medium">
+            We&apos;re live on Product Hunt!
+          </span>
+          <a
+            href="https://www.producthunt.com/products/proofpost?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-proofpost"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106550&theme=light&t=1774399319120"
+              alt="ProofPost on Product Hunt"
+              width={250}
+              height={54}
+              className="h-10 w-auto"
+            />
+          </a>
+        </div>
+      </div>
+
       {/* ============ SECTION 1: HERO ============ */}
       <section className="relative overflow-hidden bg-snow">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.08)_0%,_transparent_60%)]" />
@@ -610,8 +632,8 @@ export default function LandingPage() {
               <div className="space-y-2">
                 <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Legal</p>
                 <div className="flex flex-col gap-1.5">
-                  <span className="text-[13px] text-slate-400">Terms</span>
-                  <span className="text-[13px] text-slate-400">Privacy</span>
+                  <Link href="/terms" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Terms</Link>
+                  <Link href="/privacy" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Privacy</Link>
                 </div>
               </div>
             </div>

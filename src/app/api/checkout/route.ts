@@ -8,6 +8,7 @@ const DODO_API_BASE = process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode"
 export async function GET(request: NextRequest) {
   const productId = request.nextUrl.searchParams.get("productId");
   const email = request.nextUrl.searchParams.get("email");
+  const discountCode = request.nextUrl.searchParams.get("discount_code");
 
   if (!productId) {
     return NextResponse.json({ error: "productId required" }, { status: 400 });
@@ -23,20 +24,26 @@ export async function GET(request: NextRequest) {
 
   try {
     // Use subscriptions endpoint for recurring products
+    const body: Record<string, unknown> = {
+      billing: { city: "", country: "US", state: "", street: "", zipcode: "" },
+      customer: { email, name: email.split("@")[0] },
+      product_id: productId,
+      quantity: 1,
+      payment_link: true,
+      return_url: process.env.DODO_PAYMENTS_RETURN_URL || "https://proofpst.com/dashboard",
+    };
+
+    if (discountCode) {
+      body.discount_code = discountCode;
+    }
+
     const res = await fetch(`${DODO_API_BASE}/subscriptions`, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.DODO_PAYMENTS_API_KEY}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        billing: { city: "", country: "US", state: "", street: "", zipcode: "" },
-        customer: { email, name: email.split("@")[0] },
-        product_id: productId,
-        quantity: 1,
-        payment_link: true,
-        return_url: process.env.DODO_PAYMENTS_RETURN_URL || "https://proofpst.com/dashboard",
-      }),
+      body: JSON.stringify(body),
     });
 
     const data = await res.json();
