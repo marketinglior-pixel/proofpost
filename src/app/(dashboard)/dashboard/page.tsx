@@ -131,14 +131,14 @@ export default async function DashboardPage() {
   return (
     <div className="space-y-8">
       {/* Header row */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">Dashboard</h1>
-          <p className="text-[15px] text-slate-500 mt-0.5">Welcome back. Here is your social proof overview.</p>
+          <h1 className="text-[22px] sm:text-[26px] font-bold text-slate-900 tracking-tight">Dashboard</h1>
+          <p className="text-[14px] sm:text-[15px] text-slate-500 mt-0.5">Welcome back. Here is your social proof overview.</p>
         </div>
         <Link
           href="/generate"
-          className="flex items-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald"
+          className="flex items-center justify-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald sm:w-auto"
         >
           <Wand2 className="w-4 h-4" aria-hidden="true" />
           New Carousel

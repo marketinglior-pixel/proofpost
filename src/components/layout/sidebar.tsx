@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -15,6 +16,8 @@ import {
   FileText,
   Heart,
   BookOpen,
+  Menu,
+  X,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
 import posthog from "posthog-js";
@@ -30,11 +33,11 @@ const navItems = [
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
 ];
 
-export function Sidebar() {
+function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="flex h-screen w-[240px] flex-col bg-navy relative overflow-hidden">
+    <>
       <div className="absolute top-0 right-0 w-[200px] h-[200px] rounded-full bg-emerald/5 blur-[80px]" />
 
       {/* Logo */}
@@ -55,6 +58,7 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] transition-colors duration-200",
                 isActive
@@ -79,6 +83,7 @@ export function Sidebar() {
       <div className="px-3 py-4 space-y-2 relative z-10">
         <Link
           href="/pricing"
+          onClick={onNavigate}
           className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
         >
           <div className="flex items-center justify-between mb-1">
@@ -102,6 +107,67 @@ export function Sidebar() {
           </button>
         </form>
       </div>
-    </aside>
+    </>
+  );
+}
+
+export function Sidebar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Close drawer on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  return (
+    <>
+      {/* Mobile top bar */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 px-4 h-14 bg-navy">
+        <button
+          onClick={() => setMobileOpen(true)}
+          className="p-1.5 -ml-1.5 text-slate-400 hover:text-white transition-colors"
+          aria-label="Open menu"
+        >
+          <Menu className="w-5 h-5" />
+        </button>
+        <div className="w-6 h-6 rounded-md bg-emerald flex items-center justify-center">
+          <Star className="w-3 h-3 text-white" aria-hidden="true" />
+        </div>
+        <span className="text-[13px] font-semibold text-white tracking-tight">
+          ProofPost
+        </span>
+      </div>
+
+      {/* Mobile drawer backdrop */}
+      {mobileOpen && (
+        <div
+          className="md:hidden fixed inset-0 z-50 bg-black/50"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Mobile drawer */}
+      <aside
+        className={cn(
+          "md:hidden fixed top-0 left-0 z-50 flex h-screen w-[260px] flex-col bg-navy relative overflow-hidden transition-transform duration-300 ease-in-out",
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <button
+          onClick={() => setMobileOpen(false)}
+          className="absolute top-4 right-3 z-20 p-1.5 text-slate-400 hover:text-white transition-colors"
+          aria-label="Close menu"
+        >
+          <X className="w-5 h-5" />
+        </button>
+        <SidebarContent onNavigate={() => setMobileOpen(false)} />
+      </aside>
+
+      {/* Desktop sidebar */}
+      <aside className="hidden md:flex h-screen w-[240px] flex-col bg-navy relative overflow-hidden flex-shrink-0">
+        <SidebarContent />
+      </aside>
+    </>
   );
 }
