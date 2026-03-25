@@ -10,8 +10,10 @@ export async function POST(request: NextRequest) {
   try {
     // Verify Bearer token
     const authHeader = request.headers.get("authorization") || "";
-    const token = authHeader.replace("Bearer ", "");
+    const token = authHeader.replace(/^Bearer\s+/i, "").trim();
     const secret = process.env.DISTRIBB_WEBHOOK_SECRET;
+
+    console.log("Distribb webhook auth header:", authHeader ? `${authHeader.substring(0, 20)}...` : "(empty)");
 
     if (!secret) {
       console.error("DISTRIBB_WEBHOOK_SECRET is not configured");
@@ -21,7 +23,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (token !== secret) {
+    if (!token || token !== secret) {
+      console.error("Distribb webhook auth mismatch. Token length:", token.length, "Secret length:", secret.length);
       return NextResponse.json(
         { error: "Unauthorized" },
         { status: 401 }
