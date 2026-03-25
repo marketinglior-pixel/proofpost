@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { Check, Sparkles, X } from "lucide-react";
 import Link from "next/link";
+import { UpgradeLink } from "./upgrade-link";
 
 const MONTHLY_ID = process.env.DODO_PRO_MONTHLY_ID;
 const ANNUAL_ID = process.env.DODO_PRO_ANNUAL_ID;
@@ -109,12 +110,13 @@ export default async function PricingPage({
               <span className="text-slate-400">/mo</span>
             </div>
           </div>
-          <Link
+          <UpgradeLink
             href={`/api/checkout?productId=${MONTHLY_ID}&email=${encodeURIComponent(user?.email || "")}${discountCode ? `&discount_code=${encodeURIComponent(discountCode)}` : ""}`}
+            plan="monthly"
             className="flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald"
           >
             Upgrade to Pro
-          </Link>
+          </UpgradeLink>
         </div>
 
         {/* Annual */}
@@ -131,12 +133,13 @@ export default async function PricingPage({
             </div>
             <p className="text-[13px] text-slate-400 mt-1">$144 billed annually</p>
           </div>
-          <Link
+          <UpgradeLink
             href={`/api/checkout?productId=${ANNUAL_ID}&email=${encodeURIComponent(user?.email || "")}${discountCode ? `&discount_code=${encodeURIComponent(discountCode)}` : ""}`}
+            plan="annual"
             className="relative flex items-center justify-center w-full h-12 rounded-lg bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold transition-colors duration-200 glow-emerald"
           >
             Upgrade Annual
-          </Link>
+          </UpgradeLink>
         </div>
       </div>
 

@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 
 const PROOFPOST_HOST = "https://proofpst.com";
 
@@ -55,6 +56,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
   function copyCode() {
     if (!selectedId) return;
     navigator.clipboard.writeText(getEmbedCode(selectedId, selectedStyle));
+    posthog.capture("embed_code_copied", { source: "dashboard", style: selectedStyle });
     setCopied(true);
     toast.success("Embed code copied!");
     setTimeout(() => setCopied(false), 2000);
@@ -107,6 +109,11 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
         return;
       }
 
+      posthog.capture("widget_created", {
+        review_count: checkedIds.size,
+        widget_name: widgetName,
+        source: "dashboard",
+      });
       toast.success(`Widget "${widgetName}" created with ${checkedIds.size} reviews!`);
       // Reload the page to show the new widget
       window.location.reload();

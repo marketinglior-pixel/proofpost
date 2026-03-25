@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Loader2 } from "lucide-react";
+import posthog from "posthog-js";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -31,6 +32,7 @@ export default function LoginPage() {
       if (error) {
         setMessage({ type: "error", text: error.message });
       } else {
+        posthog.capture("user_logged_in", { method: "email" });
         window.location.href = "/dashboard";
       }
     } else {
@@ -44,6 +46,7 @@ export default function LoginPage() {
       if (error) {
         setMessage({ type: "error", text: error.message });
       } else {
+        posthog.capture("user_signed_up", { method: "email" });
         setMessage({
           type: "success",
           text: "Check your email for a confirmation link!",
@@ -141,6 +144,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={async () => {
+              posthog.capture("user_auth_started", { method: "google" });
               await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {

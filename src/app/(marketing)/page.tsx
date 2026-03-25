@@ -79,7 +79,7 @@ export default function LandingPage() {
             rel="noopener noreferrer"
           >
             <img
-              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106550&theme=light&t=1774399319120"
+              src={`https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1106550&theme=light&t=${Date.now()}`}
               alt="ProofPost on Product Hunt"
               width={250}
               height={54}

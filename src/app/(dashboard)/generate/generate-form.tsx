@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 import {
   Wand2,
   Loader2,
@@ -68,6 +69,7 @@ export function GenerateForm() {
       setReviewerName(data.reviewerName || "");
       setReviewerTitle([data.reviewerTitle, data.reviewerCompany].filter(Boolean).join(", "));
       setReviewerPhotoUrl(data.reviewerPhotoUrl || "");
+      posthog.capture("review_pasted", { input_mode: "link", url: url.trim() });
       toast.success("Post extracted!");
     } catch { toast.error("Failed to extract."); }
     finally { setExtracting(false); }
@@ -110,6 +112,12 @@ export function GenerateForm() {
       setUrl("");
       setWidgetId(null); // Reset widget since list changed
 
+      posthog.capture("carousel_generated", {
+        review_count: reviews.length + 1,
+        hook_line: data.llmOutput.hookLine,
+        input_mode: mode,
+      });
+
       toast.success(`Added! ${reviews.length + 1} review${reviews.length > 0 ? "s" : ""} in your carousel.`);
     } catch { toast.error("Network error."); }
     finally { setLoading(false); }
@@ -141,6 +149,10 @@ export function GenerateForm() {
         if (!res.ok) { toast.error(data.error || "Failed"); return; }
         setWidgetId(data.id);
       }
+      posthog.capture("widget_created", {
+        review_count: reviews.length,
+        widget_name: widgetName,
+      });
       toast.success("Widget ready!");
     } catch { toast.error("Failed to create widget"); }
     finally { setCreatingWidget(false); }
@@ -154,6 +166,7 @@ export function GenerateForm() {
     if (!embedId) return;
     const code = `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${embedId}"></script>`;
     await navigator.clipboard.writeText(code);
+    posthog.capture("embed_code_copied", { source: "generate_form" });
     setCopied(true);
     toast.success("Embed code copied!");
     setTimeout(() => setCopied(false), 2000);
@@ -229,6 +242,7 @@ export function GenerateForm() {
                 placeholder="Paste your customer review here..."
                 value={rawInput}
                 onChange={(e) => setRawInput(e.target.value)}
+                onPaste={() => posthog.capture("review_pasted", { input_mode: "text" })}
                 rows={4}
                 className="resize-none border-slate-200"
               />

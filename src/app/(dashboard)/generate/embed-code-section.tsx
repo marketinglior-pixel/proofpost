@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import posthog from "posthog-js";
 import {
   Code2,
   Copy,
@@ -95,6 +96,11 @@ export function EmbedCodeSection({
       }
 
       setWidgetId(data.id);
+      posthog.capture("widget_created", {
+        review_count: reviews.length,
+        widget_name: widgetName,
+        source: "embed_section",
+      });
       toast.success("Widget created with " + reviews.length + " reviews!");
     } catch {
       toast.error("Failed to create widget");
@@ -110,6 +116,7 @@ export function EmbedCodeSection({
     }
 
     await navigator.clipboard.writeText(embedCode);
+    posthog.capture("embed_code_copied", { source: "embed_section" });
     setCopied(true);
     toast.success("Embed code copied!");
     setTimeout(() => setCopied(false), 2000);

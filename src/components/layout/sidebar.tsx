@@ -17,6 +17,7 @@ import {
   BookOpen,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
+import posthog from "posthog-js";
 
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -91,7 +92,7 @@ export function Sidebar() {
           </p>
         </Link>
 
-        <form action={signOut}>
+        <form action={() => { posthog.reset(); signOut(); }}>
           <button
             type="submit"
             className="flex items-center gap-2 w-full px-3 py-2 text-[13px] text-slate-500 hover:text-slate-300 transition-colors duration-200 rounded-lg hover:bg-white/5"
