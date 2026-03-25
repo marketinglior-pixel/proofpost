@@ -80,12 +80,12 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
             {/* Left: Headline */}
             <div className="space-y-8 min-w-0">
-              <h1 className="font-bold text-[clamp(2rem,3.5vw,2.75rem)] leading-[1.3] text-slate-900 tracking-tight">
+              <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
                 Turn dusty reviews into{" "}
                 <span className="text-emerald hand-underline">viral LinkedIn carousels</span>
               </h1>
 
-              <p className="text-lg sm:text-xl text-slate-400 max-w-md leading-relaxed">
+              <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
                 Paste any review. Get the sentence that sells.
                 Wrapped in a scroll-stopping animated widget. 60 seconds.
               </p>
