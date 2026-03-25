@@ -32,23 +32,24 @@ export async function POST(request: NextRequest) {
     }
 
     const payload = await request.json();
+    console.log("Distribb webhook payload keys:", Object.keys(payload));
 
-    const {
-      title,
-      slug,
-      content_html,
-      content_markdown,
-      meta_description,
-      image_url,
-      alt_text,
-      tags,
-      author,
-      status,
-    } = payload;
+    const title = payload.title || payload.name || "";
+    const rawSlug = payload.slug || payload.url_slug || "";
+    const slug = rawSlug || title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const content_html = payload.content_html || payload.content || payload.body || payload.html || "";
+    const content_markdown = payload.content_markdown || payload.markdown || null;
+    const meta_description = payload.meta_description || payload.description || payload.excerpt || null;
+    const image_url = payload.image_url || payload.featured_image || payload.cover_image || null;
+    const image_alt = payload.alt_text || payload.image_alt || null;
+    const tags = payload.tags || payload.categories || [];
+    const author = payload.author || "ProofPost";
+    const status = payload.status || "draft";
 
-    if (!title || !slug || !content_html) {
+    if (!title || !content_html) {
+      console.error("Distribb webhook missing fields. Payload:", JSON.stringify(payload).substring(0, 500));
       return NextResponse.json(
-        { error: "Missing required fields: title, slug, content_html" },
+        { error: "Missing required fields: title and content_html (or content/body/html)" },
         { status: 400 }
       );
     }
@@ -58,13 +59,13 @@ export async function POST(request: NextRequest) {
         title,
         slug,
         content_html,
-        content_markdown: content_markdown || null,
-        meta_description: meta_description || null,
-        image_url: image_url || null,
-        image_alt: alt_text || null,
-        tags: tags || [],
-        author: author || "ProofPost",
-        status: status || "draft",
+        content_markdown,
+        meta_description,
+        image_url,
+        image_alt,
+        tags: Array.isArray(tags) ? tags : [],
+        author,
+        status,
         published_at:
           status === "published" ? new Date().toISOString() : null,
         updated_at: new Date().toISOString(),
