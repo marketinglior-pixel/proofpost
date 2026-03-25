@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Eye,
   Layers,
-  Code2,
   Clock,
   Quote,
   ArrowUpRight,
@@ -36,11 +35,6 @@ export default async function DashboardPage() {
   if (!brandKit && (contentCount ?? 0) === 0) {
     redirect("/onboarding");
   }
-
-  const { count: widgetCount } = await supabase
-    .from("widgets")
-    .select("*", { count: "exact", head: true })
-    .eq("user_id", user!.id);
 
   // Monthly impressions
   const startOfMonth = new Date();
@@ -125,7 +119,6 @@ export default async function DashboardPage() {
 
   const monthly = monthlyImpressions ?? 0;
   const carousels = contentCount ?? 0;
-  const widgets = widgetCount ?? 0;
   const total = totalImpressions ?? 0;
 
   return (
@@ -138,7 +131,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/generate"
-          className="flex items-center justify-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald w-full sm:w-auto"
+          className="flex items-center justify-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald w-full sm:w-auto whitespace-nowrap"
         >
           <Wand2 className="w-4 h-4" aria-hidden="true" />
           New Carousel
@@ -146,12 +139,11 @@ export default async function DashboardPage() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+      <div className="grid grid-cols-3 gap-3 sm:gap-4">
         {[
           { label: "Monthly Views", value: monthly, icon: Eye, color: "text-emerald", bg: "bg-emerald/10", suffix: isPro ? "" : " / 500" },
           { label: "Total Impressions", value: total, icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-50" },
           { label: "Carousels", value: carousels, icon: Layers, color: "text-violet-500", bg: "bg-violet-50" },
-          { label: "Widgets", value: widgets, icon: Code2, color: "text-amber-500", bg: "bg-amber-50" },
         ].map((stat) => (
           <div key={stat.label} className="card-hover rounded-xl bg-white border border-slate-200 p-3 sm:p-5 overflow-hidden">
             <div className="flex items-center justify-between mb-2 sm:mb-4">
