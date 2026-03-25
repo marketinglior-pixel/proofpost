@@ -138,7 +138,7 @@ export default async function DashboardPage() {
         </div>
         <Link
           href="/generate"
-          className="flex items-center justify-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald sm:w-auto"
+          className="flex items-center justify-center gap-2 h-10 px-5 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-medium rounded-lg transition-colors duration-200 glow-emerald w-full sm:w-auto"
         >
           <Wand2 className="w-4 h-4" aria-hidden="true" />
           New Carousel
@@ -153,17 +153,17 @@ export default async function DashboardPage() {
           { label: "Carousels", value: carousels, icon: Layers, color: "text-violet-500", bg: "bg-violet-50" },
           { label: "Widgets", value: widgets, icon: Code2, color: "text-amber-500", bg: "bg-amber-50" },
         ].map((stat) => (
-          <div key={stat.label} className="card-hover rounded-xl bg-white border border-slate-200 p-5">
-            <div className="flex items-center justify-between mb-4">
+          <div key={stat.label} className="card-hover rounded-xl bg-white border border-slate-200 p-3 sm:p-5">
+            <div className="flex items-center justify-between mb-2 sm:mb-4">
               <div className={`flex items-center justify-center w-9 h-9 rounded-lg ${stat.bg}`}>
                 <stat.icon className={`w-4 h-4 ${stat.color}`} aria-hidden="true" />
               </div>
               <ArrowUpRight className="w-3.5 h-3.5 text-slate-300" aria-hidden="true" />
             </div>
-            <span className="text-[32px] font-bold text-slate-900 tabular-nums leading-none">
+            <span className="text-[22px] sm:text-[32px] font-bold text-slate-900 tabular-nums leading-none">
               {stat.value.toLocaleString()}
             </span>
-            <p className="text-[12px] text-slate-400 mt-1.5">
+            <p className="text-[12px] text-slate-400 mt-1.5 whitespace-nowrap">
               {stat.label}{stat.suffix}
             </p>
           </div>

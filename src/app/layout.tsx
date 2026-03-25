@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { DM_Sans, Instrument_Serif } from "next/font/google";
+import { Poppins, Instrument_Serif } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { PostHogProvider } from "@/components/posthog-provider";
@@ -8,10 +8,10 @@ import { AdTrackingPixels } from "@/components/ad-tracking-pixels";
 import { Suspense } from "react";
 import "./globals.css";
 
-const dmSans = DM_Sans({
+const poppins = Poppins({
   variable: "--font-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "900"],
 });
 
 const instrumentSerif = Instrument_Serif({
@@ -69,7 +69,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-US"
-      className={`${dmSans.variable} ${instrumentSerif.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${poppins.variable} ${instrumentSerif.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans">
         <PostHogProvider>

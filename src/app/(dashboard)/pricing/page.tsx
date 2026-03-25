@@ -36,8 +36,8 @@ export default async function PricingPage({
     return (
       <div className="space-y-10">
         <div className="text-center">
-          <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">You&apos;re on Pro</h1>
-          <p className="text-[15px] text-slate-500 mt-1">Unlimited access to all features.</p>
+          <h1 className="text-[22px] sm:text-[26px] font-bold text-slate-900 tracking-tight">You&apos;re on Pro</h1>
+          <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">Unlimited access to all features.</p>
         </div>
         <div className="rounded-xl bg-emerald/10 border border-emerald/20 p-8 text-center space-y-4">
           <Sparkles className="w-8 h-8 text-emerald mx-auto" aria-hidden="true" />
@@ -71,14 +71,14 @@ export default async function PricingPage({
   return (
     <div className="space-y-10">
       <div className="text-center">
-        <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">Upgrade to Pro</h1>
-        <p className="text-[15px] text-slate-500 mt-1">
+        <h1 className="text-[22px] sm:text-[26px] font-bold text-slate-900 tracking-tight">Upgrade to Pro</h1>
+        <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">
           Your widgets are live on your site. Keep them running with Pro.
         </p>
       </div>
 
       {discountCode && (
-        <div className="rounded-lg bg-emerald/10 border border-emerald/20 px-5 py-3 text-center">
+        <div className="rounded-lg bg-emerald/10 border border-emerald/20 px-3 sm:px-5 py-3 text-center">
           <p className="text-[14px] font-medium text-emerald">
             Discount code <span className="font-bold">{discountCode}</span> applied — 30% off forever!
           </p>
@@ -86,7 +86,7 @@ export default async function PricingPage({
       )}
 
       {/* Usage alert */}
-      <div className="rounded-lg bg-slate-100 border border-slate-200 px-5 py-4 flex items-center justify-between">
+      <div className="rounded-lg bg-slate-100 border border-slate-200 px-3 sm:px-5 py-4 flex items-center justify-between gap-3">
         <div>
           <p className="text-[14px] font-medium text-slate-700">This month&apos;s usage</p>
           <p className="text-[13px] text-slate-500 mt-0.5">{impressionCount ?? 0} / 500 widget impressions</p>

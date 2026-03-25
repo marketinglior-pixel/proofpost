@@ -75,45 +75,41 @@ export default function LandingPage() {
 
       {/* ============ SECTION 1: HERO ============ */}
       <section className="relative overflow-hidden bg-snow">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
-        <div className="relative max-w-4xl mx-auto px-6 pt-24 sm:pt-32 pb-20 sm:pb-28">
-          <div className="flex flex-col items-center text-center space-y-8">
-            <h1 className="font-heading text-[clamp(2.5rem,8vw,5rem)] leading-[1.05] text-slate-900 tracking-tight max-w-3xl">
-              Your reviews are full of{" "}
-              <span className="hand-underline sparkle">conversion gold.</span>
-              <br />
-              Our AI finds it.
-            </h1>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
+        <div className="relative max-w-6xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24">
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            {/* Left: Headline */}
+            <div className="space-y-8 min-w-0">
+              <h1 className="font-bold text-[clamp(2rem,3.5vw,2.75rem)] leading-[1.3] text-slate-900 tracking-tight">
+                Turn dusty reviews into{" "}
+                <span className="text-emerald hand-underline">viral LinkedIn carousels</span>
+              </h1>
 
-            <p className="text-lg sm:text-xl text-slate-400 max-w-xl leading-relaxed">
-              Paste any review. Get the sentence that sells.
-              Wrapped in a scroll-stopping animated widget. 60 seconds.
-            </p>
+              <p className="text-lg sm:text-xl text-slate-400 max-w-md leading-relaxed">
+                Paste any review. Get the sentence that sells.
+                Wrapped in a scroll-stopping animated widget. 60 seconds.
+              </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-4 pt-2">
-              <Link
-                href="/login"
-                className="flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
-              >
-                Try Free. No Card Required.
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
+              <div className="flex flex-col sm:flex-row items-start gap-4">
+                <Link
+                  href="/login"
+                  className="flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+                >
+                  Try Free. No Card Required.
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
+
+              <p className="text-sm text-slate-300">
+                Loved by early adopters
+              </p>
             </div>
 
-            <p className="text-sm text-slate-300 pt-2">
-              Loved by early adopters
-            </p>
+            {/* Right: Widget demo */}
+            <div className="flex justify-center lg:justify-end">
+              <HeroCarousel />
+            </div>
           </div>
-        </div>
-      </section>
-
-      {/* ============ PRODUCT DEMO ============ */}
-      <section className="bg-snow pb-16">
-        <div className="max-w-md mx-auto px-6">
-          <p className="text-xs font-medium text-slate-400 uppercase tracking-wider text-center mb-4">
-            See it in action
-          </p>
-          <HeroCarousel />
         </div>
       </section>
 

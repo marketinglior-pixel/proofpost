@@ -26,10 +26,10 @@ export default async function GeneratePage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
+        <h1 className="text-[22px] sm:text-[26px] font-bold text-slate-900 tracking-tight">
           Build Your Carousel
         </h1>
-        <p className="text-[15px] text-slate-500 mt-1">
+        <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">
           Add reviews on the left. Your carousel builds on the right.
         </p>
       </div>

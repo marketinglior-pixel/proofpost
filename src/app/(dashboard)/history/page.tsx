@@ -37,10 +37,10 @@ export default async function HistoryPage() {
   return (
     <div className="space-y-10">
       <div>
-        <h1 className="font-heading text-[28px] text-ink tracking-tight">
+        <h1 className="font-heading text-[22px] sm:text-[28px] text-ink tracking-tight">
           History
         </h1>
-        <p className="text-[15px] text-ink-muted mt-1">
+        <p className="text-[14px] sm:text-[15px] text-ink-muted mt-1">
           All your generated carousels. Re-download or copy anytime.
         </p>
       </div>

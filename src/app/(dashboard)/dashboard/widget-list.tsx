@@ -131,7 +131,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
           <Code2 className="w-4 h-4 text-slate-400" />
           My Widgets
         </h2>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
           {hasMultipleSingles && !multiSelect && (
             <button
               onClick={() => {
@@ -159,7 +159,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
       <div className="rounded-xl bg-white border border-slate-200 overflow-hidden">
         {/* Multi-select header */}
         {multiSelect && (
-          <div className="flex items-center justify-between px-5 py-2.5 bg-emerald/5 border-b border-slate-200">
+          <div className="flex items-center justify-between px-3 sm:px-5 py-2.5 bg-emerald/5 border-b border-slate-200">
             <button
               onClick={toggleSelectAll}
               className="flex items-center gap-2 text-[12px] font-medium text-slate-600 hover:text-slate-900 transition-colors"
@@ -193,7 +193,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
                     setSelectedId(item.id === selectedId ? null : item.id);
                   }
                 }}
-                className={`w-full flex items-center gap-3 px-5 py-3.5 text-left transition-colors ${
+                className={`w-full flex items-center gap-3 px-3 py-3 sm:px-5 sm:py-3.5 text-left transition-colors ${
                   isChecked
                     ? "bg-emerald/5"
                     : selectedId === item.id
@@ -259,7 +259,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
 
         {/* Multi-select: create widget panel */}
         {multiSelect && checkedIds.size >= 2 && (
-          <div className="border-t border-slate-200 bg-slate-50 p-5 space-y-3">
+          <div className="border-t border-slate-200 bg-slate-50 p-3 sm:p-5 space-y-3">
             <div className="space-y-1.5">
               <label className="text-[12px] font-medium text-slate-500">
                 Widget Name
@@ -293,13 +293,13 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
 
         {/* Single-select: embed code panel */}
         {!multiSelect && selected && (
-          <div className="border-t border-slate-200 bg-slate-50 p-5 space-y-4">
+          <div className="border-t border-slate-200 bg-slate-50 p-3 sm:p-5 space-y-4">
             {/* Style selector */}
             <div className="flex items-center gap-2">
               <span className="text-[12px] font-medium text-slate-500">
                 Style:
               </span>
-              <div className="flex rounded-lg border border-slate-200 overflow-hidden">
+              <div className="grid grid-cols-2 sm:flex rounded-lg border border-slate-200 overflow-hidden">
                 {([
                   { value: "carousel", label: "Carousel" },
                   { value: "marquee", label: "Marquee" },
@@ -337,7 +337,7 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
             </div>
 
             {/* Code */}
-            <div className="relative">
+            <div className="relative overflow-hidden">
               <code className="block text-[11px] bg-navy text-emerald font-mono rounded-lg px-4 py-3 pr-12 overflow-x-auto whitespace-nowrap">
                 {getEmbedCode(selected.id, selectedStyle)}
               </code>

@@ -106,12 +106,12 @@ export default async function AnalyticsPage() {
   return (
     <div className="space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2">
         <div>
-          <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
+          <h1 className="text-[22px] sm:text-[26px] font-bold text-slate-900 tracking-tight">
             Analytics
           </h1>
-          <p className="text-[15px] text-slate-500 mt-1">
+          <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">
             Your social proof performance at a glance.
           </p>
         </div>
@@ -122,7 +122,7 @@ export default async function AnalyticsPage() {
       </div>
 
       {/* Hero stat */}
-      <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-8 relative overflow-hidden">
+      <div className="rounded-2xl bg-gradient-to-br from-navy to-navy-light p-5 sm:p-8 relative overflow-hidden">
         <div className="absolute top-0 right-0 w-[300px] h-[300px] rounded-full bg-emerald/8 blur-[100px]" />
 
         <div className="relative grid sm:grid-cols-2 gap-8 items-center">
@@ -131,7 +131,7 @@ export default async function AnalyticsPage() {
               Widget Impressions This Month
             </p>
             <div className="flex items-baseline gap-4">
-              <span className="text-[56px] font-bold text-white tabular-nums leading-none">
+              <span className="text-[32px] sm:text-[56px] font-bold text-white tabular-nums leading-none">
                 {monthly.toLocaleString()}
               </span>
               <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-[12px] font-semibold ${
@@ -161,7 +161,7 @@ export default async function AnalyticsPage() {
             )}
           </div>
 
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
             {[
               { label: "Total Views", value: totalImpressions ?? 0, icon: Eye },
               { label: "Carousels", value: totalCarousels ?? 0, icon: Layers },
@@ -169,7 +169,7 @@ export default async function AnalyticsPage() {
             ].map((stat) => (
               <div key={stat.label} className="rounded-xl bg-white/5 border border-white/10 p-4 text-center space-y-2">
                 <stat.icon className="w-4 h-4 text-slate-400 mx-auto" aria-hidden="true" />
-                <span className="block text-[24px] font-bold text-white tabular-nums leading-none">
+                <span className="block text-[18px] sm:text-[24px] font-bold text-white tabular-nums leading-none">
                   {stat.value.toLocaleString()}
                 </span>
                 <span className="block text-[10px] text-slate-400 uppercase tracking-wider">
@@ -198,7 +198,7 @@ export default async function AnalyticsPage() {
                 {recentItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center gap-4 px-5 py-4 hover:bg-slate-50/50 transition-colors"
+                    className="flex items-center gap-3 sm:gap-4 px-3 sm:px-5 py-4 hover:bg-slate-50/50 transition-colors"
                   >
                     <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald/10 flex-shrink-0">
                       <Quote className="w-4 h-4 text-emerald-dark" aria-hidden="true" />

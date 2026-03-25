@@ -126,7 +126,7 @@ export function Sidebar() {
       <div className="md:hidden fixed top-0 left-0 right-0 z-40 flex items-center gap-3 px-4 h-14 bg-navy">
         <button
           onClick={() => setMobileOpen(true)}
-          className="p-1.5 -ml-1.5 text-slate-400 hover:text-white transition-colors"
+          className="p-2 -ml-2 text-slate-400 hover:text-white transition-colors"
           aria-label="Open menu"
         >
           <Menu className="w-5 h-5" />
