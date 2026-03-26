@@ -2,28 +2,95 @@
 
 import { heroReviews } from "./hero-reviews";
 
-function GridCard({ quote, name, title, photo }: typeof heroReviews[number]) {
+function GridCard({
+  quote,
+  name,
+  title,
+  photo,
+}: typeof heroReviews[number]) {
   return (
     <div
-      className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
+      style={{
+        padding: "12px",
+        background: "#fff",
+        borderRadius: "12px",
+        border: "1px solid rgba(226,232,240,0.8)",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        display: "flex",
+        flexDirection: "column",
+        gap: "8px",
+        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.transform = "translateY(-2px)";
+        e.currentTarget.style.boxShadow = "0 8px 30px rgba(0,0,0,0.08)";
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "translateY(0)";
+        e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)";
+      }}
     >
       {/* Stars */}
-      <div className="flex gap-0.5 mb-1.5">
+      <div style={{ display: "flex", gap: "2px" }}>
         {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} className="text-[11px] text-amber-400">★</span>
+          <span key={i} style={{ fontSize: "11px", color: "#FBBF24" }}>
+            ★
+          </span>
         ))}
       </div>
+
       {/* Quote */}
-      <p className="text-[11.5px] leading-relaxed text-slate-600 italic mb-2.5 line-clamp-2">
-        &ldquo;{quote}&rdquo;
-      </p>
+      <div>
+        <span
+          style={{
+            fontSize: "18px",
+            lineHeight: "0.8",
+            color: "#10B981",
+            opacity: 0.2,
+            fontFamily: "Georgia, serif",
+          }}
+        >
+          &ldquo;
+        </span>
+        <p
+          style={{
+            fontSize: "11.5px",
+            lineHeight: 1.65,
+            color: "#334155",
+            margin: "2px 0 0",
+            fontStyle: "italic",
+          }}
+        >
+          {quote}
+        </p>
+      </div>
+
       {/* Reviewer */}
-      <div className="flex items-center gap-2">
+      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt="" width={24} height={24} className="rounded-full object-cover w-6 h-6" />
+        <img
+          src={photo}
+          alt=""
+          width={28}
+          height={28}
+          style={{
+            borderRadius: "50%",
+            objectFit: "cover",
+            width: "28px",
+            height: "28px",
+            minWidth: "28px",
+            minHeight: "28px",
+          }}
+        />
         <div>
-          <p className="text-[10px] font-semibold text-slate-800">{name}</p>
-          <p className="text-[9px] text-slate-400">{title}</p>
+          <div
+            style={{ fontSize: "10.5px", fontWeight: 600, color: "#0f172a" }}
+          >
+            {name}
+          </div>
+          <div style={{ fontSize: "9px", color: "#94a3b8" }}>{title}</div>
         </div>
       </div>
     </div>
@@ -33,7 +100,14 @@ function GridCard({ quote, name, title, photo }: typeof heroReviews[number]) {
 export function HeroGrid() {
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="grid grid-cols-2 gap-2.5">
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "10px",
+          gridAutoRows: "auto",
+        }}
+      >
         {heroReviews.map((r, i) => (
           <GridCard key={i} {...r} />
         ))}
