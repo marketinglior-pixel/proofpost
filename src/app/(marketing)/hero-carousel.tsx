@@ -51,7 +51,7 @@ export function HeroCarousel() {
   return (
     <div className="w-full max-w-md mx-auto">
       <div
-        className="rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/40"
+        className="rounded-2xl border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/40"
       >
         {/* Card */}
         <div className="p-7 pb-5 flex flex-col items-center text-center">
@@ -118,7 +118,7 @@ export function HeroCarousel() {
         </div>
 
         {/* Progress bar */}
-        <div className="h-[2px] bg-slate-100 overflow-hidden">
+        <div className="h-[2px] bg-slate-100 overflow-hidden rounded-b-2xl">
           <div
             key={current}
             className="h-full bg-emerald/40"
