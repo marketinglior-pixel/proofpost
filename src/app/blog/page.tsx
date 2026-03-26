@@ -26,6 +26,23 @@ export const metadata: Metadata = {
 
 const staticPosts = [
   {
+    slug: "social-proof-statistics",
+    title:
+      "75+ Social Proof Statistics for 2026 — Reviews, Testimonials & Trust Data",
+    meta_description:
+      "The most comprehensive collection of social proof statistics for 2026. Review stats, testimonial data, and consumer trust research. Updated monthly.",
+    published_at: "2026-03-27",
+    tags: ["Social Proof", "Statistics"],
+  },
+  {
+    slug: "nps-benchmarks",
+    title: "NPS Benchmarks by Industry 2026 — Complete Guide",
+    meta_description:
+      "Compare NPS benchmarks across 15 industries in 2026. See average NPS scores, top quartile ranges, and leading companies for SaaS, e-commerce, healthcare, and more.",
+    published_at: "2026-03-27",
+    tags: ["NPS", "Benchmarks"],
+  },
+  {
     slug: "how-to-ask-for-testimonials",
     title: "How to Ask for Testimonials: 7 Proven Methods + Templates",
     meta_description:

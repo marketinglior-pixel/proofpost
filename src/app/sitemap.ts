@@ -1,5 +1,41 @@
 import type { MetadataRoute } from "next";
 
+const reviewResponseIndustries = [
+  "restaurant",
+  "hotel",
+  "healthcare",
+  "retail",
+  "saas",
+  "agency",
+  "fitness",
+  "salon-spa",
+  "auto",
+  "home-services",
+  "dental",
+  "real-estate",
+  "legal",
+  "ecommerce",
+  "education",
+];
+
+const npsBenchmarkIndustries = [
+  "saas",
+  "ecommerce",
+  "healthcare",
+  "financial-services",
+  "insurance",
+  "retail",
+  "hospitality",
+  "technology",
+  "education",
+  "consulting",
+  "telecom",
+  "airlines",
+  "automotive",
+  "real-estate",
+  "logistics",
+];
+
 const testimonialIndustries = [
   "saas",
   "ecommerce",
@@ -28,6 +64,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
     (slug) => ({
       url: `https://proofpst.com/tools/testimonial-examples/${slug}`,
       lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })
+  );
+
+  const npsBenchmarkPages: MetadataRoute.Sitemap = npsBenchmarkIndustries.map(
+    (slug) => ({
+      url: `https://proofpst.com/blog/nps-benchmarks/${slug}`,
+      lastModified: new Date("2026-03-27"),
       changeFrequency: "monthly" as const,
       priority: 0.7,
     })
@@ -113,6 +158,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.7,
     },
     {
+      url: "https://proofpst.com/blog/social-proof-statistics",
+      lastModified: new Date("2026-03-27"),
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
       url: "https://proofpst.com/blog/how-to-ask-for-testimonials",
       lastModified: new Date("2026-03-26"),
       changeFrequency: "monthly",
@@ -131,5 +182,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     ...industryPages,
+    {
+      url: "https://proofpst.com/blog/nps-benchmarks",
+      lastModified: new Date("2026-03-27"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    ...npsBenchmarkPages,
+    ...reviewResponseIndustries.map((slug) => ({
+      url: `https://proofpst.com/tools/review-response-examples/${slug}`,
+      lastModified: new Date(),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   ];
 }

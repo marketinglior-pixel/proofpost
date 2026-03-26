@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Star, ArrowRight } from "lucide-react";
 import { ResponseBrowser } from "./response-browser";
+import { industries as responseIndustries } from "./industry-response-data";
 
 export const metadata: Metadata = {
   title:
@@ -213,6 +214,33 @@ export default function ReviewResponseExamplesPage() {
       <section className="bg-snow py-12">
         <div className="max-w-6xl mx-auto px-6">
           <ResponseBrowser />
+        </div>
+      </section>
+
+      {/* Browse by Industry */}
+      <section className="bg-white py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-[22px] font-bold text-slate-900 mb-2">
+            Browse Review Response Examples by Industry
+          </h2>
+          <p className="text-[15px] text-slate-500 mb-8">
+            Find review response templates tailored to your industry. Each page
+            includes 8+ ready-to-use responses, tips, and FAQs.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {responseIndustries.map((ind) => (
+              <Link
+                key={ind.slug}
+                href={`/tools/review-response-examples/${ind.slug}`}
+                className="group flex items-center gap-3 border border-slate-200/80 rounded-lg px-4 py-3 hover:border-emerald/40 hover:bg-emerald/5 transition-all duration-200"
+              >
+                <span className="text-[14px] font-medium text-slate-700 group-hover:text-emerald transition-colors">
+                  {ind.name}
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-emerald ml-auto transition-colors" />
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

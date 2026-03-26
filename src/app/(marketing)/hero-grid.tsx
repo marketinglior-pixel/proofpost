@@ -2,10 +2,10 @@
 
 import { heroReviews } from "./hero-reviews";
 
-function GridCard({ quote, name, title, photo, isLarge }: typeof heroReviews[number] & { isLarge: boolean }) {
+function GridCard({ quote, name, title, photo }: typeof heroReviews[number]) {
   return (
     <div
-      className={`rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200 ${isLarge ? "row-span-2" : ""}`}
+      className="rounded-xl border border-slate-200/80 bg-white p-4 shadow-sm hover:-translate-y-0.5 hover:shadow-md transition-all duration-200"
     >
       {/* Stars */}
       <div className="flex gap-0.5 mb-1.5">
@@ -14,7 +14,7 @@ function GridCard({ quote, name, title, photo, isLarge }: typeof heroReviews[num
         ))}
       </div>
       {/* Quote */}
-      <p className={`text-[11.5px] leading-relaxed text-slate-600 italic mb-2.5 ${isLarge ? "line-clamp-5" : "line-clamp-2"}`}>
+      <p className="text-[11.5px] leading-relaxed text-slate-600 italic mb-2.5 line-clamp-2">
         &ldquo;{quote}&rdquo;
       </p>
       {/* Reviewer */}
@@ -35,7 +35,7 @@ export function HeroGrid() {
     <div className="w-full max-w-md mx-auto">
       <div className="grid grid-cols-2 gap-2.5">
         {heroReviews.map((r, i) => (
-          <GridCard key={i} {...r} isLarge={i === 0} />
+          <GridCard key={i} {...r} />
         ))}
       </div>
     </div>
