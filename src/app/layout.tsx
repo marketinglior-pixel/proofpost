@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { PostHogProvider } from "@/components/posthog-provider";
 import { PostHogPageview } from "@/components/posthog-pageview";
 import { AdTrackingPixels } from "@/components/ad-tracking-pixels";
+import { FeedbackWidget } from "@/components/feedback-widget";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -79,6 +80,7 @@ export default function RootLayout({
           <AdTrackingPixels />
           {children}
         </PostHogProvider>
+        <FeedbackWidget />
         <Toaster position="top-center" richColors />
       </body>
     </html>
