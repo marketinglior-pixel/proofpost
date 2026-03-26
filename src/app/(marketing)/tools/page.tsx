@@ -43,9 +43,9 @@ const tools = [
     title: "NPS Calculator",
     description:
       "Calculate your Net Promoter Score instantly with industry benchmarks.",
-    href: "#",
+    href: "/tools/nps-calculator",
     icon: BarChart3,
-    badge: "Coming Soon",
+    badge: "Live",
   },
   {
     title: "Review Response Generator",
