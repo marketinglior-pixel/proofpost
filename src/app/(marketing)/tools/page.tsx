@@ -35,9 +35,9 @@ const tools = [
     title: "Testimonial Examples Library",
     description:
       "100+ full-length testimonial examples organized by industry and use case.",
-    href: "#",
+    href: "/tools/testimonial-examples",
     icon: FileText,
-    badge: "Coming Soon",
+    badge: "Live",
   },
   {
     title: "NPS Calculator",
