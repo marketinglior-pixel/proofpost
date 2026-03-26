@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Star, ArrowRight } from "lucide-react";
 import { TestimonialBrowser } from "./testimonial-browser";
+import { industries } from "./industry-data";
 
 export const metadata: Metadata = {
   title: "100+ Testimonial Examples by Industry — Free Library | ProofPost",
@@ -214,6 +215,33 @@ export default function TestimonialExamplesPage() {
         </div>
       </section>
 
+      {/* Browse by Industry */}
+      <section className="bg-white py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-[22px] font-bold text-slate-900 mb-2">
+            Browse Testimonial Examples by Industry
+          </h2>
+          <p className="text-[15px] text-slate-500 mb-8">
+            Find testimonial examples tailored to your industry. Each page
+            includes 10+ ready-to-use examples, collection tips, and FAQs.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+            {industries.map((ind) => (
+              <Link
+                key={ind.slug}
+                href={`/tools/testimonial-examples/${ind.slug}`}
+                className="group flex items-center gap-3 border border-slate-200/80 rounded-lg px-4 py-3 hover:border-emerald/40 hover:bg-emerald/5 transition-all duration-200"
+              >
+                <span className="text-[14px] font-medium text-slate-700 group-hover:text-emerald transition-colors">
+                  {ind.name}
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 text-slate-300 group-hover:text-emerald ml-auto transition-colors" />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Banner */}
       <section className="bg-slate-900 py-16">
         <div className="max-w-3xl mx-auto px-6 text-center">
@@ -239,6 +267,35 @@ export default function TestimonialExamplesPage() {
           <p className="mt-3 text-[13px] text-slate-500">
             No credit card required &middot; $19/mo after trial
           </p>
+        </div>
+      </section>
+
+      {/* Related Tools */}
+      <section className="bg-white py-16 border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-[20px] font-bold text-slate-900 mb-6">
+            Related Free Tools
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { title: "Short Testimonial Generator", description: "60+ short testimonial samples by industry", href: "/tools/short-testimonial-generator" },
+              { title: "Testimonial Form Templates", description: "40+ testimonial form question templates", href: "/tools/testimonial-form-templates" },
+              { title: "Testimonial Request Emails", description: "50+ testimonial request email templates", href: "/tools/testimonial-request-email" },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="border border-slate-200/80 rounded-lg p-4 hover:border-emerald/40 hover:shadow-sm transition-all group"
+              >
+                <p className="text-[14px] font-semibold text-slate-900 group-hover:text-emerald transition-colors">
+                  {tool.title}
+                </p>
+                <p className="mt-1 text-[12px] text-slate-400 leading-relaxed">
+                  {tool.description}
+                </p>
+              </Link>
+            ))}
+          </div>
         </div>
       </section>
 

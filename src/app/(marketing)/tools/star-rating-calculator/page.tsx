@@ -236,6 +236,35 @@ export default function StarRatingCalculatorPage() {
         </div>
       </section>
 
+      {/* Related Tools */}
+      <section className="bg-white py-16 border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-[20px] font-bold text-slate-900 mb-6">
+            Related Free Tools
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { title: "NPS Calculator", description: "Calculate your Net Promoter Score instantly", href: "/tools/nps-calculator" },
+              { title: "CSAT Calculator", description: "Calculate your Customer Satisfaction Score", href: "/tools/csat-calculator" },
+              { title: "Google Review Link Generator", description: "Get your direct Google review URL", href: "/tools/google-review-link" },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="border border-slate-200/80 rounded-lg p-4 hover:border-emerald/40 hover:shadow-sm transition-all group"
+              >
+                <p className="text-[14px] font-semibold text-slate-900 group-hover:text-emerald transition-colors">
+                  {tool.title}
+                </p>
+                <p className="mt-1 text-[12px] text-slate-400 leading-relaxed">
+                  {tool.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SEO Content */}
       <section className="bg-white py-20">
         <div className="max-w-3xl mx-auto px-6">

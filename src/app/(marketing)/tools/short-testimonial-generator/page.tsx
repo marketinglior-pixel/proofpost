@@ -243,6 +243,35 @@ export default function ShortTestimonialGeneratorPage() {
         </div>
       </section>
 
+      {/* Related Tools */}
+      <section className="bg-white py-16 border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-6">
+          <h2 className="text-[20px] font-bold text-slate-900 mb-6">
+            Related Free Tools
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-4">
+            {[
+              { title: "Testimonial Examples Library", description: "100+ full-length testimonial examples", href: "/tools/testimonial-examples" },
+              { title: "Testimonial Form Templates", description: "40+ testimonial form question templates", href: "/tools/testimonial-form-templates" },
+              { title: "Testimonial Request Emails", description: "50+ testimonial request email templates", href: "/tools/testimonial-request-email" },
+            ].map((tool) => (
+              <Link
+                key={tool.href}
+                href={tool.href}
+                className="border border-slate-200/80 rounded-lg p-4 hover:border-emerald/40 hover:shadow-sm transition-all group"
+              >
+                <p className="text-[14px] font-semibold text-slate-900 group-hover:text-emerald transition-colors">
+                  {tool.title}
+                </p>
+                <p className="mt-1 text-[12px] text-slate-400 leading-relaxed">
+                  {tool.description}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* SEO Content */}
       <section className="bg-white py-20">
         <div className="max-w-3xl mx-auto px-6">

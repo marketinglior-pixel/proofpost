@@ -9,17 +9,60 @@ const supabase = createClient(
 );
 
 export const metadata: Metadata = {
-  title: "Blog | ProofPost",
+  title: "Blog — Social Proof Tips & Insights | ProofPost",
   description:
-    "Tips and insights on social proof, customer reviews, and conversion optimization for SaaS founders.",
+    "Tips and insights on social proof, customer reviews, testimonials, NPS, and conversion optimization for SaaS founders and marketers.",
+  openGraph: {
+    title: "Blog — Social Proof Tips & Insights | ProofPost",
+    description:
+      "Tips and insights on social proof, customer reviews, testimonials, NPS, and conversion optimization.",
+    url: "https://proofpst.com/blog",
+    type: "website",
+  },
+  alternates: {
+    canonical: "https://proofpst.com/blog",
+  },
 };
 
+const staticPosts = [
+  {
+    slug: "how-to-ask-for-testimonials",
+    title: "How to Ask for Testimonials: 7 Proven Methods + Templates",
+    meta_description:
+      "Learn how to ask customers for testimonials with 7 proven methods, email templates, and timing tips. Get more social proof for your business today.",
+    published_at: "2026-03-26",
+    tags: ["Testimonials", "Social Proof"],
+  },
+  {
+    slug: "good-nps-score",
+    title: "What Is a Good NPS Score? Benchmarks by Industry (2026)",
+    meta_description:
+      "Find out what a good NPS score is with industry benchmarks for 2026. Includes NPS ranges, how to calculate NPS, and tips to improve your score.",
+    published_at: "2026-03-26",
+    tags: ["NPS", "Customer Success"],
+  },
+  {
+    slug: "respond-to-google-reviews",
+    title: "How to Respond to Google Reviews (With Examples)",
+    meta_description:
+      "Learn how to respond to positive, negative, and neutral Google reviews with real examples and templates. Boost your reputation and win more customers.",
+    published_at: "2026-03-26",
+    tags: ["Reviews", "Reputation"],
+  },
+];
+
 export default async function BlogPage() {
-  const { data: posts } = await supabase
+  const { data: dbPosts } = await supabase
     .from("blog_posts")
     .select("title, slug, meta_description, image_url, published_at, tags")
     .eq("status", "published")
     .order("published_at", { ascending: false });
+
+  // Merge static posts with Supabase posts, static first
+  const allPosts = [
+    ...staticPosts.map((p) => ({ ...p, image_url: null })),
+    ...(dbPosts || []),
+  ];
 
   return (
     <div className="min-h-screen bg-white">
@@ -35,6 +78,12 @@ export default async function BlogPage() {
             </span>
           </Link>
           <div className="flex items-center gap-3">
+            <Link
+              href="/tools"
+              className="text-sm text-slate-500 hover:text-slate-900 transition-colors duration-200 px-3 py-2 hidden sm:block"
+            >
+              Free Tools
+            </Link>
             <Link
               href="/blog"
               className="text-sm text-slate-900 font-medium px-3 py-2"
@@ -69,13 +118,13 @@ export default async function BlogPage() {
 
       {/* Posts Grid */}
       <div className="max-w-4xl mx-auto px-6 pb-24">
-        {!posts || posts.length === 0 ? (
+        {allPosts.length === 0 ? (
           <p className="text-center text-slate-400 py-12">
             No posts yet. Check back soon!
           </p>
         ) : (
           <div className="grid gap-8 sm:grid-cols-2">
-            {posts.map((post) => (
+            {allPosts.map((post) => (
               <Link
                 key={post.slug}
                 href={`/blog/${post.slug}`}
@@ -137,15 +186,44 @@ export default async function BlogPage() {
       </div>
 
       {/* Footer */}
-      <div className="border-t border-slate-200 py-6 text-center">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-slate-400 transition-colors"
-        >
-          <Star className="w-3 h-3" />
-          ProofPost
-        </Link>
-      </div>
+      <footer className="bg-slate-50 border-t border-slate-200/60 py-10">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-md bg-emerald flex items-center justify-center">
+              <Star className="w-3 h-3 text-white" aria-hidden="true" />
+            </div>
+            <span className="text-[13px] font-medium text-slate-500">
+              ProofPost
+            </span>
+          </Link>
+          <div className="flex items-center gap-6 text-[13px] text-slate-400">
+            <Link
+              href="/tools"
+              className="hover:text-slate-600 transition-colors"
+            >
+              Free Tools
+            </Link>
+            <Link
+              href="/blog"
+              className="hover:text-slate-600 transition-colors"
+            >
+              Blog
+            </Link>
+            <Link
+              href="/privacy"
+              className="hover:text-slate-600 transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="hover:text-slate-600 transition-colors"
+            >
+              Terms
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
