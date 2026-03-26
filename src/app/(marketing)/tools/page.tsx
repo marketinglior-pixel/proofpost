@@ -122,21 +122,9 @@ export default function ToolsPage() {
             {tools.map((tool) => {
               const isLive = tool.badge === "Live";
               const Icon = tool.icon;
-              const Wrapper = isLive ? Link : "div";
-              const wrapperProps = isLive
-                ? { href: tool.href }
-                : {};
 
-              return (
-                <Wrapper
-                  key={tool.title}
-                  {...(wrapperProps as Record<string, string>)}
-                  className={`group border border-slate-200/80 rounded-xl p-8 transition-all duration-200 ${
-                    isLive
-                      ? "hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                      : "opacity-60"
-                  }`}
-                >
+              const cardContent = (
+                <>
                   <div className="flex items-start justify-between mb-4">
                     <Icon
                       className="w-6 h-6 text-emerald"
@@ -164,7 +152,23 @@ export default function ToolsPage() {
                       <ArrowRight className="w-3.5 h-3.5" />
                     </div>
                   )}
-                </Wrapper>
+                </>
+              );
+
+              const className = `group border border-slate-200/80 rounded-xl p-8 transition-all duration-200 ${
+                isLive
+                  ? "hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                  : "opacity-60"
+              }`;
+
+              return isLive ? (
+                <Link key={tool.title} href={tool.href} className={className}>
+                  {cardContent}
+                </Link>
+              ) : (
+                <div key={tool.title} className={className}>
+                  {cardContent}
+                </div>
               );
             })}
           </div>
