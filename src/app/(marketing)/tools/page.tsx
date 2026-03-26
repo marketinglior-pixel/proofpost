@@ -6,6 +6,8 @@ import {
   BarChart3,
   MessageSquare,
   ArrowRight,
+  LinkIcon,
+  Calculator,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -48,12 +50,28 @@ const tools = [
     badge: "Live",
   },
   {
-    title: "Review Response Generator",
+    title: "Google Review Link Generator",
     description:
-      "Get AI-powered responses to positive and negative reviews in seconds.",
-    href: "#",
+      "Generate a direct Google review link for your business. Share via email, SMS, or QR code.",
+    href: "/tools/google-review-link",
+    icon: LinkIcon,
+    badge: "Live",
+  },
+  {
+    title: "Review Response Examples",
+    description:
+      "100+ copy-paste review response templates for 1-5 star Google reviews by industry.",
+    href: "/tools/review-response-examples",
     icon: MessageSquare,
-    badge: "Coming Soon",
+    badge: "Live",
+  },
+  {
+    title: "CSAT Calculator",
+    description:
+      "Calculate your Customer Satisfaction Score with industry benchmarks.",
+    href: "/tools/csat-calculator",
+    icon: Calculator,
+    badge: "Live",
   },
 ];
 
