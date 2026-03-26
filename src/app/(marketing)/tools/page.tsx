@@ -8,6 +8,8 @@ import {
   ArrowRight,
   LinkIcon,
   Calculator,
+  Mail,
+  ClipboardList,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -71,6 +73,30 @@ const tools = [
       "Calculate your Customer Satisfaction Score with industry benchmarks.",
     href: "/tools/csat-calculator",
     icon: Calculator,
+    badge: "Live",
+  },
+  {
+    title: "Testimonial Request Emails",
+    description:
+      "50+ copy-paste email templates for requesting testimonials from customers.",
+    href: "/tools/testimonial-request-email",
+    icon: Mail,
+    badge: "Live",
+  },
+  {
+    title: "Testimonial Form Templates",
+    description:
+      "40+ testimonial form templates with the best questions to ask customers.",
+    href: "/tools/testimonial-form-templates",
+    icon: ClipboardList,
+    badge: "Live",
+  },
+  {
+    title: "Star Rating Calculator",
+    description:
+      "Calculate your average star rating from review data with distribution breakdown.",
+    href: "/tools/star-rating-calculator",
+    icon: Star,
     badge: "Live",
   },
 ];
