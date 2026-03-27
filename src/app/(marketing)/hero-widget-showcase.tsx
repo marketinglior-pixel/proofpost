@@ -62,7 +62,7 @@ export function HeroWidgetShowcase() {
 
   return (
     <div
-      className="flex flex-col items-center gap-4"
+      className="flex flex-col items-center gap-4 min-w-0 overflow-hidden"
       onMouseEnter={() => { pauseRef.current = true; }}
       onMouseLeave={() => { pauseRef.current = false; }}
     >
