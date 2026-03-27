@@ -85,7 +85,7 @@ export default function LoginPage() {
           </h1>
           <p className="text-lg text-warm-gray leading-relaxed max-w-sm">
             Transform customer testimonials into high&#8209;converting LinkedIn
-            carousels — branded, beautiful, in seconds.
+            carousels. Branded, beautiful, in seconds.
           </p>
 
           {/* Social proof */}
