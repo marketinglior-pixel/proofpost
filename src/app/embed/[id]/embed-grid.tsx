@@ -57,11 +57,9 @@ function isReviewRTL(r: Review): boolean {
 function GridCard({
   review,
   primaryColor,
-  isLarge,
 }: {
   review: Review;
   primaryColor: string;
-  isLarge: boolean;
 }) {
   const rtl = isReviewRTL(review);
 
@@ -78,7 +76,6 @@ function GridCard({
         display: "flex",
         flexDirection: "column" as const,
         gap: "16px",
-        gridRow: isLarge ? "span 2" : "span 1",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
       }}
       onMouseEnter={(e) => {
@@ -270,7 +267,6 @@ export function EmbedGrid({
             key={review.id}
             review={review}
             primaryColor={primaryColor}
-            isLarge={reviews.length >= 3 && i === 0}
           />
         ))}
       </div>
