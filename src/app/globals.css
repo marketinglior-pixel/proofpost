@@ -199,6 +199,48 @@
   50% { opacity: 0.8; transform: scale(1.15); }
 }
 
+/* Safe area padding for mobile sticky CTA */
+.safe-area-pb {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
+
+/* Range slider styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+}
+input[type="range"]::-webkit-slider-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #E2E8F0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  margin-top: -7px;
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #E2E8F0;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #10B981;
+  border: 3px solid white;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+  cursor: pointer;
+}
+
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
   *,

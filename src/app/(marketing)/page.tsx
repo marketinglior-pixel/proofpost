@@ -1,6 +1,9 @@
 import Link from "next/link";
 import { HeroWidgetShowcase } from "./hero-widget-showcase";
 import { LandingMarquee } from "./landing-marquee";
+import { HeroUrlInput } from "./hero-url-input";
+import { ImpactCalculator } from "./impact-calculator";
+import { StickyMobileCTA } from "./sticky-mobile-cta";
 import {
   ArrowRight,
   Zap,
@@ -94,15 +97,8 @@ export default function LandingPage() {
                 widget on your site in under a minute.
               </p>
 
-              <div className="flex flex-col sm:flex-row items-start gap-4">
-                <Link
-                  href="/login"
-                  className="flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
-                >
-                  Try Free. No Card Required.
-                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
-                </Link>
-              </div>
+              {/* Hero URL Input — zero-friction onboarding */}
+              <HeroUrlInput />
 
               <p className="text-sm text-slate-300">
                 Loved by early adopters
@@ -414,6 +410,13 @@ export default function LandingPage() {
         </div>
       </section>
 
+      {/* ============ IMPACT CALCULATOR ============ */}
+      <section className="bg-snow py-24">
+        <div className="max-w-5xl mx-auto px-6">
+          <ImpactCalculator />
+        </div>
+      </section>
+
       {/* ============ SECTION 6: COMPARISON ============ */}
       <section className="max-w-4xl mx-auto px-6 py-24">
         <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
@@ -582,24 +585,38 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ SECTION 10: FINAL CTA ============ */}
-      <section className="max-w-3xl mx-auto px-6 py-24 text-center">
-        <h2 className="text-[36px] font-bold text-slate-900 tracking-tight">
-          Stop designing. Start converting.
-        </h2>
-        <p className="mt-4 text-[17px] text-slate-500 max-w-md mx-auto">
-          You have fought hard for those reviews. Do not let them rot in a
-          desktop folder. Your prospects are on your pricing page right now,
-          looking for a reason to trust you. Give them that reason.
-        </p>
-        <Link
-          href="/login"
-          className="inline-flex items-center gap-2 mt-10 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
-        >
-          Try Free. No Card Required.
-          <ArrowRight className="w-5 h-5" aria-hidden="true" />
-        </Link>
+      {/* ============ SECTION 10: FINAL CTA (Garbage Collector) ============ */}
+      <section className="bg-navy py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(16,185,129,0.1)_0%,_transparent_60%)]" />
+        <div className="relative max-w-3xl mx-auto px-6 text-center">
+          <p className="text-[13px] font-medium text-emerald uppercase tracking-wider mb-4">
+            Still scrolling?
+          </p>
+          <h2 className="text-[36px] font-bold text-white tracking-tight">
+            Your reviews are waiting.
+          </h2>
+          <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
+            Your prospects are on your pricing page right now, looking for
+            a reason to trust you. Your customers already wrote that reason.
+            We just make it impossible to miss.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+            <Link
+              href="/login"
+              className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
+            >
+              Embed your first widget — free
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
+            </Link>
+            <p className="text-[13px] text-slate-500">
+              No credit card. 60-second setup.
+            </p>
+          </div>
+        </div>
       </section>
+
+      {/* Sticky Mobile CTA */}
+      <StickyMobileCTA />
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50">
