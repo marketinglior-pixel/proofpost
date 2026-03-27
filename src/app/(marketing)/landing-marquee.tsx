@@ -2,31 +2,31 @@
 
 const testimonials = [
   {
-    quote: "47 G2 reviews sat idle for months. ProofPost turned them into landing page conversion machines.",
+    quote: "Screenshotted 40 Google reviews, uploaded them all at once. ProofPost extracted every single one. Took less time than my morning coffee.",
     name: "Daniel Moreno",
     title: "CMO, Launchpad HQ",
     photo: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
   },
   {
-    quote: "Animated carousels stopped the scroll. Pricing page bounce rate dropped 18% in one week.",
+    quote: "The preset themes are gorgeous. Switched to Bold dark mode and it looks like a Fortune 500 testimonial section.",
     name: "Emily Rhodes",
     title: "Growth Manager, Nuvio",
     photo: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face",
   },
   {
-    quote: "Sent collection forms Monday, had 14 reviews live by Friday. Zero design work needed.",
+    quote: "Sent collection links to 20 clients Monday morning. By Friday we had 14 live testimonials on our site — zero manual work.",
     name: "James Park",
     title: "Founder, Crestline",
     photo: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80&h=80&fit=crop&crop=face",
   },
   {
-    quote: "The AI picks better hooks than I do. Setup took 60 seconds. Our sales page finally has proof.",
+    quote: "The AI picks better hooks than I do. Three variants for A/B testing. Our sales page finally has proof that converts.",
     name: "Sarah Chen",
     title: "VP Sales, TechFlow",
     photo: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face",
   },
   {
-    quote: "Pipeline accuracy went from 40% to 92%. The team finally trusts the numbers on our site.",
+    quote: "Auto-approve is a game changer. Customers submit reviews, AI generates the widget, it goes live. I just watch the dashboard.",
     name: "Marcus Johnson",
     title: "Head of Revenue, Beacon AI",
     photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",

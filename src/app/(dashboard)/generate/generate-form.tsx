@@ -20,6 +20,9 @@ import {
   Code2,
   ExternalLink,
   Plus,
+  Camera,
+  Upload,
+  Image as ImageIcon,
 } from "lucide-react";
 
 const PROOFPOST_HOST = "https://proofpst.com";
@@ -36,7 +39,7 @@ const EXAMPLE_REVIEW = `"We switched from HubSpot to their platform 6 months ago
 
 export function GenerateForm() {
   // Input state
-  const [mode, setMode] = useState<"link" | "text">("text");
+  const [mode, setMode] = useState<"link" | "text" | "screenshot">("text");
   const [url, setUrl] = useState("");
   const [rawInput, setRawInput] = useState("");
   const [reviewerName, setReviewerName] = useState("");
@@ -44,6 +47,20 @@ export function GenerateForm() {
   const [reviewerPhotoUrl, setReviewerPhotoUrl] = useState("");
   const [extracting, setExtracting] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  // Screenshot state
+  const [screenshotFile, setScreenshotFile] = useState<File | null>(null);
+  const [screenshotPreview, setScreenshotPreview] = useState<string | null>(null);
+  const [extractedReviews, setExtractedReviews] = useState<Array<{
+    reviewerName: string;
+    reviewerTitle?: string;
+    reviewerCompany?: string;
+    reviewText: string;
+    rating?: number;
+    source?: string;
+  }>>([]);
+  const [extractingScreenshot, setExtractingScreenshot] = useState(false);
+  const [selectedExtracted, setSelectedExtracted] = useState<number | null>(null);
 
   // Accumulated reviews
   const [reviews, setReviews] = useState<ReviewItem[]>([]);
@@ -121,6 +138,83 @@ export function GenerateForm() {
       toast.success(`Added! ${reviews.length + 1} review${reviews.length > 0 ? "s" : ""} in your carousel.`);
     } catch { toast.error("Network error."); }
     finally { setLoading(false); }
+  }
+
+  async function handleScreenshotUpload(file: File) {
+    setScreenshotFile(file);
+    setScreenshotPreview(URL.createObjectURL(file));
+    setExtractedReviews([]);
+    setSelectedExtracted(null);
+  }
+
+  async function handleExtractScreenshot() {
+    if (!screenshotFile) return;
+    setExtractingScreenshot(true);
+    try {
+      const formData = new FormData();
+      formData.append("image", screenshotFile);
+      const res = await fetch("/api/extract-screenshot", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (!res.ok) { toast.error(data.error || "Failed to extract"); return; }
+      setExtractedReviews(data.reviews || []);
+      posthog.capture("screenshot_extracted", { count: data.count, source: data.sourceDetected });
+      toast.success(`Found ${data.count} review${data.count !== 1 ? "s" : ""}!`);
+    } catch { toast.error("Failed to extract reviews."); }
+    finally { setExtractingScreenshot(false); }
+  }
+
+  function handleUseExtracted(index: number) {
+    const review = extractedReviews[index];
+    if (!review) return;
+    setRawInput(review.reviewText);
+    setReviewerName(review.reviewerName);
+    setReviewerTitle([review.reviewerTitle, review.reviewerCompany].filter(Boolean).join(", "));
+    setSelectedExtracted(index);
+    setMode("text"); // Switch to text mode to show the filled form
+    toast.success("Review loaded! Click 'Add to Carousel' to generate.");
+  }
+
+  async function handleGenerateAllExtracted() {
+    if (extractedReviews.length === 0) return;
+    setLoading(true);
+    let added = 0;
+    for (const review of extractedReviews) {
+      try {
+        const res = await fetch("/api/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            rawInput: review.reviewText,
+            reviewerName: review.reviewerName || undefined,
+            reviewerTitle: review.reviewerTitle || undefined,
+          }),
+        });
+        const data = await res.json();
+        if (res.ok) {
+          const newReview: ReviewItem = {
+            contentId: data.id,
+            hookLine: data.llmOutput.hookLine || "Review",
+            reviewerName: data.llmOutput.reviewer?.name || review.reviewerName || "Customer",
+            quote: data.llmOutput.slides?.[1]?.body || review.reviewText.slice(0, 80),
+          };
+          setReviews((prev) => [...prev, newReview]);
+          added++;
+        }
+      } catch {
+        // Skip failed ones
+      }
+    }
+    setWidgetId(null);
+    setLoading(false);
+    if (added > 0) {
+      posthog.capture("bulk_screenshot_generated", { count: added });
+      toast.success(`Added ${added} reviews to your carousel!`);
+    } else {
+      toast.error("Failed to generate carousels");
+    }
   }
 
   function handleRemoveReview(contentId: string) {
@@ -201,9 +295,158 @@ export function GenerateForm() {
             <Type className="w-3.5 h-3.5" aria-hidden="true" />
             Paste Text
           </button>
+          <button
+            onClick={() => setMode("screenshot")}
+            className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
+              mode === "screenshot" ? "bg-white text-slate-900 shadow-sm" : "text-slate-500 hover:text-slate-700"
+            }`}
+          >
+            <Camera className="w-3.5 h-3.5" aria-hidden="true" />
+            Screenshot
+          </button>
         </div>
 
+        {/* Screenshot input card */}
+        {mode === "screenshot" && (
+          <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+            <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+              Upload Screenshot
+            </label>
+
+            {/* Drop zone */}
+            {!screenshotPreview ? (
+              <label
+                className="flex flex-col items-center justify-center gap-3 p-8 rounded-lg border-2 border-dashed border-slate-200 hover:border-emerald/40 hover:bg-emerald/5 transition-colors cursor-pointer"
+                onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                onDrop={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  const file = e.dataTransfer.files[0];
+                  if (file?.type.startsWith("image/")) handleScreenshotUpload(file);
+                }}
+              >
+                <Upload className="w-8 h-8 text-slate-300" />
+                <div className="text-center">
+                  <p className="text-sm font-medium text-slate-600">
+                    Drag & drop a screenshot or click to browse
+                  </p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Supports Google Reviews, G2, LinkedIn, Trustpilot, WhatsApp, Email
+                  </p>
+                </div>
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) handleScreenshotUpload(file);
+                  }}
+                />
+              </label>
+            ) : (
+              <div className="space-y-3">
+                <div className="relative rounded-lg overflow-hidden border border-slate-200">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={screenshotPreview}
+                    alt="Uploaded screenshot"
+                    className="w-full max-h-64 object-contain bg-slate-50"
+                  />
+                  <button
+                    onClick={() => {
+                      setScreenshotFile(null);
+                      setScreenshotPreview(null);
+                      setExtractedReviews([]);
+                    }}
+                    className="absolute top-2 right-2 p-1.5 rounded-md bg-white/90 hover:bg-white shadow text-slate-500 hover:text-red-500 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+
+                {/* Extract button */}
+                {extractedReviews.length === 0 && (
+                  <Button
+                    onClick={handleExtractScreenshot}
+                    disabled={extractingScreenshot}
+                    className="w-full h-11 bg-navy hover:bg-navy-light text-white font-medium shadow-none"
+                  >
+                    {extractingScreenshot ? (
+                      <><Loader2 className="w-4 h-4 mr-2 animate-spin" />Extracting reviews...</>
+                    ) : (
+                      <><ImageIcon className="w-4 h-4 mr-2" />Extract Reviews</>
+                    )}
+                  </Button>
+                )}
+              </div>
+            )}
+
+            {/* Extracted reviews list */}
+            {extractedReviews.length > 0 && (
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[12px] font-semibold text-emerald-dark">
+                    {extractedReviews.length} review{extractedReviews.length !== 1 ? "s" : ""} found
+                  </span>
+                  <Button
+                    onClick={handleGenerateAllExtracted}
+                    disabled={loading}
+                    size="sm"
+                    className="h-8 text-xs bg-emerald hover:bg-emerald-dark text-white shadow-none"
+                  >
+                    {loading ? (
+                      <><Loader2 className="w-3 h-3 mr-1 animate-spin" />Processing...</>
+                    ) : (
+                      <><Plus className="w-3 h-3 mr-1" />Add All to Carousel</>
+                    )}
+                  </Button>
+                </div>
+                <div className="space-y-2">
+                  {extractedReviews.map((review, i) => (
+                    <button
+                      key={i}
+                      onClick={() => handleUseExtracted(i)}
+                      className={`w-full text-left rounded-lg border p-3 transition-colors ${
+                        selectedExtracted === i
+                          ? "border-emerald bg-emerald/5"
+                          : "border-slate-200 hover:border-slate-300 bg-white"
+                      }`}
+                    >
+                      <div className="flex items-center gap-2 mb-1">
+                        <span className="text-xs font-semibold text-slate-800">
+                          {review.reviewerName}
+                        </span>
+                        {review.reviewerTitle && (
+                          <span className="text-[10px] text-slate-400">
+                            {review.reviewerTitle}
+                            {review.reviewerCompany ? `, ${review.reviewerCompany}` : ""}
+                          </span>
+                        )}
+                        {review.rating && (
+                          <span className="text-[10px] text-amber-500">
+                            {"★".repeat(review.rating)}
+                          </span>
+                        )}
+                        {review.source && review.source !== "other" && (
+                          <span className="text-[9px] text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+                            {review.source}
+                          </span>
+                        )}
+                      </div>
+                      <p className="text-xs text-slate-600 line-clamp-2">
+                        {review.reviewText}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Input card */}
+        {mode !== "screenshot" && (
         <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
           {mode === "link" ? (
             <div className="space-y-3">
@@ -288,6 +531,7 @@ export function GenerateForm() {
             )}
           </Button>
         </div>
+        )}
       </div>
 
       {/* RIGHT: Review list + Embed code */}

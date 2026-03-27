@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import { RotateCw, MoveHorizontal, LayoutGrid, Layers } from "lucide-react";
+import { RotateCw, MoveHorizontal, LayoutGrid, Layers, Paintbrush } from "lucide-react";
 import { HeroCarousel } from "./hero-carousel";
 import { HeroMarquee } from "./hero-marquee";
 import { HeroGrid } from "./hero-grid";
 import { HeroStack } from "./hero-stack";
+import { HeroBuilderDemo } from "./hero-builder-demo";
 
 const widgetTypes = [
   { key: "carousel", label: "Carousel", icon: RotateCw },
   { key: "marquee", label: "Marquee", icon: MoveHorizontal },
   { key: "grid", label: "Grid", icon: LayoutGrid },
   { key: "stack", label: "Stack", icon: Layers },
+  { key: "builder", label: "Builder", icon: Paintbrush },
 ] as const;
 
 export function HeroWidgetShowcase() {
@@ -114,6 +116,7 @@ export function HeroWidgetShowcase() {
           {active === 1 && <HeroMarquee />}
           {active === 2 && <HeroGrid />}
           {active === 3 && <HeroStack />}
+          {active === 4 && <HeroBuilderDemo />}
         </div>
       </div>
     </div>

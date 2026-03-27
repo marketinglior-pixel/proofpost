@@ -16,7 +16,7 @@ export default async function CollectPage({ params }: PageProps) {
 
   const { data: form } = await supabase
     .from("collection_forms")
-    .select("id, user_id, title, description, questions, active, brand_kit_id")
+    .select("id, user_id, title, description, questions, active, brand_kit_id, auto_approve, thank_you_message")
     .eq("slug", slug)
     .single();
 
@@ -98,6 +98,9 @@ export default async function CollectPage({ params }: PageProps) {
         <CollectForm
           formId={form.id}
           accentColor={brandKit?.primary_color || "#10B981"}
+          thankYouMessage={(form as Record<string, unknown>).thank_you_message as string | null}
+          autoApprove={(form as Record<string, unknown>).auto_approve as boolean}
+          companyName={brandKit?.company_name || null}
         />
 
         {/* Footer */}

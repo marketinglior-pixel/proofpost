@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Code2,
   Copy,
@@ -13,6 +14,7 @@ import {
   Loader2,
   CheckSquare,
   Square,
+  Palette,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -32,6 +34,7 @@ interface EmbedItem {
 type WidgetStyle = "carousel" | "marquee" | "grid" | "stack";
 
 export function WidgetList({ items }: { items: EmbedItem[] }) {
+  const router = useRouter();
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [selectedStyle, setSelectedStyle] = useState<WidgetStyle>("carousel");
   const [copied, setCopied] = useState(false);
@@ -323,8 +326,8 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
               </div>
             </div>
 
-            {/* Preview link */}
-            <div className="flex items-center gap-2">
+            {/* Preview + Customize links */}
+            <div className="flex items-center gap-4">
               <a
                 href={`${PROOFPOST_HOST}/embed/${selected.id}?style=${selectedStyle}`}
                 target="_blank"
@@ -332,8 +335,17 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
                 className="flex items-center gap-1.5 text-[12px] text-emerald hover:text-emerald-dark transition-colors"
               >
                 <ExternalLink className="w-3 h-3" />
-                Preview widget
+                Preview
               </a>
+              {selected.type === "widget" && (
+                <button
+                  onClick={() => router.push(`/widgets/${selected.id}`)}
+                  className="flex items-center gap-1.5 text-[12px] text-violet-600 hover:text-violet-700 transition-colors"
+                >
+                  <Palette className="w-3 h-3" />
+                  Customize Style
+                </button>
+              )}
             </div>
 
             {/* Code */}

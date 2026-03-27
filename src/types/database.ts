@@ -100,6 +100,7 @@ export interface Database {
           user_id: string;
           name: string;
           content_ids: string[];
+          style: Json | null;
           created_at: string;
           updated_at: string;
         };
@@ -108,6 +109,7 @@ export interface Database {
           user_id: string;
           name?: string;
           content_ids?: string[];
+          style?: Json | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -116,6 +118,7 @@ export interface Database {
           user_id?: string;
           name?: string;
           content_ids?: string[];
+          style?: Json | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -155,6 +158,9 @@ export interface Database {
           questions: Json;
           slug: string;
           active: boolean;
+          auto_approve: boolean;
+          linked_widget_id: string | null;
+          thank_you_message: string | null;
           created_at: string;
         };
         Insert: {
@@ -166,6 +172,9 @@ export interface Database {
           questions?: Json;
           slug: string;
           active?: boolean;
+          auto_approve?: boolean;
+          linked_widget_id?: string | null;
+          thank_you_message?: string | null;
           created_at?: string;
         };
         Update: {
@@ -177,6 +186,9 @@ export interface Database {
           questions?: Json;
           slug?: string;
           active?: boolean;
+          auto_approve?: boolean;
+          linked_widget_id?: string | null;
+          thank_you_message?: string | null;
           created_at?: string;
         };
         Relationships: [];
@@ -193,6 +205,7 @@ export interface Database {
           review_text: string;
           rating: number;
           status: string;
+          generated_content_id: string | null;
           created_at: string;
         };
         Insert: {
@@ -206,6 +219,7 @@ export interface Database {
           review_text: string;
           rating?: number;
           status?: string;
+          generated_content_id?: string | null;
           created_at?: string;
         };
         Update: {
@@ -219,6 +233,7 @@ export interface Database {
           review_text?: string;
           rating?: number;
           status?: string;
+          generated_content_id?: string | null;
           created_at?: string;
         };
         Relationships: [];

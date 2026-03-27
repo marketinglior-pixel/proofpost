@@ -37,13 +37,42 @@ interface EmbedData {
   limitReached?: boolean;
 }
 
+interface CustomStyle {
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  quoteColor?: string;
+  fontFamily?: string;
+  borderRadius?: number;
+  shadowStyle?: "none" | "subtle" | "elevated";
+  showStars?: boolean;
+  showTitle?: boolean;
+  showCompany?: boolean;
+  showAvatar?: boolean;
+  autoPlay?: boolean;
+  animationSpeed?: number;
+  direction?: "ltr" | "rtl" | "auto";
+}
+
+function getShadow(style: string): string {
+  switch (style) {
+    case "none": return "none";
+    case "subtle": return "0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06)";
+    case "elevated": return "0 25px 50px -12px rgba(148,163,184,0.15)";
+    default: return "0 25px 50px -12px rgba(148,163,184,0.15)";
+  }
+}
+
 export function EmbedCarousel({
   data,
   embedId,
+  customStyle,
 }: {
   data: EmbedData;
   embedId: string;
+  customStyle?: CustomStyle | Record<string, unknown> | null;
 }) {
+  const cs = (customStyle || {}) as CustomStyle;
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -51,8 +80,20 @@ export function EmbedCarousel({
 
   const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const primaryColor = brand?.primaryColor || "#10B981";
+  const primaryColor = cs.accentColor || brand?.primaryColor || "#10B981";
   const showWatermark = data.showWatermark !== false;
+  const bgColor = cs.backgroundColor || "#fff";
+  const textColor = cs.textColor || "#334155";
+  const quoteColor = cs.quoteColor || "#334155";
+  const fontFam = cs.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  const borderRad = cs.borderRadius !== undefined ? `${cs.borderRadius}px` : "16px";
+  const shadow = cs.shadowStyle ? getShadow(cs.shadowStyle) : "0 25px 50px -12px rgba(148,163,184,0.15)";
+  const showStars = cs.showStars !== false;
+  const showTitle = cs.showTitle !== false;
+  const showCompany = cs.showCompany !== false;
+  const showAvatar = cs.showAvatar !== false;
+  const autoPlayEnabled = cs.autoPlay !== false;
+  const slideInterval = (cs.animationSpeed || 3.5) * 1000;
 
   // A/B Testing: select hook variant for each review
   const selectedVariants = useRef<Record<string, string>>({});
@@ -105,12 +146,12 @@ export function EmbedCarousel({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Auto-slide every 3.5 seconds (matches hero)
+  // Auto-slide
   useEffect(() => {
-    if (paused || reviews.length <= 1) return;
-    const timer = setInterval(goToNext, 3500);
+    if (!autoPlayEnabled || paused || reviews.length <= 1) return;
+    const timer = setInterval(goToNext, slideInterval);
     return () => clearInterval(timer);
-  }, [paused, goToNext, reviews.length]);
+  }, [autoPlayEnabled, paused, goToNext, reviews.length, slideInterval]);
 
   // Auto-resize for iframe
   useEffect(() => {
@@ -164,12 +205,12 @@ export function EmbedCarousel({
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       style={{
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-        background: "#fff",
-        borderRadius: "16px",
+        fontFamily: fontFam,
+        background: bgColor,
+        borderRadius: borderRad,
         overflow: "hidden",
         border: "1px solid rgba(226,232,240,0.8)",
-        boxShadow: "0 25px 50px -12px rgba(148,163,184,0.15)",
+        boxShadow: shadow,
         direction: currentRTL ? "rtl" : "ltr",
         maxWidth: "448px",
         margin: "0 auto",
@@ -205,7 +246,7 @@ export function EmbedCarousel({
           style={{
             fontSize: "15px",
             lineHeight: 1.625,
-            color: "#334155",
+            color: quoteColor,
             margin: 0,
             fontStyle: "italic",
             minHeight: "48px",
@@ -231,39 +272,44 @@ export function EmbedCarousel({
             direction: "ltr",
           }}
         >
-          {isRealPhoto(review.reviewerPhotoUrl) ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={review.reviewerPhotoUrl!}
-              alt=""
-              width={40}
-              height={40}
-              style={{ borderRadius: "50%", objectFit: "cover" }}
-            />
-          ) : (
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
-                color: "#fff",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                fontSize: "14px",
-                fontWeight: 700,
-              }}
-            >
-              {getInitials(review.reviewer.name)}
-            </div>
+          {showAvatar && (
+            isRealPhoto(review.reviewerPhotoUrl) ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={review.reviewerPhotoUrl!}
+                alt=""
+                width={40}
+                height={40}
+                style={{ borderRadius: "50%", objectFit: "cover" }}
+              />
+            ) : (
+              <div
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "50%",
+                  background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
+                  color: "#fff",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  fontSize: "14px",
+                  fontWeight: 700,
+                }}
+              >
+                {getInitials(review.reviewer.name)}
+              </div>
+            )
           )}
           <div style={{ textAlign: "left" }}>
-            <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: textColor }}>
               {review.reviewer.name}
             </div>
-            <div style={{ fontSize: "11px", color: "#94a3b8" }}>
-              {[review.reviewer.title, review.reviewer.company].filter(Boolean).join(", ")}
+            <div style={{ fontSize: "11px", color: `${textColor}80` }}>
+              {[
+                showTitle ? review.reviewer.title : null,
+                showCompany ? review.reviewer.company : null,
+              ].filter(Boolean).join(", ")}
             </div>
           </div>
         </div>
@@ -343,7 +389,7 @@ export function EmbedCarousel({
               height: "100%",
               backgroundColor: primaryColor,
               opacity: 0.4,
-              animation: paused ? "none" : "pp-progress 3.5s linear forwards",
+              animation: paused || !autoPlayEnabled ? "none" : `pp-progress ${cs.animationSpeed || 3.5}s linear forwards`,
               width: "0%",
             }}
           />

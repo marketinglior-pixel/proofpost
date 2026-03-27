@@ -6,6 +6,9 @@ import { Star, Loader2, CheckCircle2, Sparkles, ArrowLeft, ArrowRight } from "lu
 interface CollectFormProps {
   formId: string;
   accentColor: string;
+  thankYouMessage?: string | null;
+  autoApprove?: boolean;
+  companyName?: string | null;
 }
 
 interface FollowUpQuestion {
@@ -15,7 +18,7 @@ interface FollowUpQuestion {
 
 type FormStep = "write" | "questions" | "enhanced" | "submitted";
 
-export function CollectForm({ formId, accentColor }: CollectFormProps) {
+export function CollectForm({ formId, accentColor, thankYouMessage, autoApprove, companyName }: CollectFormProps) {
   const [name, setName] = useState("");
   const [title, setTitle] = useState("");
   const [company, setCompany] = useState("");
@@ -140,8 +143,17 @@ export function CollectForm({ formId, accentColor }: CollectFormProps) {
         <CheckCircle2 className="w-12 h-12 mx-auto mb-3" style={{ color: accentColor }} />
         <h2 className="text-xl font-bold text-slate-900 mb-2">Thank you!</h2>
         <p className="text-sm text-slate-500">
-          Your review has been submitted and is pending approval. We appreciate your feedback!
+          {thankYouMessage || (
+            autoApprove
+              ? "Your review is now live! Thank you for sharing your experience."
+              : "Your review has been submitted and is pending approval. We appreciate your feedback!"
+          )}
         </p>
+        {companyName && (
+          <p className="text-xs text-slate-400 mt-3">
+            — The {companyName} team
+          </p>
+        )}
       </div>
     );
   }

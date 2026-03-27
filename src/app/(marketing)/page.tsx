@@ -22,6 +22,9 @@ import {
   BarChart3,
   FileText,
   Heart,
+  Camera,
+  Paintbrush,
+  RefreshCw,
 } from "lucide-react";
 
 export default function LandingPage() {
@@ -81,13 +84,13 @@ export default function LandingPage() {
             {/* Left: Headline */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
-                Turn dusty reviews into{" "}
-                <span className="text-emerald hand-underline">viral LinkedIn carousels</span>
+                Turn customer reviews into{" "}
+                <span className="text-emerald hand-underline">conversion machines</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Paste any review. Get the sentence that sells.
-                Wrapped in a scroll-stopping animated widget. 60 seconds.
+                Upload a screenshot. Send a collection link. Or paste text.
+                AI finds the sentence that sells — and wraps it in an animated widget your visitors can&apos;t ignore.
               </p>
 
               <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -171,14 +174,14 @@ export default function LandingPage() {
             Everyone reacts with the fire emoji. And then... nothing.
           </p>
           <p>
-            To get that review onto your website, you have to manually format
-            it, find the user&apos;s headshot, fiddle with layouts, export a
-            file, and then message your dev team to please upload it. They tell
-            you to create a Jira ticket. Weeks go by.
+            You have hundreds of reviews on Google, G2, and LinkedIn — stuck as
+            screenshots in your Downloads folder. Asking customers to write new
+            ones? You send one email, get three replies, and give up.
           </p>
           <p>
-            And even when you do all that, nobody reads a 300-word paragraph on
-            a landing page anyway. Your hard-won social proof is invisible.
+            And even when you do manually format a testimonial, nobody reads a
+            300-word paragraph on a landing page. Your hard-won social proof
+            is invisible.
           </p>
         </div>
       </section>
@@ -200,21 +203,21 @@ export default function LandingPage() {
           {[
             {
               step: "01",
-              title: "Paste your review",
-              desc: "Drop a link or raw text from G2, email, LinkedIn, or anywhere. Or send a collection form to your customers.",
+              title: "Add your reviews",
+              desc: "Upload a screenshot, paste text, drop a link — or send a collection form to your customers. We pull in every review automatically.",
               icon: "📋",
             },
             {
               step: "02",
-              title: "AI extracts the hook",
-              desc: "Our AI reads the full review and pulls out the highest-converting sentence automatically.",
+              title: "AI finds the hook",
+              desc: "Our AI reads each review and extracts the one sentence that converts. Three hook variants for A/B testing.",
               icon: "✨",
             },
             {
               step: "03",
-              title: "Embed on your site",
-              desc: "Copy one line of code. A branded, auto-sliding testimonial widget is live on your site.",
-              icon: "🔗",
+              title: "Customize & embed",
+              desc: "Style your widget with our visual builder. Pick a preset or match your brand. One line of code — live on your site.",
+              icon: "🎨",
             },
           ].map((s) => (
             <div
@@ -362,11 +365,14 @@ export default function LandingPage() {
           marketer needs to get the job done fast.
         </p>
 
-        <div className="grid sm:grid-cols-3 gap-5">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {[
             { icon: Zap, title: "AI Hook Extraction", desc: "Finds the most powerful sentence in any review. Cuts the noise, leaves the conversion trigger." },
             { icon: Eye, title: "Kinetic Trust Carousels", desc: "Auto-sliding, animated widgets that break banner blindness. Motion commands attention." },
+            { icon: Camera, title: "Screenshot Import", desc: "Upload a screenshot from Google, G2, LinkedIn, or WhatsApp. AI extracts all reviews automatically." },
+            { icon: Paintbrush, title: "Widget Style Builder", desc: "Visual editor with presets. Change colors, fonts, borders, and shadows. Live preview as you design." },
             { icon: FileText, title: "Collection Forms", desc: "Send a branded link to your customers. They submit reviews, you approve and publish. Zero friction." },
+            { icon: RefreshCw, title: "Auto-Widget Pipeline", desc: "Collection form → auto-approve → AI hook extraction → widget updated. Fully automated review pipeline." },
             { icon: Heart, title: "Wall of Love", desc: "A beautiful, public page showcasing all your best reviews. Share it or embed it anywhere." },
             { icon: Code2, title: "One-Click Embed", desc: "Works on Webflow, Framer, WordPress, React. One line of code. No dev team needed." },
             { icon: Palette, title: "Brand Kit Auto-Sync", desc: "Your logo, your colors, automatically applied. Widgets look like you built them in-house." },
@@ -426,11 +432,13 @@ export default function LandingPage() {
           {[
             { feature: "AI Hook Extraction", pp: true, others: false, diy: false },
             { feature: "Animated Carousels", pp: true, others: false, diy: false },
+            { feature: "Screenshot Import", pp: true, others: false, diy: false },
+            { feature: "Visual Widget Builder", pp: true, others: "Basic", diy: false },
+            { feature: "Auto-Widget Pipeline", pp: true, others: false, diy: false },
             { feature: "Collection Forms", pp: true, others: "Some", diy: false },
             { feature: "Wall of Love", pp: true, others: "Some", diy: false },
             { feature: "One-Line Embed", pp: true, others: true, diy: false },
             { feature: "Brand Kit Auto-Sync", pp: true, others: "Partial", diy: false },
-            { feature: "Dark/Light Auto-Detect", pp: true, others: false, diy: false },
             { feature: "SEO Rich Snippets", pp: true, others: "Some", diy: false },
             { feature: "Price", pp: "$19/mo", others: "$21-50/mo", diy: "Free + hours" },
           ].map((row, i) => (
@@ -473,7 +481,7 @@ export default function LandingPage() {
               </div>
             </div>
             <ul className="space-y-3">
-              {["3 testimonial widgets", "AI Hook Extraction (1 hook)", "Collection Forms", "Wall of Love", "Embed on your site", "500 impressions/month", "ProofPost watermark"].map((item, i) => (
+              {["3 testimonial widgets", "AI Hook Extraction (1 hook)", "Screenshot Import", "Widget Builder (presets)", "Collection Forms", "Wall of Love", "Embed on your site", "500 impressions/month", "ProofPost watermark"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-500">
                   <Check className="w-4 h-4 text-slate-300 flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -493,7 +501,7 @@ export default function LandingPage() {
               </div>
             </div>
             <ul className="space-y-3">
-              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Unlimited impressions", "No watermark", "Analytics dashboard", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
+              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Widget Style Builder (full)", "Auto-Widget Pipeline", "Screenshot bulk import", "Unlimited impressions", "No watermark", "Analytics dashboard", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-500">
                   <Check className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -518,7 +526,7 @@ export default function LandingPage() {
               <p className="text-[13px] text-slate-400 mt-1">$144 billed annually</p>
             </div>
             <ul className="space-y-3 relative">
-              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Unlimited impressions", "No watermark", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
+              {["Unlimited widgets", "3 AI Hook Variants + A/B Testing", "Widget Style Builder (full)", "Auto-Widget Pipeline", "Screenshot bulk import", "Unlimited impressions", "No watermark", "Hook Performance Analytics", "PDF carousel download", "Multiple Brand Kits", "Priority support"].map((item, i) => (
                 <li key={i} className="flex items-center gap-2.5 text-[14px] text-slate-300">
                   <Check className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />{item}
                 </li>
@@ -541,7 +549,8 @@ export default function LandingPage() {
             { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
             { q: "What if the AI extracts the wrong quote?", a: "You keep the original. Edit the hook with one click. You control what gets published." },
             { q: "How is this different from other testimonial tools?", a: "They show static text grids. We use AI to find the converting sentence and animate it. Plus collection forms, Wall of Love, SEO snippets — at a lower price." },
-            { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. Customers submit reviews, you approve, we auto-generate the carousel." },
+            { q: "Can I import reviews from a screenshot?", a: "Yes. Upload a screenshot from Google Reviews, G2, LinkedIn, Trustpilot, WhatsApp, or email. Our AI extracts every review — names, ratings, and text — in seconds." },
+            { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. Reviews can auto-approve and flow straight to your widget — or you approve manually. AI generates the carousel automatically." },
             { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to maximize what you have." },
             { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
           ].map((faq, i) => (

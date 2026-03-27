@@ -83,6 +83,7 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
         } : null,
         showWatermark: !isPro,
         limitReached: false,
+        customStyle: widget.style || null,
       };
     } else {
       // Single content
@@ -189,7 +190,7 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
       ) : widgetStyle === "stack" ? (
         <EmbedStack data={data} embedId={id} />
       ) : (
-        <EmbedCarousel data={data} embedId={id} />
+        <EmbedCarousel data={data} embedId={id} customStyle={(data as Record<string, unknown>).customStyle as Record<string, unknown> | null} />
       )}
     </>
   );

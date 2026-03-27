@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import { createClient as createServerClient } from "@/lib/supabase/server";
+import { processApprovedSubmission } from "@/lib/process-submission";
 
 // Public supabase client for submissions (no auth required for submitting)
 const supabaseAdmin = createClient(
@@ -21,15 +22,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Review must be at least 10 characters" }, { status: 400 });
   }
 
-  // Verify form exists and is active
+  // Verify form exists and is active, check auto_approve setting
   const { data: form } = await supabaseAdmin
     .from("collection_forms")
-    .select("id, user_id, active")
+    .select("id, user_id, active, auto_approve, linked_widget_id")
     .eq("id", formId)
     .single();
 
   if (!form) return NextResponse.json({ error: "Form not found" }, { status: 404 });
   if (!form.active) return NextResponse.json({ error: "Form is no longer accepting submissions" }, { status: 400 });
+
+  const initialStatus = form.auto_approve ? "approved" : "pending";
 
   const { data: submission, error } = await supabaseAdmin
     .from("submissions")
@@ -41,13 +44,28 @@ export async function POST(req: NextRequest) {
       reviewer_company: reviewerCompany?.trim() || null,
       review_text: reviewText.trim(),
       rating: Math.min(5, Math.max(1, Number(rating) || 5)),
-      status: "pending",
+      status: initialStatus,
     })
     .select()
     .single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  return NextResponse.json({ submission }, { status: 201 });
+
+  // If auto-approved, process in background (generate content + add to widget)
+  if (form.auto_approve && submission) {
+    processApprovedSubmission(submission as {
+      id: string;
+      form_id: string;
+      user_id: string;
+      reviewer_name: string;
+      reviewer_title: string | null;
+      reviewer_company: string | null;
+      reviewer_photo_url: string | null;
+      review_text: string;
+    }).catch((err) => console.error("Auto-process error:", err));
+  }
+
+  return NextResponse.json({ submission, autoApproved: form.auto_approve }, { status: 201 });
 }
 
 // GET: List submissions for authenticated user
@@ -104,27 +122,25 @@ export async function PATCH(req: NextRequest) {
 
   if (updateError) return NextResponse.json({ error: updateError.message }, { status: 500 });
 
-  // If approved, auto-generate carousel
+  // If approved, generate carousel and add to widget
   if (status === "approved") {
     try {
-      const generateRes = await fetch(new URL("/api/generate", req.url).toString(), {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          cookie: req.headers.get("cookie") || "",
-        },
-        body: JSON.stringify({
-          rawInput: submission.review_text,
-          reviewerName: submission.reviewer_name,
-          reviewerTitle: submission.reviewer_title || "",
-          reviewerCompany: submission.reviewer_company || "",
-        }),
+      const result = await processApprovedSubmission(submission as {
+        id: string;
+        form_id: string;
+        user_id: string;
+        reviewer_name: string;
+        reviewer_title: string | null;
+        reviewer_company: string | null;
+        reviewer_photo_url: string | null;
+        review_text: string;
       });
 
-      if (generateRes.ok) {
-        const result = await generateRes.json();
-        return NextResponse.json({ status: "approved", contentId: result.id });
-      }
+      return NextResponse.json({
+        status: "approved",
+        contentId: result.contentId,
+        addedToWidget: result.addedToWidget,
+      });
     } catch {
       // Generation failed but approval succeeded
     }
