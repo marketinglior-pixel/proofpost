@@ -4,24 +4,34 @@ import { heroReviews } from "./hero-reviews";
 
 function MarqueeCard({ quote, name, title, photo }: typeof heroReviews[number]) {
   return (
-    <div className="flex-shrink-0 w-[260px] rounded-xl border border-slate-200/80 bg-white p-5 shadow-sm">
+    <div
+      style={{
+        flexShrink: 0,
+        width: "320px",
+        borderRadius: "16px",
+        border: "1px solid rgba(226,232,240,0.8)",
+        background: "#fff",
+        padding: "24px",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+      }}
+    >
       {/* Stars */}
-      <div className="flex gap-0.5 mb-2">
+      <div style={{ display: "flex", gap: "2px", marginBottom: "10px" }}>
         {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} className="text-[13px] text-amber-400">★</span>
+          <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
         ))}
       </div>
       {/* Quote */}
-      <p className="text-[12.5px] leading-relaxed text-slate-600 italic line-clamp-3 mb-3">
+      <p style={{ fontSize: "14px", lineHeight: 1.6, color: "#334155", fontStyle: "italic", marginBottom: "14px", margin: "0 0 14px 0" }}>
         &ldquo;{quote}&rdquo;
       </p>
       {/* Reviewer */}
-      <div className="flex items-center gap-2.5">
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={photo} alt="" width={28} height={28} className="rounded-full object-cover w-7 h-7" />
+        <img src={photo} alt="" width={36} height={36} style={{ borderRadius: "50%", objectFit: "cover", width: "36px", height: "36px" }} />
         <div>
-          <p className="text-[11px] font-semibold text-slate-800">{name}</p>
-          <p className="text-[10px] text-slate-400">{title}</p>
+          <p style={{ fontSize: "13px", fontWeight: 600, color: "#1e293b", margin: 0 }}>{name}</p>
+          <p style={{ fontSize: "11px", color: "#94a3b8", margin: 0 }}>{title}</p>
         </div>
       </div>
     </div>
@@ -29,14 +39,14 @@ function MarqueeCard({ quote, name, title, photo }: typeof heroReviews[number]) 
 }
 
 export function HeroMarquee() {
-  // Double the items for seamless loop
-  const items = [...heroReviews, ...heroReviews];
+  // Quadruple for seamless loop
+  const items = [...heroReviews, ...heroReviews, ...heroReviews, ...heroReviews];
 
   return (
     <div className="w-full max-w-md mx-auto overflow-hidden relative">
       {/* Edge fades */}
-      <div className="absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-snow to-transparent z-10 pointer-events-none" />
-      <div className="absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-snow to-transparent z-10 pointer-events-none" />
+      <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: "80px", background: "linear-gradient(to right, #F8FAFC, transparent)", zIndex: 10, pointerEvents: "none" }} />
+      <div style={{ position: "absolute", right: 0, top: 0, bottom: 0, width: "80px", background: "linear-gradient(to left, #F8FAFC, transparent)", zIndex: 10, pointerEvents: "none" }} />
 
       <div className="flex gap-4 hero-marquee-scroll hover:[animation-play-state:paused]">
         {items.map((r, i) => (
@@ -46,7 +56,7 @@ export function HeroMarquee() {
 
       <style>{`
         .hero-marquee-scroll {
-          animation: hero-marquee-slide 20s linear infinite;
+          animation: hero-marquee-slide 40s linear infinite;
         }
         @keyframes hero-marquee-slide {
           from { transform: translateX(0); }

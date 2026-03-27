@@ -85,12 +85,13 @@ export default function LandingPage() {
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
                 Turn customer reviews into{" "}
-                <span className="text-emerald hand-underline">conversion machines</span>
+                <span className="text-emerald hand-underline sm:whitespace-nowrap">conversion machines</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Upload a screenshot. Send a collection link. Or paste text.
-                AI finds the sentence that sells — and wraps it in an animated widget your visitors can&apos;t ignore.
+                Your reviews deserve better than a static quote block.
+                Drop them in, let AI find the hook, and get an animated
+                widget on your site in under a minute.
               </p>
 
               <div className="flex flex-col sm:flex-row items-start gap-4">

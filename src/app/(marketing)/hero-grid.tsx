@@ -11,16 +11,16 @@ function GridCard({
   return (
     <div
       style={{
-        padding: "12px",
+        padding: "24px",
         background: "#fff",
-        borderRadius: "12px",
+        borderRadius: "16px",
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         display: "flex",
         flexDirection: "column",
-        gap: "8px",
+        gap: "10px",
         transition: "transform 0.2s ease, box-shadow 0.2s ease",
       }}
       onMouseEnter={(e) => {
@@ -35,7 +35,7 @@ function GridCard({
       {/* Stars */}
       <div style={{ display: "flex", gap: "2px" }}>
         {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} style={{ fontSize: "11px", color: "#FBBF24" }}>
+          <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>
             ★
           </span>
         ))}
@@ -45,10 +45,10 @@ function GridCard({
       <div>
         <span
           style={{
-            fontSize: "18px",
+            fontSize: "28px",
             lineHeight: "0.8",
             color: "#10B981",
-            opacity: 0.2,
+            opacity: 0.15,
             fontFamily: "Georgia, serif",
           }}
         >
@@ -56,7 +56,7 @@ function GridCard({
         </span>
         <p
           style={{
-            fontSize: "11.5px",
+            fontSize: "14px",
             lineHeight: 1.65,
             color: "#334155",
             margin: "2px 0 0",
@@ -68,29 +68,29 @@ function GridCard({
       </div>
 
       {/* Reviewer */}
-      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={photo}
           alt=""
-          width={28}
-          height={28}
+          width={36}
+          height={36}
           style={{
             borderRadius: "50%",
             objectFit: "cover",
-            width: "28px",
-            height: "28px",
-            minWidth: "28px",
-            minHeight: "28px",
+            width: "36px",
+            height: "36px",
+            minWidth: "36px",
+            minHeight: "36px",
           }}
         />
         <div>
           <div
-            style={{ fontSize: "10.5px", fontWeight: 600, color: "#0f172a" }}
+            style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}
           >
             {name}
           </div>
-          <div style={{ fontSize: "9px", color: "#94a3b8" }}>{title}</div>
+          <div style={{ fontSize: "11px", color: "#94a3b8" }}>{title}</div>
         </div>
       </div>
     </div>
@@ -104,8 +104,8 @@ export function HeroGrid() {
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(2, 1fr)",
-          gap: "10px",
-          gridAutoRows: "auto",
+          gap: "16px",
+          padding: "16px",
         }}
       >
         {heroReviews.map((r, i) => (

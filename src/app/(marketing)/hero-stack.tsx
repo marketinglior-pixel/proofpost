@@ -12,7 +12,7 @@ export function HeroStack() {
     setTimeout(() => {
       setActive((p) => (p + 1) % heroReviews.length);
       setIsAnimating(false);
-    }, 300);
+    }, 400);
   }, []);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ export function HeroStack() {
 
   return (
     <div className="w-full max-w-md mx-auto">
-      <div className="relative h-[240px]">
+      <div style={{ position: "relative", height: "280px" }}>
         {heroReviews.map((r, i) => {
           const offset = ((i - active + heroReviews.length) % heroReviews.length);
           const isActive = offset === 0;
@@ -33,39 +33,51 @@ export function HeroStack() {
           return (
             <div
               key={i}
-              className="absolute inset-x-0 top-0 transition-all duration-500 ease-out"
               style={{
+                position: "absolute",
+                inset: "0",
+                top: 0,
+                transition: "all 0.5s ease-out",
                 opacity: isActive ? (isAnimating ? 0 : 1) : isBehind1 ? 0.6 : isBehind2 ? 0.3 : 0,
                 transform: isActive
                   ? "translateY(0) scale(1)"
                   : isBehind1
-                    ? "translateY(16px) scale(0.95)"
+                    ? "translateY(8px) scale(0.97)"
                     : isBehind2
-                      ? "translateY(32px) scale(0.9)"
-                      : "translateY(48px) scale(0.85)",
+                      ? "translateY(16px) scale(0.94)"
+                      : "translateY(24px) scale(0.91)",
                 zIndex: isVisible ? (3 - offset) : 0,
                 pointerEvents: isActive ? "auto" : "none",
               }}
             >
-              <div className="rounded-2xl border border-slate-200/80 bg-white p-6 shadow-lg">
+              <div
+                style={{
+                  borderRadius: "16px",
+                  border: "1px solid rgba(226,232,240,0.8)",
+                  background: "#fff",
+                  padding: "28px 24px",
+                  boxShadow: "0 12px 40px rgba(15,23,42,0.08)",
+                  fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                }}
+              >
                 {/* Stars */}
-                <div className="flex gap-0.5 mb-2">
+                <div style={{ display: "flex", gap: "2px", marginBottom: "8px" }}>
                   {[1, 2, 3, 4, 5].map((s) => (
-                    <span key={s} className="text-[14px] text-amber-400">★</span>
+                    <span key={s} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
                   ))}
                 </div>
                 {/* Quote */}
-                <span className="text-[28px] leading-none text-emerald/15 font-serif">&ldquo;</span>
-                <p className="text-[13.5px] leading-relaxed text-slate-600 italic mt-1 min-h-[44px]">
+                <span style={{ fontSize: "48px", lineHeight: "0.5", color: "#10B981", opacity: 0.15, fontFamily: "Georgia, serif" }}>&ldquo;</span>
+                <p style={{ fontSize: "15px", lineHeight: 1.625, color: "#334155", fontStyle: "italic", margin: "4px 0 0", minHeight: "48px" }}>
                   {r.quote}
                 </p>
                 {/* Reviewer */}
-                <div className="flex items-center gap-3 mt-4">
+                <div style={{ display: "flex", alignItems: "center", gap: "12px", marginTop: "16px" }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={r.photo} alt="" width={36} height={36} className="rounded-full object-cover w-9 h-9" />
+                  <img src={r.photo} alt="" width={40} height={40} style={{ borderRadius: "50%", objectFit: "cover", width: "40px", height: "40px" }} />
                   <div>
-                    <p className="text-[12px] font-semibold text-slate-800">{r.name}</p>
-                    <p className="text-[10.5px] text-slate-400">{r.title}</p>
+                    <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>{r.name}</div>
+                    <div style={{ fontSize: "11px", color: "#94a3b8" }}>{r.title}</div>
                   </div>
                 </div>
               </div>
@@ -74,13 +86,26 @@ export function HeroStack() {
         })}
       </div>
 
+      {/* Progress bar */}
+      <div style={{ height: "2px", background: "rgba(241,245,249,1)", overflow: "hidden", borderRadius: "1px", marginTop: "12px" }}>
+        <div
+          key={active}
+          style={{
+            height: "100%",
+            backgroundColor: "#10B981",
+            opacity: 0.4,
+            animation: "hero-stack-progress 4s linear forwards",
+            width: "0%",
+          }}
+        />
+      </div>
+
       {/* Dots */}
-      <div className="flex justify-center gap-1.5 mt-3">
+      <div style={{ display: "flex", justifyContent: "center", gap: "6px", marginTop: "10px" }}>
         {heroReviews.map((_, i) => (
           <button
             key={i}
-            onClick={() => { setIsAnimating(true); setTimeout(() => { setActive(i); setIsAnimating(false); }, 300); }}
-            className="transition-all duration-300"
+            onClick={() => { setIsAnimating(true); setTimeout(() => { setActive(i); setIsAnimating(false); }, 400); }}
             style={{
               width: i === active ? "18px" : "6px",
               height: "6px",
@@ -89,11 +114,19 @@ export function HeroStack() {
               border: "none",
               cursor: "pointer",
               padding: 0,
+              transition: "all 0.3s ease",
             }}
             aria-label={`Go to review ${i + 1}`}
           />
         ))}
       </div>
+
+      <style>{`
+        @keyframes hero-stack-progress {
+          from { width: 0%; }
+          to { width: 100%; }
+        }
+      `}</style>
     </div>
   );
 }
