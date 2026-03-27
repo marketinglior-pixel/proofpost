@@ -6,6 +6,7 @@ import {
   getCsatLabel,
   getCsatColor,
 } from "./csat-data";
+import { EmailCapture } from "../components/email-capture";
 
 type InputMode = "simple" | "detailed";
 
@@ -329,6 +330,16 @@ export function CsatCalculator() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Email Capture — shown after calculation */}
+      {csat !== null && (
+        <EmailCapture
+          toolName="csat-calculator"
+          headline="Get your CSAT improvement guide"
+          description="We'll email you actionable tips to improve your customer satisfaction score."
+          buttonText="Send My Guide →"
+        />
       )}
     </div>
   );

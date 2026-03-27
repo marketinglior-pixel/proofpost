@@ -7,6 +7,7 @@ import {
   getNpsColor,
   getNpsBgColor,
 } from "./benchmark-data";
+import { EmailCapture } from "../components/email-capture";
 
 export function NpsCalculator() {
   const [promoters, setPromoters] = useState("");
@@ -198,6 +199,16 @@ export function NpsCalculator() {
             )}
           </div>
         </div>
+      )}
+
+      {/* Email Capture — shown after calculation */}
+      {nps !== null && (
+        <EmailCapture
+          toolName="nps-calculator"
+          headline="Get your full NPS report"
+          description="We'll email you a detailed NPS analysis with improvement tips and industry comparisons."
+          buttonText="Send My Report →"
+        />
       )}
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { EmailCapture } from "../components/email-capture";
 
 function getRatingLabel(avg: number): string {
   if (avg < 2.0) return "Poor";
@@ -195,6 +196,16 @@ export function RatingCalculator() {
             </p>
           </div>
         </div>
+      )}
+
+      {/* Email Capture — shown after calculation */}
+      {average !== null && (
+        <EmailCapture
+          toolName="star-rating-calculator"
+          headline="Get your rating improvement playbook"
+          description="We'll send you proven strategies to improve your star rating and get more 5-star reviews."
+          buttonText="Send My Playbook →"
+        />
       )}
     </div>
   );
