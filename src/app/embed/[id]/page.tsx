@@ -185,11 +185,11 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.length === 1 ? jsonLd[0] : jsonLd) }}
       />
       {widgetStyle === "marquee" ? (
-        <EmbedMarquee data={data} embedId={id} />
+        <EmbedMarquee data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       ) : widgetStyle === "grid" ? (
-        <EmbedGrid data={data} embedId={id} />
+        <EmbedGrid data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       ) : widgetStyle === "stack" ? (
-        <EmbedStack data={data} embedId={id} />
+        <EmbedStack data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       ) : (
         <EmbedCarousel data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       )}

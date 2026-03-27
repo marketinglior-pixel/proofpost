@@ -41,6 +41,21 @@ function getInitials(name: string): string {
   return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
 }
 
+interface CustomStyle {
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  quoteColor?: string;
+  fontFamily?: string;
+  borderRadius?: number;
+  showStars?: boolean;
+  showTitle?: boolean;
+  showCompany?: boolean;
+  showAvatar?: boolean;
+  autoPlay?: boolean;
+  animationSpeed?: number;
+}
+
 function isRealPhoto(url: string | null | undefined): boolean {
   if (!url) return false;
   if (url.includes("static.licdn.com/aero")) return false;
@@ -57,10 +72,13 @@ function isReviewRTL(r: Review): boolean {
 export function EmbedStack({
   data,
   embedId,
+  customStyle,
 }: {
   data: EmbedData;
   embedId: string;
+  customStyle?: CustomStyle | Record<string, unknown> | null;
 }) {
+  const cs = (customStyle || {}) as CustomStyle;
   const [active, setActive] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
   const [paused, setPaused] = useState(false);
@@ -68,7 +86,12 @@ export function EmbedStack({
 
   const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const primaryColor = brand?.primaryColor || "#10B981";
+  const primaryColor = cs.accentColor || brand?.primaryColor || "#10B981";
+  const bgColor = cs.backgroundColor || "#fff";
+  const textColor = cs.textColor || "#334155";
+  const quoteColor = cs.quoteColor || "#334155";
+  const fontFam = cs.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  const borderRad = cs.borderRadius !== undefined ? `${cs.borderRadius}px` : "16px";
   const showWatermark = data.showWatermark !== false;
 
   // A/B Testing
@@ -199,8 +222,8 @@ export function EmbedStack({
               style={{
                 position: "absolute",
                 inset: "0",
-                background: "#fff",
-                borderRadius: "16px",
+                background: bgColor,
+                borderRadius: borderRad,
                 border: "1px solid rgba(226,232,240,0.6)",
                 boxShadow: "0 2px 8px rgba(0,0,0,0.03)",
                 transform: `translateY(${offset * 8}px) scale(${1 - offset * 0.03}) rotate(${getRotation(i)}deg)`,
@@ -218,11 +241,12 @@ export function EmbedStack({
           style={{
             position: "absolute",
             inset: "0",
-            background: "#fff",
-            borderRadius: "16px",
+            background: bgColor,
+            borderRadius: borderRad,
             border: "1px solid rgba(226,232,240,0.8)",
             boxShadow: "0 12px 40px rgba(15,23,42,0.08)",
             padding: "28px 24px",
+            fontFamily: fontFam,
             display: "flex",
             flexDirection: "column",
             zIndex: 20,
@@ -252,7 +276,7 @@ export function EmbedStack({
             style={{
               fontSize: "15px",
               lineHeight: 1.65,
-              color: "#334155",
+              color: quoteColor,
               margin: 0,
               fontStyle: "italic",
               flex: 1,
@@ -315,11 +339,14 @@ export function EmbedStack({
               </div>
             )}
             <div style={{ textAlign: "left" }}>
-              <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>
+              <div style={{ fontSize: "13px", fontWeight: 600, color: textColor }}>
                 {review.reviewer.name}
               </div>
-              <div style={{ fontSize: "11px", color: "#94a3b8" }}>
-                {[review.reviewer.title, review.reviewer.company].filter(Boolean).join(", ")}
+              <div style={{ fontSize: "11px", color: `${textColor}80` }}>
+                {[
+                  cs.showTitle !== false ? review.reviewer.title : null,
+                  cs.showCompany !== false ? review.reviewer.company : null,
+                ].filter(Boolean).join(", ")}
               </div>
             </div>
           </div>

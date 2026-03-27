@@ -50,42 +50,66 @@ function isRealPhoto(url: string | null | undefined): boolean {
   return url.startsWith("http");
 }
 
+interface CustomStyle {
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  quoteColor?: string;
+  fontFamily?: string;
+  borderRadius?: number;
+  shadowStyle?: "none" | "subtle" | "elevated";
+  showStars?: boolean;
+  showTitle?: boolean;
+  showCompany?: boolean;
+  showAvatar?: boolean;
+}
+
 function TestimonialCard({
   review,
   primaryColor,
+  cs,
 }: {
   review: Review;
   primaryColor: string;
+  cs: CustomStyle;
 }) {
+  const bgColor = cs.backgroundColor || "#fff";
+  const textColor = cs.textColor || "#334155";
+  const quoteColor = cs.quoteColor || "#334155";
+  const fontFam = cs.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  const radius = cs.borderRadius !== undefined ? `${cs.borderRadius}px` : "16px";
+
   return (
     <div
       style={{
         flex: "0 0 auto",
         width: "320px",
         padding: "24px",
-        background: "#fff",
-        borderRadius: "16px",
+        background: bgColor,
+        borderRadius: radius,
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontFamily: fontFam,
         display: "flex",
         flexDirection: "column" as const,
         gap: "16px",
       }}
     >
       {/* Stars */}
-      <div style={{ display: "flex", gap: "2px" }}>
-        {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
-        ))}
-      </div>
+      {cs.showStars !== false && (
+        <div style={{ display: "flex", gap: "2px" }}>
+          {[1, 2, 3, 4, 5].map((i) => (
+            <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
+          ))}
+        </div>
+      )}
 
       {/* Quote */}
       <p
         style={{
           fontSize: "14px",
           lineHeight: 1.6,
-          color: "#334155",
+          color: quoteColor,
           margin: 0,
           fontStyle: "italic",
           flex: 1,
@@ -96,48 +120,53 @@ function TestimonialCard({
 
       {/* Reviewer */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        {isRealPhoto(review.reviewerPhotoUrl) ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={review.reviewerPhotoUrl!}
-            alt=""
-            width={36}
-            height={36}
-            style={{
-              borderRadius: "50%",
-              objectFit: "cover" as const,
-              width: "36px",
-              height: "36px",
-              minWidth: "36px",
-              minHeight: "36px",
-              maxWidth: "36px",
-              maxHeight: "36px",
-            }}
-          />
-        ) : (
-          <div
-            style={{
-              width: "36px",
-              height: "36px",
-              borderRadius: "50%",
-              background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
-              color: "#fff",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: "13px",
-              fontWeight: 700,
-            }}
-          >
-            {getInitials(review.reviewer.name)}
-          </div>
+        {cs.showAvatar !== false && (
+          isRealPhoto(review.reviewerPhotoUrl) ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={review.reviewerPhotoUrl!}
+              alt=""
+              width={36}
+              height={36}
+              style={{
+                borderRadius: "50%",
+                objectFit: "cover" as const,
+                width: "36px",
+                height: "36px",
+                minWidth: "36px",
+                minHeight: "36px",
+                maxWidth: "36px",
+                maxHeight: "36px",
+              }}
+            />
+          ) : (
+            <div
+              style={{
+                width: "36px",
+                height: "36px",
+                borderRadius: "50%",
+                background: `linear-gradient(135deg, ${primaryColor}, ${primaryColor}cc)`,
+                color: "#fff",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "13px",
+                fontWeight: 700,
+              }}
+            >
+              {getInitials(review.reviewer.name)}
+            </div>
+          )
         )}
         <div>
-          <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>
+          <div style={{ fontSize: "13px", fontWeight: 600, color: textColor }}>
             {review.reviewer.name}
           </div>
-          <div style={{ fontSize: "11px", color: "#94a3b8" }}>
-            {[review.reviewer.title, review.reviewer.company].filter(Boolean).join(", ")}
+          <div style={{ fontSize: "11px", color: `${textColor}80` }}>
+            {[
+              cs.showTitle !== false ? review.reviewer.title : null,
+              cs.showCompany !== false ? review.reviewer.company : null,
+            ].filter(Boolean).join(", ")}
           </div>
         </div>
       </div>
@@ -148,14 +177,17 @@ function TestimonialCard({
 export function EmbedMarquee({
   data,
   embedId,
+  customStyle,
 }: {
   data: EmbedData;
   embedId: string;
+  customStyle?: CustomStyle | Record<string, unknown> | null;
 }) {
+  const cs = (customStyle || {}) as CustomStyle;
   const containerRef = useRef<HTMLDivElement>(null);
   const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const primaryColor = brand?.primaryColor || "#10B981";
+  const primaryColor = cs.accentColor || brand?.primaryColor || "#10B981";
   const showWatermark = data.showWatermark !== false;
 
   // A/B Testing
@@ -251,7 +283,7 @@ export function EmbedMarquee({
         onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
       >
         {row1Reviews.map((review, i) => (
-          <TestimonialCard key={`r1-${i}`} review={review} primaryColor={primaryColor} />
+          <TestimonialCard key={`r1-${i}`} review={review} primaryColor={primaryColor} cs={cs} />
         ))}
       </div>
 
@@ -268,7 +300,7 @@ export function EmbedMarquee({
         onMouseLeave={(e) => (e.currentTarget.style.animationPlayState = "running")}
       >
         {row2Reviews.map((review, i) => (
-          <TestimonialCard key={`r2-${i}`} review={review} primaryColor={primaryColor} />
+          <TestimonialCard key={`r2-${i}`} review={review} primaryColor={primaryColor} cs={cs} />
         ))}
       </div>
 

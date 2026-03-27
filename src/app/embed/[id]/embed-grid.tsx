@@ -50,6 +50,19 @@ function isRealPhoto(url: string | null | undefined): boolean {
   return url.startsWith("http");
 }
 
+interface CustomStyle {
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  quoteColor?: string;
+  fontFamily?: string;
+  borderRadius?: number;
+  showStars?: boolean;
+  showTitle?: boolean;
+  showCompany?: boolean;
+  showAvatar?: boolean;
+}
+
 function isReviewRTL(r: Review): boolean {
   return /[\u0590-\u05FF\u0600-\u06FF]/.test(r.quote + r.hookLine);
 }
@@ -57,22 +70,29 @@ function isReviewRTL(r: Review): boolean {
 function GridCard({
   review,
   primaryColor,
+  cs,
 }: {
   review: Review;
   primaryColor: string;
+  cs: CustomStyle;
 }) {
   const rtl = isReviewRTL(review);
+  const bgColor = cs.backgroundColor || "#fff";
+  const textColor = cs.textColor || "#334155";
+  const quoteColor = cs.quoteColor || "#334155";
+  const fontFam = cs.fontFamily || '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+  const radius = cs.borderRadius !== undefined ? `${cs.borderRadius}px` : "16px";
 
   return (
     <div
       dir={rtl ? "rtl" : "ltr"}
       style={{
         padding: "24px",
-        background: "#fff",
-        borderRadius: "16px",
+        background: bgColor,
+        borderRadius: radius,
         border: "1px solid rgba(226,232,240,0.8)",
         boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
-        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+        fontFamily: fontFam,
         display: "flex",
         flexDirection: "column" as const,
         gap: "16px",
@@ -112,7 +132,7 @@ function GridCard({
           style={{
             fontSize: "14px",
             lineHeight: 1.65,
-            color: "#334155",
+            color: quoteColor,
             margin: "4px 0 0",
             fontStyle: "italic",
             direction: rtl ? "rtl" : "ltr",
@@ -162,11 +182,14 @@ function GridCard({
           </div>
         )}
         <div>
-          <div style={{ fontSize: "13px", fontWeight: 600, color: "#0f172a" }}>
+          <div style={{ fontSize: "13px", fontWeight: 600, color: textColor }}>
             {review.reviewer.name}
           </div>
-          <div style={{ fontSize: "11px", color: "#94a3b8" }}>
-            {[review.reviewer.title, review.reviewer.company].filter(Boolean).join(", ")}
+          <div style={{ fontSize: "11px", color: `${textColor}80` }}>
+            {[
+              cs.showTitle !== false ? review.reviewer.title : null,
+              cs.showCompany !== false ? review.reviewer.company : null,
+            ].filter(Boolean).join(", ")}
           </div>
         </div>
       </div>
@@ -177,14 +200,17 @@ function GridCard({
 export function EmbedGrid({
   data,
   embedId,
+  customStyle,
 }: {
   data: EmbedData;
   embedId: string;
+  customStyle?: CustomStyle | Record<string, unknown> | null;
 }) {
+  const cs = (customStyle || {}) as CustomStyle;
   const containerRef = useRef<HTMLDivElement>(null);
   const reviews = data.reviews || [];
   const brand = data.brandKit;
-  const primaryColor = brand?.primaryColor || "#10B981";
+  const primaryColor = cs.accentColor || brand?.primaryColor || "#10B981";
   const showWatermark = data.showWatermark !== false;
 
   // A/B Testing
@@ -267,6 +293,7 @@ export function EmbedGrid({
             key={review.id}
             review={review}
             primaryColor={primaryColor}
+            cs={cs}
           />
         ))}
       </div>
