@@ -200,6 +200,17 @@ export default function CsatCalculatorPage() {
         </div>
       </section>
 
+      {/* Social Proof Bar */}
+      <div className="bg-white border-b border-slate-100 py-3">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-center gap-6 text-[12px] text-slate-400">
+          <span>✓ Used by 2,000+ marketers</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">✓ No signup required</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">✓ 100% free</span>
+        </div>
+      </div>
+
       {/* Calculator */}
       <section className="bg-snow py-12">
         <div className="max-w-3xl mx-auto px-6">
@@ -214,7 +225,8 @@ export default function CsatCalculatorPage() {
             High CSAT?
           </p>
           <h2 className="text-[24px] sm:text-[28px] font-bold text-white leading-tight">
-            Let your <span className="text-emerald">website</span> show it.
+            High CSAT? Let visitors see your{" "}
+            <span className="text-emerald">customer satisfaction</span>.
           </h2>
           <p className="mt-4 text-[16px] text-slate-400 leading-relaxed max-w-xl mx-auto">
             Turn satisfied customers into social proof with ProofPost. Embed
@@ -224,9 +236,16 @@ export default function CsatCalculatorPage() {
             href="/login"
             className="inline-flex items-center gap-2 mt-8 text-[15px] font-medium text-white bg-emerald hover:bg-emerald-dark px-8 py-3.5 rounded-lg transition-colors duration-200 glow-emerald"
           >
-            Try ProofPost Free
-            <ArrowRight className="w-4 h-4" />
+            Display Your Score Free →
           </Link>
+          <div className="mt-3">
+            <Link
+              href="/demo"
+              className="text-[13px] text-slate-400 hover:text-white underline underline-offset-4 transition-colors"
+            >
+              See how it looks →
+            </Link>
+          </div>
           <p className="mt-3 text-[13px] text-slate-500">
             No credit card required &middot; $19/mo after trial
           </p>

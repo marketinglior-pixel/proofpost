@@ -204,6 +204,17 @@ export default function TestimonialFormTemplatesPage() {
         </div>
       </section>
 
+      {/* Social Proof Bar */}
+      <div className="bg-white border-b border-slate-100 py-3">
+        <div className="max-w-6xl mx-auto px-6 flex items-center justify-center gap-6 text-[12px] text-slate-400">
+          <span>✓ Used by 2,000+ marketers</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">✓ No signup required</span>
+          <span className="hidden sm:inline">•</span>
+          <span className="hidden sm:inline">✓ 100% free</span>
+        </div>
+      </div>
+
       {/* Browser */}
       <section className="bg-snow py-12">
         <div className="max-w-6xl mx-auto px-6">
@@ -219,7 +230,7 @@ export default function TestimonialFormTemplatesPage() {
           </p>
           <h2 className="text-[24px] sm:text-[28px] font-bold text-white leading-tight">
             Got the questions? Now{" "}
-            <span className="text-emerald">collect and display</span> the
+            <span className="text-emerald">collect and showcase</span> the
             answers.
           </h2>
           <p className="mt-4 text-[16px] text-slate-400 leading-relaxed max-w-xl mx-auto">
@@ -231,9 +242,16 @@ export default function TestimonialFormTemplatesPage() {
             href="/login"
             className="inline-flex items-center gap-2 mt-8 text-[15px] font-medium text-white bg-emerald hover:bg-emerald-dark px-8 py-3.5 rounded-lg transition-colors duration-200 glow-emerald"
           >
-            Try ProofPost Free
-            <ArrowRight className="w-4 h-4" />
+            Start Showcasing Reviews →
           </Link>
+          <div className="mt-3">
+            <Link
+              href="/demo"
+              className="text-[13px] text-slate-400 hover:text-white underline underline-offset-4 transition-colors"
+            >
+              See live demo →
+            </Link>
+          </div>
           <p className="mt-3 text-[13px] text-slate-500">
             No credit card required &middot; $19/mo after trial
           </p>
