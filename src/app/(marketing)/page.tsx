@@ -98,8 +98,21 @@ export default function LandingPage() {
                 widget on your site in under a minute.
               </p>
 
-              {/* Hero URL Input — zero-friction onboarding */}
-              <HeroUrlInput />
+              {/* Hero URL Input — zero-friction onboarding (desktop only) */}
+              <div className="hidden sm:block">
+                <HeroUrlInput />
+              </div>
+
+              {/* Mobile CTA */}
+              <div className="sm:hidden">
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+                >
+                  Try Free. No Card Required.
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
 
               <p className="text-sm text-slate-300">
                 Loved by early adopters
