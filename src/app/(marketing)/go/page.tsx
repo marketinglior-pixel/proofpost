@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { HeroUrlInput } from "../hero-url-input";
+import { HeroWidgetShowcase } from "../hero-widget-showcase";
 import { PricingSection } from "../pricing-section";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
 import {
@@ -39,39 +40,47 @@ export default function GoLandingPage() {
       {/* ============ HERO ============ */}
       <section className="relative overflow-hidden bg-snow">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
-        <div className="relative max-w-3xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24 text-center">
-          <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-            Your reviews already wrote your best sales copy.{" "}
-            <span className="text-emerald hand-underline">
-              We just make people see it.
-            </span>
-          </h1>
+        <div className="relative max-w-6xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24">
+          <div className="grid lg:grid-cols-[1fr_minmax(0,480px)] gap-12 lg:gap-20 items-center">
+            {/* Left: Headline + CTA */}
+            <div className="space-y-8 min-w-0">
+              <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
+                Your reviews already wrote your best sales copy.{" "}
+                <span className="text-emerald hand-underline">
+                  We just make people see it.
+                </span>
+              </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed">
-            Paste any review link. AI finds the sentence that converts. You get
-            an animated widget — embedded in 60 seconds. No developer. No design
-            tickets.
-          </p>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
+                Paste any review link. AI finds the sentence that converts. You
+                get an animated widget — embedded in 60 seconds. No developer.
+                No design tickets.
+              </p>
 
-          {/* Desktop: URL Input */}
-          <div className="hidden sm:block mt-10 max-w-xl mx-auto">
-            <HeroUrlInput />
+              {/* Desktop: URL Input */}
+              <div className="hidden sm:block">
+                <HeroUrlInput />
+              </div>
+
+              {/* Mobile: CTA Button */}
+              <div className="sm:hidden">
+                <Link
+                  href="/login"
+                  className="flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+                >
+                  Try It Free — Paste Your First Review
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
+
+              <p className="text-sm text-slate-400">
+                No credit card required · Setup in 60 seconds · Cancel anytime
+              </p>
+            </div>
+
+            {/* Right: Widget showcase */}
+            <HeroWidgetShowcase />
           </div>
-
-          {/* Mobile: CTA Button */}
-          <div className="sm:hidden mt-8">
-            <Link
-              href="/login"
-              className="flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
-            >
-              Try It Free — Paste Your First Review
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <p className="mt-4 text-sm text-slate-400">
-            No credit card required · Setup in 60 seconds · Cancel anytime
-          </p>
         </div>
       </section>
 
