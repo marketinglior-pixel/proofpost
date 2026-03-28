@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
-import { extractReviewsFromScreenshot } from "@/lib/ai/extract-from-screenshot";
+import { extractReviewsFromScreenshot, ExtractionError } from "@/lib/ai/extract-from-screenshot";
 import { rateLimit } from "@/lib/rate-limit";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+export const maxDuration = 30;
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
@@ -18,7 +21,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
     }
 
-    const formData = await request.formData();
+    let formData;
+    try {
+      formData = await request.formData();
+    } catch {
+      return NextResponse.json({ error: "Failed to read the uploaded file. The image may be too large." }, { status: 400 });
+    }
+
     const file = formData.get("image") as File | null;
 
     if (!file) {
@@ -29,17 +38,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Image too large (max 10MB)" }, { status: 400 });
     }
 
-    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif"];
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp", "image/gif", "image/heic", "image/heif"];
     if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json({ error: "Unsupported image format. Use PNG, JPEG, or WebP." }, { status: 400 });
+      return NextResponse.json({ error: `Unsupported image format (${file.type || "unknown"}). Use PNG, JPEG, or WebP.` }, { status: 400 });
     }
+
+    // HEIC/HEIF from iOS — treat as JPEG for OpenAI (the binary is re-encoded client-side)
+    const mimeType = file.type === "image/heic" || file.type === "image/heif" ? "image/jpeg" : file.type;
 
     // Convert to base64
     const bytes = await file.arrayBuffer();
     const base64 = Buffer.from(bytes).toString("base64");
 
     // Extract reviews using GPT-4o Vision
-    const result = await extractReviewsFromScreenshot(base64, file.type);
+    const result = await extractReviewsFromScreenshot(base64, mimeType);
 
     if (!result.reviews || result.reviews.length === 0) {
       return NextResponse.json({
@@ -54,8 +66,16 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error("Screenshot extraction error:", error);
+
+    if (error instanceof ExtractionError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: error.statusCode }
+      );
+    }
+
     return NextResponse.json(
-      { error: "Failed to extract reviews from screenshot" },
+      { error: "Failed to extract reviews from screenshot. Please try again." },
       { status: 500 }
     );
   }

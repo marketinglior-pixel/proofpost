@@ -45,42 +45,81 @@ RULES:
 
 Return valid JSON matching the schema.`;
 
+export class ExtractionError extends Error {
+  constructor(
+    message: string,
+    public readonly code: "api_error" | "parse_error" | "validation_error" | "no_response",
+    public readonly statusCode: number = 500
+  ) {
+    super(message);
+    this.name = "ExtractionError";
+  }
+}
+
 export async function extractReviewsFromScreenshot(
   imageBase64: string,
   mimeType: string = "image/png"
 ): Promise<ExtractionResult> {
-  const response = await openai.chat.completions.create({
-    model: "gpt-4o",
-    messages: [
-      { role: "system", content: SYSTEM_PROMPT },
-      {
-        role: "user",
-        content: [
-          {
-            type: "image_url",
-            image_url: {
-              url: `data:${mimeType};base64,${imageBase64}`,
-              detail: "high",
+  let response;
+  try {
+    response = await openai.chat.completions.create({
+      model: "gpt-4o",
+      messages: [
+        { role: "system", content: SYSTEM_PROMPT },
+        {
+          role: "user",
+          content: [
+            {
+              type: "image_url",
+              image_url: {
+                url: `data:${mimeType};base64,${imageBase64}`,
+                detail: "high",
+              },
             },
-          },
-          {
-            type: "text",
-            text: "Extract all reviews from this screenshot. Return JSON with a 'reviews' array and 'sourceDetected' string.",
-          },
-        ],
-      },
-    ],
-    response_format: { type: "json_object" },
-    max_tokens: 4000,
-  });
+            {
+              type: "text",
+              text: "Extract all reviews from this screenshot. Return JSON with a 'reviews' array and 'sourceDetected' string.",
+            },
+          ],
+        },
+      ],
+      response_format: { type: "json_object" },
+      max_tokens: 4000,
+    });
+  } catch (err: unknown) {
+    const apiErr = err as { status?: number; message?: string; code?: string };
+    console.error("OpenAI API error:", { status: apiErr.status, message: apiErr.message, code: apiErr.code });
+
+    if (apiErr.status === 429) {
+      throw new ExtractionError("AI service is busy. Please try again in a moment.", "api_error", 429);
+    }
+    if (apiErr.code === "image_parse_error") {
+      throw new ExtractionError("Could not process this image. Try a different screenshot format (PNG or JPEG).", "api_error", 400);
+    }
+    throw new ExtractionError(
+      "Failed to analyze the screenshot. Please try again.",
+      "api_error",
+      apiErr.status || 500
+    );
+  }
 
   const content = response.choices[0]?.message?.content;
   if (!content) {
-    throw new Error("No response from AI");
+    throw new ExtractionError("No response from AI", "no_response");
   }
 
-  const parsed = JSON.parse(content);
-  const validated = extractionResultSchema.parse(parsed);
+  let parsed;
+  try {
+    parsed = JSON.parse(content);
+  } catch {
+    console.error("Failed to parse AI response:", content.slice(0, 500));
+    throw new ExtractionError("Failed to parse AI response", "parse_error");
+  }
 
-  return validated;
+  try {
+    return extractionResultSchema.parse(parsed);
+  } catch (err) {
+    console.error("AI response validation failed:", JSON.stringify(parsed).slice(0, 500));
+    throw new ExtractionError("AI returned an unexpected format. Please try again.", "validation_error");
+  }
 }
