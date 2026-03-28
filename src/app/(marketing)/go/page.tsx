@@ -53,7 +53,7 @@ export default function GoLandingPage() {
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
                 Paste any review link. AI finds the sentence that converts. You
-                get an animated widget — embedded in 60 seconds. No developer.
+                get an animated widget, embedded in 60 seconds. No developer.
                 No design tickets.
               </p>
 
