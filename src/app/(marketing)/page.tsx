@@ -88,14 +88,15 @@ export default function LandingPage() {
             {/* Left: Headline */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
-                Turn customer reviews into{" "}
-                <span className="text-emerald hand-underline sm:whitespace-nowrap">conversion machines</span>
+                Your reviews are making G2 rich.{" "}
+                <span className="text-emerald hand-underline">
+                  Not you.
+                </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Your reviews deserve better than a static quote block.
-                Drop them in, let AI find the hook, and get an animated
-                widget on your site in under a minute.
+                AI pulls the best line from any review and turns it into an
+                animated widget on your site. 60 seconds. No developer.
               </p>
 
               {/* Hero URL Input — zero-friction onboarding (desktop only) */}

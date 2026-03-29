@@ -45,16 +45,15 @@ export default function GoLandingPage() {
             {/* Left: Headline + CTA */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-                Your reviews already wrote your best sales copy.{" "}
+                Your reviews are making G2 rich.{" "}
                 <span className="text-emerald hand-underline">
-                  We just make people see it.
+                  Not you.
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Paste any review link. AI finds the sentence that converts. You
-                get an animated widget, embedded in 60 seconds. No developer.
-                No design tickets.
+                AI pulls the best line from any review and turns it into an
+                animated widget on your site. 60 seconds. No developer.
               </p>
 
               {/* Desktop: URL Input */}
