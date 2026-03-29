@@ -8,7 +8,20 @@ export async function middleware(request: NextRequest) {
 
   // Check auth for protected routes
   const { pathname } = request.nextUrl;
-  const isProtected = pathname.startsWith("/dashboard");
+  const protectedPrefixes = [
+    "/dashboard",
+    "/generate",
+    "/forms",
+    "/wall-of-love",
+    "/case-studies",
+    "/history",
+    "/analytics",
+    "/brand-kit",
+    "/pricing",
+    "/onboarding",
+    "/widgets",
+  ];
+  const isProtected = protectedPrefixes.some((p) => pathname.startsWith(p));
   const isAuthPage = pathname.startsWith("/login");
 
   if (isProtected || isAuthPage) {
