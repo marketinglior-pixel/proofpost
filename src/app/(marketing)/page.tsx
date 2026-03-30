@@ -126,56 +126,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ WORKS WITH ============ */}
-      <section className="bg-white py-6">
-        <div className="max-w-5xl mx-auto px-6">
-          <p className="text-[11px] font-medium text-slate-300 uppercase tracking-wider text-center mb-5">
-            One line of code. Works everywhere.
-          </p>
-          <div className="flex items-center justify-center gap-10 sm:gap-14 flex-wrap opacity-40 hover:opacity-60 transition-opacity">
-            {/* Webflow */}
-            <svg width="90" height="20" viewBox="0 0 200 40" aria-label="Webflow">
-              <text x="0" y="30" fill="#4353FF" fontFamily="system-ui" fontWeight="700" fontSize="28">Webflow</text>
-            </svg>
-            {/* Framer */}
-            <svg width="75" height="20" viewBox="0 0 160 40" aria-label="Framer">
-              <text x="0" y="30" fill="#0055FF" fontFamily="system-ui" fontWeight="700" fontSize="28">Framer</text>
-            </svg>
-            {/* WordPress */}
-            <div className="flex items-center gap-1.5">
-              <svg width="22" height="22" viewBox="0 0 24 24" aria-label="WordPress">
-                <path fill="#21759B" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.007 17.667L7.168 8.29c.573-.03 1.088-.065 1.088-.065.512-.06.452-.812-.06-.783 0 0-1.54.121-2.535.121-.179 0-.39-.005-.61-.014C6.81 4.86 9.24 3.2 12 3.2c2.054 0 3.926.784 5.33 2.068-.034-.002-.066-.008-.1-.008-1.001 0-1.712.872-1.712 1.808 0 .84.484 1.55.998 2.39.39.675.838 1.54.838 2.79 0 .867-.334 1.872-.778 3.273l-1.02 3.408-3.563-10.63zm8.203-5.458c0 1.253-.047 2.15-.263 3.1l-2.67 7.712c2.633-1.533 4.408-4.385 4.408-7.67 0-1.53-.388-2.97-1.07-4.227.04.423.06.856.06 1.085zm-7.63 1.66l2.98 8.15c.02.044.043.085.068.123-1.098.383-2.27.59-3.495.59-.914 0-1.796-.119-2.637-.34l2.8-8.13.284-.393zm-8.6-4.636A8.751 8.751 0 0 0 3.2 12c0 3.2 1.722 5.997 4.293 7.52L3.966 9.233z"/>
-              </svg>
-              <span className="text-[14px] font-bold text-[#21759B]">WordPress</span>
-            </div>
-            {/* Shopify */}
-            <svg width="75" height="22" viewBox="0 0 160 44" aria-label="Shopify">
-              <text x="0" y="32" fill="#96BF48" fontFamily="system-ui" fontWeight="700" fontSize="28">Shopify</text>
-            </svg>
-            {/* React */}
-            <div className="flex items-center gap-1.5">
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-label="React">
-                <circle cx="12" cy="12" r="2.2" fill="#61DAFB"/>
-                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1"/>
-                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1" transform="rotate(60 12 12)"/>
-                <ellipse cx="12" cy="12" rx="11" ry="4.2" fill="none" stroke="#61DAFB" strokeWidth="1" transform="rotate(120 12 12)"/>
-              </svg>
-              <span className="text-[14px] font-bold text-[#61DAFB]">React</span>
-            </div>
-            {/* Next.js */}
-            <div className="flex items-center gap-1.5">
-              <svg width="20" height="20" viewBox="0 0 24 24" aria-label="Next.js">
-                <circle cx="12" cy="12" r="12" fill="#000"/>
-                <path d="M9.5 8v8l6.5-4z" fill="#fff"/>
-              </svg>
-              <span className="text-[14px] font-bold text-slate-900">Next.js</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ============ SECTION 2: PROBLEM AGITATION ============ */}
       <section className="max-w-3xl mx-auto px-6 py-24">
+        <p className="text-[13px] font-medium text-emerald uppercase tracking-wider text-center mb-6">
+          Sound familiar?
+        </p>
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-6">
           The manual process is broken.
         </h2>
@@ -195,12 +150,41 @@ export default function LandingPage() {
             300-word paragraph on a landing page. Your hard-won social proof
             is invisible.
           </p>
+          <p className="text-slate-700 font-medium">
+            But here&apos;s the thing — your visitors won&apos;t read a wall of text.
+            They will stop scrolling for something that moves.
+          </p>
+        </div>
+      </section>
+
+      {/* ============ BRIDGE: WHY ANIMATION WINS ============ */}
+      <section className="bg-navy py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
+            Why animated carousels beat static text grids.
+          </h2>
+          <div className="grid sm:grid-cols-3 gap-8 text-center">
+            {[
+              { stat: "3x", label: "more attention", desc: "Animated widgets command 3x more eye-tracking time than static text blocks." },
+              { stat: "60s", label: "setup time", desc: "From raw review to live widget on your site. We timed it." },
+              { stat: "0", label: "developers needed", desc: "One line of embed code. Works everywhere. No Jira tickets required." },
+            ].map((s) => (
+              <div key={s.label} className="space-y-2">
+                <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
+                <p className="text-[15px] font-semibold text-white uppercase tracking-wider">{s.label}</p>
+                <p className="text-[13px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">{s.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
       {/* ============ SECTION 3: HOW IT WORKS ============ */}
       <section className="max-w-4xl mx-auto px-6 py-24">
         <div className="text-center space-y-4 mb-14">
+          <p className="text-[13px] font-medium text-emerald uppercase tracking-wider">
+            Creating these used to require a designer. Now it takes 3 clicks.
+          </p>
           <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
             How it works.
           </h2>
@@ -255,6 +239,9 @@ export default function LandingPage() {
 
       {/* ============ SOCIAL PROOF / TESTIMONIALS MARQUEE ============ */}
       <section className="bg-snow py-16 overflow-hidden">
+        <p className="text-[13px] font-medium text-emerald uppercase tracking-wider text-center mb-8">
+          Don&apos;t take our word for it
+        </p>
         <LandingMarquee />
       </section>
 
@@ -262,6 +249,9 @@ export default function LandingPage() {
       <section className="bg-snow py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-12">
+            <p className="text-[13px] font-medium text-emerald uppercase tracking-wider">
+              No developer? No problem.
+            </p>
             <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
               Works on every platform.
               <br />
@@ -367,8 +357,11 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ============ SECTION 5: FEATURES ============ */}
+      {/* ============ SECTION 5: FEATURES (Condensed into 4 pillars) ============ */}
       <section className="max-w-5xl mx-auto px-6 py-24">
+        <p className="text-[13px] font-medium text-emerald uppercase tracking-wider text-center mb-4">
+          One tool, not ten
+        </p>
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
           Everything you need. Nothing you don&apos;t.
         </h2>
@@ -377,50 +370,81 @@ export default function LandingPage() {
           marketer needs to get the job done fast.
         </p>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {[
-            { icon: Zap, title: "AI Hook Extraction", desc: "Finds the most powerful sentence in any review. Cuts the noise, leaves the conversion trigger." },
-            { icon: Eye, title: "Kinetic Trust Carousels", desc: "Auto-sliding, animated widgets that break banner blindness. Motion commands attention." },
-            { icon: Camera, title: "Screenshot Import", desc: "Upload a screenshot from Google, G2, LinkedIn, or WhatsApp. AI extracts all reviews automatically." },
-            { icon: Paintbrush, title: "Widget Style Builder", desc: "Visual editor with presets. Change colors, fonts, borders, and shadows. Live preview as you design." },
-            { icon: FileText, title: "Collection Forms", desc: "Send a branded link to your customers. They submit reviews, you approve and publish. Zero friction." },
-            { icon: RefreshCw, title: "Auto-Widget Pipeline", desc: "Collection form → auto-approve → AI hook extraction → widget updated. Fully automated review pipeline." },
-            { icon: Heart, title: "Wall of Love", desc: "A beautiful, public page showcasing all your best reviews. Share it or embed it anywhere." },
-            { icon: Code2, title: "One-Click Embed", desc: "Works on Webflow, Framer, WordPress, React. One line of code. No dev team needed." },
-            { icon: Palette, title: "Brand Kit Auto-Sync", desc: "Your logo, your colors, automatically applied. Widgets look like you built them in-house." },
-            { icon: Clock, title: "Dark/Light Mode", desc: "Auto-detects your site theme. No custom CSS. Looks native everywhere." },
-            { icon: Shield, title: "Analytics Dashboard", desc: "Track impressions, see which testimonials convert the most. Data-driven social proof." },
-            { icon: BarChart3, title: "SEO Rich Snippets", desc: "Automatic Schema.org markup. Get star ratings showing in Google search results." },
-          ].map((feat) => (
-            <div key={feat.title} className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-3">
+        <div className="grid sm:grid-cols-2 gap-6">
+          {/* Pillar 1: AI-Powered Curation */}
+          <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
+            <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
-                <feat.icon className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
+                <Zap className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-              <h3 className="text-[15px] font-semibold text-slate-900">{feat.title}</h3>
-              <p className="text-[14px] text-slate-500 leading-relaxed">{feat.desc}</p>
+              <h3 className="text-[17px] font-semibold text-slate-900">AI-Powered Curation</h3>
             </div>
-          ))}
-        </div>
-      </section>
+            <p className="text-[14px] text-slate-500 leading-relaxed">
+              Our AI reads every review and extracts the one sentence that converts. Three hook variants for A/B testing.
+              Upload screenshots from Google, G2, LinkedIn, or WhatsApp — AI extracts everything automatically.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {["AI Hook Extraction", "Screenshot Import", "3 Hook Variants"].map(t => (
+                <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
+              ))}
+            </div>
+          </div>
 
-      {/* ============ RESULTS / STATS ============ */}
-      <section className="bg-navy py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
-            Why animated carousels beat static text grids.
-          </h2>
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
-            {[
-              { stat: "3x", label: "more attention", desc: "Animated widgets command 3x more eye-tracking time than static text blocks." },
-              { stat: "60s", label: "setup time", desc: "From raw review to live widget on your site. We timed it." },
-              { stat: "0", label: "developers needed", desc: "One line of embed code. Works everywhere. No Jira tickets required." },
-            ].map((s) => (
-              <div key={s.label} className="space-y-2">
-                <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
-                <p className="text-[15px] font-semibold text-white uppercase tracking-wider">{s.label}</p>
-                <p className="text-[13px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">{s.desc}</p>
+          {/* Pillar 2: Beautiful, Branded Widgets */}
+          <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
+                <Paintbrush className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-            ))}
+              <h3 className="text-[17px] font-semibold text-slate-900">Beautiful, Branded Widgets</h3>
+            </div>
+            <p className="text-[14px] text-slate-500 leading-relaxed">
+              Animated carousels that break banner blindness. Visual editor with presets — change colors, fonts, shadows.
+              Auto-detects dark/light mode. Widgets look like you built them in-house.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {["Kinetic Carousels", "Widget Builder", "Brand Kit Sync", "Dark/Light Mode"].map(t => (
+                <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Pillar 3: Fully Automated Pipeline */}
+          <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
+                <RefreshCw className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
+              </div>
+              <h3 className="text-[17px] font-semibold text-slate-900">Fully Automated Pipeline</h3>
+            </div>
+            <p className="text-[14px] text-slate-500 leading-relaxed">
+              Send a branded collection form to your customers. They submit reviews, AI extracts the hook,
+              and your widget updates automatically. Wall of Love page included. Zero manual work.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {["Collection Forms", "Auto-Widget Pipeline", "Wall of Love", "Auto-Approve"].map(t => (
+                <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Pillar 4: Measure & Optimize */}
+          <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
+            <div className="flex items-center gap-3">
+              <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
+                <BarChart3 className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
+              </div>
+              <h3 className="text-[17px] font-semibold text-slate-900">Measure &amp; Optimize</h3>
+            </div>
+            <p className="text-[14px] text-slate-500 leading-relaxed">
+              Track impressions and see which testimonials convert the most. A/B test hook variants.
+              Automatic Schema.org markup gets your star ratings showing in Google search results.
+            </p>
+            <div className="flex flex-wrap gap-2 pt-1">
+              {["Analytics Dashboard", "A/B Testing", "SEO Rich Snippets", "Hook Performance"].map(t => (
+                <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -428,12 +452,18 @@ export default function LandingPage() {
       {/* ============ IMPACT CALCULATOR ============ */}
       <section className="bg-snow py-24">
         <div className="max-w-5xl mx-auto px-6">
+          <p className="text-[13px] font-medium text-emerald uppercase tracking-wider text-center mb-4">
+            See the math
+          </p>
           <ImpactCalculator />
         </div>
       </section>
 
       {/* ============ SECTION 6: COMPARISON ============ */}
       <section id="comparison" className="max-w-4xl mx-auto px-6 py-24">
+        <p className="text-[13px] font-medium text-emerald uppercase tracking-wider text-center mb-4">
+          Still comparing options?
+        </p>
         <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
           How we compare.
         </h2>
