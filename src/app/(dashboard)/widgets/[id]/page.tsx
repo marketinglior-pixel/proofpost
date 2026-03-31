@@ -31,7 +31,7 @@ export default function WidgetBuilderPage() {
   const [style, setStyle] = useState<WidgetStyle>(DEFAULT_STYLE);
   const [activePreset, setActivePreset] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
-  const [embedStyle, setEmbedStyle] = useState<"carousel" | "marquee" | "grid" | "stack">("carousel");
+  const [embedStyle, setEmbedStyle] = useState<"carousel" | "marquee" | "grid" | "stack" | "badge" | "card" | "floating">("carousel");
 
   useEffect(() => {
     fetch("/api/widgets")
@@ -80,9 +80,16 @@ export default function WidgetBuilderPage() {
   };
 
   const copyEmbedCode = () => {
-    const code = embedStyle === "carousel"
-      ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}"></script>`
-      : `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}" data-style="${embedStyle}" data-max-width="100%"></script>`;
+    let code: string;
+    if (embedStyle === "badge") {
+      code = `<iframe src="${PROOFPOST_HOST}/embed/${widgetId}?style=badge" style="position:fixed;bottom:0;left:0;width:380px;height:500px;border:none;z-index:9999;pointer-events:auto;background:transparent;" allowtransparency="true"></iframe>`;
+    } else if (embedStyle === "floating") {
+      code = `<iframe src="${PROOFPOST_HOST}/embed/${widgetId}?style=floating" style="position:fixed;bottom:0;left:0;width:400px;height:200px;border:none;z-index:9999;pointer-events:auto;background:transparent;" allowtransparency="true"></iframe>`;
+    } else if (embedStyle === "carousel") {
+      code = `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}"></script>`;
+    } else {
+      code = `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}" data-style="${embedStyle}" data-max-width="100%"></script>`;
+    }
     navigator.clipboard.writeText(code);
     setCopied(true);
     toast.success("Embed code copied!");
@@ -333,6 +340,33 @@ export default function WidgetBuilderPage() {
               ))}
             </div>
           </div>
+
+          {/* Badge Position (only when badge layout selected) */}
+          {embedStyle === "badge" && (
+            <div className="space-y-3">
+              <label className="text-sm font-medium text-slate-700">Badge Position</label>
+              <div className="grid grid-cols-2 gap-2">
+                {([
+                  { value: "top-left" as const, label: "↖ Top Left" },
+                  { value: "top-right" as const, label: "↗ Top Right" },
+                  { value: "bottom-left" as const, label: "↙ Bottom Left" },
+                  { value: "bottom-right" as const, label: "↘ Bottom Right" },
+                ] as const).map(({ value, label }) => (
+                  <button
+                    key={value}
+                    onClick={() => updateStyle("badgePosition", value)}
+                    className={`px-3 py-2 text-xs font-medium rounded-lg border transition-colors ${
+                      (style.badgePosition || "bottom-left") === value
+                        ? "border-emerald bg-emerald/5 text-emerald"
+                        : "border-slate-200 text-slate-600 hover:bg-slate-50"
+                    }`}
+                  >
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Live Preview */}
@@ -342,78 +376,129 @@ export default function WidgetBuilderPage() {
 
             {/* Preview card */}
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-6">
-              <div
-                style={{
-                  fontFamily: style.fontFamily,
-                  backgroundColor: style.backgroundColor,
-                  borderRadius: `${style.borderRadius}px`,
-                  boxShadow: getShadowCSS(style.shadowStyle),
-                  border: "1px solid rgba(226,232,240,0.8)",
+              {embedStyle === "badge" ? (
+                /* Badge preview */
+                <div style={{
+                  position: "relative",
+                  height: "200px",
+                  borderRadius: "12px",
+                  background: "#f8fafc",
+                  border: "1px solid rgba(226,232,240,0.5)",
                   overflow: "hidden",
-                  maxWidth: "400px",
-                  margin: "0 auto",
-                }}
-              >
-                {/* Preview card content */}
-                <div style={{ padding: "32px 24px 16px", textAlign: "center" }}>
-                  <span style={{ fontSize: "48px", lineHeight: "0.5", color: style.accentColor, opacity: 0.15, fontFamily: "Georgia, serif" }}>
-                    &ldquo;
-                  </span>
-                  <p style={{ fontSize: "14px", lineHeight: 1.625, color: style.quoteColor, fontStyle: "italic", margin: "8px 0 0" }}>
-                    This product completely transformed how we handle customer feedback. Revenue is up 40% since we started.
-                  </p>
-                  <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginTop: "16px" }}>
-                    {style.showAvatar && (
-                      <div style={{
-                        width: "36px", height: "36px", borderRadius: "50%",
-                        background: `linear-gradient(135deg, ${style.accentColor}, ${style.accentColor}cc)`,
-                        color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
-                        fontSize: "13px", fontWeight: 700,
-                      }}>
-                        JS
-                      </div>
-                    )}
-                    <div style={{ textAlign: "left" }}>
-                      <div style={{ fontSize: "12px", fontWeight: 600, color: style.textColor }}>
-                        Jane Smith
-                      </div>
-                      {(style.showTitle || style.showCompany) && (
-                        <div style={{ fontSize: "10px", color: `${style.textColor}80` }}>
-                          {style.showTitle ? "VP Marketing" : ""}
-                          {style.showTitle && style.showCompany ? ", " : ""}
-                          {style.showCompany ? "Acme Inc" : ""}
+                }}>
+                  {/* Simulated page content */}
+                  <div style={{ textAlign: "center", padding: "40px 20px", opacity: 0.3 }}>
+                    <div style={{ width: "120px", height: "10px", background: "#cbd5e1", borderRadius: "4px", margin: "0 auto 12px" }} />
+                    <div style={{ width: "180px", height: "8px", background: "#e2e8f0", borderRadius: "4px", margin: "0 auto 8px" }} />
+                    <div style={{ width: "160px", height: "8px", background: "#e2e8f0", borderRadius: "4px", margin: "0 auto" }} />
+                  </div>
+                  {/* Badge */}
+                  <div style={{
+                    position: "absolute",
+                    ...(style.badgePosition === "top-left" ? { top: "12px", left: "12px" } :
+                        style.badgePosition === "top-right" ? { top: "12px", right: "12px" } :
+                        style.badgePosition === "bottom-right" ? { bottom: "12px", right: "12px" } :
+                        { bottom: "12px", left: "12px" }),
+                  }}>
+                    <div style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "8px",
+                      padding: "8px 14px",
+                      backgroundColor: style.backgroundColor,
+                      borderRadius: "9999px",
+                      border: "1px solid rgba(226,232,240,0.8)",
+                      boxShadow: getShadowCSS(style.shadowStyle),
+                      fontFamily: style.fontFamily,
+                    }}>
+                      {style.showStars && (
+                        <div style={{ display: "flex", gap: "1px" }}>
+                          {[1,2,3,4,5].map((i) => (
+                            <span key={i} style={{ color: "#FBBF24", fontSize: "10px" }}>★</span>
+                          ))}
                         </div>
                       )}
+                      <span style={{ fontSize: "12px", fontWeight: 700, color: style.textColor }}>5.0</span>
+                      <div style={{ width: "1px", height: "12px", background: "rgba(226,232,240,0.8)" }} />
+                      <span style={{ fontSize: "10px", color: `${style.textColor}80` }}>from 5 reviews</span>
                     </div>
                   </div>
-                  {style.showStars && (
-                    <div style={{ display: "flex", justifyContent: "center", gap: "2px", marginTop: "12px" }}>
-                      {[1,2,3,4,5].map((i) => (
-                        <span key={i} style={{ color: "#FBBF24", fontSize: "14px" }}>&#9733;</span>
+                </div>
+              ) : (
+                /* Default carousel preview */
+                <div
+                  style={{
+                    fontFamily: style.fontFamily,
+                    backgroundColor: style.backgroundColor,
+                    borderRadius: `${style.borderRadius}px`,
+                    boxShadow: getShadowCSS(style.shadowStyle),
+                    border: "1px solid rgba(226,232,240,0.8)",
+                    overflow: "hidden",
+                    maxWidth: "400px",
+                    margin: "0 auto",
+                  }}
+                >
+                  {/* Preview card content */}
+                  <div style={{ padding: "32px 24px 16px", textAlign: "center" }}>
+                    <span style={{ fontSize: "48px", lineHeight: "0.5", color: style.accentColor, opacity: 0.15, fontFamily: "Georgia, serif" }}>
+                      &ldquo;
+                    </span>
+                    <p style={{ fontSize: "14px", lineHeight: 1.625, color: style.quoteColor, fontStyle: "italic", margin: "8px 0 0" }}>
+                      This product completely transformed how we handle customer feedback. Revenue is up 40% since we started.
+                    </p>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: "10px", marginTop: "16px" }}>
+                      {style.showAvatar && (
+                        <div style={{
+                          width: "36px", height: "36px", borderRadius: "50%",
+                          background: `linear-gradient(135deg, ${style.accentColor}, ${style.accentColor}cc)`,
+                          color: "#fff", display: "flex", alignItems: "center", justifyContent: "center",
+                          fontSize: "13px", fontWeight: 700,
+                        }}>
+                          JS
+                        </div>
+                      )}
+                      <div style={{ textAlign: "left" }}>
+                        <div style={{ fontSize: "12px", fontWeight: 600, color: style.textColor }}>
+                          Jane Smith
+                        </div>
+                        {(style.showTitle || style.showCompany) && (
+                          <div style={{ fontSize: "10px", color: `${style.textColor}80` }}>
+                            {style.showTitle ? "VP Marketing" : ""}
+                            {style.showTitle && style.showCompany ? ", " : ""}
+                            {style.showCompany ? "Acme Inc" : ""}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    {style.showStars && (
+                      <div style={{ display: "flex", justifyContent: "center", gap: "2px", marginTop: "12px" }}>
+                        {[1,2,3,4,5].map((i) => (
+                          <span key={i} style={{ color: "#FBBF24", fontSize: "14px" }}>&#9733;</span>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                  <div style={{
+                    padding: "10px 24px",
+                    borderTop: `1px solid ${style.backgroundColor === "#0f172a" ? "rgba(255,255,255,0.1)" : "rgba(241,245,249,1)"}`,
+                    background: style.backgroundColor === "#0f172a" ? "rgba(255,255,255,0.03)" : "rgba(248,250,252,0.5)",
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                  }}>
+                    <div style={{ display: "flex", gap: "4px" }}>
+                      {[0,1,2].map((i) => (
+                        <div key={i} style={{
+                          width: i === 0 ? "16px" : "5px", height: "5px",
+                          borderRadius: "3px",
+                          backgroundColor: i === 0 ? style.accentColor : "rgba(15,23,42,0.12)",
+                        }} />
                       ))}
                     </div>
-                  )}
-                </div>
-                <div style={{
-                  padding: "10px 24px",
-                  borderTop: `1px solid ${style.backgroundColor === "#0f172a" ? "rgba(255,255,255,0.1)" : "rgba(241,245,249,1)"}`,
-                  background: style.backgroundColor === "#0f172a" ? "rgba(255,255,255,0.03)" : "rgba(248,250,252,0.5)",
-                  display: "flex", alignItems: "center", justifyContent: "space-between",
-                }}>
-                  <div style={{ display: "flex", gap: "4px" }}>
-                    {[0,1,2].map((i) => (
-                      <div key={i} style={{
-                        width: i === 0 ? "16px" : "5px", height: "5px",
-                        borderRadius: "3px",
-                        backgroundColor: i === 0 ? style.accentColor : "rgba(15,23,42,0.12)",
-                      }} />
-                    ))}
+                    <span style={{ fontSize: "9px", color: style.accentColor, fontWeight: 500 }}>
+                      ✦ ProofPost Widget
+                    </span>
                   </div>
-                  <span style={{ fontSize: "9px", color: style.accentColor, fontWeight: 500 }}>
-                    ✦ ProofPost Widget
-                  </span>
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Embed Code */}
@@ -421,7 +506,7 @@ export default function WidgetBuilderPage() {
               <div className="flex items-center gap-2">
                 <span className="text-xs font-medium text-slate-500">Layout:</span>
                 <div className="flex rounded-lg border border-slate-200 overflow-hidden">
-                  {(["carousel", "marquee", "grid", "stack"] as const).map((s) => (
+                  {(["carousel", "marquee", "grid", "stack", "card", "floating", "badge"] as const).map((s) => (
                     <button
                       key={s}
                       onClick={() => setEmbedStyle(s)}
@@ -429,7 +514,7 @@ export default function WidgetBuilderPage() {
                         embedStyle === s ? "bg-emerald text-white" : "bg-white text-slate-600 hover:bg-slate-50"
                       }`}
                     >
-                      {s.charAt(0).toUpperCase() + s.slice(1)}
+                      {s === "badge" ? "Badge" : s === "floating" ? "Floating" : s === "card" ? "Card" : s.charAt(0).toUpperCase() + s.slice(1)}
                     </button>
                   ))}
                 </div>
@@ -437,9 +522,13 @@ export default function WidgetBuilderPage() {
 
               <div className="relative">
                 <code className="block text-[11px] bg-slate-900 text-emerald-400 font-mono rounded-lg px-4 py-3 overflow-x-auto whitespace-nowrap">
-                  {embedStyle === "carousel"
-                    ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}"></script>`
-                    : `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}" data-style="${embedStyle}"></script>`
+                  {embedStyle === "badge"
+                    ? `<iframe src="${PROOFPOST_HOST}/embed/${widgetId}?style=badge" style="position:fixed;bottom:0;left:0;width:380px;height:500px;border:none;z-index:9999;" allowtransparency="true"></iframe>`
+                    : embedStyle === "floating"
+                      ? `<iframe src="${PROOFPOST_HOST}/embed/${widgetId}?style=floating" style="position:fixed;bottom:0;left:0;width:400px;height:200px;border:none;z-index:9999;" allowtransparency="true"></iframe>`
+                      : embedStyle === "carousel"
+                        ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}"></script>`
+                        : `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${widgetId}" data-style="${embedStyle}"></script>`
                   }
                 </code>
                 <button

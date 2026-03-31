@@ -4,6 +4,7 @@ import { EmbedGrid } from "./embed-grid";
 import { EmbedStack } from "./embed-stack";
 import { EmbedBadge } from "./embed-badge";
 import { EmbedCard } from "./embed-card";
+import { EmbedFloating } from "./embed-floating";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -240,7 +241,9 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {widgetStyle === "card" ? (
+      {widgetStyle === "floating" ? (
+        <EmbedFloating data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
+      ) : widgetStyle === "card" ? (
         <EmbedCard data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       ) : widgetStyle === "badge" ? (
         <EmbedBadge data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
