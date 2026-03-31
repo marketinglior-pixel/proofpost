@@ -1,5 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
+import Link from "next/link";
+import { Download } from "lucide-react";
 import { GenerateForm } from "./generate-form";
 import type { Database } from "@/types/database";
 
@@ -30,9 +32,25 @@ export default async function GeneratePage() {
           Build Your Carousel
         </h1>
         <p className="text-[14px] sm:text-[15px] text-slate-500 mt-1">
-          Add reviews on the left. Your carousel builds on the right.
+          One review → one widget. Paste a link, text, or screenshot.
         </p>
       </div>
+
+      {/* Cross-link to Import */}
+      <Link
+        href="/import"
+        className="flex items-center gap-3 rounded-xl border border-dashed border-slate-300 bg-slate-50/50 px-5 py-3.5 hover:border-emerald/40 hover:bg-emerald/5 transition-colors group"
+      >
+        <Download className="w-4 h-4 text-slate-400 group-hover:text-emerald" />
+        <div>
+          <span className="text-[13px] font-medium text-slate-700 group-hover:text-slate-900">
+            Have dozens of reviews on G2 or Google?
+          </span>
+          <span className="text-[12px] text-slate-400 ml-1.5">
+            Bulk import →
+          </span>
+        </div>
+      </Link>
 
       <GenerateForm />
     </div>
