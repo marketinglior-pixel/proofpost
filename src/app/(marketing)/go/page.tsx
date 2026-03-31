@@ -3,6 +3,7 @@ import { HeroUrlInput } from "../hero-url-input";
 import { HeroWidgetShowcase } from "../hero-widget-showcase";
 import { PricingSection } from "../pricing-section";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
+import { FloatingTestimonial } from "@/components/floating-testimonial";
 import {
   ArrowRight,
   Star,
@@ -45,15 +46,17 @@ export default function GoLandingPage() {
             {/* Left: Headline + CTA */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-                No Reviews on Your Site? You're{" "}
+                Your Reviews Have One Sentence That{" "}
                 <span className="text-emerald hand-underline">
-                  Losing Money.
+                  Closes Deals.
                 </span>
+                {" "}AI Finds It.
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                ProofPost turns customer feedback into high-converting social
-                proof for your website in seconds.
+                Pull reviews from G2, Google, or paste them in. AI finds the
+                selling sentence. Live animated widget on your site in 60
+                seconds. Starts free.
               </p>
 
               {/* Desktop: URL Input */}
@@ -67,13 +70,13 @@ export default function GoLandingPage() {
                   href="/login"
                   className="flex items-center justify-center gap-2 h-14 px-8 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Try Free — No Card Required
+                  Build Your First Widget Free
                   <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                 </Link>
               </div>
 
               <p className="text-sm text-slate-400">
-                No credit card required · Setup in 60 seconds · Cancel anytime
+                Free tier included. No credit card. Cancel anytime.
               </p>
             </div>
 
@@ -93,18 +96,18 @@ export default function GoLandingPage() {
           <div className="grid sm:grid-cols-3 gap-5">
             {[
               {
-                quote: '"We have 200 five-star reviews"',
-                desc: "...and a landing page that says \"Trusted by 500+ companies.\" Your best social proof is invisible.",
+                quote: '"200 five-star reviews, zero on our site"',
+                desc: "Your best social proof lives on G2 and Google. Your landing page says \"Trusted by companies.\" That convinces no one.",
                 emoji: "⭐",
               },
               {
-                quote: '"Can you make a testimonial section?"',
-                desc: "Dev says: \"Add it to the backlog.\" It's been there since Q2.",
-                emoji: "🗓️",
+                quote: '"We tried a testimonial tool"',
+                desc: "Imported reviews. Got a static grid. Nobody reads it. Still paying $29/mo.",
+                emoji: "😐",
               },
               {
                 quote: '"I\'ll just screenshot the review"',
-                desc: "Crop it. Paste it. Realize it looks terrible. Google the same thing you Googled last time.",
+                desc: "Crop it. Paste it in. Looks terrible. Nobody clicks. Same thing every quarter.",
                 emoji: "📸",
               },
             ].map((card) => (
@@ -130,7 +133,7 @@ export default function GoLandingPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-14">
             <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
-              60 seconds. Three steps. Done.
+              60 seconds. Three steps. Live on your site.
             </h2>
           </div>
 
@@ -138,20 +141,20 @@ export default function GoLandingPage() {
             {[
               {
                 step: "01",
-                title: "Paste",
-                desc: "Drop any review URL — G2, Capterra, Google, Trustpilot. Or paste the text directly.",
+                title: "Import",
+                desc: "Connect G2 or Google. Paste a URL from Capterra or Trustpilot. Upload a screenshot. Record a video testimonial. Every format works.",
                 icon: Link2,
               },
               {
                 step: "02",
                 title: "AI extracts the hook",
-                desc: "Our AI reads the full review and pulls the one sentence that makes people buy. Not the whole paragraph. The money line.",
+                desc: "AI reads the full review and pulls the one sentence that makes people buy. Not the whole paragraph. The money line. Works on video too.",
                 icon: Sparkles,
               },
               {
                 step: "03",
                 title: "Embed",
-                desc: "Copy one line of code. Paste it anywhere. Animated carousel, live on your site.",
+                desc: "Copy one line of code. Paste it anywhere. Animated carousel with video and text, live on your site. Looks like you hired someone.",
                 icon: Code2,
               },
             ].map((s) => (
@@ -186,7 +189,7 @@ export default function GoLandingPage() {
               href="/login"
               className="inline-flex items-center gap-2 h-12 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Try It Free — No Developer Needed
+              Build Your First Widget Free
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
@@ -199,12 +202,12 @@ export default function GoLandingPage() {
           <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
             The numbers.
           </h2>
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
             {[
               {
                 stat: "3x",
                 label: "more attention",
-                desc: "Animated widgets vs. static text blocks. Motion commands attention.",
+                desc: "Animated widgets vs. static text grids. Motion stops the scroll.",
               },
               {
                 stat: "60s",
@@ -212,9 +215,14 @@ export default function GoLandingPage() {
                 desc: "From raw review to live widget on your site. We timed it.",
               },
               {
-                stat: "0",
-                label: "developers needed",
-                desc: "One line of embed code. Works everywhere. No Jira tickets required.",
+                stat: "5+",
+                label: "import sources",
+                desc: "G2, Google, Capterra, Trustpilot, LinkedIn. Video + text.",
+              },
+              {
+                stat: "$19",
+                label: "per month",
+                desc: "Unlimited widgets. Senja charges $29. Testimonial.to charges $50. Both static.",
               },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
@@ -237,17 +245,17 @@ export default function GoLandingPage() {
       <section className="bg-white py-24">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            See the difference.
+            Same review. Different tool. Different results.
           </h2>
           <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
-            Same review. Completely different impact.
+            Static grid vs. AI-extracted, animated widget.
           </p>
 
           <div className="grid sm:grid-cols-2 gap-6">
             {/* Before */}
             <div className="rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 space-y-5">
               <span className="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-200/60 px-3 py-1 rounded-full">
-                Before
+                Before (static tools)
               </span>
               <div className="rounded-lg bg-white border border-slate-200 p-5 space-y-3 opacity-60">
                 <div className="flex gap-1">
@@ -267,17 +275,17 @@ export default function GoLandingPage() {
                   used before. Highly recommended for any SaaS company looking
                   to improve their social proof...&rdquo;
                 </p>
-                <p className="text-[12px] text-slate-400">— Sarah K., Head of Marketing</p>
+                <p className="text-[12px] text-slate-400">Sarah K., Head of Marketing</p>
               </div>
               <p className="text-[13px] text-slate-400 text-center italic">
-                300 words. Nobody reads this.
+                Full review. Static grid. Nobody reads this.
               </p>
             </div>
 
             {/* After */}
             <div className="rounded-xl border-2 border-emerald/40 bg-emerald/5 p-8 space-y-5">
               <span className="inline-block text-[11px] font-bold text-emerald uppercase tracking-wider bg-emerald/10 px-3 py-1 rounded-full">
-                After — with ProofPost
+                After (ProofPost)
               </span>
               <div className="rounded-lg bg-white border border-emerald/30 p-5 space-y-3 shadow-sm">
                 <div className="flex gap-1">
@@ -304,7 +312,7 @@ export default function GoLandingPage() {
                 </div>
               </div>
               <p className="text-[13px] text-emerald-dark text-center font-medium">
-                AI extracted the money line. Animated. Done.
+                AI-extracted hook. Animated. Converting.
               </p>
             </div>
           </div>
@@ -321,19 +329,19 @@ export default function GoLandingPage() {
             {[
               {
                 q: "Is it hard to set up?",
-                a: "One line of code. If you can paste into your website builder, you can use ProofPost. Works with Webflow, WordPress, Shopify, Framer, React, and anything that takes HTML.",
+                a: "One line of code. If you can paste into your website builder, you're good. Works with Webflow, WordPress, Shopify, Framer, React, and anything that takes HTML.",
               },
               {
-                q: "What if I don't have reviews on G2?",
-                a: "Paste from Google, Capterra, Trustpilot — or type the review text directly. Any review works.",
+                q: "How is this different from Senja?",
+                a: "Senja shows your full reviews in static grids. We pull the one sentence that converts and animate it. Video testimonials, too. $19/mo instead of $29, and you're live in 60 seconds instead of 5 minutes.",
               },
               {
-                q: "Why not just screenshot my reviews?",
-                a: "You can. But screenshots don't animate, don't auto-rotate, and look like you spent 30 seconds on them. Because you did.",
+                q: "Can I import from G2, Google, or Capterra?",
+                a: "Yes. Connect your profile or paste a URL. We also support Trustpilot, LinkedIn, screenshots, and video. Every format works.",
               },
               {
                 q: "What does it cost?",
-                a: "$19/mo for unlimited widgets. That's less than one hour of a designer's time.",
+                a: "Free tier: 3 carousels/month, no credit card. Pro: $19/mo for unlimited widgets, video testimonials, analytics, and platform import. Less than one hour of a designer's time.",
               },
             ].map((faq, i) => (
               <details key={i} className="group">
@@ -362,23 +370,23 @@ export default function GoLandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(16,185,129,0.1)_0%,_transparent_60%)]" />
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-[36px] font-bold text-white tracking-tight">
-            Your best customers already wrote your best copy.
+            Switch to animated, AI-powered proof. 60 seconds.
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
-            Stop letting it sit on G2. Your prospects are on your pricing page
-            right now, looking for a reason to trust you. We make that reason
-            impossible to miss.
+            Import your reviews from any platform. AI finds the sentence that
+            converts. Live widget on your site before this tab goes cold.
+            Free to start.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Paste Your First Review — It&apos;s Free
+              Build Your First Widget Free
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
             <p className="text-[13px] text-slate-500">
-              No credit card. 60-second setup.
+              Free tier. No credit card. 60-second setup.
             </p>
           </div>
         </div>
@@ -386,6 +394,9 @@ export default function GoLandingPage() {
 
       {/* Sticky Mobile CTA */}
       <StickyMobileCTA />
+
+      {/* Floating Testimonial Card (bottom-left, like Senja) */}
+      <FloatingTestimonial />
 
       {/* Minimal Footer */}
       <footer className="border-t border-slate-200 bg-slate-50">

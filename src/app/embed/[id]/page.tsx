@@ -2,6 +2,8 @@ import { EmbedCarousel } from "./embed-carousel";
 import { EmbedMarquee } from "./embed-marquee";
 import { EmbedGrid } from "./embed-grid";
 import { EmbedStack } from "./embed-stack";
+import { EmbedBadge } from "./embed-badge";
+import { EmbedCard } from "./embed-card";
 import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
@@ -24,7 +26,7 @@ interface LlmOutput {
 export default async function EmbedPage({ params, searchParams }: PageProps) {
   const { id } = await params;
   const { style } = await searchParams;
-  const widgetStyle = style || "carousel"; // "carousel", "marquee", "grid", or "stack"
+  const widgetStyle = style || "carousel"; // "carousel", "marquee", "grid", "stack", "badge", or "card"
 
   // Fetch directly from Supabase (no self-calling API)
   let data = null;
@@ -55,9 +57,38 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
             quote: llm.slides?.[1]?.body || llm.hookLine,
             reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
             reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+            videoUrl: null as string | null,
           });
         }
       }
+
+      // Also fetch approved video submissions for this user
+      const { data: videoSubmissions } = await supabase
+        .from("submissions")
+        .select("id, reviewer_name, reviewer_title, reviewer_company, reviewer_photo_url, review_text, video_url")
+        .eq("user_id", widget.user_id)
+        .eq("status", "approved")
+        .eq("submission_type", "video")
+        .not("video_url", "is", null)
+        .order("created_at", { ascending: false });
+
+      if (videoSubmissions) {
+        for (const vs of videoSubmissions) {
+          reviews.push({
+            id: vs.id,
+            hookLine: "",
+            quote: vs.review_text || "Video testimonial",
+            reviewer: {
+              name: vs.reviewer_name,
+              title: vs.reviewer_title || "",
+              company: vs.reviewer_company || "",
+            },
+            reviewerPhotoUrl: vs.reviewer_photo_url || null,
+            videoUrl: vs.video_url as string,
+          });
+        }
+      }
+
       const { data: brandKit } = await supabase
         .from("brand_kits")
         .select("company_name, logo_url, primary_color, secondary_color")
@@ -119,6 +150,7 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
             quote: llm.slides?.[1]?.body || llm.hookLine,
             reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
             reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+            videoUrl: null as string | null,
           }],
           brandKit: brandKit ? {
             companyName: brandKit.company_name,
@@ -153,8 +185,8 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
     );
   }
 
-  // Build JSON-LD structured data for SEO
-  const jsonLd = data.reviews.map((review) => ({
+  // Build JSON-LD structured data for SEO (individual reviews + aggregate)
+  const reviewJsonLd = data.reviews.map((review) => ({
     "@context": "https://schema.org",
     "@type": "Review",
     reviewBody: review.quote,
@@ -178,13 +210,41 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
       : {}),
   }));
 
+  // AggregateRating schema for star snippets in Google search
+  const aggregateRating = data.brandKit?.companyName && data.reviews.length > 0 ? {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: data.brandKit.companyName,
+    ...(data.brandKit.logoUrl ? { image: data.brandKit.logoUrl } : {}),
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "5",
+      bestRating: "5",
+      worstRating: "1",
+      ratingCount: String(data.reviews.length),
+      reviewCount: String(data.reviews.length),
+    },
+    review: reviewJsonLd.map((r) => ({
+      "@type": "Review",
+      reviewBody: r.reviewBody,
+      author: r.author,
+      reviewRating: r.reviewRating,
+    })),
+  } : null;
+
+  const jsonLd = aggregateRating || (reviewJsonLd.length === 1 ? reviewJsonLd[0] : reviewJsonLd);
+
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd.length === 1 ? jsonLd[0] : jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      {widgetStyle === "marquee" ? (
+      {widgetStyle === "card" ? (
+        <EmbedCard data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
+      ) : widgetStyle === "badge" ? (
+        <EmbedBadge data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
+      ) : widgetStyle === "marquee" ? (
         <EmbedMarquee data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />
       ) : widgetStyle === "grid" ? (
         <EmbedGrid data={data} embedId={id} customStyle={widgetCustomStyle as Record<string, unknown> | null} />

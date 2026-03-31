@@ -16,7 +16,7 @@ export default async function CollectPage({ params }: PageProps) {
 
   const { data: form } = await supabase
     .from("collection_forms")
-    .select("id, user_id, title, description, questions, active, brand_kit_id, auto_approve, thank_you_message")
+    .select("id, user_id, title, description, questions, active, brand_kit_id, auto_approve, thank_you_message, allow_video")
     .eq("slug", slug)
     .single();
 
@@ -101,6 +101,7 @@ export default async function CollectPage({ params }: PageProps) {
           thankYouMessage={(form as Record<string, unknown>).thank_you_message as string | null}
           autoApprove={(form as Record<string, unknown>).auto_approve as boolean}
           companyName={brandKit?.company_name || null}
+          allowVideo={(form as Record<string, unknown>).allow_video as boolean ?? true}
         />
 
         {/* Footer */}

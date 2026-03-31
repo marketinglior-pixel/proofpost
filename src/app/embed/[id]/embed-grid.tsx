@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useCallback } from "react";
+import { EmbedVideoPlayer } from "./embed-video-player";
 
 interface HookVariant {
   id: string;
@@ -19,6 +20,7 @@ interface Review {
     company: string;
   };
   reviewerPhotoUrl: string | null;
+  videoUrl?: string | null;
 }
 
 interface BrandKit {
@@ -107,40 +109,49 @@ function GridCard({
         e.currentTarget.style.boxShadow = "0 2px 12px rgba(0,0,0,0.04)";
       }}
     >
+      {/* Video player */}
+      {review.videoUrl && (
+        <EmbedVideoPlayer videoUrl={review.videoUrl} accentColor={primaryColor} />
+      )}
+
       {/* Stars */}
       <div style={{ display: "flex", gap: "2px" }}>
         {[1, 2, 3, 4, 5].map((i) => (
-          <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>★</span>
+          <span key={i} style={{ fontSize: "14px", color: "#FBBF24" }}>&#9733;</span>
         ))}
       </div>
 
       {/* Quote */}
-      <div style={{ flex: 1 }}>
-        <span
-          style={{
-            fontSize: "28px",
-            lineHeight: "0.8",
-            color: primaryColor,
-            opacity: 0.2,
-            fontFamily: "Georgia, serif",
-          }}
-        >
-          &ldquo;
-        </span>
-        <p
-          dir={rtl ? "rtl" : "ltr"}
-          style={{
-            fontSize: "14px",
-            lineHeight: 1.65,
-            color: quoteColor,
-            margin: "4px 0 0",
-            fontStyle: "italic",
-            direction: rtl ? "rtl" : "ltr",
-          }}
-        >
-          {review.quote}
-        </p>
-      </div>
+      {(!review.videoUrl || (review.quote && review.quote !== "Video testimonial")) && (
+        <div style={{ flex: 1 }}>
+          {!review.videoUrl && (
+            <span
+              style={{
+                fontSize: "28px",
+                lineHeight: "0.8",
+                color: primaryColor,
+                opacity: 0.2,
+                fontFamily: "Georgia, serif",
+              }}
+            >
+              &ldquo;
+            </span>
+          )}
+          <p
+            dir={rtl ? "rtl" : "ltr"}
+            style={{
+              fontSize: "14px",
+              lineHeight: 1.65,
+              color: quoteColor,
+              margin: "4px 0 0",
+              fontStyle: "italic",
+              direction: rtl ? "rtl" : "ltr",
+            }}
+          >
+            {review.quote}
+          </p>
+        </div>
+      )}
 
       {/* Reviewer */}
       <div dir="ltr" style={{ display: "flex", alignItems: "center", gap: "10px", direction: "ltr" }}>

@@ -16,6 +16,7 @@ import {
   FileText,
   Heart,
   BookOpen,
+  Download,
   Menu,
   X,
 } from "lucide-react";
@@ -25,6 +26,7 @@ import posthog from "posthog-js";
 const navItems = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { label: "Generate", href: "/generate", icon: Wand2 },
+  { label: "Import", href: "/import", icon: Download },
   { label: "Forms", href: "/forms", icon: FileText },
   { label: "Wall of Love", href: "/wall-of-love", icon: Heart },
   { label: "Case Studies", href: "/case-studies", icon: BookOpen },

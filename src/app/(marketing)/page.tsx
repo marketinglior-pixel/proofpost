@@ -5,6 +5,7 @@ import { HeroUrlInput } from "./hero-url-input";
 import { ImpactCalculator } from "./impact-calculator";
 import { StickyMobileCTA } from "./sticky-mobile-cta";
 import { PricingSection } from "./pricing-section";
+import { FloatingTestimonial } from "@/components/floating-testimonial";
 import {
   ArrowRight,
   Zap,
@@ -88,15 +89,16 @@ export default function LandingPage() {
             {/* Left: Headline */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
-                No Reviews on Your Site? You're{" "}
+                AI Finds the One Sentence That{" "}
                 <span className="text-emerald hand-underline">
-                  Losing Money.
+                  Sells for You.
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                ProofPost turns customer feedback into high-converting social
-                proof for your website in seconds.
+                Other tools show your full reviews. Nobody reads those.
+                ProofPost pulls the one line that sells and turns it into
+                a live widget. 60 seconds. Video or text.
               </p>
 
               {/* Hero URL Input — zero-friction onboarding (desktop only) */}
@@ -110,13 +112,13 @@ export default function LandingPage() {
                   href="/login"
                   className="flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Try Free. No Card Required.
+                  Build Your First Widget Free
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
 
               <p className="text-sm text-slate-300">
-                Loved by early adopters
+                Free tier. No credit card. 3 carousels/month included.
               </p>
             </div>
 
@@ -132,27 +134,29 @@ export default function LandingPage() {
           Sound familiar?
         </p>
         <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-6">
-          The manual process is broken.
+          Static testimonials are dead weight.
         </h2>
         <div className="text-[17px] text-slate-500 leading-relaxed space-y-5 max-w-2xl mx-auto">
           <p>
-            Here is what actually happens when a customer says something nice
-            about your product. You read it. You smile. You drop it in Slack.
-            Everyone reacts with the fire emoji. And then... nothing.
+            You have 200 five-star reviews across Google, G2, and LinkedIn.
+            You paid real money to earn them. And right now they are sitting
+            in screenshots, buried in a Slack thread, or pasted as a wall of
+            text that nobody scrolls past.
           </p>
           <p>
-            You have hundreds of reviews on Google, G2, and LinkedIn — stuck as
-            screenshots in your Downloads folder. Asking customers to write new
-            ones? You send one email, get three replies, and give up.
+            Maybe you tried a testimonial tool. You imported your reviews,
+            picked a layout, and embedded a static grid. It looked fine. But
+            visitors scroll right past it. Because a block of text on a landing
+            page gets the same attention as the footer: almost none.
           </p>
           <p>
-            And even when you do manually format a testimonial, nobody reads a
-            300-word paragraph on a landing page. Your hard-won social proof
-            is invisible.
+            Your reviews are fine. The problem is how they&apos;re displayed.
+            Nobody reads a paragraph. But one sentence, animated, in the right
+            place? That stops the scroll.
           </p>
           <p className="text-slate-700 font-medium">
-            But here&apos;s the thing — your visitors won&apos;t read a wall of text.
-            They will stop scrolling for something that moves.
+            That&apos;s what ProofPost does. AI finds the money line.
+            Animation makes it impossible to miss.
           </p>
         </div>
       </section>
@@ -161,13 +165,14 @@ export default function LandingPage() {
       <section className="bg-navy py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
-            Why animated carousels beat static text grids.
+            Why ProofPost converts more than static tools.
           </h2>
-          <div className="grid sm:grid-cols-3 gap-8 text-center">
+          <div className="grid sm:grid-cols-4 gap-8 text-center">
             {[
-              { stat: "3x", label: "more attention", desc: "Animated widgets command 3x more eye-tracking time than static text blocks." },
-              { stat: "60s", label: "setup time", desc: "From raw review to live widget on your site. We timed it." },
-              { stat: "0", label: "developers needed", desc: "One line of embed code. Works everywhere. No Jira tickets required." },
+              { stat: "3x", label: "more attention", desc: "Animated widgets get 3x more eye-tracking time than static text grids." },
+              { stat: "60s", label: "setup time", desc: "From raw review to live animated widget on your site. We timed it." },
+              { stat: "5+", label: "import sources", desc: "Pull reviews from G2, Google, Capterra, Trustpilot, LinkedIn. Video or text." },
+              { stat: "$19", label: "per month", desc: "Unlimited widgets. Senja charges $29. Testimonial.to charges $50. Both static." },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
                 <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
@@ -183,37 +188,42 @@ export default function LandingPage() {
       <section className="max-w-4xl mx-auto px-6 py-24">
         <div className="text-center space-y-4 mb-14">
           <p className="text-[13px] font-medium text-emerald uppercase tracking-wider">
-            Creating these used to require a designer. Now it takes 3 clicks.
+            Four steps. No designer. No developer.
           </p>
           <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
             How it works.
           </h2>
           <p className="text-[17px] text-slate-500 max-w-xl mx-auto">
-            AI reads your reviews and finds the one sentence that actually
-            sells. Then wraps it in a premium widget. 60 seconds, start to
-            finish.
+            Import reviews from any platform. AI finds the converting
+            sentence. Customize your widget, embed it. Under a minute.
           </p>
         </div>
 
-        <div className="grid sm:grid-cols-3 gap-6">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
             {
               step: "01",
-              title: "Add your reviews",
-              desc: "Upload a screenshot, paste text, drop a link — or send a collection form to your customers. We pull in every review automatically.",
-              icon: "📋",
+              title: "Import from anywhere",
+              desc: "Connect G2, Google, Capterra, or Trustpilot. Paste text. Upload a screenshot. Record a video testimonial. Send a collection form. Every format works.",
+              icon: "📥",
             },
             {
               step: "02",
-              title: "AI finds the hook",
-              desc: "Our AI reads each review and extracts the one sentence that converts. Three hook variants for A/B testing.",
+              title: "AI extracts the hook",
+              desc: "Our AI reads every review and pulls the one sentence that makes people buy. Three hook variants for A/B testing. Works on video too.",
               icon: "✨",
             },
             {
               step: "03",
-              title: "Customize & embed",
-              desc: "Style your widget with our visual builder. Pick a preset or match your brand. One line of code — live on your site.",
+              title: "Customize your widget",
+              desc: "Pick a layout: carousel, grid, or Wall of Love. Match your brand colors. Toggle dark mode. Preview it live.",
               icon: "🎨",
+            },
+            {
+              step: "04",
+              title: "Embed in one line",
+              desc: "Copy one line of code. Paste it into Webflow, WordPress, Shopify, Framer, React, or any HTML page. Live in seconds.",
+              icon: "🚀",
             },
           ].map((s) => (
             <div
@@ -316,10 +326,10 @@ export default function LandingPage() {
       <section className="bg-white py-24">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="text-[32px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Built for teams that live on trust.
+            Built for teams that sell on trust.
           </h2>
           <p className="text-[17px] text-slate-500 text-center mb-14 max-w-lg mx-auto">
-            Whether you sell software, courses, services, or products — your reviews deserve better than a static text block.
+            Software, courses, services, e-commerce. If your buyers read reviews before purchasing, ProofPost pays for itself on day one.
           </p>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
@@ -327,22 +337,22 @@ export default function LandingPage() {
               {
                 icon: Rocket,
                 title: "SaaS Founders",
-                desc: "Turn G2 and Capterra reviews into conversion widgets on your pricing page.",
+                desc: "Import G2 and Google reviews. AI pulls the hook. Live widget on your pricing page in 60 seconds.",
               },
               {
                 icon: GraduationCap,
                 title: "Course Creators",
-                desc: "Let student testimonials sell your next cohort. Animated proof beats screenshots.",
+                desc: "Video testimonials from students. Auto-extracted highlights. Wall of Love that sells your next cohort.",
               },
               {
                 icon: Briefcase,
                 title: "Agencies",
-                desc: "Impress clients with polished, branded proof that matches their site perfectly.",
+                desc: "Branded widgets for every client. Collection forms that gather new reviews on autopilot. White-label ready.",
               },
               {
                 icon: ShoppingCart,
                 title: "E-Commerce",
-                desc: "Product reviews that actually get read. Animated carousels next to your Add to Cart.",
+                desc: "Product reviews next to your Add to Cart button. Animated carousels that stop the scroll. SEO rich snippets included.",
               },
             ].map((uc) => (
               <div key={uc.title} className="card-hover rounded-xl bg-white border border-slate-200 p-6 space-y-3">
@@ -366,8 +376,8 @@ export default function LandingPage() {
           Everything you need. Nothing you don&apos;t.
         </h2>
         <p className="text-[17px] text-slate-500 text-center mb-14 max-w-lg mx-auto">
-          We did not build a bloated platform. We built exactly what a growth
-          marketer needs to get the job done fast.
+          Import, collect, extract, animate, embed, measure. One tool
+          instead of five.
         </p>
 
         <div className="grid sm:grid-cols-2 gap-6">
@@ -377,67 +387,68 @@ export default function LandingPage() {
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
                 <Zap className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-              <h3 className="text-[17px] font-semibold text-slate-900">AI-Powered Curation</h3>
+              <h3 className="text-[17px] font-semibold text-slate-900">AI Hook Extraction</h3>
             </div>
             <p className="text-[14px] text-slate-500 leading-relaxed">
-              Our AI reads every review and extracts the one sentence that converts. Three hook variants for A/B testing.
-              Upload screenshots from Google, G2, LinkedIn, or WhatsApp — AI extracts everything automatically.
+              Every review has one sentence that converts. Our AI finds it and gives you three hook variants to A/B test.
+              Works on text and video. Import from G2, Google, Capterra, Trustpilot, or LinkedIn.
+              Or just upload a screenshot, paste text, or drop a URL.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {["AI Hook Extraction", "Screenshot Import", "3 Hook Variants"].map(t => (
+              {["AI Hook Extraction", "3 Hook Variants", "Platform Import", "Screenshot OCR", "Video Analysis"].map(t => (
                 <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
               ))}
             </div>
           </div>
 
-          {/* Pillar 2: Beautiful, Branded Widgets */}
+          {/* Pillar 2: Video + Animated Widgets */}
           <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
                 <Paintbrush className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-              <h3 className="text-[17px] font-semibold text-slate-900">Beautiful, Branded Widgets</h3>
+              <h3 className="text-[17px] font-semibold text-slate-900">Video + Animated Widgets</h3>
             </div>
             <p className="text-[14px] text-slate-500 leading-relaxed">
-              Animated carousels that break banner blindness. Visual editor with presets — change colors, fonts, shadows.
-              Auto-detects dark/light mode. Widgets look like you built them in-house.
+              Kinetic carousels that break banner blindness. Video testimonials with AI-extracted highlights.
+              Visual editor with presets. Auto-detects dark/light mode. Looks like you built it in-house.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {["Kinetic Carousels", "Widget Builder", "Brand Kit Sync", "Dark/Light Mode"].map(t => (
+              {["Kinetic Carousels", "Video Testimonials", "Widget Builder", "Brand Kit Sync", "Dark/Light Mode"].map(t => (
                 <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
               ))}
             </div>
           </div>
 
-          {/* Pillar 3: Fully Automated Pipeline */}
+          {/* Pillar 3: Collect + Automate */}
           <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
                 <RefreshCw className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-              <h3 className="text-[17px] font-semibold text-slate-900">Fully Automated Pipeline</h3>
+              <h3 className="text-[17px] font-semibold text-slate-900">Collect + Automate</h3>
             </div>
             <p className="text-[14px] text-slate-500 leading-relaxed">
-              Send a branded collection form to your customers. They submit reviews, AI extracts the hook,
-              and your widget updates automatically. Wall of Love page included. Zero manual work.
+              Send branded collection forms. AI asks follow-up questions that turn vague praise into specific,
+              useful testimonials. Reviews auto-flow into your widget. Wall of Love page included. No manual work.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
-              {["Collection Forms", "Auto-Widget Pipeline", "Wall of Love", "Auto-Approve"].map(t => (
+              {["AI Collection Forms", "Smart Follow-ups", "Auto-Widget Pipeline", "Wall of Love", "Video Collection"].map(t => (
                 <span key={t} className="text-[11px] font-medium text-emerald bg-emerald/5 px-2.5 py-1 rounded-full">{t}</span>
               ))}
             </div>
           </div>
 
-          {/* Pillar 4: Measure & Optimize */}
+          {/* Pillar 4: Measure & Rank */}
           <div className="card-hover rounded-xl bg-white border border-slate-200 p-8 space-y-4">
             <div className="flex items-center gap-3">
               <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10">
                 <BarChart3 className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
               </div>
-              <h3 className="text-[17px] font-semibold text-slate-900">Measure &amp; Optimize</h3>
+              <h3 className="text-[17px] font-semibold text-slate-900">Measure &amp; Rank</h3>
             </div>
             <p className="text-[14px] text-slate-500 leading-relaxed">
-              Track impressions and see which testimonials convert the most. A/B test hook variants.
+              Track impressions and clicks per testimonial. See which hooks convert the most. A/B test variants.
               Automatic Schema.org markup gets your star ratings showing in Google search results.
             </p>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -465,31 +476,33 @@ export default function LandingPage() {
           Still comparing options?
         </p>
         <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-          How we compare.
+          ProofPost vs. Senja vs. the rest.
         </h2>
         <p className="text-[15px] text-slate-400 text-center mb-12">
-          We don&apos;t just display reviews. We find the sentence that converts.
+          We find the sentence that converts, animate it, and charge less than the tools that don&apos;t.
         </p>
 
         <div className="rounded-xl border border-slate-200 overflow-hidden">
           <div className="grid grid-cols-4 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
             <span>Feature</span>
             <span className="text-center">ProofPost</span>
-            <span className="text-center">Other Tools</span>
+            <span className="text-center">Senja</span>
             <span className="text-center">DIY</span>
           </div>
           {[
             { feature: "AI Hook Extraction", pp: true, others: false, diy: false },
             { feature: "Animated Carousels", pp: true, others: false, diy: false },
-            { feature: "Screenshot Import", pp: true, others: false, diy: false },
+            { feature: "Video Testimonials", pp: true, others: false, diy: false },
+            { feature: "Import from G2, Google", pp: true, others: "Partial", diy: false },
+            { feature: "AI Collection Forms", pp: true, others: "Basic", diy: false },
+            { feature: "Wall of Love", pp: true, others: true, diy: false },
             { feature: "Visual Widget Builder", pp: true, others: "Basic", diy: false },
-            { feature: "Auto-Widget Pipeline", pp: true, others: false, diy: false },
-            { feature: "Collection Forms", pp: true, others: "Some", diy: false },
-            { feature: "Wall of Love", pp: true, others: "Some", diy: false },
             { feature: "One-Line Embed", pp: true, others: true, diy: false },
-            { feature: "Brand Kit Auto-Sync", pp: true, others: "Partial", diy: false },
             { feature: "SEO Rich Snippets", pp: true, others: "Some", diy: false },
-            { feature: "Price", pp: "$19/mo", others: "$21-50/mo", diy: "Free + hours" },
+            { feature: "Brand Kit Auto-Sync", pp: true, others: false, diy: false },
+            { feature: "Widget Load Speed", pp: "<12kb async", others: "Known slow", diy: "Varies" },
+            { feature: "Setup Time", pp: "60 seconds", others: "Under 5 min", diy: "Hours" },
+            { feature: "Price", pp: "$19/mo", others: "$29-59/mo", diy: "Free + hours" },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-4 px-5 py-3 border-t border-slate-100 text-[13px]">
               <span className="text-slate-700">{row.feature}</span>
@@ -521,12 +534,14 @@ export default function LandingPage() {
         </h2>
         <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
           {[
+            { q: "How is this different from Senja or Testimonial.to?", a: "Senja and Testimonial.to show your full reviews in static grids. We take a different approach: AI pulls the one sentence that actually converts, we animate it, and the whole thing costs $19/mo. They charge $29 to $50 for static text. We also do video testimonials, G2/Google import, and AI collection forms." },
             { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
-            { q: "What if the AI extracts the wrong quote?", a: "You keep the original. Edit the hook with one click. You control what gets published." },
-            { q: "How is this different from other testimonial tools?", a: "They show static text grids. We use AI to find the converting sentence and animate it. Plus collection forms, Wall of Love, SEO snippets — at a lower price." },
-            { q: "Can I import reviews from a screenshot?", a: "Yes. Upload a screenshot from Google Reviews, G2, LinkedIn, Trustpilot, WhatsApp, or email. Our AI extracts every review — names, ratings, and text — in seconds." },
-            { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. Reviews can auto-approve and flow straight to your widget — or you approve manually. AI generates the carousel automatically." },
-            { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to maximize what you have." },
+            { q: "Can I import reviews from G2, Google, or Capterra?", a: "Yes. Connect your G2 or Google profile and we pull reviews automatically. Or paste a link from Capterra, Trustpilot, or LinkedIn. Screenshot import works too." },
+            { q: "Do you support video testimonials?", a: "Yes. Record through our collection form or upload existing clips. AI pulls the highlight reel and the best quote. You can embed video widgets alongside text carousels." },
+            { q: "What if the AI extracts the wrong quote?", a: "You keep the original review. Edit the hook with one click. You control what gets published." },
+            { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. AI asks follow-up questions so you get specific proof instead of vague praise. Reviews can auto-flow into your widget or wait for your approval." },
+            { q: "What's the free tier?", a: "3 carousels per month, no credit card. Includes AI hook extraction, animated widgets, and one-line embed. Upgrade to Pro ($19/mo) for unlimited widgets, video, analytics, and platform import." },
+            { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to get more out of what you have. That's exactly what our AI does." },
             { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
           ].map((faq, i) => (
             <details key={i} className="group">
@@ -548,10 +563,10 @@ export default function LandingPage() {
             The 60-Second Guarantee
           </h2>
           <p className="text-[15px] text-slate-500 max-w-lg mx-auto leading-relaxed">
-            Start Pro today. If you cannot paste your reviews, let the AI
-            extract the hooks, and embed a live carousel on your site in under
-            60 seconds, email us and we refund you instantly. No questions. You
-            keep whatever leads you generated.
+            Start Pro today. If you can&apos;t import your reviews, let AI
+            extract the hooks, and embed a live carousel on your site
+            in under 60 seconds, email us. Full refund, no questions. You keep
+            whatever leads you generated.
           </p>
         </div>
       </section>
@@ -564,23 +579,23 @@ export default function LandingPage() {
             Still scrolling?
           </p>
           <h2 className="text-[36px] font-bold text-white tracking-tight">
-            Your reviews are waiting.
+            Start free. No card. Upgrade when you&apos;re ready.
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
             Your prospects are on your pricing page right now, looking for
             a reason to trust you. Your customers already wrote that reason.
-            We just make it impossible to miss.
+            Let AI find the sentence that closes the deal.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Embed your first widget — free
+              Build Your First Widget Free
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
             <p className="text-[13px] text-slate-500">
-              No credit card. 60-second setup.
+              3 carousels/month free. No credit card.
             </p>
           </div>
         </div>
@@ -588,6 +603,9 @@ export default function LandingPage() {
 
       {/* Sticky Mobile CTA */}
       <StickyMobileCTA />
+
+      {/* Floating Testimonial Card (bottom-left, like Senja) */}
+      <FloatingTestimonial />
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50">
@@ -601,7 +619,7 @@ export default function LandingPage() {
                 <span className="text-[13px] font-semibold text-slate-700">ProofPost</span>
               </div>
               <p className="text-[12px] text-slate-400 max-w-[240px]">
-                AI-powered testimonial widgets that actually convert. Turn reviews into revenue.
+                Testimonial widgets that convert. Video + text. Animated. $19/mo.
               </p>
             </div>
             <div className="flex gap-10">

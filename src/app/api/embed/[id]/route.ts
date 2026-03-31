@@ -148,6 +148,7 @@ function formatReview(content: { id: string; llm_output: unknown }, isPro: boole
     quote: (llm.slides as { body: string }[])?.[1]?.body || llm.hookLine,
     reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
     reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
+    videoUrl: null as string | null,
   };
 }
 
@@ -182,6 +183,34 @@ export async function GET(
       for (const cid of contentIds) {
         const content = await getContentById(cid);
         if (content) reviews.push(formatReview(content, proUser));
+      }
+
+      // Also include approved video submissions
+      const { data: videoSubmissions } = await supabase
+        .from("submissions")
+        .select("id, reviewer_name, reviewer_title, reviewer_company, reviewer_photo_url, review_text, video_url")
+        .eq("user_id", userId!)
+        .eq("status", "approved")
+        .eq("submission_type", "video")
+        .not("video_url", "is", null)
+        .order("created_at", { ascending: false });
+
+      if (videoSubmissions) {
+        for (const vs of videoSubmissions) {
+          reviews.push({
+            id: vs.id,
+            hookLine: "",
+            hookVariants: [],
+            quote: vs.review_text || "Video testimonial",
+            reviewer: {
+              name: vs.reviewer_name,
+              title: vs.reviewer_title || "",
+              company: vs.reviewer_company || "",
+            },
+            reviewerPhotoUrl: vs.reviewer_photo_url || null,
+            videoUrl: vs.video_url as string,
+          });
+        }
       }
     } else {
       const content = await getContentById(id);

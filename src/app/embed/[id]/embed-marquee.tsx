@@ -19,6 +19,7 @@ interface Review {
     company: string;
   };
   reviewerPhotoUrl: string | null;
+  videoUrl?: string | null;
 }
 
 interface BrandKit {

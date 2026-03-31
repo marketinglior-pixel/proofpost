@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { EmbedVideoPlayer } from "./embed-video-player";
 
 interface HookVariant {
   id: string;
@@ -19,6 +20,7 @@ interface Review {
     company: string;
   };
   reviewerPhotoUrl: string | null;
+  videoUrl?: string | null;
 }
 
 interface BrandKit {
@@ -226,38 +228,49 @@ export function EmbedCarousel({
           textAlign: "center",
         }}
       >
+        {/* Video player for video testimonials */}
+        {review.videoUrl && (
+          <div style={{ width: "100%", marginBottom: "12px", transition: "opacity 0.3s ease", opacity: isAnimating ? 0 : 1 }}>
+            <EmbedVideoPlayer videoUrl={review.videoUrl} accentColor={primaryColor} />
+          </div>
+        )}
+
         {/* Quote mark */}
-        <span
-          style={{
-            fontSize: "56px",
-            lineHeight: "0.5",
-            color: primaryColor,
-            opacity: 0.15,
-            fontFamily: "Georgia, serif",
-            marginBottom: "8px",
-          }}
-        >
-          &ldquo;
-        </span>
+        {!review.videoUrl && (
+          <span
+            style={{
+              fontSize: "56px",
+              lineHeight: "0.5",
+              color: primaryColor,
+              opacity: 0.15,
+              fontFamily: "Georgia, serif",
+              marginBottom: "8px",
+            }}
+          >
+            &ldquo;
+          </span>
+        )}
 
         {/* Quote text */}
-        <p
-          dir={currentRTL ? "rtl" : "ltr"}
-          style={{
-            fontSize: "15px",
-            lineHeight: 1.625,
-            color: quoteColor,
-            margin: 0,
-            fontStyle: "italic",
-            minHeight: "48px",
-            transition: "opacity 0.3s ease",
-            opacity: isAnimating ? 0 : 1,
-            direction: currentRTL ? "rtl" : "ltr",
-            textAlign: "center",
-          }}
-        >
-          {review.quote}
-        </p>
+        {(!review.videoUrl || (review.quote && review.quote !== "Video testimonial")) && (
+          <p
+            dir={currentRTL ? "rtl" : "ltr"}
+            style={{
+              fontSize: review.videoUrl ? "13px" : "15px",
+              lineHeight: 1.625,
+              color: quoteColor,
+              margin: 0,
+              fontStyle: "italic",
+              minHeight: review.videoUrl ? "auto" : "48px",
+              transition: "opacity 0.3s ease",
+              opacity: isAnimating ? 0 : 1,
+              direction: currentRTL ? "rtl" : "ltr",
+              textAlign: "center",
+            }}
+          >
+            {review.videoUrl ? review.quote : review.quote}
+          </p>
+        )}
 
         {/* Reviewer - horizontal layout like hero */}
         <div

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { EmbedVideoPlayer } from "./embed-video-player";
 
 interface HookVariant {
   id: string;
@@ -19,6 +20,7 @@ interface Review {
     company: string;
   };
   reviewerPhotoUrl: string | null;
+  videoUrl?: string | null;
 }
 
 interface BrandKit {
@@ -256,37 +258,48 @@ export function EmbedStack({
             direction: currentRTL ? "rtl" : "ltr",
           }}
         >
+          {/* Video player */}
+          {review.videoUrl && (
+            <div style={{ width: "100%", marginBottom: "8px" }}>
+              <EmbedVideoPlayer videoUrl={review.videoUrl} accentColor={primaryColor} />
+            </div>
+          )}
+
           {/* Quote mark */}
-          <span
-            style={{
-              fontSize: "48px",
-              lineHeight: "0.5",
-              color: primaryColor,
-              opacity: 0.15,
-              fontFamily: "Georgia, serif",
-              marginBottom: "12px",
-            }}
-          >
-            &ldquo;
-          </span>
+          {!review.videoUrl && (
+            <span
+              style={{
+                fontSize: "48px",
+                lineHeight: "0.5",
+                color: primaryColor,
+                opacity: 0.15,
+                fontFamily: "Georgia, serif",
+                marginBottom: "12px",
+              }}
+            >
+              &ldquo;
+            </span>
+          )}
 
           {/* Quote text */}
-          <p
-            dir={currentRTL ? "rtl" : "ltr"}
-            style={{
-              fontSize: "15px",
-              lineHeight: 1.65,
-              color: quoteColor,
-              margin: 0,
-              fontStyle: "italic",
-              flex: 1,
-              overflow: "hidden",
-              direction: currentRTL ? "rtl" : "ltr",
-              textAlign: currentRTL ? "right" : "left",
-            }}
-          >
-            {review.quote}
-          </p>
+          {(!review.videoUrl || (review.quote && review.quote !== "Video testimonial")) && (
+            <p
+              dir={currentRTL ? "rtl" : "ltr"}
+              style={{
+                fontSize: review.videoUrl ? "13px" : "15px",
+                lineHeight: 1.65,
+                color: quoteColor,
+                margin: 0,
+                fontStyle: "italic",
+                flex: review.videoUrl ? undefined : 1,
+                overflow: "hidden",
+                direction: currentRTL ? "rtl" : "ltr",
+                textAlign: currentRTL ? "right" : "left",
+              }}
+            >
+              {review.quote}
+            </p>
+          )}
 
           {/* Reviewer */}
           <div

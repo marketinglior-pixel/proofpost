@@ -20,6 +20,8 @@ export type EnhanceQuestions = z.infer<typeof questionsSchema>;
 
 const QUESTIONS_PROMPT = `You help customers write more compelling, conversion-ready testimonials.
 
+CRITICAL LANGUAGE RULE: You MUST respond in the SAME LANGUAGE as the original review. If the review is in Spanish, ask questions in Spanish. If in Hebrew, respond in Hebrew. NEVER translate to English unless the review is already in English.
+
 Analyze this review and identify what's missing that would make it more powerful:
 - Specific numbers or metrics (revenue, time saved, percentage improvement)?
 - A clear before/after comparison?
@@ -69,6 +71,8 @@ const enhancedSchema = z.object({
 export type EnhancedReview = z.infer<typeof enhancedSchema>;
 
 const ENHANCE_PROMPT = `You rewrite customer testimonials to be more compelling and conversion-ready.
+
+CRITICAL LANGUAGE RULE: You MUST write the enhanced review in the SAME LANGUAGE as the original review. If the original is in Spanish, write in Spanish. If in Hebrew, write in Hebrew. NEVER translate to English. Preserve the original language.
 
 RULES:
 1. Keep the customer's authentic voice and tone

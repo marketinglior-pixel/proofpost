@@ -12,7 +12,7 @@ const supabaseAdmin = createClient(
 // POST: Submit a review (public, no auth)
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { formId, reviewerName, reviewerTitle, reviewerCompany, reviewText, rating } = body;
+  const { formId, reviewerName, reviewerTitle, reviewerCompany, reviewText, rating, videoUrl, submissionType } = body;
 
   if (!formId || !reviewerName || !reviewText) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
@@ -45,6 +45,8 @@ export async function POST(req: NextRequest) {
       review_text: reviewText.trim(),
       rating: Math.min(5, Math.max(1, Number(rating) || 5)),
       status: initialStatus,
+      video_url: videoUrl || null,
+      submission_type: submissionType === "video" ? "video" : "text",
     })
     .select()
     .single();

@@ -161,6 +161,7 @@ export interface Database {
           auto_approve: boolean;
           linked_widget_id: string | null;
           thank_you_message: string | null;
+          allow_video: boolean;
           created_at: string;
         };
         Insert: {
@@ -175,6 +176,7 @@ export interface Database {
           auto_approve?: boolean;
           linked_widget_id?: string | null;
           thank_you_message?: string | null;
+          allow_video?: boolean;
           created_at?: string;
         };
         Update: {
@@ -189,6 +191,7 @@ export interface Database {
           auto_approve?: boolean;
           linked_widget_id?: string | null;
           thank_you_message?: string | null;
+          allow_video?: boolean;
           created_at?: string;
         };
         Relationships: [];
@@ -206,6 +209,10 @@ export interface Database {
           rating: number;
           status: string;
           generated_content_id: string | null;
+          video_url: string | null;
+          video_thumbnail_url: string | null;
+          submission_type: string;
+          source_platform: string | null;
           created_at: string;
         };
         Insert: {
@@ -220,6 +227,10 @@ export interface Database {
           rating?: number;
           status?: string;
           generated_content_id?: string | null;
+          video_url?: string | null;
+          video_thumbnail_url?: string | null;
+          submission_type?: string;
+          source_platform?: string | null;
           created_at?: string;
         };
         Update: {
@@ -234,6 +245,9 @@ export interface Database {
           rating?: number;
           status?: string;
           generated_content_id?: string | null;
+          video_url?: string | null;
+          video_thumbnail_url?: string | null;
+          submission_type?: string;
           created_at?: string;
         };
         Relationships: [];
@@ -289,6 +303,54 @@ export interface Database {
           hook_variant_id?: string;
           event_type?: string;
           created_at?: string;
+        };
+        Relationships: [];
+      };
+      imported_reviews: {
+        Row: {
+          id: string;
+          user_id: string;
+          platform: string;
+          source_url: string | null;
+          reviewer_name: string;
+          reviewer_title: string | null;
+          reviewer_company: string | null;
+          reviewer_photo_url: string | null;
+          review_text: string;
+          rating: number;
+          review_date: string | null;
+          imported_at: string;
+          generated_content_id: string | null;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          platform: string;
+          source_url?: string | null;
+          reviewer_name: string;
+          reviewer_title?: string | null;
+          reviewer_company?: string | null;
+          reviewer_photo_url?: string | null;
+          review_text: string;
+          rating?: number;
+          review_date?: string | null;
+          imported_at?: string;
+          generated_content_id?: string | null;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          platform?: string;
+          source_url?: string | null;
+          reviewer_name?: string;
+          reviewer_title?: string | null;
+          reviewer_company?: string | null;
+          reviewer_photo_url?: string | null;
+          review_text?: string;
+          rating?: number;
+          review_date?: string | null;
+          imported_at?: string;
+          generated_content_id?: string | null;
         };
         Relationships: [];
       };
