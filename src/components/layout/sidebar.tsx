@@ -35,7 +35,7 @@ const navItems = [
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
 ];
 
-function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
+function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: string }) {
   const pathname = usePathname();
 
   return (
@@ -83,21 +83,29 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
 
       {/* Bottom */}
       <div className="px-3 py-4 space-y-2 relative z-10">
-        <Link
-          href="/pricing"
-          onClick={onNavigate}
-          className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
-        >
-          <div className="flex items-center justify-between mb-1">
+        {plan === "pro" ? (
+          <div className="px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20">
             <span className="text-[12px] font-medium text-emerald">
-              Free Plan
+              Pro Plan
             </span>
-            <ArrowUpRight className="w-3 h-3 text-emerald" aria-hidden="true" />
           </div>
-          <p className="text-[11px] text-slate-400">
-            3 carousels/mo · Upgrade for unlimited
-          </p>
-        </Link>
+        ) : (
+          <Link
+            href="/pricing"
+            onClick={onNavigate}
+            className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
+          >
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-[12px] font-medium text-emerald">
+                Free Plan
+              </span>
+              <ArrowUpRight className="w-3 h-3 text-emerald" aria-hidden="true" />
+            </div>
+            <p className="text-[11px] text-slate-400">
+              3 carousels/mo · Upgrade for unlimited
+            </p>
+          </Link>
+        )}
 
         <form action={() => { posthog.reset(); signOut(); }}>
           <button
@@ -113,7 +121,7 @@ function SidebarContent({ onNavigate }: { onNavigate?: () => void }) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({ plan }: { plan: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
 
@@ -163,12 +171,12 @@ export function Sidebar() {
         >
           <X className="w-5 h-5" />
         </button>
-        <SidebarContent onNavigate={() => setMobileOpen(false)} />
+        <SidebarContent onNavigate={() => setMobileOpen(false)} plan={plan} />
       </aside>
 
       {/* Desktop sidebar */}
       <aside className="hidden md:flex h-screen md:w-[240px] flex-col bg-navy relative overflow-hidden flex-shrink-0">
-        <SidebarContent />
+        <SidebarContent plan={plan} />
       </aside>
     </>
   );
