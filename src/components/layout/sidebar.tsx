@@ -19,6 +19,7 @@ import {
   Download,
   Menu,
   X,
+  Settings,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
 import posthog from "posthog-js";
@@ -33,6 +34,7 @@ const navItems = [
   { label: "History", href: "/history", icon: Clock },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: string }) {
@@ -84,11 +86,15 @@ function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: s
       {/* Bottom */}
       <div className="px-3 py-4 space-y-2 relative z-10">
         {plan === "pro" ? (
-          <div className="px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20">
+          <Link
+            href="/settings"
+            onClick={onNavigate}
+            className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
+          >
             <span className="text-[12px] font-medium text-emerald">
               Pro Plan
             </span>
-          </div>
+          </Link>
         ) : (
           <Link
             href="/pricing"
