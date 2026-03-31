@@ -23,6 +23,8 @@ export interface WidgetStyle {
   // Background
   backgroundStyle: "solid" | "gradient";
   gradientTo: string;
+  // Badge/Floating position
+  badgePosition: "bottom-left" | "bottom-right" | "top-left" | "top-right";
 }
 
 export const DEFAULT_STYLE: WidgetStyle = {
@@ -43,6 +45,7 @@ export const DEFAULT_STYLE: WidgetStyle = {
   direction: "auto",
   backgroundStyle: "solid",
   gradientTo: "#f8fafc",
+  badgePosition: "bottom-left",
 };
 
 export interface WidgetPreset {
