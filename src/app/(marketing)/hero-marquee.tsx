@@ -56,7 +56,7 @@ export function HeroMarquee() {
 
       <style>{`
         .hero-marquee-scroll {
-          animation: hero-marquee-slide 40s linear infinite;
+          animation: hero-marquee-slide 25s linear infinite;
         }
         @keyframes hero-marquee-slide {
           from { transform: translateX(0); }
