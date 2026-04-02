@@ -420,8 +420,8 @@ export async function POST(request: NextRequest) {
     if (!html) {
       return NextResponse.json({
         url,
-        error,
-        errorMessage,
+        error: error ?? "fetch_failed",
+        errorMessage: errorMessage ?? "Could not scan this website.",
         score: null,
         label: null,
         categories: null,
