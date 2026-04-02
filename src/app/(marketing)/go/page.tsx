@@ -46,11 +46,11 @@ export default function GoLandingPage() {
             {/* Left: Headline + CTA */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-                Your Reviews Have One Sentence That{" "}
+                Close Sales{" "}
                 <span className="text-emerald hand-underline">
-                  Closes Deals.
+                  10x Faster
                 </span>
-                {" "}AI Finds It.
+                {" "}With Social Proof
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
