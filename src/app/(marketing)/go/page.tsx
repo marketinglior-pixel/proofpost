@@ -128,6 +128,55 @@ export default function GoLandingPage() {
         </div>
       </section>
 
+      {/* ============ WHY SOCIAL PROOF WORKS ============ */}
+      <section className="bg-snow py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
+            Your visitors already want to buy. They just don&apos;t trust you yet.
+          </h2>
+          <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
+            The data is clear: reviews on your site change buying decisions.
+          </p>
+
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                stat: "270%",
+                text: "higher conversion when visitors see reviews on your site",
+                source: "Spiegel Research Center",
+              },
+              {
+                stat: "92%",
+                text: "of consumers read reviews before making a purchase decision",
+                source: "BrightLocal Survey",
+              },
+              {
+                stat: "62%",
+                text: "more revenue per visitor when reviews are displayed prominently",
+                source: "Bazaarvoice / Conversation Index",
+              },
+            ].map((item) => (
+              <div
+                key={item.stat}
+                className="card-hover rounded-xl bg-white border border-slate-200 p-7 text-center space-y-3"
+              >
+                <p className="text-[40px] font-bold text-emerald tabular-nums">
+                  {item.stat}
+                </p>
+                <p className="text-[14px] text-slate-600 leading-relaxed">
+                  {item.text}
+                </p>
+                <p className="text-[11px] text-slate-400">{item.source}</p>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-center text-[15px] text-slate-500 mt-8 max-w-md mx-auto">
+            Your reviews already convinced them to buy. They&apos;re just stuck on G2.
+          </p>
+        </div>
+      </section>
+
       {/* ============ HOW IT WORKS ============ */}
       <section className="bg-snow py-24">
         <div className="max-w-4xl mx-auto px-6">
@@ -238,6 +287,52 @@ export default function GoLandingPage() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============ ROI MATH ============ */}
+      <section className="bg-snow py-20">
+        <div className="max-w-3xl mx-auto px-6 text-center">
+          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight mb-4">
+            The math is simple.
+          </h2>
+          <p className="text-[17px] text-slate-500 max-w-lg mx-auto leading-relaxed mb-10">
+            At $19/mo, you need one extra conversion to pay for ProofPost ten
+            times over. Most SaaS landing pages see 15-34% conversion lift from
+            visible social proof.
+          </p>
+
+          <div className="inline-grid sm:grid-cols-3 gap-6 text-left">
+            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-2">
+              <p className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">
+                You pay
+              </p>
+              <p className="text-[32px] font-bold text-slate-900 tabular-nums">
+                $19<span className="text-[16px] text-slate-400">/mo</span>
+              </p>
+            </div>
+            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-2">
+              <p className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">
+                You need
+              </p>
+              <p className="text-[32px] font-bold text-slate-900 tabular-nums">
+                1<span className="text-[16px] text-slate-400"> extra sale</span>
+              </p>
+            </div>
+            <div className="rounded-xl bg-emerald/5 border border-emerald/30 p-6 space-y-2">
+              <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider">
+                You get
+              </p>
+              <p className="text-[32px] font-bold text-emerald tabular-nums">
+                10x<span className="text-[16px] text-emerald/60"> ROI</span>
+              </p>
+            </div>
+          </div>
+
+          <p className="text-[14px] text-slate-400 mt-8">
+            Less than one hour of a designer&apos;s time. Pays for itself before the
+            trial ends.
+          </p>
         </div>
       </section>
 
