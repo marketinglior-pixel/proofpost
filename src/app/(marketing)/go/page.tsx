@@ -47,7 +47,7 @@ export default function GoLandingPage() {
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
                 Close Sales{" "}
-                <span className="text-emerald hand-underline">
+                <span className="text-emerald hand-underline whitespace-nowrap">
                   10x Faster
                 </span>
                 {" "}With Social Proof
