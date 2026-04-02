@@ -21,6 +21,7 @@ export async function POST(req: NextRequest) {
     "nps-calculator": "NPS Report",
     "csat-calculator": "CSAT Improvement Guide",
     "star-rating-calculator": "Rating Improvement Playbook",
+    "social-proof-scanner": "Social Proof Report",
   };
 
   const label = toolLabels[toolName] || "Report";

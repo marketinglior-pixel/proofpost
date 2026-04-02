@@ -10,6 +10,7 @@ import {
   Calculator,
   Mail,
   ClipboardList,
+  Search,
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -27,6 +28,14 @@ export const metadata: Metadata = {
 };
 
 const tools = [
+  {
+    title: "Social Proof Scanner",
+    description:
+      "Scan any website for social proof elements. Get a free score (0-100) with recommendations.",
+    href: "/tools/social-proof-scanner",
+    icon: Search,
+    badge: "Live",
+  },
   {
     title: "Short Testimonial Examples",
     description:
