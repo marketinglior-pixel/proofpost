@@ -100,12 +100,36 @@ export default function GoLandingPage() {
               </div>
             </div>
 
-            {/* Right: iPhone Mockup */}
+            {/* Right: iPhone Mockup (desktop) */}
             <div className="hidden lg:block">
               <div className="relative">
-                {/* Subtle glow behind phone */}
                 <div className="absolute -inset-8 bg-[radial-gradient(circle,_rgba(16,185,129,0.08)_0%,_transparent_70%)] rounded-full blur-2xl" />
                 <IPhoneMockup src="/lio" />
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile: Compact card preview below hero text */}
+          <div className="lg:hidden mt-10">
+            <div className="relative mx-auto max-w-[280px]">
+              <div className="absolute -inset-4 bg-[radial-gradient(circle,_rgba(16,185,129,0.08)_0%,_transparent_70%)] rounded-3xl blur-xl" />
+              <div className="relative bg-gray-900 rounded-[2rem] p-2 shadow-2xl shadow-slate-300/50">
+                <div className="rounded-[1.5rem] overflow-hidden bg-white relative" style={{ height: 420 }}>
+                  <iframe
+                    src="/lio"
+                    title="Trust Card Preview"
+                    className="absolute top-0 left-0 border-none"
+                    style={{
+                      width: "375px",
+                      height: "812px",
+                      transform: "scale(0.7)",
+                      transformOrigin: "top left",
+                      pointerEvents: "none",
+                    }}
+                    loading="lazy"
+                    scrolling="no"
+                  />
+                </div>
               </div>
             </div>
           </div>
@@ -208,8 +232,8 @@ export default function GoLandingPage() {
         </div>
       </section>
 
-      {/* ============ DESKTOP PREVIEW — MacBook Mockup ============ */}
-      <section className="bg-white py-20 overflow-hidden">
+      {/* ============ DESKTOP PREVIEW — MacBook Mockup (hidden on mobile) ============ */}
+      <section className="hidden md:block bg-white py-20 overflow-hidden">
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-[28px] font-bold text-slate-900 tracking-tight">

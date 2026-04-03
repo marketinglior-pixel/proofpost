@@ -8,7 +8,7 @@ export function IPhoneMockup({ src }: { src: string }) {
 
       {/* Device frame */}
       <div className="relative bg-gray-900 border-[12px] border-gray-900 rounded-[2.5rem] h-full w-full overflow-hidden">
-        {/* Dynamic Island / Notch */}
+        {/* Dynamic Island */}
         <div className="absolute top-1 left-1/2 -translate-x-1/2 w-[120px] h-[28px] bg-gray-900 rounded-b-[1rem] z-20" />
 
         {/* Side buttons */}
@@ -17,15 +17,21 @@ export function IPhoneMockup({ src }: { src: string }) {
         <div className="absolute -left-[15px] top-[218px] w-[3px] h-[46px] bg-gray-900 rounded-l-lg" />
         <div className="absolute -right-[15px] top-[160px] w-[3px] h-[64px] bg-gray-900 rounded-r-lg" />
 
-        {/* Screen */}
-        <div className="rounded-[1.75rem] overflow-hidden w-full h-full bg-white">
+        {/* Screen — iframe scaled to fit nicely */}
+        <div className="rounded-[1.75rem] overflow-hidden w-full h-full bg-white relative">
           <iframe
             src={src}
             title="Trust Card Mobile Preview"
-            className="w-full h-full border-none"
+            className="absolute top-0 left-0 border-none"
+            style={{
+              width: "375px",
+              height: "812px",
+              transform: "scale(0.737)",
+              transformOrigin: "top left",
+              pointerEvents: "none",
+            }}
             loading="lazy"
             scrolling="no"
-            style={{ pointerEvents: "none" }}
           />
         </div>
 
