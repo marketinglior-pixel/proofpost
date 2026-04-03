@@ -54,7 +54,7 @@ export default function GoLandingPage() {
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
                 AI finds the one sentence in your reviews that makes people buy
-                — and turns it into an animated widget on your site. 60 seconds.
+                and turns it into an animated widget on your site. 60 seconds.
                 No developer.
               </p>
 
