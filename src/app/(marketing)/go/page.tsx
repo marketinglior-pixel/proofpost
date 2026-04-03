@@ -46,17 +46,16 @@ export default function GoLandingPage() {
             {/* Left: Headline + CTA */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-                Close Sales{" "}
-                <span className="text-emerald hand-underline whitespace-nowrap">
-                  10x Faster
+                You charge premium prices.{" "}
+                <span className="text-emerald hand-underline">
+                  Your proof should match.
                 </span>
-                {" "}With Social Proof
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Pull reviews from G2, Google, or paste them in. AI finds the
-                selling sentence. Live animated widget on your site in 60
-                seconds. Starts free.
+                AI finds the one sentence in your reviews that makes people buy
+                — and turns it into an animated widget on your site. 60 seconds.
+                No developer.
               </p>
 
               {/* Desktop: URL Input */}
@@ -70,7 +69,7 @@ export default function GoLandingPage() {
                   href="/login"
                   className="flex items-center justify-center gap-2 h-14 px-8 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Build Your First Widget Free
+                  Try Free — Paste Your First Review
                   <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                 </Link>
               </div>
@@ -78,6 +77,32 @@ export default function GoLandingPage() {
               <p className="text-sm text-slate-400">
                 Free tier included. No credit card. Cancel anytime.
               </p>
+
+              {/* Social proof strip */}
+              <div className="flex items-center gap-4 pt-2">
+                <div className="flex -space-x-2">
+                  {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
+                    <div
+                      key={i}
+                      className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
+                    >
+                      <span className="text-[10px] font-bold text-white">
+                        {["S", "M", "J", "A"][i]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex flex-col">
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
+                    ))}
+                  </div>
+                  <p className="text-[12px] text-slate-400">
+                    Used by SaaS teams replacing static testimonials
+                  </p>
+                </div>
+              </div>
             </div>
 
             {/* Right: Widget showcase */}
@@ -90,7 +115,7 @@ export default function GoLandingPage() {
       <section className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
-            Sound familiar?
+            Your reviews are great. Your site doesn&apos;t show it.
           </h2>
 
           <div className="grid sm:grid-cols-3 gap-5">
@@ -132,10 +157,10 @@ export default function GoLandingPage() {
       <section className="bg-snow py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Your visitors already want to buy. They just don&apos;t trust you yet.
+            Your visitors want to buy. They just don&apos;t trust you yet.
           </h2>
           <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
-            The data is clear: reviews on your site change buying decisions.
+            Premium brands show proof. The data is clear.
           </p>
 
           <div className="grid sm:grid-cols-3 gap-5">
@@ -238,7 +263,7 @@ export default function GoLandingPage() {
               href="/login"
               className="inline-flex items-center gap-2 h-12 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Build Your First Widget Free
+              Try Free — Paste Your First Review
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
@@ -340,7 +365,7 @@ export default function GoLandingPage() {
       <section className="bg-white py-24">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Same review. Different tool. Different results.
+            Same review. One looks cheap. One closes deals.
           </h2>
           <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
             Static grid vs. AI-extracted, animated widget.
@@ -465,19 +490,18 @@ export default function GoLandingPage() {
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(16,185,129,0.1)_0%,_transparent_60%)]" />
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-[36px] font-bold text-white tracking-tight">
-            Switch to animated, AI-powered proof. 60 seconds.
+            Your best customers already wrote your best sales copy.
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
-            Import your reviews from any platform. AI finds the sentence that
-            converts. Live widget on your site before this tab goes cold.
-            Free to start.
+            Stop letting it sit on G2. AI finds the sentence that converts.
+            Live on your site in 60 seconds. Free to start.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Build Your First Widget Free
+              Try Free — Paste Your First Review
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
             <p className="text-[13px] text-slate-500">
