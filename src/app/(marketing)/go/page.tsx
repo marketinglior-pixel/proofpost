@@ -1,133 +1,124 @@
 import Link from "next/link";
-import { HeroUrlInput } from "../hero-url-input";
-import { HeroWidgetShowcase } from "../hero-widget-showcase";
-import { PricingSection } from "../pricing-section";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
-import { FloatingTestimonial } from "@/components/floating-testimonial";
 import {
   ArrowRight,
   Star,
-  Link2,
-  Sparkles,
-  Code2,
-  Eye,
+  ShieldCheck,
   Clock,
-  Users,
+  Sparkles,
+  Camera,
+  Link2,
+  Check,
+  Zap,
 } from "lucide-react";
 
 export default function GoLandingPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* ============ MINIMAL HEADER — no nav links ============ */}
+      {/* ============ MINIMAL HEADER ============ */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b border-slate-200/60">
         <div className="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg bg-emerald flex items-center justify-center">
               <Star className="w-4 h-4 text-white" aria-hidden="true" />
             </div>
-            <span className="text-[15px] font-semibold text-slate-900">
-              ProofPost
-            </span>
+            <span className="text-[15px] font-semibold text-slate-900">ProofPost</span>
           </Link>
           <Link
             href="/login"
             className="text-sm font-medium text-white bg-emerald hover:bg-emerald-dark px-5 py-2.5 rounded-lg transition-colors duration-200 glow-emerald"
           >
-            Try Free
+            Get Started
           </Link>
         </div>
       </header>
 
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-snow">
+      <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
-        <div className="relative max-w-6xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24">
-          <div className="grid lg:grid-cols-[1fr_minmax(0,480px)] gap-12 lg:gap-20 items-center">
-            {/* Left: Headline + CTA */}
-            <div className="space-y-8 min-w-0">
-              <h1 className="font-bold text-[clamp(2rem,4.5vw,3.25rem)] leading-[1.2] text-slate-900 tracking-tight">
-                You charge premium prices.{" "}
-                <span className="text-emerald hand-underline">
-                  Your proof should match.
-                </span>
-              </h1>
+        <div className="relative max-w-4xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24 text-center">
+          {/* Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-[12px] font-semibold mb-8">
+            <Zap className="w-3.5 h-3.5" />
+            Early Bird — $69 Lifetime Deal (Limited)
+          </div>
 
-              <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Create a verified Trust Card that pulls your real reviews from Google &amp; G2.
-                One link in your bio. Premium credibility in 60 seconds.
-              </p>
+          <h1 className="font-bold text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.15] text-slate-900 tracking-tight max-w-3xl mx-auto">
+            You charge premium prices.{" "}
+            <span className="text-emerald hand-underline">
+              Your proof should match.
+            </span>
+          </h1>
 
-              {/* CTA */}
-              <div>
-                <Link
-                  href="/login"
-                  className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+          <p className="mt-6 text-lg sm:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed">
+            Create a verified Trust Card that showcases your real reviews.
+            One link in your bio. Instant credibility. Set up in 60 seconds.
+          </p>
+
+          {/* CTA */}
+          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/login"
+              className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+            >
+              Create Your Trust Card — $69 One-Time
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </div>
+
+          <p className="mt-4 text-sm text-slate-400">
+            Free tier available. No credit card required. Future price: $18/mo.
+          </p>
+
+          {/* Social proof strip */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <div className="flex -space-x-2">
+              {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
+                <div
+                  key={i}
+                  className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
                 >
-                  Create Your Trust Card Free
-                  <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
-                </Link>
-              </div>
-
-              <p className="text-sm text-slate-400">
-                Free forever. No credit card. Live in 60 seconds.
-              </p>
-
-              {/* Social proof strip */}
-              <div className="flex items-center gap-4 pt-2">
-                <div className="flex -space-x-2">
-                  {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
-                    <div
-                      key={i}
-                      className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
-                    >
-                      <span className="text-[10px] font-bold text-white">
-                        {["S", "M", "J", "A"][i]}
-                      </span>
-                    </div>
-                  ))}
+                  <span className="text-[10px] font-bold text-white">
+                    {["S", "M", "J", "A"][i]}
+                  </span>
                 </div>
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-1">
-                    {[1, 2, 3, 4, 5].map((i) => (
-                      <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
-                    ))}
-                  </div>
-                  <p className="text-[12px] text-slate-400">
-                    Trusted by freelancers and agencies across the US
-                  </p>
-                </div>
-              </div>
+              ))}
             </div>
-
-            {/* Right: Widget showcase */}
-            <HeroWidgetShowcase />
+            <div className="flex items-center gap-1">
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
+              ))}
+              <span className="text-[12px] text-slate-400 ml-1">
+                Trusted by freelancers &amp; agencies
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ============ PROBLEM CARDS ============ */}
+      {/* ============ PROBLEM ============ */}
       <section className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
-            Your reviews are great. Your site doesn&apos;t show it.
+            Your reviews are 5-star. Your credibility page is missing.
           </h2>
 
           <div className="grid sm:grid-cols-3 gap-5">
             {[
               {
-                quote: '"200 five-star reviews, zero on our site"',
-                desc: "Your best social proof lives on G2 and Google. Your landing page says \"Trusted by companies.\" That convinces no one.",
-                emoji: "⭐",
+                emoji: "📱",
+                quote: "\"I just copy-paste WhatsApp screenshots\"",
+                desc: "Messy, unprofessional, and impossible to update. Your premium service deserves better than a cropped screenshot.",
               },
               {
-                quote: '"We tried a testimonial tool"',
-                desc: "Imported reviews. Got a static grid. Nobody reads it. Still paying $29/mo.",
-                emoji: "😐",
+                emoji: "🔗",
+                quote: "\"My Linktree has zero social proof\"",
+                desc: "A list of links doesn't build trust. Clients want to see real reviews before they book a call.",
               },
               {
-                quote: '"I\'ll just screenshot the review"',
-                desc: "Crop it. Paste it in. Looks terrible. Nobody clicks. Same thing every quarter.",
-                emoji: "📸",
+                emoji: "💸",
+                quote: "\"I pay $29/mo for a widget nobody sees\"",
+                desc: "Static testimonial grids buried on your website. You need proof where clients actually look — in your bio link.",
               },
             ].map((card) => (
               <div
@@ -135,64 +126,11 @@ export default function GoLandingPage() {
                 className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4"
               >
                 <span className="text-[28px]">{card.emoji}</span>
-                <p className="text-[15px] font-semibold text-slate-900 leading-snug">
-                  {card.quote}
-                </p>
-                <p className="text-[14px] text-slate-500 leading-relaxed">
-                  {card.desc}
-                </p>
+                <p className="text-[15px] font-semibold text-slate-900 leading-snug">{card.quote}</p>
+                <p className="text-[14px] text-slate-500 leading-relaxed">{card.desc}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ============ WHY SOCIAL PROOF WORKS ============ */}
-      <section className="bg-snow py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Your visitors want to buy. They just don&apos;t trust you yet.
-          </h2>
-          <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
-            Premium brands show proof. The data is clear.
-          </p>
-
-          <div className="grid sm:grid-cols-3 gap-5">
-            {[
-              {
-                stat: "270%",
-                text: "higher conversion when visitors see reviews on your site",
-                source: "Spiegel Research Center",
-              },
-              {
-                stat: "92%",
-                text: "of consumers read reviews before making a purchase decision",
-                source: "BrightLocal Survey",
-              },
-              {
-                stat: "62%",
-                text: "more revenue per visitor when reviews are displayed prominently",
-                source: "Bazaarvoice / Conversation Index",
-              },
-            ].map((item) => (
-              <div
-                key={item.stat}
-                className="card-hover rounded-xl bg-white border border-slate-200 p-7 text-center space-y-3"
-              >
-                <p className="text-[40px] font-bold text-emerald tabular-nums">
-                  {item.stat}
-                </p>
-                <p className="text-[14px] text-slate-600 leading-relaxed">
-                  {item.text}
-                </p>
-                <p className="text-[11px] text-slate-400">{item.source}</p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-center text-[15px] text-slate-500 mt-8 max-w-md mx-auto">
-            Your reviews already convinced them to buy. They&apos;re just stuck on G2.
-          </p>
         </div>
       </section>
 
@@ -201,239 +139,131 @@ export default function GoLandingPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-14">
             <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
-              60 seconds. Three steps. Live on your site.
+              Your premium trust page. 60 seconds.
             </h2>
+            <p className="text-[17px] text-slate-500 max-w-md mx-auto">
+              No website needed. No design skills. Just results.
+            </p>
           </div>
 
           <div className="grid sm:grid-cols-3 gap-6">
             {[
               {
                 step: "01",
-                title: "Import",
-                desc: "Connect G2 or Google. Paste a URL from Capterra or Trustpilot. Upload a screenshot. Record a video testimonial. Every format works.",
-                icon: Link2,
+                title: "Import or upload",
+                desc: "Pull verified reviews from Google & G2 automatically. Or upload WhatsApp screenshots, DMs, and video testimonials.",
+                icon: Camera,
               },
               {
                 step: "02",
-                title: "AI extracts the hook",
-                desc: "AI reads the full review and pulls the one sentence that makes people buy. Not the whole paragraph. The money line. Works on video too.",
+                title: "Customize your card",
+                desc: "Add your name, headline, CTA button, and brand colors. Choose your accent. Your Trust Card adapts to your brand.",
                 icon: Sparkles,
               },
               {
                 step: "03",
-                title: "Embed",
-                desc: "Copy one line of code. Paste it anywhere. Animated carousel with video and text, live on your site. Looks like you hired someone.",
-                icon: Code2,
+                title: "Share one link",
+                desc: "Drop your Trust Card URL in your bio, email signature, DMs, or business cards. Clients see your proof instantly.",
+                icon: Link2,
               },
             ].map((s) => (
-              <div
-                key={s.step}
-                className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4 text-center"
-              >
+              <div key={s.step} className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4 text-center">
                 <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-emerald/10 mx-auto">
-                  <s.icon
-                    className="w-6 h-6 text-emerald-dark"
-                    aria-hidden="true"
-                  />
+                  <s.icon className="w-6 h-6 text-emerald-dark" aria-hidden="true" />
                 </div>
                 <div className="space-y-1">
-                  <span className="text-[11px] font-bold text-emerald tabular-nums uppercase tracking-wider">
-                    Step {s.step}
-                  </span>
-                  <h3 className="text-[16px] font-semibold text-slate-900">
-                    {s.title}
-                  </h3>
+                  <span className="text-[11px] font-bold text-emerald tabular-nums uppercase tracking-wider">Step {s.step}</span>
+                  <h3 className="text-[16px] font-semibold text-slate-900">{s.title}</h3>
                 </div>
-                <p className="text-[14px] text-slate-500 leading-relaxed">
-                  {s.desc}
-                </p>
+                <p className="text-[14px] text-slate-500 leading-relaxed">{s.desc}</p>
               </div>
             ))}
           </div>
 
-          {/* Mid-page CTA */}
           <div className="text-center mt-12">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-12 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Try Free — Paste Your First Review
+              Create Your Trust Card Free
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ============ STATS / PROOF ============ */}
+      {/* ============ STATS ============ */}
       <section className="bg-navy py-20">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[28px] font-bold text-white tracking-tight text-center mb-14">
-            The numbers.
-          </h2>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
             {[
-              {
-                stat: "3x",
-                label: "more attention",
-                desc: "Animated widgets vs. static text grids. Motion stops the scroll.",
-              },
-              {
-                stat: "60s",
-                label: "setup time",
-                desc: "From raw review to live widget on your site. We timed it.",
-              },
-              {
-                stat: "5+",
-                label: "import sources",
-                desc: "G2, Google, Capterra, Trustpilot, LinkedIn. Video + text.",
-              },
-              {
-                stat: "$19",
-                label: "per month",
-                desc: "Unlimited widgets. Senja charges $29. Testimonial.to charges $50. Both static.",
-              },
+              { stat: "60s", label: "setup time", desc: "From sign-up to live Trust Card. We timed it." },
+              { stat: "92%", label: "read reviews", desc: "Before making a purchase decision. Source: BrightLocal" },
+              { stat: "$69", label: "one-time", desc: "Lifetime access. No monthly fees. No hidden costs." },
+              { stat: "270%", label: "more trust", desc: "Higher conversion when visitors see real reviews. Source: Spiegel" },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
-                <p className="text-[48px] font-bold text-emerald tabular-nums">
-                  {s.stat}
-                </p>
-                <p className="text-[15px] font-semibold text-white uppercase tracking-wider">
-                  {s.label}
-                </p>
-                <p className="text-[13px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">
-                  {s.desc}
-                </p>
+                <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
+                <p className="text-[15px] font-semibold text-white uppercase tracking-wider">{s.label}</p>
+                <p className="text-[13px] text-slate-400 leading-relaxed max-w-[240px] mx-auto">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============ ROI MATH ============ */}
-      <section className="bg-snow py-20">
+      {/* ============ WHAT YOU GET ============ */}
+      <section className="bg-white py-20">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight mb-4">
-            The math is simple.
+            Everything you need. One price. Forever.
           </h2>
-          <p className="text-[17px] text-slate-500 max-w-lg mx-auto leading-relaxed mb-10">
-            At $19/mo, you need one extra conversion to pay for ProofPost ten
-            times over. Most SaaS landing pages see 15-34% conversion lift from
-            visible social proof.
+          <p className="text-[17px] text-slate-500 mb-12 max-w-md mx-auto">
+            The Early Bird Lifetime Deal includes everything. No upsells.
           </p>
 
-          <div className="inline-grid sm:grid-cols-3 gap-6 text-left">
-            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-2">
-              <p className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">
-                You pay
-              </p>
-              <p className="text-[32px] font-bold text-slate-900 tabular-nums">
-                $19<span className="text-[16px] text-slate-400">/mo</span>
-              </p>
-            </div>
-            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-2">
-              <p className="text-[13px] font-semibold text-slate-400 uppercase tracking-wider">
-                You need
-              </p>
-              <p className="text-[32px] font-bold text-slate-900 tabular-nums">
-                1<span className="text-[16px] text-slate-400"> extra sale</span>
-              </p>
-            </div>
-            <div className="rounded-xl bg-emerald/5 border border-emerald/30 p-6 space-y-2">
-              <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider">
-                You get
-              </p>
-              <p className="text-[32px] font-bold text-emerald tabular-nums">
-                10x<span className="text-[16px] text-emerald/60"> ROI</span>
-              </p>
-            </div>
+          <div className="grid sm:grid-cols-2 gap-4 text-left max-w-xl mx-auto">
+            {[
+              "Your own Trust Card page (proofpst.com/you)",
+              "Verified reviews from Google & G2",
+              "Manual upload — WhatsApp, DMs, screenshots",
+              "\"ProofPost Approved\" badge on every review",
+              "Custom CTA button (Calendly, WhatsApp, link)",
+              "Mobile-first premium design",
+              "Unlimited reviews (no caps)",
+              "No ProofPost watermark",
+              "Analytics dashboard",
+              "All future features included",
+            ].map((feature) => (
+              <div key={feature} className="flex items-start gap-2.5 py-2">
+                <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" aria-hidden="true" />
+                <span className="text-[14px] text-slate-700">{feature}</span>
+              </div>
+            ))}
           </div>
 
-          <p className="text-[14px] text-slate-400 mt-8">
-            Less than one hour of a designer&apos;s time. Pays for itself before the
-            trial ends.
-          </p>
-        </div>
-      </section>
-
-      {/* ============ BEFORE / AFTER ============ */}
-      <section className="bg-white py-24">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Same review. One looks cheap. One closes deals.
-          </h2>
-          <p className="text-[17px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
-            Static grid vs. AI-extracted, animated widget.
-          </p>
-
-          <div className="grid sm:grid-cols-2 gap-6">
-            {/* Before */}
-            <div className="rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 space-y-5">
-              <span className="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-200/60 px-3 py-1 rounded-full">
-                Before (static tools)
-              </span>
-              <div className="rounded-lg bg-white border border-slate-200 p-5 space-y-3 opacity-60">
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className="w-3.5 h-3.5 text-amber-400 fill-amber-400"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="text-[13px] text-slate-500 leading-relaxed">
-                  &ldquo;ProofPost has been amazing for our team. The setup was
-                  quick, the support is great, and the results speak for
-                  themselves. We saw a real difference in how visitors engage
-                  with our testimonials compared to the static screenshots we
-                  used before. Highly recommended for any SaaS company looking
-                  to improve their social proof...&rdquo;
-                </p>
-                <p className="text-[12px] text-slate-400">Sarah K., Head of Marketing</p>
-              </div>
-              <p className="text-[13px] text-slate-400 text-center italic">
-                Full review. Static grid. Nobody reads this.
-              </p>
+          <div className="mt-12 p-8 rounded-2xl bg-emerald/5 border border-emerald/20 max-w-md mx-auto">
+            <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-2">Early Bird Lifetime Deal</p>
+            <div className="flex items-baseline justify-center gap-2">
+              <span className="text-[56px] font-bold text-slate-900 tabular-nums">$69</span>
+              <span className="text-slate-400 text-lg">one-time</span>
             </div>
-
-            {/* After */}
-            <div className="rounded-xl border-2 border-emerald/40 bg-emerald/5 p-8 space-y-5">
-              <span className="inline-block text-[11px] font-bold text-emerald uppercase tracking-wider bg-emerald/10 px-3 py-1 rounded-full">
-                After (ProofPost)
-              </span>
-              <div className="rounded-lg bg-white border border-emerald/30 p-5 space-y-3 shadow-sm">
-                <div className="flex gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star
-                      key={i}
-                      className="w-3.5 h-3.5 text-amber-400 fill-amber-400"
-                      aria-hidden="true"
-                    />
-                  ))}
-                </div>
-                <p className="text-[16px] font-semibold text-slate-900 leading-snug">
-                  &ldquo;We saw a real difference in how visitors engage with
-                  our testimonials.&rdquo;
-                </p>
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-full bg-emerald/20 flex items-center justify-center">
-                    <Users className="w-4 h-4 text-emerald-dark" aria-hidden="true" />
-                  </div>
-                  <div>
-                    <p className="text-[13px] font-medium text-slate-900">Sarah K.</p>
-                    <p className="text-[11px] text-slate-400">Head of Marketing</p>
-                  </div>
-                </div>
-              </div>
-              <p className="text-[13px] text-emerald-dark text-center font-medium">
-                AI-extracted hook. Animated. Converting.
-              </p>
-            </div>
+            <p className="text-[13px] text-slate-500 mt-2">Future price: $18/mo. Lock in lifetime access now.</p>
+            <Link
+              href="/login"
+              className="mt-6 flex items-center justify-center gap-2 w-full h-14 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-2xl transition-colors duration-200 glow-emerald"
+            >
+              Get Lifetime Access
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+            <p className="text-[12px] text-slate-400 mt-3">
+              Or start free — upgrade when you are ready.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ============ OBJECTION HANDLING ============ */}
+      {/* ============ FAQ ============ */}
       <section className="bg-snow py-20">
         <div className="max-w-2xl mx-auto px-6">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-8">
@@ -442,76 +272,67 @@ export default function GoLandingPage() {
           <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden bg-white">
             {[
               {
-                q: "Is it hard to set up?",
-                a: "One line of code. If you can paste into your website builder, you're good. Works with Webflow, WordPress, Shopify, Framer, React, and anything that takes HTML.",
+                q: "What is a Trust Card?",
+                a: "A premium, standalone page that showcases your verified reviews, bio, and a CTA button. Think of it as a credibility landing page you share via one link — in your bio, DMs, email signature, or business cards.",
               },
               {
-                q: "How is this different from Senja?",
-                a: "Senja shows your full reviews in static grids. We pull the one sentence that converts and animate it. Video testimonials, too. $19/mo instead of $29, and you're live in 60 seconds instead of 5 minutes.",
+                q: "Where do the reviews come from?",
+                a: "Import automatically from Google Business and G2. Or upload manually — WhatsApp screenshots, DMs, video testimonials, anything. Every review gets a \"ProofPost Approved\" badge.",
               },
               {
-                q: "Can I import from G2, Google, or Capterra?",
-                a: "Yes. Connect your profile or paste a URL. We also support Trustpilot, LinkedIn, screenshots, and video. Every format works.",
+                q: "Do I need a website?",
+                a: "No. Your Trust Card is a standalone page hosted by us (proofpst.com/your-name). No coding, no hosting, no design skills needed.",
               },
               {
-                q: "What does it cost?",
-                a: "Free tier: 3 carousels/month, no credit card. Pro: $19/mo for unlimited widgets, video testimonials, analytics, and platform import. Less than one hour of a designer's time.",
+                q: "What does \"Lifetime Deal\" mean?",
+                a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this price to early adopters only — the regular price will be $18/month.",
+              },
+              {
+                q: "Is there a free option?",
+                a: "Yes. The free tier includes 1 Trust Card with up to 15 reviews and a small ProofPost watermark. Upgrade to the LTD to remove the watermark and unlock unlimited reviews.",
               },
             ].map((faq, i) => (
               <details key={i} className="group">
                 <summary className="flex items-center justify-between px-5 py-4 cursor-pointer hover:bg-slate-50/50 transition-colors list-none">
-                  <span className="text-[14px] font-semibold text-slate-900 pr-4">
-                    {faq.q}
-                  </span>
-                  <span className="text-slate-300 group-open:rotate-45 transition-transform text-lg flex-shrink-0">
-                    +
-                  </span>
+                  <span className="text-[14px] font-semibold text-slate-900 pr-4">{faq.q}</span>
+                  <span className="text-slate-300 group-open:rotate-45 transition-transform text-lg flex-shrink-0">+</span>
                 </summary>
-                <p className="px-5 pb-4 -mt-1 text-[13px] text-slate-500 leading-relaxed">
-                  {faq.a}
-                </p>
+                <p className="px-5 pb-4 -mt-1 text-[13px] text-slate-500 leading-relaxed">{faq.a}</p>
               </details>
             ))}
           </div>
         </div>
       </section>
 
-      {/* ============ PRICING ============ */}
-      <PricingSection />
-
       {/* ============ FINAL CTA ============ */}
       <section className="bg-navy py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_rgba(16,185,129,0.1)_0%,_transparent_60%)]" />
         <div className="relative max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-[36px] font-bold text-white tracking-tight">
-            Your best customers already wrote your best sales copy.
+            Your best clients already trust you. Show the rest.
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
-            Stop letting it sit on G2. AI finds the sentence that converts.
-            Live on your site in 60 seconds. Free to start.
+            One link. Verified reviews. Premium credibility. Set up in 60 seconds.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Try Free — Paste Your First Review
+              Get Lifetime Access — $69
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
-            <p className="text-[13px] text-slate-500">
-              Free tier. No credit card. 60-second setup.
-            </p>
           </div>
+          <p className="text-[13px] text-slate-500 mt-4">
+            Free tier available. No credit card required.
+          </p>
         </div>
       </section>
 
       {/* Sticky Mobile CTA */}
       <StickyMobileCTA />
 
-      {/* Floating Testimonial Card (bottom-left, like Senja) */}
-      <FloatingTestimonial />
-
-      {/* Minimal Footer */}
+      {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50">
         <div className="max-w-6xl mx-auto px-6 py-8">
           <div className="flex items-center justify-between">
@@ -519,13 +340,9 @@ export default function GoLandingPage() {
               <div className="w-6 h-6 rounded-md bg-emerald flex items-center justify-center">
                 <Star className="w-3 h-3 text-white" aria-hidden="true" />
               </div>
-              <span className="text-[13px] font-semibold text-slate-700">
-                ProofPost
-              </span>
+              <span className="text-[13px] font-semibold text-slate-700">ProofPost</span>
             </div>
-            <p className="text-[12px] text-slate-400">
-              &copy; 2026 ProofPost. All rights reserved.
-            </p>
+            <p className="text-[12px] text-slate-400">&copy; 2026 ProofPost. All rights reserved.</p>
           </div>
         </div>
       </footer>
