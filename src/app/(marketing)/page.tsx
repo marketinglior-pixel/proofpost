@@ -89,36 +89,30 @@ export default function LandingPage() {
             {/* Left: Headline */}
             <div className="space-y-8 min-w-0">
               <h1 className="font-bold text-[clamp(2.25rem,4.5vw,3.5rem)] leading-[1.2] text-slate-900 tracking-tight">
-                AI Finds the One Sentence That{" "}
+                Your reviews. One link.{" "}
                 <span className="text-emerald hand-underline">
-                  Sells for You.
+                  Instant trust.
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Other tools show your full reviews. Nobody reads those.
-                ProofPost pulls the one line that sells and turns it into
-                a live widget. 60 seconds. Video or text.
+                Create a premium Trust Card that showcases your verified reviews
+                from Google, G2 &amp; LinkedIn. Share it anywhere. Set up in 60 seconds.
               </p>
 
-              {/* Hero URL Input — zero-friction onboarding (desktop only) */}
-              <div className="hidden sm:block">
-                <HeroUrlInput />
-              </div>
-
-              {/* Mobile CTA */}
-              <div className="sm:hidden">
+              {/* CTA */}
+              <div>
                 <Link
                   href="/login"
-                  className="flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+                  className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Build Your First Widget Free
+                  Create Your Trust Card Free
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
 
               <p className="text-sm text-slate-300">
-                Free tier. No credit card. 3 carousels/month included.
+                Free forever. No credit card. Live in 60 seconds.
               </p>
             </div>
 

@@ -53,29 +53,23 @@ export default function GoLandingPage() {
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                AI finds the one sentence in your reviews that makes people buy
-                and turns it into an animated widget on your site. 60 seconds.
-                No developer.
+                Create a verified Trust Card that pulls your real reviews from Google &amp; G2.
+                One link in your bio. Premium credibility in 60 seconds.
               </p>
 
-              {/* Desktop: URL Input */}
-              <div className="hidden sm:block">
-                <HeroUrlInput />
-              </div>
-
-              {/* Mobile: CTA Button */}
-              <div className="sm:hidden">
+              {/* CTA */}
+              <div>
                 <Link
                   href="/login"
-                  className="flex items-center justify-center gap-2 h-14 px-8 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
+                  className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Try Free — Paste Your First Review
+                  Create Your Trust Card Free
                   <ArrowRight className="w-4 h-4 flex-shrink-0" aria-hidden="true" />
                 </Link>
               </div>
 
               <p className="text-sm text-slate-400">
-                Free tier included. No credit card. Cancel anytime.
+                Free forever. No credit card. Live in 60 seconds.
               </p>
 
               {/* Social proof strip */}
@@ -99,7 +93,7 @@ export default function GoLandingPage() {
                     ))}
                   </div>
                   <p className="text-[12px] text-slate-400">
-                    Used by SaaS teams replacing static testimonials
+                    Trusted by freelancers and agencies across the US
                   </p>
                 </div>
               </div>

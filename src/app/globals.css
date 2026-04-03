@@ -199,6 +199,18 @@
   50% { opacity: 0.8; transform: scale(1.15); }
 }
 
+/* Trust Card review fade-in animation */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Safe area padding for mobile sticky CTA */
 .safe-area-pb {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));

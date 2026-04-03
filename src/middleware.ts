@@ -20,6 +20,7 @@ export async function middleware(request: NextRequest) {
     "/pricing",
     "/onboarding",
     "/widgets",
+    "/trust-card",
   ];
   const isProtected = protectedPrefixes.some((p) => pathname.startsWith(p));
   const isAuthPage = pathname.startsWith("/login");

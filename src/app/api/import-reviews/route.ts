@@ -36,11 +36,12 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { platform, url, csv, autoGenerate } = body as {
+    const { platform, url, csv, autoGenerate, markVerified } = body as {
       platform: string;
       url?: string;
       csv?: string;
       autoGenerate?: boolean;
+      markVerified?: boolean;
     };
 
     if (!VALID_PLATFORMS.includes(platform as Platform)) {
@@ -92,6 +93,7 @@ export async function POST(request: NextRequest) {
     const saved = await processImportedReviews(user.id, platform, reviews, {
       autoGenerate: autoGenerate ?? false,
       sourceUrl: url,
+      markVerified: markVerified ?? true,
     });
 
     return NextResponse.json({

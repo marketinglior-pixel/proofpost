@@ -16,6 +16,8 @@ export interface Database {
           email: string | null;
           display_name: string | null;
           plan: string;
+          username: string | null;
+          payment_type: string;
           created_at: string;
           updated_at: string;
         };
@@ -24,6 +26,8 @@ export interface Database {
           email?: string | null;
           display_name?: string | null;
           plan?: string;
+          username?: string | null;
+          payment_type?: string;
           created_at?: string;
           updated_at?: string;
         };
@@ -32,6 +36,8 @@ export interface Database {
           email?: string | null;
           display_name?: string | null;
           plan?: string;
+          username?: string | null;
+          payment_type?: string;
           created_at?: string;
           updated_at?: string;
         };
@@ -321,6 +327,11 @@ export interface Database {
           review_date: string | null;
           imported_at: string;
           generated_content_id: string | null;
+          verified: boolean;
+          verification_url: string | null;
+          display_on_trust_card: boolean;
+          display_order: number;
+          image_url: string | null;
         };
         Insert: {
           id?: string;
@@ -336,6 +347,11 @@ export interface Database {
           review_date?: string | null;
           imported_at?: string;
           generated_content_id?: string | null;
+          verified?: boolean;
+          verification_url?: string | null;
+          display_on_trust_card?: boolean;
+          display_order?: number;
+          image_url?: string | null;
         };
         Update: {
           id?: string;
@@ -351,6 +367,110 @@ export interface Database {
           review_date?: string | null;
           imported_at?: string;
           generated_content_id?: string | null;
+          verified?: boolean;
+          verification_url?: string | null;
+          display_on_trust_card?: boolean;
+          display_order?: number;
+          image_url?: string | null;
+        };
+        Relationships: [];
+      };
+      trust_cards: {
+        Row: {
+          id: string;
+          user_id: string;
+          username: string;
+          display_name: string;
+          headline: string | null;
+          bio: string | null;
+          avatar_url: string | null;
+          cta_label: string;
+          cta_url: string | null;
+          cta_type: string;
+          social_links: Json;
+          portfolio: Json;
+          theme: string;
+          accent_color: string;
+          layout: string;
+          custom_domain: string | null;
+          is_published: boolean;
+          meta_title: string | null;
+          meta_description: string | null;
+          created_at: string;
+          updated_at: string;
+        };
+        Insert: {
+          id?: string;
+          user_id: string;
+          username: string;
+          display_name: string;
+          headline?: string | null;
+          bio?: string | null;
+          avatar_url?: string | null;
+          cta_label?: string;
+          cta_url?: string | null;
+          cta_type?: string;
+          social_links?: Json;
+          portfolio?: Json;
+          theme?: string;
+          accent_color?: string;
+          layout?: string;
+          custom_domain?: string | null;
+          is_published?: boolean;
+          meta_title?: string | null;
+          meta_description?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: {
+          id?: string;
+          user_id?: string;
+          username?: string;
+          display_name?: string;
+          headline?: string | null;
+          bio?: string | null;
+          avatar_url?: string | null;
+          cta_label?: string;
+          cta_url?: string | null;
+          cta_type?: string;
+          social_links?: Json;
+          portfolio?: Json;
+          theme?: string;
+          accent_color?: string;
+          layout?: string;
+          custom_domain?: string | null;
+          is_published?: boolean;
+          meta_title?: string | null;
+          meta_description?: string | null;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Relationships: [];
+      };
+      trust_card_views: {
+        Row: {
+          id: string;
+          trust_card_id: string;
+          referrer: string | null;
+          user_agent: string | null;
+          country: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id?: string;
+          trust_card_id: string;
+          referrer?: string | null;
+          user_agent?: string | null;
+          country?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          trust_card_id?: string;
+          referrer?: string | null;
+          user_agent?: string | null;
+          country?: string | null;
+          created_at?: string;
         };
         Relationships: [];
       };

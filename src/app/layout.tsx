@@ -30,16 +30,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://proofpst.com"),
   title: {
-    default: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    default: "ProofPost | Your Verified Trust Page in 60 Seconds",
     template: "%s | ProofPost",
   },
   description:
-    "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds. Transform testimonials into LinkedIn posts that convert.",
-  themeColor: "#faf8f4",
+    "Create a premium Trust Card that showcases your verified reviews from Google, G2 & LinkedIn. One link. Instant trust. Set up in 60 seconds.",
   openGraph: {
-    title: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    title: "ProofPost | Your Verified Trust Page in 60 Seconds",
     description:
-      "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds.",
+      "Create a premium Trust Card that showcases your verified reviews. One link. Instant trust. 60 seconds.",
     type: "website",
     locale: "en_US",
     url: "https://proofpst.com",
@@ -49,15 +48,15 @@ export const metadata: Metadata = {
         url: "/og-image.jpeg",
         width: 1200,
         height: 630,
-        alt: "ProofPost — Turn Reviews into LinkedIn Carousels",
+        alt: "ProofPost — Your Verified Trust Page",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ProofPost | Turn Reviews into B2B LinkedIn Carousels",
+    title: "ProofPost | Your Verified Trust Page in 60 Seconds",
     description:
-      "The #1 B2B LinkedIn carousel generator. Turn customer reviews into branded social proof content in seconds.",
+      "Create a premium Trust Card that showcases your verified reviews. One link. Instant trust. 60 seconds.",
     images: ["/og-image.jpeg"],
   },
 };

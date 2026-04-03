@@ -7,18 +7,35 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-async function upgradeUser(email: string) {
+async function upgradeUser(email: string, paymentType: "subscription" | "ltd" = "subscription") {
   const { data: users } = await supabase.auth.admin.listUsers();
   const user = users?.users?.find((u) => u.email === email);
   if (!user) { console.error("User not found:", email); return; }
-  await supabase.from("profiles").update({ plan: "pro", updated_at: new Date().toISOString() }).eq("id", user.id);
-  console.log("Upgraded to pro:", user.id);
+  await supabase.from("profiles").update({
+    plan: "pro",
+    payment_type: paymentType,
+    updated_at: new Date().toISOString(),
+  }).eq("id", user.id);
+  console.log(`Upgraded to pro (${paymentType}):`, user.id);
 }
 
 async function downgradeUser(email: string) {
   const { data: users } = await supabase.auth.admin.listUsers();
   const user = users?.users?.find((u) => u.email === email);
   if (!user) return;
+
+  // Never downgrade LTD users — they paid once, forever
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("payment_type")
+    .eq("id", user.id)
+    .single();
+
+  if (profile?.payment_type === "ltd") {
+    console.log("Skipping downgrade for LTD user:", user.id);
+    return;
+  }
+
   await supabase.from("profiles").update({ plan: "free", updated_at: new Date().toISOString() }).eq("id", user.id);
   console.log("Downgraded to free:", user.id);
 }
@@ -54,7 +71,12 @@ export async function POST(request: NextRequest) {
     console.log("Dodo webhook:", eventType, email);
 
     if (eventType.includes("payment.succeeded") || eventType.includes("subscription.active")) {
-      if (email) await upgradeUser(email);
+      if (email) {
+        // Detect LTD by checking product_id
+        const productId = payload.data?.product_id || payload.product_id || "";
+        const isLTD = productId === process.env.DODO_LTD_PRODUCT_ID;
+        await upgradeUser(email, isLTD ? "ltd" : "subscription");
+      }
     }
 
     if (eventType.includes("subscription.cancelled") || eventType.includes("subscription.expired")) {

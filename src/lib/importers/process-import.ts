@@ -13,7 +13,7 @@ export async function processImportedReviews(
   userId: string,
   platform: string,
   reviews: ImportedReview[],
-  options?: { autoGenerate?: boolean; sourceUrl?: string }
+  options?: { autoGenerate?: boolean; sourceUrl?: string; markVerified?: boolean }
 ) {
   const supabase = await createClient();
 
@@ -27,6 +27,10 @@ export async function processImportedReviews(
     review_text: r.review_text,
     rating: r.rating,
     review_date: r.review_date || null,
+    ...(options?.markVerified ? {
+      verified: true,
+      verification_url: r.source_url || options?.sourceUrl || null,
+    } : {}),
   }));
 
   const { data: inserted, error } = await supabase

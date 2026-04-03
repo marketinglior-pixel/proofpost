@@ -20,25 +20,83 @@ import {
   Menu,
   X,
   Settings,
+  BadgeCheck,
+  ChevronDown,
+  Code2,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
 import posthog from "posthog-js";
 
-const navItems = [
+interface NavItem {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+interface NavGroup {
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+  items: NavItem[];
+}
+
+const primaryItems: NavItem[] = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { label: "Generate", href: "/generate", icon: Wand2 },
-  { label: "Import", href: "/import", icon: Download },
+  { label: "Trust Card", href: "/trust-card", icon: BadgeCheck },
+];
+
+const embedGroup: NavGroup = {
+  label: "Embed Tools",
+  icon: Code2,
+  items: [
+    { label: "Generate", href: "/generate", icon: Wand2 },
+    { label: "Import", href: "/import", icon: Download },
+    { label: "Wall of Love", href: "/wall-of-love", icon: Heart },
+    { label: "Case Studies", href: "/case-studies", icon: BookOpen },
+    { label: "History", href: "/history", icon: Clock },
+  ],
+};
+
+const secondaryItems: NavItem[] = [
   { label: "Forms", href: "/forms", icon: FileText },
-  { label: "Wall of Love", href: "/wall-of-love", icon: Heart },
-  { label: "Case Studies", href: "/case-studies", icon: BookOpen },
-  { label: "History", href: "/history", icon: Clock },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
 
+function NavLink({ item, isActive, onNavigate }: { item: NavItem; isActive: boolean; onNavigate?: () => void }) {
+  return (
+    <Link
+      href={item.href}
+      onClick={onNavigate}
+      className={cn(
+        "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] transition-colors duration-200",
+        isActive
+          ? "bg-white/10 text-white font-medium"
+          : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+      )}
+    >
+      <item.icon
+        className={cn("w-[16px] h-[16px]", isActive ? "text-emerald" : "")}
+        aria-hidden="true"
+      />
+      {item.label}
+      {isActive && (
+        <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald" />
+      )}
+    </Link>
+  );
+}
+
 function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: string }) {
   const pathname = usePathname();
+  const [embedOpen, setEmbedOpen] = useState(false);
+
+  // Auto-expand embed group if current page is inside it
+  useEffect(() => {
+    if (embedGroup.items.some((item) => pathname === item.href)) {
+      setEmbedOpen(true);
+    }
+  }, [pathname]);
 
   return (
     <>
@@ -56,31 +114,54 @@ function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: s
 
       {/* Nav */}
       <nav className="flex-1 px-3 pt-4 space-y-0.5 relative z-10">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
+        {/* Primary items (Dashboard, Trust Card) */}
+        {primaryItems.map((item) => (
+          <NavLink
+            key={item.href}
+            item={item}
+            isActive={pathname === item.href || pathname.startsWith(item.href + "/")}
+            onNavigate={onNavigate}
+          />
+        ))}
+
+        {/* Embed Tools collapsible group */}
+        <div className="pt-2">
+          <button
+            onClick={() => setEmbedOpen(!embedOpen)}
+            className="flex items-center gap-3 w-full rounded-lg px-3 py-2 text-[13px] text-slate-500 hover:text-slate-300 transition-colors"
+          >
+            <embedGroup.icon className="w-4 h-4" aria-hidden="true" />
+            {embedGroup.label}
+            <ChevronDown
+              className={cn("w-3 h-3 ml-auto transition-transform", embedOpen && "rotate-180")}
+              aria-hidden="true"
+            />
+          </button>
+          {embedOpen && (
+            <div className="ml-2 space-y-0.5">
+              {embedGroup.items.map((item) => (
+                <NavLink
+                  key={item.href}
+                  item={item}
+                  isActive={pathname === item.href}
+                  onNavigate={onNavigate}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Secondary items (Forms, Analytics, etc.) */}
+        <div className="pt-2 space-y-0.5">
+          {secondaryItems.map((item) => (
+            <NavLink
               key={item.href}
-              href={item.href}
-              onClick={onNavigate}
-              className={cn(
-                "flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] transition-colors duration-200",
-                isActive
-                  ? "bg-white/10 text-white font-medium"
-                  : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
-              )}
-            >
-              <item.icon
-                className={cn("w-[16px] h-[16px]", isActive ? "text-emerald" : "")}
-                aria-hidden="true"
-              />
-              {item.label}
-              {isActive && (
-                <div className="ml-auto w-1.5 h-1.5 rounded-full bg-emerald" />
-              )}
-            </Link>
-          );
-        })}
+              item={item}
+              isActive={pathname === item.href}
+              onNavigate={onNavigate}
+            />
+          ))}
+        </div>
       </nav>
 
       {/* Bottom */}
@@ -108,7 +189,7 @@ function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: s
               <ArrowUpRight className="w-3 h-3 text-emerald" aria-hidden="true" />
             </div>
             <p className="text-[11px] text-slate-400">
-              3 carousels/mo · Upgrade for unlimited
+              Remove watermark · Custom domain
             </p>
           </Link>
         )}

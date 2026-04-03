@@ -23,7 +23,8 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Use subscriptions endpoint for recurring products
+    const isLTD = productId === process.env.DODO_LTD_PRODUCT_ID;
+
     const body: Record<string, unknown> = {
       billing: { city: "", country: "US", state: "", street: "", zipcode: "" },
       customer: { email, name: email.split("@")[0] },
@@ -37,7 +38,9 @@ export async function GET(request: NextRequest) {
       body.discount_code = discountCode;
     }
 
-    const res = await fetch(`${DODO_API_BASE}/subscriptions`, {
+    // LTD uses one-time payments endpoint, subscriptions use recurring
+    const endpoint = isLTD ? `${DODO_API_BASE}/payments` : `${DODO_API_BASE}/subscriptions`;
+    const res = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Authorization": `Bearer ${process.env.DODO_PAYMENTS_API_KEY}`,
