@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { usePostHog } from "posthog-js/react";
 import { createClient } from "@/lib/supabase/client";
@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import {
   ArrowRight,
+  Building2,
   Check,
   Copy,
   Globe,
@@ -18,11 +19,9 @@ import {
   Link as LinkIcon,
   Loader2,
   Palette,
-  Plus,
   Quote,
   Sparkles,
   Star,
-  Trash2,
   Type,
   Upload,
   Wand2,
@@ -32,9 +31,10 @@ import { extractColorsFromImage } from "@/lib/utils/extract-colors";
 const PROOFPOST_HOST = "https://proofpst.com";
 
 const STEPS = [
-  { number: 1, label: "Brand Kit" },
-  { number: 2, label: "First Carousel" },
-  { number: 3, label: "Embed" },
+  { number: 1, label: "Company" },
+  { number: 2, label: "Review" },
+  { number: 3, label: "Brand" },
+  { number: 4, label: "Embed" },
 ];
 
 const EXAMPLE_REVIEW = `"We switched from HubSpot to their platform 6 months ago and it's been a game-changer. Within the first week, our sales reps were actually logging their calls and the pipeline finally reflected reality. We closed 23% more deals last quarter."
@@ -49,17 +49,18 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
   const router = useRouter();
   const posthog = usePostHog();
   const supabase = createClient();
+
+  // Fire Lead pixel on onboarding start (catches Google OAuth signups)
+  useEffect(() => {
+    trackFbEvent("Lead", { content_name: "signup", method: "onboarding_start" });
+    posthog?.capture("onboarding_started");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const [step, setStep] = useState(initialStep);
 
-  // Step 1: Brand Kit
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Step 1: Company Name
   const [companyName, setCompanyName] = useState("");
-  const [logoUrl, setLogoUrl] = useState<string | null>(null);
-  const [primaryColor, setPrimaryColor] = useState("#2563EB");
-  const [secondaryColor, setSecondaryColor] = useState("#1E293B");
-  const [uploading, setUploading] = useState(false);
-  const [extracting, setExtracting] = useState(false);
-  const [savingBrand, setSavingBrand] = useState(false);
+  const [savingCompany, setSavingCompany] = useState(false);
 
   // Step 2: Generate
   const [inputMode, setInputMode] = useState<"text" | "link">("text");
@@ -69,16 +70,143 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerTitle, setReviewerTitle] = useState("");
   const [generating, setGenerating] = useState(false);
-  const [reviews, setReviews] = useState<
-    { contentId: string; hookLine: string; reviewerName: string }[]
-  >([]);
+  const [generatedResult, setGeneratedResult] = useState<{
+    contentId: string;
+    hookLine: string;
+    reviewerName: string;
+  } | null>(null);
+  const [showHookReveal, setShowHookReveal] = useState(false);
 
-  // Step 3: Embed
-  const [embedId, setEmbedId] = useState<string | null>(null);
-  const [creatingWidget, setCreatingWidget] = useState(false);
+  // Step 3: Brand
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [logoUrl, setLogoUrl] = useState<string | null>(null);
+  const [primaryColor, setPrimaryColor] = useState("#2563EB");
+  const [secondaryColor, setSecondaryColor] = useState("#1E293B");
+  const [uploading, setUploading] = useState(false);
+  const [extracting, setExtracting] = useState(false);
+  const [savingBrand, setSavingBrand] = useState(false);
+
+  // Step 4: Embed
   const [copied, setCopied] = useState(false);
+  const [embedCopied, setEmbedCopied] = useState(false);
 
-  // ----- Step 1 handlers -----
+  // ----- Step 1: Company Name -----
+
+  async function handleSaveCompanyName() {
+    if (!companyName.trim()) {
+      toast.error("Please enter your company name");
+      return;
+    }
+
+    setSavingCompany(true);
+    const { error } = await supabase.from("brand_kits").upsert(
+      {
+        user_id: userId,
+        company_name: companyName.trim(),
+        logo_url: null,
+        primary_color: "#2563EB",
+        secondary_color: "#1E293B",
+        updated_at: new Date().toISOString(),
+      } as never,
+      { onConflict: "user_id" }
+    );
+
+    if (error) {
+      toast.error("Something went wrong. Please try again.");
+      setSavingCompany(false);
+      return;
+    }
+
+    posthog?.capture("onboarding_company_saved", { company_name: companyName.trim() });
+    setSavingCompany(false);
+    setStep(2);
+  }
+
+  // ----- Step 2: Generate -----
+
+  async function handleExtractUrl() {
+    if (!url.trim()) {
+      toast.error("Please paste a URL");
+      return;
+    }
+    setExtractingUrl(true);
+    try {
+      const res = await fetch("/api/extract-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: url.trim() }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to extract");
+        return;
+      }
+      setRawInput(data.reviewText || "");
+      setReviewerName(data.reviewerName || "");
+      setReviewerTitle(
+        [data.reviewerTitle, data.reviewerCompany].filter(Boolean).join(", ")
+      );
+      posthog?.capture("onboarding_review_pasted", { input_mode: "link" });
+      toast.success("Post extracted!");
+    } catch {
+      toast.error("Failed to extract");
+    } finally {
+      setExtractingUrl(false);
+    }
+  }
+
+  async function handleGenerate() {
+    if (rawInput.trim().length < 20) {
+      toast.error("Review text must be at least 20 characters");
+      return;
+    }
+
+    setGenerating(true);
+    posthog?.capture("onboarding_review_pasted", { input_mode: inputMode });
+
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rawInput: rawInput.trim(),
+          reviewerName: reviewerName || undefined,
+          reviewerTitle: reviewerTitle || undefined,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Something went wrong");
+        return;
+      }
+
+      const result = {
+        contentId: data.id,
+        hookLine: data.llmOutput?.hookLine || "Review",
+        reviewerName: data.llmOutput?.reviewer?.name || reviewerName || "Customer",
+      };
+
+      setGeneratedResult(result);
+
+      // Trigger the hook line reveal animation
+      setTimeout(() => setShowHookReveal(true), 100);
+
+      posthog?.capture("onboarding_first_generation", {
+        hook_line: result.hookLine,
+        input_mode: inputMode,
+      });
+      trackFbEvent("AddToCart", {
+        content_name: "first_generation",
+        content_type: "carousel",
+      });
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  // ----- Step 3: Brand -----
 
   async function handleLogoUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -129,17 +257,12 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
     }
   }
 
-  async function handleSaveBrandKit() {
-    if (!companyName.trim()) {
-      toast.error("Please enter your company name");
-      return;
-    }
-
+  async function handleSaveBrand() {
     setSavingBrand(true);
     const { error } = await supabase.from("brand_kits").upsert(
       {
         user_id: userId,
-        company_name: companyName.trim(),
+        company_name: companyName.trim() || "My Company",
         logo_url: logoUrl,
         primary_color: primaryColor,
         secondary_color: secondaryColor,
@@ -149,135 +272,25 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
     );
 
     if (error) {
-      toast.error("Failed to save brand kit");
+      toast.error("Failed to save brand");
       setSavingBrand(false);
       return;
     }
 
-    toast.success("Brand kit saved!");
+    posthog?.capture("onboarding_brand_customized", { skipped: false });
+    toast.success("Brand updated!");
     setSavingBrand(false);
-    setStep(2);
+    setStep(4);
   }
 
-  // ----- Step 2 handlers -----
-
-  async function handleExtractUrl() {
-    if (!url.trim()) {
-      toast.error("Please paste a URL");
-      return;
-    }
-    setExtractingUrl(true);
-    try {
-      const res = await fetch("/api/extract-post", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: url.trim() }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Failed to extract");
-        return;
-      }
-      setRawInput(data.reviewText || "");
-      setReviewerName(data.reviewerName || "");
-      setReviewerTitle(
-        [data.reviewerTitle, data.reviewerCompany].filter(Boolean).join(", ")
-      );
-      toast.success("Post extracted!");
-    } catch {
-      toast.error("Failed to extract");
-    } finally {
-      setExtractingUrl(false);
-    }
+  function handleSkipBrand() {
+    posthog?.capture("onboarding_brand_customized", { skipped: true });
+    setStep(4);
   }
 
-  async function handleGenerate() {
-    if (rawInput.trim().length < 20) {
-      toast.error("Review text must be at least 20 characters");
-      return;
-    }
+  // ----- Step 4: Embed -----
 
-    setGenerating(true);
-    try {
-      const res = await fetch("/api/generate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          rawInput: rawInput.trim(),
-          reviewerName: reviewerName || undefined,
-          reviewerTitle: reviewerTitle || undefined,
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Something went wrong");
-        return;
-      }
-
-      setReviews((prev) => [
-        ...prev,
-        {
-          contentId: data.id,
-          hookLine: data.llmOutput?.hookLine || "Review",
-          reviewerName: data.llmOutput?.reviewer?.name || reviewerName || "Customer",
-        },
-      ]);
-
-      // Reset form for next review
-      setRawInput("");
-      setReviewerName("");
-      setReviewerTitle("");
-      setUrl("");
-
-      const count = reviews.length + 1;
-      toast.success(`Review ${count}/3 added!`);
-    } catch {
-      toast.error("Network error");
-    } finally {
-      setGenerating(false);
-    }
-  }
-
-  function handleRemoveReview(contentId: string) {
-    setReviews((prev) => prev.filter((r) => r.contentId !== contentId));
-  }
-
-  async function handleContinueToEmbed() {
-    if (reviews.length === 0) return;
-
-    if (reviews.length === 1) {
-      setEmbedId(reviews[0].contentId);
-      setStep(3);
-      return;
-    }
-
-    // Multiple reviews: create a widget
-    setCreatingWidget(true);
-    try {
-      const res = await fetch("/api/widgets", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: "My Testimonials",
-          contentIds: reviews.map((r) => r.contentId),
-        }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        toast.error(data.error || "Failed to create widget");
-        return;
-      }
-      setEmbedId(data.id);
-      setStep(3);
-    } catch {
-      toast.error("Failed to create widget");
-    } finally {
-      setCreatingWidget(false);
-    }
-  }
-
-  // ----- Step 3 handlers -----
-
+  const embedId = generatedResult?.contentId || null;
   const embedCode = embedId
     ? `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${embedId}"></script>`
     : null;
@@ -286,8 +299,24 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
     if (!embedCode) return;
     await navigator.clipboard.writeText(embedCode);
     setCopied(true);
+    setEmbedCopied(true);
+    posthog?.capture("onboarding_embed_copied");
     toast.success("Embed code copied!");
     setTimeout(() => setCopied(false), 2000);
+  }
+
+  function handleGoToDashboard() {
+    posthog?.capture("onboarding_completed", {
+      has_embed: !!embedId,
+      has_brand_customized: !!logoUrl,
+      embed_copied: embedCopied,
+    });
+    trackFbEvent("CompleteRegistration", {
+      content_name: "onboarding",
+      has_generation: !!generatedResult,
+    });
+    trackLinkedinConversion(process.env.NEXT_PUBLIC_LINKEDIN_ONBOARDING_CONVERSION_ID ?? "");
+    router.push("/dashboard");
   }
 
   return (
@@ -304,12 +333,12 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
         </div>
 
         {/* Progress */}
-        <div className="flex items-center gap-3 mb-2">
+        <div className="flex items-center gap-2 mb-2">
           {STEPS.map((s, i) => (
-            <div key={s.number} className="flex items-center gap-3 flex-1">
-              <div className="flex items-center gap-2 flex-1">
+            <div key={s.number} className="flex items-center gap-2 flex-1">
+              <div className="flex items-center gap-1.5 flex-shrink-0">
                 <div
-                  className={`flex items-center justify-center w-7 h-7 rounded-full text-[12px] font-bold transition-colors duration-300 ${
+                  className={`flex items-center justify-center w-7 h-7 rounded-full text-[12px] font-bold transition-all duration-300 ${
                     step > s.number
                       ? "bg-emerald text-white"
                       : step === s.number
@@ -324,7 +353,7 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
                   )}
                 </div>
                 <span
-                  className={`text-[13px] font-medium transition-colors duration-300 ${
+                  className={`text-[12px] font-medium transition-colors duration-300 hidden sm:inline ${
                     step >= s.number ? "text-slate-900" : "text-slate-400"
                   }`}
                 >
@@ -344,33 +373,299 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
       </div>
 
       {/* Content */}
-      <div className="w-full max-w-xl">
-        {/* Step 1: Brand Kit */}
+      <div className="w-full max-w-xl pb-12">
+
+        {/* ===== Step 1: Company Name ===== */}
         {step === 1 && (
+          <div className="space-y-6">
+            <div className="text-center pt-4">
+              <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald/10 mx-auto mb-4">
+                <Building2 className="w-7 h-7 text-emerald-dark" aria-hidden="true" />
+              </div>
+              <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
+                Welcome to ProofPost
+              </h1>
+              <p className="text-[15px] text-slate-500 mt-2 max-w-sm mx-auto">
+                Let&apos;s turn your reviews into conversion machines. First — what&apos;s your company called?
+              </p>
+            </div>
+
+            <div className="rounded-xl bg-white border border-slate-200 p-6">
+              <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                Company Name
+              </label>
+              <Input
+                placeholder="Acme Inc."
+                value={companyName}
+                onChange={(e) => setCompanyName(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && companyName.trim()) {
+                    handleSaveCompanyName();
+                  }
+                }}
+                className="h-12 mt-2 border-slate-200 text-[15px]"
+                autoFocus
+              />
+            </div>
+
+            <Button
+              onClick={handleSaveCompanyName}
+              disabled={savingCompany || !companyName.trim()}
+              className="w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-lg shadow-none glow-emerald"
+            >
+              {savingCompany ? (
+                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+              ) : (
+                <ArrowRight className="w-4 h-4 mr-2" />
+              )}
+              Continue
+            </Button>
+
+            <p className="text-[12px] text-slate-400 text-center">
+              Takes 60 seconds to see your first animated testimonial
+            </p>
+          </div>
+        )}
+
+        {/* ===== Step 2: Paste Review ===== */}
+        {step === 2 && (
           <div className="space-y-6">
             <div>
               <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
-                Set up your brand
+                Paste a review, watch the magic
               </h1>
               <p className="text-[15px] text-slate-500 mt-1">
-                Your logo and colors will appear on every carousel you create.
+                Our AI finds the &quot;money line&quot; — the one sentence that converts visitors into buyers.
+              </p>
+            </div>
+
+            {!generatedResult ? (
+              <>
+                {/* Mode tabs */}
+                <div className="flex gap-1 p-1 bg-slate-100 rounded-lg w-fit">
+                  <button
+                    onClick={() => setInputMode("link")}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
+                      inputMode === "link"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700"
+                    }`}
+                  >
+                    <LinkIcon className="w-3.5 h-3.5" aria-hidden="true" />
+                    Paste Link
+                  </button>
+                  <button
+                    onClick={() => setInputMode("text")}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
+                      inputMode === "text"
+                        ? "bg-white text-slate-900 shadow-sm"
+                        : "text-slate-500 hover:text-slate-700"
+                    }`}
+                  >
+                    <Type className="w-3.5 h-3.5" aria-hidden="true" />
+                    Paste Text
+                  </button>
+                </div>
+
+                <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
+                  {inputMode === "link" ? (
+                    <div className="space-y-3">
+                      <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                        Post URL
+                      </label>
+                      <div className="flex gap-2">
+                        <div className="flex-1 relative">
+                          <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" aria-hidden="true" />
+                          <Input
+                            placeholder="https://linkedin.com/posts/..."
+                            value={url}
+                            onChange={(e) => setUrl(e.target.value)}
+                            className="pl-10 h-11 border-slate-200"
+                          />
+                        </div>
+                        <Button
+                          onClick={handleExtractUrl}
+                          disabled={extractingUrl || !url.trim()}
+                          className="h-11 px-5 bg-navy hover:bg-navy-light text-white shadow-none"
+                        >
+                          {extractingUrl ? (
+                            <Loader2 className="w-4 h-4 animate-spin" />
+                          ) : (
+                            "Extract"
+                          )}
+                        </Button>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        Works with LinkedIn, Twitter/X, G2, Capterra, and more
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                          Review Text
+                        </label>
+                        <button
+                          onClick={() => {
+                            setRawInput(EXAMPLE_REVIEW);
+                            setReviewerName("Sarah Chen");
+                            setReviewerTitle("VP Sales, TechFlow");
+                          }}
+                          className="text-[12px] text-emerald-dark hover:text-emerald transition-colors font-medium"
+                        >
+                          Try an example
+                        </button>
+                      </div>
+                      <Textarea
+                        placeholder="Paste your customer review here..."
+                        value={rawInput}
+                        onChange={(e) => setRawInput(e.target.value)}
+                        rows={5}
+                        className="resize-none border-slate-200"
+                      />
+                    </div>
+                  )}
+
+                  {/* Extracted text (shown in link mode after extraction) */}
+                  {inputMode === "link" && rawInput && (
+                    <div className="space-y-2 pt-2 border-t border-slate-100">
+                      <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                        Extracted Review
+                      </label>
+                      <Textarea
+                        value={rawInput}
+                        onChange={(e) => setRawInput(e.target.value)}
+                        rows={3}
+                        className="resize-none text-[14px] border-slate-200"
+                      />
+                    </div>
+                  )}
+
+                  {/* Reviewer fields */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-1.5">
+                      <label className="text-[12px] text-slate-500">
+                        Reviewer Name
+                      </label>
+                      <Input
+                        placeholder="Sarah Chen"
+                        value={reviewerName}
+                        onChange={(e) => setReviewerName(e.target.value)}
+                        className="h-10 border-slate-200"
+                      />
+                    </div>
+                    <div className="space-y-1.5">
+                      <label className="text-[12px] text-slate-500">
+                        Title, Company
+                      </label>
+                      <Input
+                        placeholder="VP Sales, TechFlow"
+                        value={reviewerTitle}
+                        onChange={(e) => setReviewerTitle(e.target.value)}
+                        className="h-10 border-slate-200"
+                      />
+                    </div>
+                  </div>
+
+                  <Button
+                    onClick={handleGenerate}
+                    disabled={generating || rawInput.trim().length < 20}
+                    className="w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-lg shadow-none glow-emerald disabled:opacity-40"
+                  >
+                    {generating ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Finding the money line...
+                      </>
+                    ) : (
+                      <>
+                        <Wand2 className="w-4 h-4 mr-2" />
+                        Generate Carousel
+                      </>
+                    )}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              /* Hook Line Reveal */
+              <div className="space-y-6">
+                <div
+                  className={`rounded-xl bg-white border-2 border-emerald/30 p-8 text-center transition-all duration-700 ${
+                    showHookReveal
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4"
+                  }`}
+                >
+                  <div className="flex items-center justify-center w-10 h-10 rounded-xl bg-emerald/10 mx-auto mb-4">
+                    <Sparkles className="w-5 h-5 text-emerald-dark" aria-hidden="true" />
+                  </div>
+                  <p className="text-[11px] font-semibold text-emerald-dark uppercase tracking-wider mb-3">
+                    AI Found Your Money Line
+                  </p>
+                  <blockquote className="text-[20px] font-bold text-slate-900 leading-snug tracking-tight">
+                    &ldquo;{generatedResult.hookLine}&rdquo;
+                  </blockquote>
+                  <p className="text-[13px] text-slate-500 mt-3">
+                    — {generatedResult.reviewerName}
+                  </p>
+                </div>
+
+                <div
+                  className={`rounded-xl bg-slate-50 border border-slate-200 p-5 transition-all duration-700 delay-300 ${
+                    showHookReveal
+                      ? "opacity-100 translate-y-0"
+                      : "opacity-0 translate-y-4"
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald/10 flex-shrink-0 mt-0.5">
+                      <Quote className="w-4 h-4 text-emerald-dark" aria-hidden="true" />
+                    </div>
+                    <div>
+                      <p className="text-[13px] font-semibold text-slate-800">
+                        This is what visitors will see on your site
+                      </p>
+                      <p className="text-[12px] text-slate-500 mt-1">
+                        An animated carousel featuring this hook line, auto-sliding to grab attention. You can add more reviews later.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={() => setStep(3)}
+                  className="w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-lg shadow-none glow-emerald"
+                >
+                  Continue
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </div>
+            )}
+
+            {!generatedResult && (
+              <button
+                onClick={() => setStep(1)}
+                className="text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                ← Back
+              </button>
+            )}
+          </div>
+        )}
+
+        {/* ===== Step 3: Brand Customization (Optional) ===== */}
+        {step === 3 && (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
+                Make it yours
+              </h1>
+              <p className="text-[15px] text-slate-500 mt-1">
+                Add your logo and brand colors. You can always update these later.
               </p>
             </div>
 
             <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-6">
-              {/* Company name */}
-              <div className="space-y-2">
-                <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                  Company Name
-                </label>
-                <Input
-                  placeholder="Acme Inc."
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  className="h-11 border-slate-200"
-                />
-              </div>
-
               {/* Logo */}
               <div className="space-y-3">
                 <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
@@ -487,14 +782,14 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
 
             <div className="flex items-center justify-between">
               <button
-                onClick={() => setStep(2)}
+                onClick={handleSkipBrand}
                 className="text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
               >
                 Skip for now
               </button>
               <Button
-                onClick={handleSaveBrandKit}
-                disabled={savingBrand || !companyName.trim()}
+                onClick={handleSaveBrand}
+                disabled={savingBrand}
                 className="h-11 px-6 bg-emerald hover:bg-emerald-dark text-white font-medium rounded-lg shadow-none glow-emerald"
               >
                 {savingBrand ? (
@@ -502,282 +797,34 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
                 ) : (
                   <ArrowRight className="w-4 h-4 mr-2" />
                 )}
-                Continue
+                Save & Continue
               </Button>
             </div>
           </div>
         )}
 
-        {/* Step 2: Generate Carousel */}
-        {step === 2 && (
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
-                Create your first carousel
-              </h1>
-              <p className="text-[15px] text-slate-500 mt-1">
-                Paste a customer review and we will turn it into a branded carousel.
-              </p>
-            </div>
-
-            {/* Mode tabs */}
-            <div className="flex gap-1 p-1 bg-slate-100 rounded-lg w-fit">
-              <button
-                onClick={() => setInputMode("link")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
-                  inputMode === "link"
-                    ? "bg-white text-slate-900 shadow-sm"
-                    : "text-slate-500 hover:text-slate-700"
-                }`}
-              >
-                <LinkIcon className="w-3.5 h-3.5" aria-hidden="true" />
-                Paste Link
-              </button>
-              <button
-                onClick={() => setInputMode("text")}
-                className={`flex items-center gap-2 px-4 py-2 rounded-md text-[13px] font-medium transition-colors duration-200 ${
-                  inputMode === "text"
-                    ? "bg-white text-slate-900 shadow-sm"
-                    : "text-slate-500 hover:text-slate-700"
-                }`}
-              >
-                <Type className="w-3.5 h-3.5" aria-hidden="true" />
-                Paste Text
-              </button>
-            </div>
-
-            <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-5">
-              {inputMode === "link" ? (
-                <div className="space-y-3">
-                  <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Post URL
-                  </label>
-                  <div className="flex gap-2">
-                    <div className="flex-1 relative">
-                      <Globe className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-300" aria-hidden="true" />
-                      <Input
-                        placeholder="https://linkedin.com/posts/..."
-                        value={url}
-                        onChange={(e) => setUrl(e.target.value)}
-                        className="pl-10 h-11 border-slate-200"
-                      />
-                    </div>
-                    <Button
-                      onClick={handleExtractUrl}
-                      disabled={extractingUrl || !url.trim()}
-                      className="h-11 px-5 bg-navy hover:bg-navy-light text-white shadow-none"
-                    >
-                      {extractingUrl ? (
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                      ) : (
-                        "Extract"
-                      )}
-                    </Button>
-                  </div>
-                  <p className="text-[11px] text-slate-400">
-                    Works with LinkedIn, Twitter/X, G2, Capterra, and more
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between">
-                    <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                      Review Text
-                    </label>
-                    <button
-                      onClick={() => {
-                        setRawInput(EXAMPLE_REVIEW);
-                        setReviewerName("Sarah Chen");
-                        setReviewerTitle("VP Sales, TechFlow");
-                      }}
-                      className="text-[12px] text-emerald-dark hover:text-emerald transition-colors font-medium"
-                    >
-                      Try an example
-                    </button>
-                  </div>
-                  <Textarea
-                    placeholder="Paste your customer review here..."
-                    value={rawInput}
-                    onChange={(e) => setRawInput(e.target.value)}
-                    rows={5}
-                    className="resize-none border-slate-200"
-                  />
-                </div>
-              )}
-
-              {/* Extracted text (shown in link mode after extraction) */}
-              {inputMode === "link" && rawInput && (
-                <div className="space-y-2 pt-2 border-t border-slate-100">
-                  <label className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Extracted Review
-                  </label>
-                  <Textarea
-                    value={rawInput}
-                    onChange={(e) => setRawInput(e.target.value)}
-                    rows={3}
-                    className="resize-none text-[14px] border-slate-200"
-                  />
-                </div>
-              )}
-
-              {/* Reviewer fields */}
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <label className="text-[12px] text-slate-500">
-                    Reviewer Name
-                  </label>
-                  <Input
-                    placeholder="Sarah Chen"
-                    value={reviewerName}
-                    onChange={(e) => setReviewerName(e.target.value)}
-                    className="h-10 border-slate-200"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-[12px] text-slate-500">
-                    Title, Company
-                  </label>
-                  <Input
-                    placeholder="VP Sales, TechFlow"
-                    value={reviewerTitle}
-                    onChange={(e) => setReviewerTitle(e.target.value)}
-                    className="h-10 border-slate-200"
-                  />
-                </div>
-              </div>
-
-              <Button
-                onClick={handleGenerate}
-                disabled={generating || rawInput.trim().length < 20 || reviews.length >= 3}
-                className="w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-lg shadow-none glow-emerald disabled:opacity-40"
-              >
-                {generating ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Generating...
-                  </>
-                ) : (
-                  <>
-                    <Plus className="w-4 h-4 mr-2" />
-                    {reviews.length === 0 ? "Add Review" : `Add Review (${reviews.length}/3)`}
-                  </>
-                )}
-              </Button>
-            </div>
-
-            {/* Reviews list */}
-            {reviews.length > 0 && (
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-[13px] font-semibold text-slate-900 flex items-center gap-2">
-                    <Wand2 className="w-3.5 h-3.5 text-emerald" aria-hidden="true" />
-                    Your Carousel
-                    <span className="text-[12px] font-medium text-slate-400">
-                      ({reviews.length}/3)
-                    </span>
-                  </h3>
-                </div>
-
-                <div className="rounded-xl bg-white border border-slate-200 overflow-hidden divide-y divide-slate-100">
-                  {reviews.map((review, i) => (
-                    <div key={review.contentId} className="flex items-center gap-3 px-4 py-3">
-                      <span className="flex items-center justify-center w-6 h-6 rounded-full bg-emerald/10 text-[11px] font-bold text-emerald-dark flex-shrink-0">
-                        {i + 1}
-                      </span>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-[13px] font-medium text-slate-800 truncate">
-                          {review.hookLine}
-                        </p>
-                        <p className="text-[11px] text-slate-400 mt-0.5">
-                          {review.reviewerName}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => handleRemoveReview(review.contentId)}
-                        className="text-slate-300 hover:text-red-500 transition-colors p-1 flex-shrink-0"
-                        aria-label="Remove review"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-
-                <Button
-                  onClick={handleContinueToEmbed}
-                  disabled={creatingWidget}
-                  className="w-full h-11 bg-navy hover:bg-navy-light text-white font-medium shadow-none"
-                >
-                  {creatingWidget ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Creating widget...
-                    </>
-                  ) : (
-                    <>
-                      Get Embed Code
-                      <ArrowRight className="w-4 h-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-
-                {reviews.length < 3 && (
-                  <p className="text-[11px] text-slate-400 text-center">
-                    You can add up to {3 - reviews.length} more review{3 - reviews.length !== 1 ? "s" : ""}, or continue with what you have.
-                  </p>
-                )}
-              </div>
-            )}
-
-            <div className="flex items-center justify-between">
-              <button
-                onClick={() => setStep(1)}
-                className="text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                Back
-              </button>
-              <button
-                onClick={() => {
-                  setStep(3);
-                  setEmbedId(reviews.length === 1 ? reviews[0].contentId : null);
-                }}
-                className="text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
-              >
-                Skip for now
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Step 3: Embed Code */}
-        {step === 3 && (
+        {/* ===== Step 4: Embed Code ===== */}
+        {step === 4 && (
           <div className="space-y-6">
             <div className="text-center pt-4">
               <div className="flex items-center justify-center w-14 h-14 rounded-2xl bg-emerald/10 mx-auto mb-4">
                 <Sparkles className="w-7 h-7 text-emerald-dark" aria-hidden="true" />
               </div>
               <h1 className="text-[26px] font-bold text-slate-900 tracking-tight">
-                {embedId ? "Your carousel is ready!" : "You are all set!"}
+                {embedId ? "Your widget is live!" : "You're all set!"}
               </h1>
-              <p className="text-[15px] text-slate-500 mt-1">
+              <p className="text-[15px] text-slate-500 mt-1 max-w-sm mx-auto">
                 {embedId
-                  ? `${reviews.length} review${reviews.length !== 1 ? "s" : ""} in your carousel. Copy the embed code and paste it into your website.`
+                  ? "Copy this code and paste it anywhere on your website. One line, that's it."
                   : "Head to your dashboard to start creating carousels."}
               </p>
             </div>
 
             {embedCode && (
               <div className="rounded-xl bg-white border border-slate-200 p-6 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
-                    Embed Code
-                  </span>
-                  {reviews.length > 0 && (
-                    <span className="text-[12px] text-slate-500">
-                      {reviews.length} review{reviews.length !== 1 ? "s" : ""}
-                    </span>
-                  )}
-                </div>
+                <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+                  Embed Code
+                </span>
 
                 <div className="rounded-lg bg-navy p-4">
                   <code className="text-[12px] text-emerald-light/80 font-mono break-all leading-relaxed">
@@ -805,18 +852,7 @@ export function OnboardingWizard({ userId, initialStep }: OnboardingWizardProps)
             )}
 
             <Button
-              onClick={() => {
-                posthog?.capture("onboarding_completed", {
-                  has_embed: !!embedId,
-                  review_count: reviews.length,
-                });
-                trackFbEvent("CompleteRegistration", {
-                  content_name: "onboarding",
-                  review_count: reviews.length,
-                });
-                trackLinkedinConversion(process.env.NEXT_PUBLIC_LINKEDIN_ONBOARDING_CONVERSION_ID ?? "");
-                router.push("/dashboard");
-              }}
+              onClick={handleGoToDashboard}
               className="w-full h-12 bg-navy hover:bg-navy-light text-white text-[15px] font-medium rounded-lg shadow-none"
             >
               Go to Dashboard

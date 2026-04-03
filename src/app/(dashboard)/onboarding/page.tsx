@@ -29,6 +29,7 @@ export default async function OnboardingPage() {
   }
 
   // Determine which step to start on
+  // Step 1: Company name, Step 2: Paste review, Step 3: Brand, Step 4: Embed
   const initialStep = brandKit ? 2 : 1;
 
   return <OnboardingWizard userId={user.id} initialStep={initialStep} />;
