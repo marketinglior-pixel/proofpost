@@ -58,17 +58,21 @@ async function notifyIfNewUser() {
   // Get the most recently created profile
   const { data: profile } = await supabaseAdmin
     .from("profiles")
-    .select("email, plan, created_at")
+    .select("email, plan, created_at, updated_at")
     .order("created_at", { ascending: false })
     .limit(1)
     .single();
 
   if (!profile) return;
 
-  // Only notify if the profile was created in the last 5 minutes
+  // Only notify for genuinely new users:
+  // 1. Profile created within the last 24h (email confirmation can take hours)
+  // 2. created_at equals updated_at (no subsequent logins yet)
   const createdAt = new Date(profile.created_at);
-  const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
-  if (createdAt < fiveMinutesAgo) return;
+  const updatedAt = new Date(profile.updated_at);
+  const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+  if (createdAt < oneDayAgo) return;
+  if (Math.abs(updatedAt.getTime() - createdAt.getTime()) > 60_000) return;
 
   const resend = new Resend(process.env.RESEND_API_KEY);
 
