@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
+import { IPhoneMockup } from "./iphone-mockup";
+import { MacbookMockup } from "./macbook-mockup";
 import {
   ArrowRight,
   Star,
@@ -33,64 +35,78 @@ export default function GoLandingPage() {
         </div>
       </header>
 
-      {/* ============ HERO ============ */}
+      {/* ============ HERO — Two-column with iPhone mockup ============ */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
-        <div className="relative max-w-4xl mx-auto px-6 pt-20 sm:pt-28 pb-16 sm:pb-24 text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-[12px] font-semibold mb-8">
-            <Zap className="w-3.5 h-3.5" />
-            Early Bird — $69 Lifetime Deal (Limited)
-          </div>
+        <div className="relative max-w-6xl mx-auto px-6 pt-16 sm:pt-24 pb-16 sm:pb-24">
+          <div className="grid lg:grid-cols-[1fr_340px] gap-12 lg:gap-20 items-center">
+            {/* Left: Copy */}
+            <div className="space-y-6 min-w-0">
+              {/* Badge */}
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-[12px] font-semibold">
+                <Zap className="w-3.5 h-3.5" />
+                Early Bird — $69 Lifetime Deal (Limited)
+              </div>
 
-          <h1 className="font-bold text-[clamp(2.25rem,5vw,3.75rem)] leading-[1.15] text-slate-900 tracking-tight max-w-3xl mx-auto">
-            You charge premium prices.{" "}
-            <span className="text-emerald hand-underline">
-              Your proof should match.
-            </span>
-          </h1>
+              <h1 className="font-bold text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.15] text-slate-900 tracking-tight">
+                You charge premium prices.{" "}
+                <span className="text-emerald hand-underline">
+                  Your proof should match.
+                </span>
+              </h1>
 
-          <p className="mt-6 text-lg sm:text-xl text-slate-500 max-w-xl mx-auto leading-relaxed">
-            Create a verified Trust Card that showcases your real reviews.
-            One link in your bio. Instant credibility. Set up in 60 seconds.
-          </p>
+              <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
+                Create a verified Trust Card that showcases your real reviews.
+                One link in your bio. Instant credibility. Set up in 60 seconds.
+              </p>
 
-          {/* CTA */}
-          <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link
-              href="/login"
-              className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
-            >
-              Create Your Trust Card — $69 One-Time
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-          </div>
-
-          <p className="mt-4 text-sm text-slate-400">
-            Free tier available. No credit card required. Future price: $18/mo.
-          </p>
-
-          {/* Social proof strip */}
-          <div className="flex items-center justify-center gap-4 mt-8">
-            <div className="flex -space-x-2">
-              {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
-                <div
-                  key={i}
-                  className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
+              {/* CTA */}
+              <div className="pt-2">
+                <Link
+                  href="/login"
+                  className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  <span className="text-[10px] font-bold text-white">
-                    {["S", "M", "J", "A"][i]}
+                  Create Your Trust Card — $69 One-Time
+                  <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                </Link>
+              </div>
+
+              <p className="text-sm text-slate-400">
+                Free tier available. No credit card required. Future price: $18/mo.
+              </p>
+
+              {/* Social proof strip */}
+              <div className="flex items-center gap-4 pt-2">
+                <div className="flex -space-x-2">
+                  {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
+                    <div
+                      key={i}
+                      className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
+                    >
+                      <span className="text-[10px] font-bold text-white">
+                        {["S", "M", "J", "A"][i]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center gap-1">
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
+                  ))}
+                  <span className="text-[12px] text-slate-400 ml-1">
+                    Trusted by freelancers &amp; agencies
                   </span>
                 </div>
-              ))}
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              {[1, 2, 3, 4, 5].map((i) => (
-                <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
-              ))}
-              <span className="text-[12px] text-slate-400 ml-1">
-                Trusted by freelancers &amp; agencies
-              </span>
+
+            {/* Right: iPhone Mockup */}
+            <div className="hidden lg:block">
+              <div className="relative">
+                {/* Subtle glow behind phone */}
+                <div className="absolute -inset-8 bg-[radial-gradient(circle,_rgba(16,185,129,0.08)_0%,_transparent_70%)] rounded-full blur-2xl" />
+                <IPhoneMockup src="/lio" />
+              </div>
             </div>
           </div>
         </div>
@@ -189,6 +205,21 @@ export default function GoLandingPage() {
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* ============ DESKTOP PREVIEW — MacBook Mockup ============ */}
+      <section className="bg-white py-20 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-[28px] font-bold text-slate-900 tracking-tight">
+              Looks incredible on every screen.
+            </h2>
+            <p className="text-[17px] text-slate-500 mt-3 max-w-md mx-auto">
+              Premium design that adapts from mobile to desktop. Your clients see credibility instantly.
+            </p>
+          </div>
+          <MacbookMockup src="/lio" />
         </div>
       </section>
 
