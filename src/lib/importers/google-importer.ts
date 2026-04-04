@@ -96,28 +96,11 @@ function parseCSVLine(line: string): string[] {
 }
 
 /**
- * Extract reviews from a Google Maps business page using OpenAI.
+ * Extract reviews from pasted text using OpenAI.
+ * User copies reviews from Google Maps, LinkedIn, Facebook, etc. and pastes as text.
  */
-async function extractFromURL(url: string): Promise<ImportedReview[]> {
-  let html: string;
-  try {
-    const resp = await fetch(url, {
-      headers: {
-        "User-Agent":
-          "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
-        Accept: "text/html",
-      },
-      signal: AbortSignal.timeout(10_000),
-    });
-    html = await resp.text();
-  } catch {
-    throw new Error(
-      "Could not fetch the Google Reviews page. " +
-        "Try exporting your reviews as CSV and uploading instead."
-    );
-  }
-
-  const trimmed = html.slice(0, 60_000);
+async function extractFromText(text: string, sourceUrl?: string): Promise<ImportedReview[]> {
+  const trimmed = text.slice(0, 30_000);
 
   const response = await openai.chat.completions.create({
     model: "gpt-4o-mini",
@@ -127,42 +110,40 @@ async function extractFromURL(url: string): Promise<ImportedReview[]> {
     messages: [
       {
         role: "system",
-        content: `You extract customer reviews from Google Maps/Business HTML content. Return JSON: { "reviews": [{ "reviewer_name": "...", "reviewer_title": "", "reviewer_company": "", "review_text": "...", "rating": 5.0, "review_date": "..." }] }. If you can't find reviews, return { "reviews": [], "error": "reason" }.`,
+        content: `You extract customer reviews from pasted text. The text may be copied from Google Maps, LinkedIn recommendations, Facebook reviews, WhatsApp messages, emails, or any other source. Parse each individual review and return JSON: { "reviews": [{ "reviewer_name": "...", "reviewer_title": "", "reviewer_company": "", "review_text": "...", "rating": 5.0, "review_date": "..." }] }. If you can't identify distinct reviews, treat the entire text as one review. Always return at least one review if there's meaningful content.`,
       },
       {
         role: "user",
-        content: `Extract all customer reviews from this Google page HTML:\n\n${trimmed}`,
+        content: `Extract all reviews from this text:\n\n${trimmed}`,
       },
     ],
   });
 
   const content = response.choices[0]?.message?.content;
-  if (!content) throw new Error("No response from OpenAI");
+  if (!content) throw new Error("No response from AI");
 
   const parsed = JSON.parse(content);
-  if (parsed.error && (!parsed.reviews || parsed.reviews.length === 0)) {
-    throw new Error(
-      `Could not extract reviews: ${parsed.error}. Try CSV upload instead.`
-    );
+  if (!parsed.reviews || parsed.reviews.length === 0) {
+    throw new Error("No reviews found in the provided text. Try pasting the review text directly.");
   }
 
   return (parsed.reviews || []).map(
     (r: Record<string, string | number | undefined>) => ({
-      reviewer_name: String(r.reviewer_name || "Unknown"),
+      reviewer_name: String(r.reviewer_name || "Customer"),
       reviewer_title: r.reviewer_title ? String(r.reviewer_title) : undefined,
-      reviewer_company: r.reviewer_company
-        ? String(r.reviewer_company)
-        : undefined,
+      reviewer_company: r.reviewer_company ? String(r.reviewer_company) : undefined,
       review_text: String(r.review_text || ""),
       rating: typeof r.rating === "number" ? r.rating : 5.0,
       review_date: r.review_date ? String(r.review_date) : undefined,
-      source_url: url,
+      source_url: sourceUrl,
     })
   );
 }
 
 /**
- * Import reviews from Google Reviews via CSV data or URL.
+ * Import reviews from Google Reviews via CSV data, pasted text, or URL.
+ * For URLs: we now ask users to paste the review text instead of scraping.
+ * The "url" type now accepts pasted text as well.
  */
 export async function importFromGoogle(
   input: string,
@@ -171,5 +152,13 @@ export async function importFromGoogle(
   if (type === "csv") {
     return parseCSV(input);
   }
-  return extractFromURL(input);
+  // If it looks like a URL, tell user to paste text instead
+  if (input.startsWith("http")) {
+    throw new Error(
+      "Google blocks automated review scraping. Instead, go to your Google Business page, " +
+      "select and copy the review text, then paste it here. We'll parse it automatically."
+    );
+  }
+  // Treat as pasted text
+  return extractFromText(input);
 }

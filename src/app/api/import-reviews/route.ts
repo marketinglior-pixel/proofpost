@@ -36,10 +36,11 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { platform, url, csv, autoGenerate, markVerified } = body as {
+    const { platform, url, csv, text, autoGenerate, markVerified } = body as {
       platform: string;
       url?: string;
       csv?: string;
+      text?: string;
       autoGenerate?: boolean;
       markVerified?: boolean;
     };
@@ -51,15 +52,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!url && !csv) {
+    if (!url && !csv && !text) {
       return NextResponse.json(
-        { error: "Provide either a URL or CSV data" },
+        { error: "Provide a URL, CSV data, or pasted review text" },
         { status: 400 }
       );
     }
 
-    // Validate URL if provided
-    if (url) {
+    // Validate URL if provided (skip validation for pasted text)
+    if (url && !text) {
       const pattern = URL_PATTERNS[platform as Platform];
       if (!pattern.test(url)) {
         return NextResponse.json(
@@ -71,15 +72,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Import reviews based on platform
+    // Import reviews based on platform and input type
     const inputType = csv ? "csv" : "url";
-    const input = csv || url!;
+    const input = text || csv || url!;
 
     let reviews;
     if (platform === "g2") {
       reviews = await importFromG2(input, inputType);
     } else {
-      reviews = await importFromGoogle(input, inputType);
+      // For Google: if text is provided, parse it as pasted reviews
+      reviews = await importFromGoogle(input, text ? "url" : inputType);
     }
 
     if (reviews.length === 0) {

@@ -136,17 +136,17 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
     }
   }
 
-  // Step 2: Import reviews
+  // Step 2: Import reviews (paste text → AI parses)
   async function handleImport() {
-    if (!importUrl || !importPlatform) return;
+    if (!importUrl) return;
     setImporting(true);
     try {
       const res = await fetch("/api/import-reviews", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          url: importUrl,
-          platform: importPlatform,
+          text: importUrl,
+          platform: "google",
           markVerified: true,
         }),
       });
@@ -400,34 +400,17 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
               </div>
             )}
 
-            {/* Import mode */}
+            {/* Import mode — paste reviews from any platform */}
             {importPlatform && importPlatform !== ("manual" as never) && (
               <div className="space-y-3">
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setImportPlatform("google")}
-                    className={`p-3 rounded-xl border text-left transition-all ${
-                      importPlatform === "google" ? "bg-emerald-500/10 border-emerald-500/30 text-white" : "bg-white/[0.04] border-white/10 text-white/50"
-                    }`}
-                  >
-                    <span className="text-lg">🔍</span>
-                    <p className="font-semibold text-xs mt-1">Google</p>
-                  </button>
-                  <button
-                    onClick={() => setImportPlatform("g2")}
-                    className={`p-3 rounded-xl border text-left transition-all ${
-                      importPlatform === "g2" ? "bg-emerald-500/10 border-emerald-500/30 text-white" : "bg-white/[0.04] border-white/10 text-white/50"
-                    }`}
-                  >
-                    <span className="text-lg">⭐</span>
-                    <p className="font-semibold text-xs mt-1">G2</p>
-                  </button>
-                </div>
-                <Input
+                <p className="text-[12px] text-white/40 leading-relaxed">
+                  Go to your Google, LinkedIn, or Facebook reviews page. Select all the review text, copy it, and paste below. AI will parse each review automatically.
+                </p>
+                <Textarea
                   value={importUrl}
                   onChange={(e) => setImportUrl(e.target.value)}
-                  placeholder={importPlatform === "google" ? "Paste Google Maps URL..." : "Paste G2 URL..."}
-                  className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 h-11"
+                  placeholder={"Copy & paste your reviews here...\n\nExample:\n⭐⭐⭐⭐⭐ Sarah Chen\n\"Amazing service, highly recommend!\"\n\n⭐⭐⭐⭐⭐ Marcus W.\n\"Professional and fast delivery.\""}
+                  className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 min-h-[120px] resize-none text-sm"
                 />
                 <Button
                   onClick={handleImport}
@@ -435,9 +418,9 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
                   className="w-full h-11 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl"
                 >
                   {importing ? (
-                    <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Importing...</>
+                    <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Parsing reviews...</>
                   ) : (
-                    <>Import Reviews</>
+                    <>Parse &amp; Import</>
                   )}
                 </Button>
               </div>
