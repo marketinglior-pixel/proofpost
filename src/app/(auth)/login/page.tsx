@@ -1,17 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Loader2 } from "lucide-react";
+import { ArrowRight, Loader2, Star, ShieldCheck } from "lucide-react";
 import posthog from "posthog-js";
 import { trackFbEvent, trackLinkedinConversion } from "@/components/ad-tracking-pixels";
 
 export default function LoginPage() {
+  const searchParams = useSearchParams();
+  const defaultMode = searchParams.get("mode");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(defaultMode === "login");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{
     type: "error" | "success";
@@ -61,85 +65,77 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="grain min-h-screen flex">
-      {/* Left — Dark editorial panel */}
-      <div className="hidden lg:flex lg:w-[520px] xl:w-[580px] flex-col justify-between bg-ink p-12 relative overflow-hidden">
-        {/* Subtle gradient orb */}
-        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-amber/10 blur-[120px]" />
-        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full bg-amber/5 blur-[80px]" />
+    <div className="min-h-screen flex">
+      {/* Left — Trust Card value prop */}
+      <div className="hidden lg:flex lg:w-[520px] xl:w-[580px] flex-col justify-between bg-slate-900 p-12 relative overflow-hidden">
+        {/* Glow */}
+        <div className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full bg-emerald-500/10 blur-[120px]" />
+        <div className="absolute -bottom-20 -left-20 w-[300px] h-[300px] rounded-full bg-emerald-500/5 blur-[80px]" />
 
         <div className="relative z-10">
           <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-amber" />
-            <span className="text-sm font-medium text-warm-gray tracking-wide uppercase">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
+              <Star className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-[14px] font-semibold text-white tracking-tight">
               ProofPost
             </span>
           </div>
         </div>
 
         <div className="relative z-10 space-y-8">
-          <h1 className="font-heading text-[44px] leading-[1.1] text-cream tracking-tight">
-            Reviews become
+          <h1 className="text-[40px] leading-[1.1] text-white font-bold tracking-tight">
+            Your trust page.
             <br />
-            <em className="text-amber">revenue.</em>
+            <span className="text-emerald-400">Live in 60 seconds.</span>
           </h1>
-          <p className="text-lg text-warm-gray leading-relaxed max-w-sm">
-            Transform customer testimonials into high&#8209;converting LinkedIn
-            carousels. Branded, beautiful, in seconds.
+          <p className="text-lg text-slate-400 leading-relaxed max-w-sm">
+            Showcase your verified reviews on a premium page.
+            One link in your bio. No website needed.
           </p>
 
-          {/* Social proof */}
-          <div className="flex items-center gap-4 pt-4">
-            <div className="flex -space-x-3">
-              {[
-                "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face",
-                "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face",
-                "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=80&h=80&fit=crop&crop=face",
-                "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face",
-                "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face",
-              ].map((src, i) => (
-                /* eslint-disable-next-line @next/next/no-img-element */
-                <img
-                  key={i}
-                  src={src}
-                  alt=""
-                  width={36}
-                  height={36}
-                  className="rounded-full border-2 border-navy object-cover"
-                />
-              ))}
-            </div>
-            <p className="text-sm text-warm-gray">
-              <span className="text-white font-medium">200+</span> marketers
-              creating carousels
-            </p>
+          {/* Benefits */}
+          <div className="space-y-3 pt-2">
+            {[
+              "Verified reviews from Google, G2 & more",
+              "Upload WhatsApp screenshots & DMs",
+              "Premium design, mobile-first",
+              "Free to start, no credit card",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <ShieldCheck className="w-4 h-4 text-emerald-400 flex-shrink-0" />
+                <span className="text-[14px] text-slate-300">{item}</span>
+              </div>
+            ))}
           </div>
         </div>
 
-        <p className="relative z-10 text-xs text-ink-muted">
-          © 2026 ProofPost. Built for B2B growth teams.
+        <p className="relative z-10 text-xs text-slate-600">
+          © 2026 ProofPost
         </p>
       </div>
 
       {/* Right — Form */}
-      <div className="flex-1 flex items-center justify-center bg-cream p-8">
-        <div className="w-full max-w-[400px] space-y-10">
+      <div className="flex-1 flex items-center justify-center bg-white p-8">
+        <div className="w-full max-w-[400px] space-y-8">
           {/* Mobile brand */}
           <div className="lg:hidden flex items-center gap-2 mb-2">
-            <div className="w-2 h-2 rounded-full bg-amber" />
-            <span className="text-sm font-medium text-ink tracking-wide uppercase">
+            <div className="w-7 h-7 rounded-lg bg-emerald-500 flex items-center justify-center">
+              <Star className="w-3.5 h-3.5 text-white" />
+            </div>
+            <span className="text-[14px] font-semibold text-slate-900 tracking-tight">
               ProofPost
             </span>
           </div>
 
-          <div className="space-y-3">
-            <h2 className="font-heading text-[32px] text-ink tracking-tight leading-tight">
-              {isLogin ? "Welcome back" : "Get started"}
+          <div className="space-y-2">
+            <h2 className="text-[28px] text-slate-900 font-bold tracking-tight">
+              {isLogin ? "Welcome back" : "Create your Trust Card"}
             </h2>
-            <p className="text-[15px] text-ink-muted">
+            <p className="text-[15px] text-slate-500">
               {isLogin
                 ? "Sign in to your account"
-                : "Create your free account — 3 carousels per month"}
+                : "Free account — your trust page in 60 seconds"}
             </p>
           </div>
 
@@ -155,7 +151,7 @@ export default function LoginPage() {
                 },
               });
             }}
-            className="w-full h-12 flex items-center justify-center gap-3 rounded-lg border border-cream-dark bg-white hover:bg-slate-100 text-[15px] font-medium text-ink transition-colors duration-200"
+            className="w-full h-12 flex items-center justify-center gap-3 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-[15px] font-medium text-slate-900 transition-colors duration-200"
           >
             <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
               <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 01-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
@@ -167,17 +163,14 @@ export default function LoginPage() {
           </button>
 
           <div className="flex items-center gap-4">
-            <div className="flex-1 h-px bg-cream-dark" />
-            <span className="text-[12px] text-ink-muted">or</span>
-            <div className="flex-1 h-px bg-cream-dark" />
+            <div className="flex-1 h-px bg-slate-200" />
+            <span className="text-[12px] text-slate-400">or use email</span>
+            <div className="flex-1 h-px bg-slate-200" />
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-1.5">
-              <label
-                htmlFor="email"
-                className="text-[13px] font-medium text-ink-muted uppercase tracking-wider"
-              >
+              <label htmlFor="email" className="text-[13px] font-medium text-slate-500">
                 Email
               </label>
               <Input
@@ -188,15 +181,12 @@ export default function LoginPage() {
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 autoComplete="email"
-                className="h-12 text-[15px] bg-white border-cream-dark focus:border-amber focus:ring-amber/20 rounded-lg placeholder:text-warm-gray/60"
+                className="h-12 text-[15px] rounded-xl"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label
-                htmlFor="password"
-                className="text-[13px] font-medium text-ink-muted uppercase tracking-wider"
-              >
+              <label htmlFor="password" className="text-[13px] font-medium text-slate-500">
                 Password
               </label>
               <Input
@@ -207,16 +197,14 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 minLength={6}
-                autoComplete={
-                  isLogin ? "current-password" : "new-password"
-                }
-                className="h-12 text-[15px] bg-white border-cream-dark focus:border-amber focus:ring-amber/20 rounded-lg placeholder:text-warm-gray/60"
+                autoComplete={isLogin ? "current-password" : "new-password"}
+                className="h-12 text-[15px] rounded-xl"
               />
             </div>
 
             {message && (
               <div
-                className={`text-sm rounded-lg px-4 py-3 ${
+                className={`text-sm rounded-xl px-4 py-3 ${
                   message.type === "error"
                     ? "bg-red-50 text-red-700 border border-red-100"
                     : "bg-emerald-50 text-emerald-700 border border-emerald-100"
@@ -228,14 +216,14 @@ export default function LoginPage() {
 
             <Button
               type="submit"
-              className="w-full h-12 bg-ink hover:bg-ink-light text-cream text-[15px] font-medium rounded-lg shadow-none transition-colors duration-300 hover:shadow-lg hover:shadow-ink/10"
+              className="w-full h-12 bg-emerald-500 hover:bg-emerald-600 text-white text-[15px] font-semibold rounded-xl transition-colors duration-200"
               disabled={loading}
             >
               {loading ? (
                 <Loader2 className="w-4 h-4 animate-spin" />
               ) : (
                 <>
-                  {isLogin ? "Sign In" : "Create Account"}
+                  {isLogin ? "Sign In" : "Create Free Account"}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </>
               )}
@@ -243,18 +231,18 @@ export default function LoginPage() {
           </form>
 
           <div className="flex items-center gap-4">
-            <div className="flex-1 h-px bg-cream-dark" />
+            <div className="flex-1 h-px bg-slate-200" />
             <button
               type="button"
               onClick={() => {
                 setIsLogin(!isLogin);
                 setMessage(null);
               }}
-              className="text-[13px] text-ink-muted hover:text-amber transition-colors duration-300"
+              className="text-[13px] text-slate-400 hover:text-emerald-500 transition-colors"
             >
-              {isLogin ? "Create an account" : "Sign in instead"}
+              {isLogin ? "Create an account" : "Already have an account? Sign in"}
             </button>
-            <div className="flex-1 h-px bg-cream-dark" />
+            <div className="flex-1 h-px bg-slate-200" />
           </div>
         </div>
       </div>
