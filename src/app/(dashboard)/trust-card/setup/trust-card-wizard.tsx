@@ -53,11 +53,14 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
   const [checkingUsername, setCheckingUsername] = useState(false);
   const [claimingUsername, setClaimingUsername] = useState(false);
 
-  // Step 2: Import
+  // Step 2: Import + Manual
   const [importUrl, setImportUrl] = useState("");
   const [importPlatform, setImportPlatform] = useState<"google" | "g2" | null>(null);
   const [importing, setImporting] = useState(false);
   const [importedCount, setImportedCount] = useState(0);
+  const [manualName, setManualName] = useState("");
+  const [manualText, setManualText] = useState("");
+  const [addingManual, setAddingManual] = useState(false);
 
   // Step 3: Customize
   const [headline, setHeadline] = useState("");
@@ -158,6 +161,36 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
       toast.error("Import failed. Check the URL and try again.");
     } finally {
       setImporting(false);
+    }
+  }
+
+  // Step 2b: Manual add
+  async function handleManualAdd() {
+    if (!manualName.trim() || !manualText.trim()) return;
+    setAddingManual(true);
+    try {
+      const res = await fetch("/api/reviews", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reviewer_name: manualName,
+          review_text: manualText,
+          rating: 5,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        toast.error(data.error || "Failed to add review");
+        return;
+      }
+      setImportedCount((prev) => prev + 1);
+      setManualName("");
+      setManualText("");
+      toast.success("Review added!");
+    } catch {
+      toast.error("Something went wrong");
+    } finally {
+      setAddingManual(false);
     }
   }
 
@@ -298,55 +331,102 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
           </div>
         )}
 
-        {/* ============ STEP 2: IMPORT ============ */}
+        {/* ============ STEP 2: ADD REVIEWS ============ */}
         {step === 2 && (
           <div className="space-y-6">
             <div className="text-center">
               <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center mx-auto mb-4">
                 <Globe className="w-7 h-7 text-emerald-400" />
               </div>
-              <h1 className="text-2xl font-bold text-white">Import your reviews</h1>
-              <p className="text-white/50 mt-2 text-sm">Pull verified reviews from your favorite platform</p>
+              <h1 className="text-2xl font-bold text-white">Add your reviews</h1>
+              <p className="text-white/50 mt-2 text-sm">Upload screenshots, paste text, or import from platforms</p>
             </div>
 
-            {/* Platform selection */}
-            <div className="grid grid-cols-2 gap-3">
-              <button
-                onClick={() => setImportPlatform("google")}
-                className={`
-                  p-4 rounded-xl border text-left transition-all
-                  ${importPlatform === "google"
-                    ? "bg-emerald-500/10 border-emerald-500/30 text-white"
-                    : "bg-white/[0.04] border-white/10 text-white/50 hover:bg-white/[0.06]"
-                  }
-                `}
-              >
-                <span className="text-lg">🔍</span>
-                <p className="font-semibold text-sm mt-2">Google Reviews</p>
-                <p className="text-[11px] text-white/30 mt-0.5">Google Business Profile</p>
-              </button>
-              <button
-                onClick={() => setImportPlatform("g2")}
-                className={`
-                  p-4 rounded-xl border text-left transition-all
-                  ${importPlatform === "g2"
-                    ? "bg-emerald-500/10 border-emerald-500/30 text-white"
-                    : "bg-white/[0.04] border-white/10 text-white/50 hover:bg-white/[0.06]"
-                  }
-                `}
-              >
-                <span className="text-lg">⭐</span>
-                <p className="font-semibold text-sm mt-2">G2</p>
-                <p className="text-[11px] text-white/30 mt-0.5">G2.com product page</p>
-              </button>
+            {/* Method tabs */}
+            <div className="flex gap-2 p-1 bg-white/[0.06] rounded-xl">
+              {[
+                { key: "manual", label: "Upload / Paste", icon: "📸" },
+                { key: "import", label: "Google / G2", icon: "🔗" },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setImportPlatform(tab.key as "google" | "g2" | null)}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-sm font-medium transition-all ${
+                    (tab.key === "manual" && !importPlatform) || (tab.key === "import" && importPlatform && importPlatform !== "manual" as never)
+                      ? "bg-white/10 text-white"
+                      : "text-white/40 hover:text-white/60"
+                  }`}
+                >
+                  <span>{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
             </div>
 
-            {importPlatform && (
+            {/* Manual upload mode (default) */}
+            {(!importPlatform || importPlatform === ("manual" as never)) && (
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs text-white/40 mb-1.5 block">Customer name *</label>
+                  <Input
+                    value={manualName}
+                    onChange={(e) => setManualName(e.target.value)}
+                    placeholder="Sarah Chen"
+                    className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 h-11"
+                    maxLength={100}
+                  />
+                </div>
+                <div>
+                  <label className="text-xs text-white/40 mb-1.5 block">What did they say?</label>
+                  <Textarea
+                    value={manualText}
+                    onChange={(e) => setManualText(e.target.value)}
+                    placeholder="Paste their review, DM, or WhatsApp message..."
+                    className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 min-h-[80px] resize-none"
+                    maxLength={500}
+                  />
+                </div>
+                <Button
+                  onClick={handleManualAdd}
+                  disabled={!manualName.trim() || !manualText.trim() || addingManual}
+                  className="w-full h-11 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-xl"
+                >
+                  {addingManual ? (
+                    <><Loader2 className="w-4 h-4 animate-spin mr-2" /> Adding...</>
+                  ) : (
+                    <>Add Review</>
+                  )}
+                </Button>
+              </div>
+            )}
+
+            {/* Import mode */}
+            {importPlatform && importPlatform !== ("manual" as never) && (
               <div className="space-y-3">
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setImportPlatform("google")}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      importPlatform === "google" ? "bg-emerald-500/10 border-emerald-500/30 text-white" : "bg-white/[0.04] border-white/10 text-white/50"
+                    }`}
+                  >
+                    <span className="text-lg">🔍</span>
+                    <p className="font-semibold text-xs mt-1">Google</p>
+                  </button>
+                  <button
+                    onClick={() => setImportPlatform("g2")}
+                    className={`p-3 rounded-xl border text-left transition-all ${
+                      importPlatform === "g2" ? "bg-emerald-500/10 border-emerald-500/30 text-white" : "bg-white/[0.04] border-white/10 text-white/50"
+                    }`}
+                  >
+                    <span className="text-lg">⭐</span>
+                    <p className="font-semibold text-xs mt-1">G2</p>
+                  </button>
+                </div>
                 <Input
                   value={importUrl}
                   onChange={(e) => setImportUrl(e.target.value)}
-                  placeholder={importPlatform === "google" ? "Paste your Google Maps URL..." : "Paste your G2 product URL..."}
+                  placeholder={importPlatform === "google" ? "Paste Google Maps URL..." : "Paste G2 URL..."}
                   className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 h-11"
                 />
                 <Button
@@ -365,8 +445,8 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
 
             {importedCount > 0 && (
               <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-4 text-center">
-                <p className="text-emerald-400 font-bold text-lg">{importedCount} reviews imported!</p>
-                <p className="text-white/40 text-xs mt-1">All verified from the original source</p>
+                <p className="text-emerald-400 font-bold text-lg">{importedCount} reviews added!</p>
+                <p className="text-white/40 text-xs mt-1">You can add more from the dashboard later</p>
               </div>
             )}
 
