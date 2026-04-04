@@ -30,7 +30,7 @@ export default function GoLandingPage() {
             href="/login"
             className="text-sm font-medium text-white bg-emerald hover:bg-emerald-dark px-5 py-2.5 rounded-lg transition-colors duration-200 glow-emerald"
           >
-            Get Started
+            Try Free
           </Link>
         </div>
       </header>
