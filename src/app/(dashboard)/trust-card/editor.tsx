@@ -38,6 +38,7 @@ interface TrustCard {
   bio: string | null;
   avatar_url: string | null;
   portfolio: unknown;
+  social_links: unknown;
   cta_label: string;
   cta_url: string | null;
   cta_type: string;
@@ -76,6 +77,9 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
   const [avatarUrl, setAvatarUrl] = useState(trustCard.avatar_url || "");
   const [portfolio, setPortfolio] = useState<string[]>(
     Array.isArray(trustCard.portfolio) ? (trustCard.portfolio as string[]) : []
+  );
+  const [socialLinks, setSocialLinks] = useState<{ platform: string; url: string }[]>(
+    Array.isArray(trustCard.social_links) ? (trustCard.social_links as { platform: string; url: string }[]) : []
   );
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -146,6 +150,7 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
           bio: bio || null,
           avatar_url: avatarUrl || null,
           portfolio: portfolio,
+          social_links: socialLinks.filter((l) => l.url.trim()),
           cta_url: ctaUrl || null,
           cta_label: ctaLabel || "Book a Call",
           accent_color: accentColor,
@@ -364,6 +369,38 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
               <label className="text-xs text-slate-500 mb-1 block">Button URL</label>
               <Input value={ctaUrl} onChange={(e) => setCtaUrl(e.target.value)} placeholder="https://calendly.com/you" />
             </div>
+          </div>
+
+          {/* Social Links */}
+          <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
+            <h2 className="text-sm font-semibold text-slate-900">Social Links</h2>
+
+            {[
+              { key: "linkedin", label: "LinkedIn", placeholder: "https://linkedin.com/in/you" },
+              { key: "x", label: "X (Twitter)", placeholder: "https://x.com/you" },
+              { key: "facebook", label: "Facebook", placeholder: "https://facebook.com/you" },
+            ].map((social) => {
+              const existing = socialLinks.find((l) => l.platform === social.key);
+              return (
+                <div key={social.key}>
+                  <label className="text-xs text-slate-500 mb-1 block">{social.label}</label>
+                  <Input
+                    value={existing?.url || ""}
+                    onChange={(e) => {
+                      const newUrl = e.target.value;
+                      setSocialLinks((prev) => {
+                        const filtered = prev.filter((l) => l.platform !== social.key);
+                        if (newUrl.trim()) {
+                          return [...filtered, { platform: social.key, url: newUrl }];
+                        }
+                        return filtered;
+                      });
+                    }}
+                    placeholder={social.placeholder}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
