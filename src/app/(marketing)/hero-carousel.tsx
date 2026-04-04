@@ -8,6 +8,7 @@ const reviews = heroReviews;
 export function HeroCarousel() {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const goNext = useCallback(() => {
     setIsAnimating(true);
@@ -18,14 +19,19 @@ export function HeroCarousel() {
   }, []);
 
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(goNext, 3500);
     return () => clearInterval(timer);
-  }, [goNext]);
+  }, [goNext, paused]);
 
   const r = reviews[current];
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div
+      className="w-full max-w-md mx-auto"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div
         style={{
           borderRadius: "16px",
@@ -130,7 +136,7 @@ export function HeroCarousel() {
               height: "100%",
               backgroundColor: "#10B981",
               opacity: 0.4,
-              animation: "hero-progress 3.5s linear forwards",
+              animation: paused ? "none" : "hero-progress 3.5s linear forwards",
               width: "0%",
             }}
           />

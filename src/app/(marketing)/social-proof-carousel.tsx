@@ -32,6 +32,7 @@ const testimonials = [
 export function SocialProofCarousel() {
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [paused, setPaused] = useState(false);
 
   const goNext = useCallback(() => {
     setIsAnimating(true);
@@ -42,14 +43,19 @@ export function SocialProofCarousel() {
   }, []);
 
   useEffect(() => {
+    if (paused) return;
     const timer = setInterval(goNext, 3500);
     return () => clearInterval(timer);
-  }, [goNext]);
+  }, [goNext, paused]);
 
   const t = testimonials[current];
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div
+      className="w-full max-w-md mx-auto"
+      onMouseEnter={() => setPaused(true)}
+      onMouseLeave={() => setPaused(false)}
+    >
       <div className="rounded-2xl overflow-hidden border border-slate-200/80 bg-white shadow-2xl shadow-slate-200/40">
         {/* Card */}
         <div className="p-7 pb-5 flex flex-col items-center text-center">
@@ -129,7 +135,7 @@ export function SocialProofCarousel() {
             key={current}
             className="h-full bg-emerald/40"
             style={{
-              animation: "social-progress 3.5s linear forwards",
+              animation: paused ? "none" : "social-progress 3.5s linear forwards",
               width: "0%",
             }}
           />
