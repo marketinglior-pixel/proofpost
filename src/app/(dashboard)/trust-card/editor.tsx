@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
 import { AddReviewDialog } from "./add-review-dialog";
+import { AvatarCropper } from "./avatar-cropper";
 import {
   ArrowUpRight,
   Camera,
@@ -86,6 +87,7 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
   const [reviews, setReviews] = useState(initialReviews);
   const [uploadingAvatar, setUploadingAvatar] = useState(false);
   const [uploadingGallery, setUploadingGallery] = useState(false);
+  const [cropSrc, setCropSrc] = useState<string | null>(null);
   const avatarInputRef = useRef<HTMLInputElement>(null);
   const galleryInputRef = useRef<HTMLInputElement>(null);
 
@@ -108,10 +110,22 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
     return publicUrl;
   }
 
-  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+  function handleAvatarSelect(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
+    if (!file.type.startsWith("image/")) { toast.error("Please upload an image"); return; }
+    if (file.size > 5 * 1024 * 1024) { toast.error("Image must be under 5MB"); return; }
+    // Show cropper
+    const reader = new FileReader();
+    reader.onload = (ev) => setCropSrc(ev.target?.result as string);
+    reader.readAsDataURL(file);
+    if (avatarInputRef.current) avatarInputRef.current.value = "";
+  }
+
+  async function handleCropDone(blob: Blob) {
     setUploadingAvatar(true);
+    setCropSrc(null);
+    const file = new File([blob], `avatar-${Date.now()}.jpg`, { type: "image/jpeg" });
     const url = await uploadImage(file, "avatar");
     if (url) setAvatarUrl(url);
     setUploadingAvatar(false);
@@ -253,38 +267,47 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
             <h2 className="text-sm font-semibold text-slate-900">Profile</h2>
 
-            {/* Avatar / Logo upload */}
+            {/* Avatar / Logo upload with crop */}
             <div>
               <label className="text-xs text-slate-500 mb-1.5 block">Profile photo / Logo</label>
-              <div className="flex items-center gap-4">
-                {avatarUrl ? (
-                  <div className="relative">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-slate-200" />
+
+              {cropSrc ? (
+                <AvatarCropper
+                  imageSrc={cropSrc}
+                  onCropDone={handleCropDone}
+                  onCancel={() => setCropSrc(null)}
+                />
+              ) : (
+                <div className="flex items-center gap-4">
+                  {avatarUrl ? (
+                    <div className="relative">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-slate-200" />
+                      <button
+                        onClick={() => setAvatarUrl("")}
+                        className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-300">
+                      <Camera className="w-6 h-6" />
+                    </div>
+                  )}
+                  <div>
                     <button
-                      onClick={() => setAvatarUrl("")}
-                      className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600"
+                      onClick={() => avatarInputRef.current?.click()}
+                      disabled={uploadingAvatar}
+                      className="text-sm text-emerald-500 hover:text-emerald-600 font-medium"
                     >
-                      <X className="w-3 h-3" />
+                      {uploadingAvatar ? "Uploading..." : avatarUrl ? "Change photo" : "Upload photo"}
                     </button>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Drag to reposition after upload. Max 5MB.</p>
                   </div>
-                ) : (
-                  <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-300">
-                    <Camera className="w-6 h-6" />
-                  </div>
-                )}
-                <div>
-                  <button
-                    onClick={() => avatarInputRef.current?.click()}
-                    disabled={uploadingAvatar}
-                    className="text-sm text-emerald-500 hover:text-emerald-600 font-medium"
-                  >
-                    {uploadingAvatar ? "Uploading..." : avatarUrl ? "Change photo" : "Upload photo"}
-                  </button>
-                  <p className="text-[11px] text-slate-400 mt-0.5">JPG, PNG. Max 5MB.</p>
+                  <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarSelect} />
                 </div>
-                <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
-              </div>
+              )}
             </div>
 
             <div>
