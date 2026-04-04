@@ -11,7 +11,6 @@ import {
   Camera,
   Link2,
   Check,
-  Zap,
 } from "lucide-react";
 
 export default function GoLandingPage() {
@@ -42,12 +41,6 @@ export default function GoLandingPage() {
           <div className="grid lg:grid-cols-[1fr_340px] gap-12 lg:gap-20 items-center">
             {/* Left: Copy */}
             <div className="space-y-6 min-w-0">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald/10 text-emerald text-[12px] font-semibold">
-                <Zap className="w-3.5 h-3.5" />
-                Early Bird — $69 Lifetime Deal (Limited)
-              </div>
-
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.15] text-slate-900 tracking-tight">
                 Clients Google you before they call.{" "}
                 <span className="text-emerald hand-underline">
