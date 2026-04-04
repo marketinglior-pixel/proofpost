@@ -57,10 +57,10 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(url);
     }
 
-    // Redirect authenticated users away from login
+    // Redirect authenticated users away from login → Trust Card
     if (isAuthPage && user) {
       const url = request.nextUrl.clone();
-      url.pathname = "/dashboard";
+      url.pathname = "/trust-card";
       return NextResponse.redirect(url);
     }
   }

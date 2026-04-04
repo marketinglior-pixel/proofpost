@@ -34,9 +34,16 @@ export default async function DashboardPage() {
     .select("*", { count: "exact", head: true })
     .eq("user_id", user!.id);
 
-  // Redirect new users to onboarding
-  if (!brandKit && (contentCount ?? 0) === 0) {
-    redirect("/onboarding");
+  // Check if user has a Trust Card — if not, send them to create one
+  const { data: trustCard } = await supabase
+    .from("trust_cards")
+    .select("id")
+    .eq("user_id", user!.id)
+    .limit(1)
+    .single();
+
+  if (!trustCard) {
+    redirect("/trust-card/setup");
   }
 
   // Monthly impressions

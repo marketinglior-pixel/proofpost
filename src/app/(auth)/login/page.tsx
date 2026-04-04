@@ -34,7 +34,7 @@ export default function LoginPage() {
         setMessage({ type: "error", text: error.message });
       } else {
         posthog.capture("user_logged_in", { method: "email" });
-        window.location.href = "/dashboard";
+        window.location.href = "/trust-card";
       }
     } else {
       const { error } = await supabase.auth.signUp({

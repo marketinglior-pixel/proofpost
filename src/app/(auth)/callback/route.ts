@@ -9,7 +9,7 @@ const NOTIFY_TO = process.env.FEEDBACK_EMAIL || "lior@proofpst.com";
 export async function GET(request: Request) {
   const { searchParams, origin } = new URL(request.url);
   const code = searchParams.get("code");
-  const next = searchParams.get("next") ?? "/onboarding";
+  const next = searchParams.get("next") ?? "/trust-card";
 
   if (code) {
     const cookieStore = await cookies();
