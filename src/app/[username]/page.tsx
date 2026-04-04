@@ -146,6 +146,25 @@ export default async function TrustCardPage({ params }: PageProps) {
               )}
             </div>
 
+            {/* Business Gallery */}
+            {Array.isArray(card.portfolio) && (card.portfolio as string[]).length > 0 && (
+              <div className="mt-6 rounded-2xl border border-slate-100 bg-slate-50/50 p-4">
+                <p className="text-[10px] uppercase tracking-[0.15em] text-slate-400 font-semibold mb-3">Gallery</p>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {(card.portfolio as string[]).slice(0, 5).map((url: string, i: number) => (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={i}
+                      src={url}
+                      alt=""
+                      className="w-full aspect-square object-cover rounded-lg"
+                      loading="lazy"
+                    />
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Desktop watermark */}
             <div className="hidden md:block mt-6 text-center">
               <a

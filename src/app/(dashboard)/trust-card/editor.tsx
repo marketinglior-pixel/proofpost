@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,14 +9,17 @@ import { toast } from "sonner";
 import { AddReviewDialog } from "./add-review-dialog";
 import {
   ArrowUpRight,
+  Camera,
   Check,
   Copy,
   Eye,
   EyeOff,
   ExternalLink,
+  ImagePlus,
   Loader2,
   Save,
   BarChart3,
+  X,
 } from "lucide-react";
 
 const PROOFPOST_HOST = "https://proofpst.com";
@@ -34,6 +37,7 @@ interface TrustCard {
   headline: string | null;
   bio: string | null;
   avatar_url: string | null;
+  portfolio: unknown;
   cta_label: string;
   cta_url: string | null;
   cta_type: string;
@@ -69,11 +73,67 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
   const [ctaLabel, setCtaLabel] = useState(trustCard.cta_label || "Book a Call");
   const [accentColor, setAccentColor] = useState(trustCard.accent_color || "#10B981");
   const [theme, setTheme] = useState(trustCard.theme || "dark");
+  const [avatarUrl, setAvatarUrl] = useState(trustCard.avatar_url || "");
+  const [portfolio, setPortfolio] = useState<string[]>(
+    Array.isArray(trustCard.portfolio) ? (trustCard.portfolio as string[]) : []
+  );
   const [saving, setSaving] = useState(false);
   const [copied, setCopied] = useState(false);
   const [reviews, setReviews] = useState(initialReviews);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [uploadingGallery, setUploadingGallery] = useState(false);
+  const avatarInputRef = useRef<HTMLInputElement>(null);
+  const galleryInputRef = useRef<HTMLInputElement>(null);
 
   const trustCardUrl = `${PROOFPOST_HOST}/${trustCard.username}`;
+
+  async function uploadImage(file: File, folder: string): Promise<string | null> {
+    if (!file.type.startsWith("image/")) { toast.error("Please upload an image"); return null; }
+    if (file.size > 5 * 1024 * 1024) { toast.error("Image must be under 5MB"); return null; }
+
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${trustCard.user_id}/${folder}/${Date.now()}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from("review-images")
+      .upload(path, file, { contentType: file.type });
+
+    if (error) { toast.error("Upload failed: " + error.message); return null; }
+
+    const { data: { publicUrl } } = supabase.storage.from("review-images").getPublicUrl(path);
+    return publicUrl;
+  }
+
+  async function handleAvatarUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadingAvatar(true);
+    const url = await uploadImage(file, "avatar");
+    if (url) setAvatarUrl(url);
+    setUploadingAvatar(false);
+  }
+
+  async function handleGalleryUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = e.target.files;
+    if (!files) return;
+    if (portfolio.length + files.length > 5) {
+      toast.error("Maximum 5 gallery photos");
+      return;
+    }
+    setUploadingGallery(true);
+    const newUrls: string[] = [];
+    for (const file of Array.from(files)) {
+      const url = await uploadImage(file, "gallery");
+      if (url) newUrls.push(url);
+    }
+    setPortfolio((prev) => [...prev, ...newUrls]);
+    setUploadingGallery(false);
+    if (galleryInputRef.current) galleryInputRef.current.value = "";
+  }
+
+  function removeGalleryImage(index: number) {
+    setPortfolio((prev) => prev.filter((_, i) => i !== index));
+  }
 
   async function handleSave() {
     setSaving(true);
@@ -84,6 +144,8 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
           display_name: displayName,
           headline: headline || null,
           bio: bio || null,
+          avatar_url: avatarUrl || null,
+          portfolio: portfolio,
           cta_url: ctaUrl || null,
           cta_label: ctaLabel || "Book a Call",
           accent_color: accentColor,
@@ -186,6 +248,40 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
             <h2 className="text-sm font-semibold text-slate-900">Profile</h2>
 
+            {/* Avatar / Logo upload */}
+            <div>
+              <label className="text-xs text-slate-500 mb-1.5 block">Profile photo / Logo</label>
+              <div className="flex items-center gap-4">
+                {avatarUrl ? (
+                  <div className="relative">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={avatarUrl} alt="Avatar" className="w-16 h-16 rounded-full object-cover border-2 border-slate-200" />
+                    <button
+                      onClick={() => setAvatarUrl("")}
+                      className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-300">
+                    <Camera className="w-6 h-6" />
+                  </div>
+                )}
+                <div>
+                  <button
+                    onClick={() => avatarInputRef.current?.click()}
+                    disabled={uploadingAvatar}
+                    className="text-sm text-emerald-500 hover:text-emerald-600 font-medium"
+                  >
+                    {uploadingAvatar ? "Uploading..." : avatarUrl ? "Change photo" : "Upload photo"}
+                  </button>
+                  <p className="text-[11px] text-slate-400 mt-0.5">JPG, PNG. Max 5MB.</p>
+                </div>
+                <input ref={avatarInputRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
+              </div>
+            </div>
+
             <div>
               <label className="text-xs text-slate-500 mb-1 block">Display name</label>
               <Input value={displayName} onChange={(e) => setDisplayName(e.target.value)} maxLength={100} />
@@ -200,6 +296,60 @@ export function TrustCardEditor({ trustCard, reviews: initialReviews, viewCount 
               <label className="text-xs text-slate-500 mb-1 block">Bio</label>
               <Textarea value={bio} onChange={(e) => setBio(e.target.value)} placeholder="Short description about you" className="min-h-[80px] resize-none" maxLength={300} />
             </div>
+          </div>
+
+          {/* Business Gallery */}
+          <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm font-semibold text-slate-900">Business Gallery</h2>
+              <span className="text-[11px] text-slate-400">{portfolio.length}/5 photos</span>
+            </div>
+
+            {/* Gallery grid */}
+            {portfolio.length > 0 && (
+              <div className="grid grid-cols-3 gap-2">
+                {portfolio.map((url, i) => (
+                  <div key={i} className="relative rounded-lg overflow-hidden aspect-square group">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={url} alt="" className="w-full h-full object-cover" />
+                    <button
+                      onClick={() => removeGalleryImage(i)}
+                      className="absolute top-1 right-1 w-6 h-6 bg-black/50 rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="w-3 h-3" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Upload button */}
+            {portfolio.length < 5 && (
+              <>
+                <button
+                  onClick={() => galleryInputRef.current?.click()}
+                  disabled={uploadingGallery}
+                  className="w-full h-20 border-2 border-dashed border-slate-200 rounded-lg flex items-center justify-center gap-2 text-slate-400 hover:border-emerald-300 hover:text-emerald-500 transition-colors"
+                >
+                  {uploadingGallery ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      <ImagePlus className="w-5 h-5" />
+                      <span className="text-xs font-medium">Add photos of your work, office, or team</span>
+                    </>
+                  )}
+                </button>
+                <input
+                  ref={galleryInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleGalleryUpload}
+                />
+              </>
+            )}
           </div>
 
           <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
