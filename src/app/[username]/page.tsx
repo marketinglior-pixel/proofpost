@@ -37,7 +37,7 @@ async function getTrustCardData(username: string) {
     .limit(1)
     .single();
 
-  const reviewLimit = profile?.plan === "pro" ? 1000 : 15;
+  const reviewLimit = profile?.plan === "pro" ? 1000 : 5;
 
   const { data: reviews } = await supabase
     .from("imported_reviews")

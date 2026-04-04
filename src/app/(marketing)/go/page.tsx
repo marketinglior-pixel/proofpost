@@ -357,7 +357,7 @@ export default function GoLandingPage() {
               },
               {
                 q: "Is there a free option?",
-                a: "Yes. The free tier includes 1 Trust Card with up to 15 reviews and a small ProofPost watermark. Upgrade to the LTD to remove the watermark and unlock unlimited reviews.",
+                a: "Yes. The free tier includes 1 Trust Card with up to 5 featured reviews and a small ProofPost watermark. Upgrade to the LTD to remove the watermark and unlock unlimited reviews.",
               },
             ].map((faq, i) => (
               <details key={i} className="group">

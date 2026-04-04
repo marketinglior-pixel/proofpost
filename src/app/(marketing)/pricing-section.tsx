@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const freeFeatures = [
   "1 Trust Card page",
-  "Up to 15 verified reviews",
+  "Up to 5 featured reviews",
   "Google & G2 import",
   "Manual upload (screenshots, DMs)",
   "Mobile-first design",
