@@ -56,8 +56,8 @@ export default function GoLandingPage() {
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                Create a verified Trust Card that showcases your real reviews.
-                One link in your bio. Instant credibility. Set up in 60 seconds.
+                No domain. No tech skills. Just your reviews on a premium page
+                that closes deals. One link in your bio. Live in 60 seconds.
               </p>
 
               {/* CTA */}
@@ -136,6 +136,26 @@ export default function GoLandingPage() {
         </div>
       </section>
 
+      {/* ============ NO DOMAIN, NO TECH — Trust Strip ============ */}
+      <section className="bg-white border-y border-slate-100 py-10">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8 text-center">
+            {[
+              { icon: "🚫", label: "No Domain", sub: "We host it for you" },
+              { icon: "🔌", label: "No Tech Skills", sub: "Zero code required" },
+              { icon: "⚡", label: "Live in 60s", sub: "Faster than making coffee" },
+              { icon: "📈", label: "Boost Sales", sub: "Proof that closes deals" },
+            ].map((item) => (
+              <div key={item.label} className="space-y-2">
+                <span className="text-[28px]">{item.icon}</span>
+                <p className="text-[15px] font-semibold text-slate-900">{item.label}</p>
+                <p className="text-[12px] text-slate-400">{item.sub}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ PROBLEM ============ */}
       <section className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-6">
@@ -179,10 +199,10 @@ export default function GoLandingPage() {
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-14">
             <h2 className="text-[32px] font-bold text-slate-900 tracking-tight">
-              Your premium trust page. 60 seconds.
+              No domain. No developer. No problem.
             </h2>
             <p className="text-[17px] text-slate-500 max-w-md mx-auto">
-              No website needed. No design skills. Just results.
+              Upload your reviews, customize the look, share one link. That&apos;s it.
             </p>
           </div>
 
