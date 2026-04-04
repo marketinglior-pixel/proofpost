@@ -1,6 +1,7 @@
 "use client";
 
 import { ArrowRight } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface TrustCardCtaProps {
   label: string;
@@ -9,6 +10,14 @@ interface TrustCardCtaProps {
 }
 
 export function TrustCardCta({ label, url, accentColor }: TrustCardCtaProps) {
+  const [isIframe, setIsIframe] = useState(false);
+
+  useEffect(() => {
+    setIsIframe(window.self !== window.top);
+  }, []);
+
+  if (isIframe) return null;
+
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50">
       <div className="h-6 bg-gradient-to-t from-white to-transparent pointer-events-none" />

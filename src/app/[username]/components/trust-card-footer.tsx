@@ -1,4 +1,7 @@
+"use client";
+
 import { Star } from "lucide-react";
+import { useEffect, useState } from "react";
 
 interface TrustCardFooterProps {
   isPro: boolean;
@@ -6,6 +9,14 @@ interface TrustCardFooterProps {
 }
 
 export function TrustCardFooter({ isPro, username }: TrustCardFooterProps) {
+  const [isIframe, setIsIframe] = useState(false);
+
+  useEffect(() => {
+    setIsIframe(window.self !== window.top);
+  }, []);
+
+  if (isIframe) return null;
+
   return (
     <footer className="border-t border-slate-100 py-8 mt-8">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 flex items-center justify-center">
