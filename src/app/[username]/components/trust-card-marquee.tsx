@@ -111,7 +111,7 @@ export function TrustCardMarquee({ reviews, accentColor }: TrustCardMarqueeProps
       {/* Marquee container with edge masks */}
       <div className="relative" style={{ maskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)", WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 5%, black 95%, transparent 100%)" }}>
         {/* Row 1 — scrolls left */}
-        <div className="flex gap-4 mb-4 w-max animate-marquee-left hover:[animation-play-state:paused]">
+        <div className="flex gap-4 mb-4 w-max animate-marquee-left">
           {duped1.map((r, i) => (
             <ReviewCard key={`r1-${i}`} review={r} accentColor={accentColor} />
           ))}
@@ -119,7 +119,7 @@ export function TrustCardMarquee({ reviews, accentColor }: TrustCardMarqueeProps
 
         {/* Row 2 — scrolls right */}
         {duped2.length > 0 && (
-          <div className="flex gap-4 w-max animate-marquee-right hover:[animation-play-state:paused]">
+          <div className="flex gap-4 w-max animate-marquee-right">
             {duped2.map((r, i) => (
               <ReviewCard key={`r2-${i}`} review={r} accentColor={accentColor} />
             ))}
@@ -140,6 +140,10 @@ export function TrustCardMarquee({ reviews, accentColor }: TrustCardMarqueeProps
           }
           .animate-marquee-right {
             animation: marquee-right 45s linear infinite;
+          }
+          .animate-marquee-left:hover,
+          .animate-marquee-right:hover {
+            animation-play-state: paused;
           }
         `}</style>
       </div>

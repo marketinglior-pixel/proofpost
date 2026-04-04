@@ -80,7 +80,7 @@ export default async function PricingPage({
       {discountCode && (
         <div className="rounded-lg bg-emerald/10 border border-emerald/20 px-3 sm:px-5 py-3 text-center">
           <p className="text-[14px] font-medium text-emerald">
-            Discount code <span className="font-bold">{discountCode}</span> applied — 30% off forever!
+            Discount code <span className="font-bold">{discountCode}</span> applied!
           </p>
         </div>
       )}

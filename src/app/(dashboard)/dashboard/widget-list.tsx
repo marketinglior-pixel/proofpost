@@ -31,7 +31,7 @@ interface EmbedItem {
   createdAt: string;
 }
 
-type WidgetStyle = "carousel" | "marquee" | "grid" | "stack";
+type WidgetStyle = "carousel" | "marquee" | "grid" | "stack" | "badge";
 
 export function WidgetList({ items }: { items: EmbedItem[] }) {
   const router = useRouter();
@@ -50,6 +50,9 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
   const hasMultipleSingles = singleItems.length >= 2;
 
   function getEmbedCode(id: string, style: WidgetStyle) {
+    if (style === "badge") {
+      return `<iframe src="${PROOFPOST_HOST}/embed/${id}?style=badge" style="position:fixed;bottom:0;left:0;width:380px;height:500px;border:none;z-index:9999;" allowtransparency="true"></iframe>`;
+    }
     if (style === "carousel") {
       return `<script src="${PROOFPOST_HOST}/embed.js" data-proofpost-id="${id}"></script>`;
     }
@@ -302,12 +305,13 @@ export function WidgetList({ items }: { items: EmbedItem[] }) {
               <span className="text-[12px] font-medium text-slate-500">
                 Style:
               </span>
-              <div className="grid grid-cols-2 sm:flex rounded-lg border border-slate-200 overflow-hidden">
+              <div className="grid grid-cols-3 sm:flex rounded-lg border border-slate-200 overflow-hidden">
                 {([
                   { value: "carousel", label: "Carousel" },
                   { value: "marquee", label: "Marquee" },
                   { value: "grid", label: "Grid" },
                   { value: "stack", label: "Stack" },
+                  { value: "badge", label: "Badge" },
                 ] as const).map((opt, i) => (
                   <button
                     key={opt.value}
