@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
@@ -9,7 +9,7 @@ import { ArrowRight, Loader2, Star, ShieldCheck } from "lucide-react";
 import posthog from "posthog-js";
 import { trackFbEvent, trackLinkedinConversion } from "@/components/ad-tracking-pixels";
 
-export default function LoginPage() {
+function LoginForm() {
   const searchParams = useSearchParams();
   const defaultMode = searchParams.get("mode");
 
@@ -247,5 +247,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   );
 }
