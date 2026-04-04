@@ -171,7 +171,7 @@ export default function GoLandingPage() {
               {
                 emoji: "💸",
                 quote: "\"I pay $29/mo for a widget nobody sees\"",
-                desc: "Static testimonial grids buried on your website. You need proof where clients actually look — in your bio link.",
+                desc: "Static testimonial grids buried on your website. You need proof where clients actually look. In your bio link.",
               },
             ].map((card) => (
               <div
@@ -250,10 +250,10 @@ export default function GoLandingPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="text-center mb-12">
             <h2 className="text-[28px] font-bold text-slate-900 tracking-tight">
-              Looks incredible on every screen.
+              Looks good on every screen.
             </h2>
             <p className="text-[17px] text-slate-500 mt-3 max-w-md mx-auto">
-              Premium design that adapts from mobile to desktop. Your clients see credibility instantly.
+              Clean design. Works on mobile and desktop. Clients see your proof the second they open it.
             </p>
           </div>
           <MacbookMockup src="/lio" />
@@ -325,7 +325,7 @@ export default function GoLandingPage() {
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
             <p className="text-[12px] text-slate-400 mt-3">
-              Or start free — upgrade when you are ready.
+              Or start free. Upgrade when you&apos;re ready.
             </p>
           </div>
         </div>
@@ -341,11 +341,11 @@ export default function GoLandingPage() {
             {[
               {
                 q: "What is a Trust Card?",
-                a: "A premium, standalone page that showcases your verified reviews, bio, and a CTA button. Think of it as a credibility landing page you share via one link — in your bio, DMs, email signature, or business cards.",
+                a: "A standalone page that shows your verified reviews, bio, and a CTA button. Think of it as a credibility page you share via one link. Bio, DMs, email signature, business cards.",
               },
               {
                 q: "Where do the reviews come from?",
-                a: "Import automatically from Google Business and G2. Or upload manually — WhatsApp screenshots, DMs, video testimonials, anything. Every review gets a \"ProofPost Approved\" badge.",
+                a: "Import automatically from Google Business and G2. Or upload manually: WhatsApp screenshots, DMs, video testimonials, anything. Every review gets a \"ProofPost Approved\" badge.",
               },
               {
                 q: "Do I need a website?",
@@ -353,7 +353,7 @@ export default function GoLandingPage() {
               },
               {
                 q: "What does \"Lifetime Deal\" mean?",
-                a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this price to early adopters only — the regular price will be $18/month.",
+                a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this to early adopters only. Regular price will be $18/month.",
               },
               {
                 q: "Is there a free option?",
@@ -380,14 +380,14 @@ export default function GoLandingPage() {
             Your best clients already trust you. Show the rest.
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-md mx-auto leading-relaxed">
-            One link. Verified reviews. Premium credibility. Set up in 60 seconds.
+            One link. Verified reviews. Real credibility. Set up in 60 seconds.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Get Lifetime Access — $69
+              Get Lifetime Access for $69
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </div>
