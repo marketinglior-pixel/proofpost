@@ -66,7 +66,7 @@ export default function GoLandingPage() {
                   href="/login"
                   className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Create Your Trust Card — $69 One-Time
+                  Create Your Trust Card for Free
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
