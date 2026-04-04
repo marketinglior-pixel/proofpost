@@ -49,9 +49,9 @@ export default function GoLandingPage() {
               </div>
 
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.15] text-slate-900 tracking-tight">
-                You charge premium prices.{" "}
+                Clients Google you before they call.{" "}
                 <span className="text-emerald hand-underline">
-                  Your proof should match.
+                  What do they find?
                 </span>
               </h1>
 
