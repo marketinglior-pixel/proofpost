@@ -87,7 +87,7 @@ export function PricingSection() {
               <span className="text-slate-500 text-sm">one-time</span>
             </div>
             <p className="text-[13px] text-slate-400 mt-1">
-              Future price: $18/mo. Lock in now.
+              Future price: $29/mo. Lock in now.
             </p>
           </div>
 

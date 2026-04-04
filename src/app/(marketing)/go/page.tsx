@@ -72,7 +72,7 @@ export default function GoLandingPage() {
               </div>
 
               <p className="text-sm text-slate-400">
-                Free tier available. No credit card required. Future price: $18/mo.
+                Free tier available. No credit card required. Future price: $29/mo.
               </p>
 
               {/* Social proof strip */}
@@ -323,7 +323,7 @@ export default function GoLandingPage() {
               <span className="text-[56px] font-bold text-slate-900 tabular-nums">$69</span>
               <span className="text-slate-400 text-lg">one-time</span>
             </div>
-            <p className="text-[13px] text-slate-500 mt-2">Future price: $18/mo. Lock in lifetime access now.</p>
+            <p className="text-[13px] text-slate-500 mt-2">Future price: $29/mo. Lock in lifetime access now.</p>
             <Link
               href="/login"
               className="mt-6 flex items-center justify-center gap-2 w-full h-14 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-2xl transition-colors duration-200 glow-emerald"
