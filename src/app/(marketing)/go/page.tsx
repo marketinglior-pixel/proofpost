@@ -27,7 +27,7 @@ const valueStack = [
     featured: true,
     bullets: [
       "Premium verified proof page at proofpst.com/yourname",
-      "Live in 60 seconds — no code, no designer, no hosting",
+      "Live in 60 seconds. No code, no designer, no hosting",
       "Glassmorphism design, mobile-first, animated carousel",
       "Import reviews from anywhere (Google, G2, screenshots, DMs)",
       "Clean URL you can drop in any DM or bio",
@@ -42,7 +42,7 @@ const valueStack = [
     bullets: [
       "AI reads every review and pulls the one sentence that sells",
       "Turns bland \"great to work with\" into specific, compelling proof",
-      "You don't pick — the algorithm finds your money line",
+      "You don't pick. The algorithm finds your money line",
     ],
   },
   {
@@ -53,7 +53,7 @@ const valueStack = [
     featured: false,
     bullets: [
       "Every testimonial displays a Verified badge with source attribution",
-      "Prospects know it's real — not fabricated, not a screenshot",
+      "Prospects know it's real. Not fabricated, not a screenshot",
       "Can't be faked. Can't be DIY'd. Built into every Trust Card",
     ],
   },
@@ -65,7 +65,7 @@ const valueStack = [
     featured: false,
     bullets: [
       "3 email templates + 2 DM scripts to get 5 reviews this week",
-      "The \"featured client\" reframe — clients say yes because it benefits them",
+      "The \"featured client\" reframe (clients say yes because it benefits them)",
       "Exact follow-up message if they don't respond in 48 hours",
     ],
   },
@@ -77,7 +77,7 @@ const valueStack = [
     featured: false,
     bullets: [
       "4 copy-paste scripts: cold DM, warm reply, \"show me results,\" proposal follow-up",
-      "Share your proof naturally in any conversation — without feeling salesy",
+      "Share your proof naturally in any conversation, without feeling salesy",
     ],
   },
   {
@@ -87,7 +87,7 @@ const valueStack = [
     value: "$47",
     featured: false,
     bullets: [
-      "The 7 places your Trust Card link should live — so proof works 24/7",
+      "The 7 places your Trust Card link should live, so proof works 24/7",
       "IG bio, email signature, Calendly, LinkedIn, and 3 more most people miss",
     ],
   },
@@ -127,15 +127,15 @@ const faqs = [
   },
   {
     q: "What is a Trust Card?",
-    a: "A standalone page that shows your verified reviews, bio, and a CTA button — hosted at proofpst.com/yourname. Think of it as a credibility page you drop in any DM, bio, or email signature. No website needed.",
+    a: "A standalone page that shows your verified reviews, bio, and a CTA button, hosted at proofpst.com/yourname. Think of it as a credibility page you drop in any DM, bio, or email signature. No website needed.",
   },
   {
     q: "Where do the reviews come from?",
-    a: "Import automatically from Google Business and G2. Or upload manually: WhatsApp screenshots, DMs, video testimonials — anything. Every review gets a verified badge.",
+    a: "Import automatically from Google Business and G2. Or upload manually: WhatsApp screenshots, DMs, video testimonials, anything. Every review gets a verified badge.",
   },
   {
     q: "What does \"Lifetime Deal\" mean?",
-    a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this to early adopters only — regular price will be $29/mo.",
+    a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this to early adopters only. Regular price will be $29/mo.",
   },
   {
     q: "Do I need a website?",
@@ -143,7 +143,7 @@ const faqs = [
   },
   {
     q: "What if I don't have enough testimonials?",
-    a: "The Testimonial Request Kit (included as a bonus) gives you 3 email templates and 2 DM scripts designed to get you 5 testimonials this week. Most people have happy clients — they just haven't asked the right way.",
+    a: "The Testimonial Request Kit (included as a bonus) gives you 3 email templates and 2 DM scripts designed to get you 5 testimonials this week. Most people have happy clients. They just haven't asked the right way.",
   },
 ];
 
@@ -186,7 +186,7 @@ export default function GoLandingPage() {
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-lg leading-relaxed">
                 The DM Closer Kit gives you a verified proof page, AI-powered
-                hooks, and done-for-you templates — so your next &quot;show me
+                hooks, and done-for-you templates, so your next &quot;show me
                 results&quot; DM ends with &quot;when can we start?&quot;
               </p>
 
@@ -196,7 +196,7 @@ export default function GoLandingPage() {
                   href="/login"
                   className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Get The DM Closer Kit — $69
+                  Get The DM Closer Kit | $69
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
@@ -410,7 +410,7 @@ export default function GoLandingPage() {
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Get The DM Closer Kit — $69
+              Get The DM Closer Kit | $69
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </div>
@@ -441,8 +441,8 @@ export default function GoLandingPage() {
               </h3>
               <p className="text-[14px] text-slate-600 leading-relaxed">
                 Import 5 reviews. Share your Trust Card in 3 conversations. If
-                your prospects don&apos;t react differently — if nobody treats
-                you more seriously — email us for a full refund. No hoops. No
+                your prospects don&apos;t react differently, if nobody treats
+                you more seriously, email us for a full refund. No hoops. No
                 forms. No guilt trip.
               </p>
             </div>
@@ -464,7 +464,7 @@ export default function GoLandingPage() {
               <p className="text-[14px] text-slate-600 leading-relaxed">
                 If your Trust Card isn&apos;t converting, we&apos;ll personally
                 rewrite your hooks, rearrange your layout, and optimize it until
-                it works. You paid $69 — we&apos;ll put in $500 worth of work if
+                it works. You paid $69. We&apos;ll put in $500 worth of work if
                 that&apos;s what it takes.
               </p>
             </div>
@@ -538,15 +538,15 @@ export default function GoLandingPage() {
           </h2>
           <p className="mt-4 text-[17px] text-slate-400 max-w-lg mx-auto leading-relaxed">
             The question isn&apos;t whether you need this. It&apos;s whether
-            you&apos;ll have it before your next &quot;show me results&quot; DM
-            — or after you lose that deal.
+            you&apos;ll have it before your next &quot;show me results&quot; DM,
+            or after you lose that deal.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
             <Link
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Get The DM Closer Kit — $69
+              Get The DM Closer Kit | $69
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </div>
@@ -557,7 +557,7 @@ export default function GoLandingPage() {
       </section>
 
       {/* Sticky Mobile CTA */}
-      <StickyMobileCTA label="Get The DM Closer Kit — $69" />
+      <StickyMobileCTA label="Get The DM Closer Kit | $69" />
 
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-slate-50">
