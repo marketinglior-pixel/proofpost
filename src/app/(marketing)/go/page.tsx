@@ -185,9 +185,8 @@ export default function GoLandingPage() {
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-lg leading-relaxed">
-                The DM Closer Kit gives you a verified proof page, AI-powered
-                hooks, and done-for-you templates, so your next &quot;show me
-                results&quot; DM ends with &quot;when can we start?&quot;
+                Drop this link in your next &quot;show me results&quot; DM.
+                Watch it turn into &quot;when can we start?&quot;
               </p>
 
               {/* CTA */}
@@ -203,6 +202,15 @@ export default function GoLandingPage() {
 
               <p className="text-sm text-slate-400">
                 One payment. Lifetime access. 60-second setup.
+              </p>
+
+              <p className="text-sm">
+                <Link
+                  href="/create"
+                  className="text-emerald hover:text-emerald-dark font-medium transition-colors duration-200"
+                >
+                  or try free first &rarr;
+                </Link>
               </p>
 
               {/* Trust line */}
@@ -256,6 +264,31 @@ export default function GoLandingPage() {
         </div>
       </section>
 
+      {/* ============ TRUST SIGNALS STRIP ============ */}
+      <section className="border-y border-slate-100 bg-slate-50/50">
+        <div className="max-w-4xl mx-auto px-6 py-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2">
+            {[
+              { icon: Zap, text: "60-second setup" },
+              { icon: ShieldCheck, text: "Verified reviews" },
+              { icon: Sparkles, text: "No website needed" },
+              { icon: CreditCard, text: "One payment, forever" },
+            ].map((item) => (
+              <div
+                key={item.text}
+                className="flex items-center gap-2 text-[13px] text-slate-500"
+              >
+                <item.icon
+                  className="w-3.5 h-3.5 text-emerald"
+                  aria-hidden="true"
+                />
+                <span>{item.text}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ============ PROBLEM / PAIN AGITATION ============ */}
       <section className="bg-white py-20">
         <div className="max-w-4xl mx-auto px-6">
@@ -297,6 +330,84 @@ export default function GoLandingPage() {
                 </p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ============ BEFORE / AFTER ============ */}
+      <section className="bg-white py-20">
+        <div className="max-w-5xl mx-auto px-6">
+          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-4">
+            One looks cheap. One closes deals.
+          </h2>
+          <p className="text-center text-slate-500 text-[15px] mb-12 max-w-md mx-auto">
+            Same testimonials. Same results. Completely different first
+            impression.
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-6 sm:gap-8 items-start">
+            {/* BEFORE — ugly Google Doc mockup */}
+            <div className="space-y-3">
+              <p className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider text-center">
+                What you&apos;re sending now
+              </p>
+              <div className="rounded-xl border-2 border-red-200/60 bg-white p-1 shadow-sm">
+                <div className="rounded-lg bg-slate-50 overflow-hidden">
+                  {/* Google Doc toolbar mockup */}
+                  <div className="flex items-center gap-2 px-4 py-2 bg-white border-b border-slate-200">
+                    <div className="flex gap-1.5">
+                      <div className="w-2.5 h-2.5 rounded-full bg-red-400" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                      <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+                    </div>
+                    <span className="text-[10px] text-slate-400 ml-2 font-mono">
+                      docs.google.com/document/d/untitled
+                    </span>
+                  </div>
+                  {/* Doc content */}
+                  <div className="p-5 sm:p-6 space-y-4 font-mono text-[12px] sm:text-[13px] text-slate-500 leading-relaxed">
+                    <p className="text-slate-400 text-[11px]">
+                      Untitled document
+                    </p>
+                    <p className="font-sans font-semibold text-slate-700 text-[14px]">
+                      Client Testimonials
+                    </p>
+                    <div className="space-y-3">
+                      <p>
+                        &quot;Working with Alex was great. Very professional and
+                        delivered on time. Would recommend to anyone looking for
+                        ghostwriting help.&quot;
+                      </p>
+                      <p className="text-slate-400">- Sarah M.</p>
+                    </div>
+                    <div className="border-t border-dashed border-slate-200 pt-3 space-y-3">
+                      <p>
+                        &quot;Alex helped me with my LinkedIn content. Got good
+                        results. Happy with the work.&quot;
+                      </p>
+                      <p className="text-slate-400">- Mike R.</p>
+                    </div>
+                    <div className="border-t border-dashed border-slate-200 pt-3 space-y-3">
+                      <p className="text-slate-300 italic">
+                        [Add more testimonials here...]
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* AFTER — real Trust Card in iPhone */}
+            <div className="space-y-3">
+              <p className="text-[12px] font-semibold text-emerald uppercase tracking-wider text-center">
+                What you could be sending
+              </p>
+              <div className="rounded-xl border-2 border-emerald/20 bg-emerald/[0.02] p-6 sm:p-8 flex justify-center shadow-sm">
+                <div className="scale-[0.85] sm:scale-100 origin-top">
+                  <IPhoneMockup src="/lio" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

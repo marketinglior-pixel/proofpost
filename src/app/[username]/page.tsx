@@ -168,13 +168,13 @@ export default async function TrustCardPage({ params }: PageProps) {
             {/* Desktop watermark */}
             <div className="hidden md:block mt-6 text-center">
               <a
-                href={`https://proofpst.com/go?ref=${username}`}
+                href={`https://proofpst.com/create?utm_source=watermark&utm_medium=trust-card&ref=${username}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 text-[11px] text-slate-300 hover:text-slate-400 transition-colors"
               >
                 <Star className="w-3 h-3" />
-                Powered by ProofPost
+                Built with ProofPost &mdash; Create yours in 60s
               </a>
             </div>
           </div>

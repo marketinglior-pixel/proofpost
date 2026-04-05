@@ -26,7 +26,7 @@ export function TrustCardFooter({ isPro, username }: TrustCardFooterProps) {
           </p>
         ) : (
           <a
-            href={`https://proofpst.com/go?ref=${username}`}
+            href={`https://proofpst.com/create?utm_source=watermark&utm_medium=trust-card&ref=${username}`}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-[12px] text-slate-400 hover:text-slate-500 transition-colors"
