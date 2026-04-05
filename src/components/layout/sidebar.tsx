@@ -23,6 +23,7 @@ import {
   BadgeCheck,
   ChevronDown,
   Code2,
+  Gift,
 } from "lucide-react";
 import { signOut } from "@/app/(dashboard)/actions";
 import posthog from "posthog-js";
@@ -59,6 +60,7 @@ const embedGroup: NavGroup = {
 const secondaryItems: NavItem[] = [
   { label: "Forms", href: "/forms", icon: FileText },
   { label: "Analytics", href: "/analytics", icon: BarChart3 },
+  { label: "Bonuses", href: "/bonuses", icon: Gift },
   { label: "Brand Kit", href: "/brand-kit", icon: Palette },
   { label: "Settings", href: "/settings", icon: Settings },
 ];
