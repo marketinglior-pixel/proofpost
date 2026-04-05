@@ -27,7 +27,7 @@ export function StickyMobileCTA() {
           href="/login"
           className="flex items-center justify-center gap-2 w-full h-12 bg-emerald hover:bg-emerald-dark text-white text-[14px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
         >
-          Try Free — No Card Required
+          Create Your Free Trust Card
           <ArrowRight className="w-4 h-4" aria-hidden="true" />
         </Link>
       </div>

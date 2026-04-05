@@ -1,12 +1,10 @@
 import Link from "next/link";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
 import { IPhoneMockup } from "./iphone-mockup";
-import { MacbookMockup } from "./macbook-mockup";
 import {
   ArrowRight,
   Star,
   ShieldCheck,
-  Clock,
   Sparkles,
   Camera,
   Link2,
@@ -29,7 +27,7 @@ export default function GoLandingPage() {
             href="/login"
             className="text-sm font-medium text-white bg-emerald hover:bg-emerald-dark px-5 py-2.5 rounded-lg transition-colors duration-200 glow-emerald"
           >
-            Try Free
+            Create Free Trust Card
           </Link>
         </div>
       </header>
@@ -42,15 +40,16 @@ export default function GoLandingPage() {
             {/* Left: Copy */}
             <div className="space-y-6 min-w-0">
               <h1 className="font-bold text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.15] text-slate-900 tracking-tight">
-                Clients Google you before they call.{" "}
+                Premium Service Deserves{" "}
                 <span className="text-emerald hand-underline">
-                  What do they find?
+                  Premium Proof.
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-500 max-w-md leading-relaxed">
-                No domain. No tech skills. Just your reviews on a premium page
-                that closes deals. One link in your bio. Live in 60 seconds.
+                One beautiful page with your best reviews. Drop it in your bio,
+                DMs, or email signature. Clients see your proof instantly. No
+                website needed.
               </p>
 
               {/* CTA */}
@@ -59,37 +58,21 @@ export default function GoLandingPage() {
                   href="/login"
                   className="inline-flex items-center justify-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-base font-semibold rounded-full transition-colors duration-200 glow-emerald"
                 >
-                  Create Your Trust Card for Free
+                  Create Your Free Trust Card
                   <ArrowRight className="w-4 h-4" aria-hidden="true" />
                 </Link>
               </div>
 
               <p className="text-sm text-slate-400">
-                Free tier available. No credit card required. Future price: $29/mo.
+                Free forever. No credit card. Set up in 60 seconds.
               </p>
 
-              {/* Social proof strip */}
-              <div className="flex items-center gap-4 pt-2">
-                <div className="flex -space-x-2">
-                  {["bg-blue-500", "bg-emerald-500", "bg-purple-500", "bg-amber-500"].map((bg, i) => (
-                    <div
-                      key={i}
-                      className={`w-7 h-7 rounded-full ${bg} border-2 border-white flex items-center justify-center`}
-                    >
-                      <span className="text-[10px] font-bold text-white">
-                        {["S", "M", "J", "A"][i]}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-                <div className="flex items-center gap-1">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-3 h-3 text-amber-400 fill-amber-400" aria-hidden="true" />
-                  ))}
-                  <span className="text-[12px] text-slate-400 ml-1">
-                    Trusted by freelancers &amp; agencies
-                  </span>
-                </div>
+              {/* Trust line — replaces fake avatars */}
+              <div className="flex items-center gap-3 pt-2">
+                <ShieldCheck className="w-4 h-4 text-emerald flex-shrink-0" aria-hidden="true" />
+                <span className="text-[13px] text-slate-500">
+                  No credit card. No website needed. Free forever.
+                </span>
               </div>
             </div>
 
@@ -149,45 +132,7 @@ export default function GoLandingPage() {
         </div>
       </section>
 
-      {/* ============ PROBLEM ============ */}
-      <section className="bg-white py-20">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
-            Your reviews are 5-star. Your credibility page is missing.
-          </h2>
-
-          <div className="grid sm:grid-cols-3 gap-5">
-            {[
-              {
-                emoji: "📱",
-                quote: "\"I just copy-paste WhatsApp screenshots\"",
-                desc: "Messy, unprofessional, and impossible to update. Your premium service deserves better than a cropped screenshot.",
-              },
-              {
-                emoji: "🔗",
-                quote: "\"My Linktree has zero social proof\"",
-                desc: "A list of links doesn't build trust. Clients want to see real reviews before they book a call.",
-              },
-              {
-                emoji: "💸",
-                quote: "\"I pay $29/mo for a widget nobody sees\"",
-                desc: "Static testimonial grids buried on your website. You need proof where clients actually look. In your bio link.",
-              },
-            ].map((card) => (
-              <div
-                key={card.quote}
-                className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4"
-              >
-                <span className="text-[28px]">{card.emoji}</span>
-                <p className="text-[15px] font-semibold text-slate-900 leading-snug">{card.quote}</p>
-                <p className="text-[14px] text-slate-500 leading-relaxed">{card.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ============ HOW IT WORKS ============ */}
+      {/* ============ HOW IT WORKS (moved above Problem) ============ */}
       <section className="bg-snow py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center space-y-4 mb-14">
@@ -238,25 +183,48 @@ export default function GoLandingPage() {
               href="/login"
               className="inline-flex items-center gap-2 h-12 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Create Your Trust Card Free
+              Create Your Free Trust Card
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* ============ DESKTOP PREVIEW — MacBook Mockup (hidden on mobile) ============ */}
-      <section className="hidden md:block bg-white py-20 overflow-hidden">
-        <div className="max-w-5xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="text-[28px] font-bold text-slate-900 tracking-tight">
-              Looks good on every screen.
-            </h2>
-            <p className="text-[17px] text-slate-500 mt-3 max-w-md mx-auto">
-              Clean design. Works on mobile and desktop. Clients see your proof the second they open it.
-            </p>
+      {/* ============ PROBLEM (moved below How It Works) ============ */}
+      <section className="bg-white py-20">
+        <div className="max-w-4xl mx-auto px-6">
+          <h2 className="text-[28px] font-bold text-slate-900 tracking-tight text-center mb-12">
+            Your reviews are 5-star. Your credibility page is missing.
+          </h2>
+
+          <div className="grid sm:grid-cols-3 gap-5">
+            {[
+              {
+                emoji: "📱",
+                quote: "\"I just copy-paste WhatsApp screenshots\"",
+                desc: "Messy, unprofessional, and impossible to update. Your premium service deserves better than a cropped screenshot.",
+              },
+              {
+                emoji: "🔗",
+                quote: "\"My Linktree has zero social proof\"",
+                desc: "A list of links doesn't build trust. Clients want to see real reviews before they book a call.",
+              },
+              {
+                emoji: "⭐",
+                quote: "\"I have great reviews but nowhere to show them\"",
+                desc: "Your 5-star reviews are scattered across Google, WhatsApp, and email threads. Clients never see them when it matters.",
+              },
+            ].map((card) => (
+              <div
+                key={card.quote}
+                className="card-hover rounded-xl bg-white border border-slate-200 p-7 space-y-4"
+              >
+                <span className="text-[28px]">{card.emoji}</span>
+                <p className="text-[15px] font-semibold text-slate-900 leading-snug">{card.quote}</p>
+                <p className="text-[14px] text-slate-500 leading-relaxed">{card.desc}</p>
+              </div>
+            ))}
           </div>
-          <MacbookMockup src="/lio" />
         </div>
       </section>
 
@@ -266,9 +234,9 @@ export default function GoLandingPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center">
             {[
               { stat: "60s", label: "setup time", desc: "From sign-up to live Trust Card. We timed it." },
-              { stat: "92%", label: "read reviews", desc: "Before making a purchase decision. Source: BrightLocal" },
-              { stat: "$69", label: "one-time", desc: "Lifetime access. No monthly fees. No hidden costs." },
-              { stat: "270%", label: "more trust", desc: "Higher conversion when visitors see real reviews. Source: Spiegel" },
+              { stat: "92%", label: "read reviews", desc: "of consumers read reviews before making a purchase decision." },
+              { stat: "100%", label: "free", desc: "No credit card. No catch. Start in seconds." },
+              { stat: "270%", label: "more trust", desc: "Higher conversion when visitors see real reviews." },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
                 <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
@@ -280,53 +248,82 @@ export default function GoLandingPage() {
         </div>
       </section>
 
-      {/* ============ WHAT YOU GET ============ */}
+      {/* ============ WHAT YOU GET — Free + LTD ============ */}
       <section className="bg-white py-20">
-        <div className="max-w-3xl mx-auto px-6 text-center">
+        <div className="max-w-4xl mx-auto px-6 text-center">
           <h2 className="text-[28px] font-bold text-slate-900 tracking-tight mb-4">
-            Everything you need. One price. Forever.
+            Start free. Upgrade when you&apos;re ready.
           </h2>
           <p className="text-[17px] text-slate-500 mb-12 max-w-md mx-auto">
-            The Early Bird Lifetime Deal includes everything. No upsells.
+            No pressure. Build your Trust Card for free. Go Pro when you want more.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-4 text-left max-w-xl mx-auto">
-            {[
-              "Your own Trust Card page (proofpst.com/you)",
-              "Verified reviews from Google & G2",
-              "Manual upload — WhatsApp, DMs, screenshots",
-              "\"ProofPost Approved\" badge on every review",
-              "Custom CTA button (Calendly, WhatsApp, link)",
-              "Mobile-first premium design",
-              "Unlimited reviews (no caps)",
-              "No ProofPost watermark",
-              "Analytics dashboard",
-              "All future features included",
-            ].map((feature) => (
-              <div key={feature} className="flex items-start gap-2.5 py-2">
-                <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" aria-hidden="true" />
-                <span className="text-[14px] text-slate-700">{feature}</span>
+          <div className="grid sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            {/* Free tier card */}
+            <div className="p-8 rounded-2xl bg-white border-2 border-slate-200 text-left">
+              <p className="text-[13px] font-semibold text-slate-500 uppercase tracking-wider mb-2">Free Forever</p>
+              <div className="flex items-baseline gap-2 mb-6">
+                <span className="text-[48px] font-bold text-slate-900 tabular-nums">$0</span>
+                <span className="text-slate-400 text-lg">forever</span>
               </div>
-            ))}
-          </div>
-
-          <div className="mt-12 p-8 rounded-2xl bg-emerald/5 border border-emerald/20 max-w-md mx-auto">
-            <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-2">Early Bird Lifetime Deal</p>
-            <div className="flex items-baseline justify-center gap-2">
-              <span className="text-[56px] font-bold text-slate-900 tabular-nums">$69</span>
-              <span className="text-slate-400 text-lg">one-time</span>
+              <div className="space-y-3 mb-8">
+                {[
+                  "1 Trust Card page (proofpst.com/you)",
+                  "Up to 5 featured reviews",
+                  "Google & G2 import",
+                  "Manual upload (screenshots, DMs)",
+                  "Mobile-first design",
+                  "Custom CTA button",
+                ].map((feature) => (
+                  <div key={feature} className="flex items-start gap-2.5">
+                    <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" aria-hidden="true" />
+                    <span className="text-[14px] text-slate-700">{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/login"
+                className="flex items-center justify-center gap-2 w-full h-14 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-2xl transition-colors duration-200 glow-emerald"
+              >
+                Create Your Free Trust Card
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
             </div>
-            <p className="text-[13px] text-slate-500 mt-2">Future price: $29/mo. Lock in lifetime access now.</p>
-            <Link
-              href="/login"
-              className="mt-6 flex items-center justify-center gap-2 w-full h-14 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-2xl transition-colors duration-200 glow-emerald"
-            >
-              Get Lifetime Access
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-            <p className="text-[12px] text-slate-400 mt-3">
-              Or start free. Upgrade when you&apos;re ready.
-            </p>
+
+            {/* LTD card */}
+            <div className="p-8 rounded-2xl bg-emerald/5 border-2 border-emerald/30 text-left relative">
+              <span className="absolute top-4 right-4 text-[11px] font-bold text-emerald bg-emerald/10 px-3 py-1 rounded-full uppercase tracking-wider">
+                Early Bird
+              </span>
+              <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-2">Lifetime Deal</p>
+              <div className="flex items-baseline gap-2 mb-1">
+                <span className="text-[48px] font-bold text-slate-900 tabular-nums">$69</span>
+                <span className="text-slate-400 text-lg">one-time</span>
+              </div>
+              <p className="text-[13px] text-slate-500 mb-6">Future price: $29/mo</p>
+              <div className="space-y-3 mb-8">
+                {[
+                  "Everything in Free, plus:",
+                  "Unlimited reviews",
+                  "No ProofPost watermark",
+                  "\"ProofPost Approved\" badge",
+                  "Analytics dashboard",
+                  "All future features included",
+                ].map((feature, i) => (
+                  <div key={feature} className="flex items-start gap-2.5">
+                    <Check className={`w-4 h-4 flex-shrink-0 mt-0.5 ${i === 0 ? "text-emerald" : "text-emerald"}`} aria-hidden="true" />
+                    <span className={`text-[14px] ${i === 0 ? "text-emerald font-semibold" : "text-slate-700"}`}>{feature}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/login"
+                className="flex items-center justify-center gap-2 w-full h-14 bg-white border-2 border-emerald text-emerald hover:bg-emerald hover:text-white text-[16px] font-semibold rounded-2xl transition-colors duration-200"
+              >
+                Get Lifetime Access
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -339,6 +336,10 @@ export default function GoLandingPage() {
           </h2>
           <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden bg-white">
             {[
+              {
+                q: "Is there a free option?",
+                a: "Yes. The free tier includes 1 Trust Card with up to 5 featured reviews and a small ProofPost watermark. Upgrade to the Lifetime Deal to remove the watermark and unlock unlimited reviews.",
+              },
               {
                 q: "What is a Trust Card?",
                 a: "A standalone page that shows your verified reviews, bio, and a CTA button. Think of it as a credibility page you share via one link. Bio, DMs, email signature, business cards.",
@@ -353,11 +354,7 @@ export default function GoLandingPage() {
               },
               {
                 q: "What does \"Lifetime Deal\" mean?",
-                a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this to early adopters only. Regular price will be $18/month.",
-              },
-              {
-                q: "Is there a free option?",
-                a: "Yes. The free tier includes 1 Trust Card with up to 5 featured reviews and a small ProofPost watermark. Upgrade to the LTD to remove the watermark and unlock unlimited reviews.",
+                a: "Pay $69 once. Use it forever. No monthly fees. No yearly renewal. All future features included. We're offering this to early adopters only. Regular price will be $29/mo.",
               },
             ].map((faq, i) => (
               <details key={i} className="group">
@@ -387,12 +384,12 @@ export default function GoLandingPage() {
               href="/login"
               className="inline-flex items-center gap-2 h-14 px-10 bg-emerald hover:bg-emerald-dark text-white text-[16px] font-semibold rounded-full transition-colors duration-200 glow-emerald"
             >
-              Get Lifetime Access for $69
+              Create Your Free Trust Card
               <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Link>
           </div>
           <p className="text-[13px] text-slate-500 mt-4">
-            Free tier available. No credit card required.
+            Free forever. No credit card required.
           </p>
         </div>
       </section>
