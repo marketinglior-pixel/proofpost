@@ -27,9 +27,9 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ProofPost x TheRitzyRose | The New Standard for Business Advertising",
+  title: "ProofPost x TheRitzyRose | Your Reviews Are Doing Nothing for Your Website",
   description:
-    "See how ProofPost turns TheRitzyRose's 24,500 Etsy reviews into an all-in-one marketing system. Trust Card + SEO + Analytics + Review Import.",
+    "TheRitzyRose has 24,500 five-star Etsy reviews, but none of them show up on theritzyrose.com. ProofPost fixes that. Trust Card + SEO + Shopify widgets + review import.",
   robots: "noindex, nofollow",
 };
 
@@ -107,21 +107,21 @@ export default function TheRitzyRosePitchPage() {
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6 text-center lg:text-left">
               <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider">
-                The New Standard for Business Advertising
+                Prepared for TheRitzyRose
               </p>
               <h1
                 className="font-bold text-white tracking-tight leading-[1.1]"
                 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
-                Your Reviews. Your SEO. Your Marketing.
+                Your reviews are doing nothing
                 <br />
-                <span className="text-emerald">One System.</span>
+                <span className="text-emerald">for your website.</span>
               </h1>
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                TheRitzyRose has 24,500 five-star reviews, NYT press coverage,
-                and a Miranda Lambert moment. But none of that lives on your website.
-                ProofPost turns all of it into a marketing system that works while you
-                focus on what you do best: creating beautiful products.
+                You have 24,500 five-star reviews, a feature in the New York Times,
+                and a Miranda Lambert moment. But here's the thing: none of that shows up
+                on theritzyrose.com. Your Etsy page looks incredible. Your website? It's
+                missing the one thing that makes people buy. Proof.
               </p>
 
               {/* Stats bar */}
@@ -162,14 +162,15 @@ export default function TheRitzyRosePitchPage() {
       {/* ── The Shift ── */}
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="text-center mb-14">
-          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">The shift happening right now</p>
+          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">What changed</p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Advertising is Changing. Fast.
+            Advertising changed. Most businesses haven't caught up.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-2xl mx-auto leading-relaxed">
-            Customers don't trust ads anymore. They trust other customers.
-            The brands winning today aren't the ones spending the most on advertising.
-            They're the ones making their existing customers do the selling for them.
+            People skip ads. You know this. You've probably skipped a few today.
+            But reviews? People read those. 93% of buyers say reviews directly
+            affect what they buy. Not ads. Not brand videos. Reviews from real
+            people who already purchased.
           </p>
         </div>
 
@@ -177,21 +178,21 @@ export default function TheRitzyRosePitchPage() {
           {[
             {
               emoji: "📢",
-              old: "Old way",
+              old: "The old way",
               title: "Pay for every click",
-              text: "Run ads, pay per click, hope people convert. The cost goes up every year and the returns keep shrinking.",
+              text: "You run ads, you pay per click, you hope someone buys. And every year it costs more for worse results. You already know this feels broken.",
             },
             {
               emoji: "🔄",
               old: "The problem",
-              title: "Reviews sit unused",
-              text: "You have 24,500 five-star reviews. But they're locked on Etsy. Your website visitors, your Google searchers, your social followers never see them.",
+              title: "Your best marketing is locked on Etsy",
+              text: "24,500 five-star reviews. But they only work on Etsy. When someone visits theritzyrose.com, or finds you on Google, or sees your Instagram? They see none of it.",
             },
             {
               emoji: "🚀",
-              old: "New standard",
-              title: "Let reviews sell for you",
-              text: "Turn your existing reviews into a marketing machine. On your site, in Google, in your emails. Your best customers become your best salespeople.",
+              old: "The fix",
+              title: "Let your reviews sell for you",
+              text: "Take those reviews and put them where they actually help. On your site, in Google results, in your emails. Your happiest customers become your sales team. They already want to be.",
             },
           ].map((card, i) => (
             <div key={i} className={`rounded-xl p-6 space-y-3 ${i === 2 ? "bg-emerald/5 border-2 border-emerald/20" : "bg-white border border-slate-200"}`}>
@@ -209,10 +210,11 @@ export default function TheRitzyRosePitchPage() {
         <div className="max-w-5xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
             <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-              TheRitzyRose Has the Trust. The Website Doesn't Show It.
+              Your Etsy page and your website are telling two different stories.
             </h2>
             <p className="text-[15px] text-slate-400 mt-4 max-w-lg mx-auto">
-              We looked at every platform where TheRitzyRose has a presence. Here's what we found.
+              A customer Googles "wedding signs" and lands on your site. Great products,
+              but no reviews, no ratings. So they go check Etsy. And if they buy there, Etsy takes 15%.
             </p>
           </div>
 
@@ -266,9 +268,12 @@ export default function TheRitzyRosePitchPage() {
             </div>
           </div>
 
-          <div className="mt-10 rounded-xl bg-emerald/10 border border-emerald/20 p-6 text-center">
+          <div className="mt-10 rounded-xl bg-emerald/10 border border-emerald/20 p-6 text-center space-y-2">
             <p className="text-[17px] text-white font-semibold">
-              The trust exists. The marketing system to use it doesn't. Yet.
+              You're paying Etsy to hold your reputation hostage.
+            </p>
+            <p className="text-[14px] text-slate-300">
+              The trust is real. It's just stuck in the wrong place.
             </p>
           </div>
         </div>
@@ -277,13 +282,13 @@ export default function TheRitzyRosePitchPage() {
       {/* ── The All-in-One System ── */}
       <section className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-center mb-14">
-          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">What ProofPost builds for you</p>
+          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">What you actually get</p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Your All-in-One Marketing System
+            Here's what we build for you.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-2xl mx-auto">
-            Not just a review widget. A complete system that turns your existing reviews into
-            traffic, trust, and sales. Here's what TheRitzyRose gets:
+            Not a review widget. Not another Shopify app. A system that takes everything
+            your customers already said about you and puts it to work.
           </p>
         </div>
 
@@ -292,7 +297,7 @@ export default function TheRitzyRosePitchPage() {
             {
               icon: Shield,
               title: "Trust Card",
-              text: "A verified proof page at proofpst.com/theritzyrose. Your reviews, your brand, your story. One link you can share everywhere.",
+              text: "A verified proof page at proofpst.com/theritzyrose. Your reviews, your press, your story. One link you drop anywhere: Instagram bio, email signature, Pinterest.",
               tag: "Core",
             },
             {
@@ -304,43 +309,43 @@ export default function TheRitzyRosePitchPage() {
             {
               icon: Sparkles,
               title: "AI Hook Extraction",
-              text: "Our AI reads every review and finds the one sentence that converts. Not the full paragraph. The money line.",
+              text: "Here's what's different about us. Our AI reads every review and finds the one sentence that sells. Not the full paragraph. The line that makes someone think \"I need this.\"",
               tag: "Core",
             },
             {
               icon: Search,
               title: "Google SEO",
-              text: "Schema markup on your Trust Card pages so Google shows your star ratings in search results. Get found by people searching for wedding signs.",
+              text: "We add schema markup so Google shows your star ratings in search results. Someone searches \"custom wedding signs\" and sees your 5-star rating before they click. Free traffic, to YOUR site.",
               tag: "Marketing",
             },
             {
               icon: Globe,
-              title: "Shopify Embed",
-              text: "Add review widgets to any product page on theritzyrose.com. Animated, verified, beautiful. Matches your brand.",
+              title: "Shopify Widgets",
+              text: "Review widgets on your product pages. A customer lands on a product page and immediately sees what other brides said about it. Animated, verified, branded to match your look.",
               tag: "Marketing",
             },
             {
               icon: BarChart3,
-              title: "Analytics Dashboard",
-              text: "See who views your reviews, which ones get the most attention, and how they impact your sales. Data, not guessing.",
+              title: "Analytics",
+              text: "You see who views your reviews, which ones get the most attention, how they affect sales. Actual data, not guessing.",
               tag: "Marketing",
             },
             {
               icon: Eye,
-              title: "Visitor Insights",
-              text: "Track Trust Card views, Shopify widget impressions, and click-through rates. Know exactly what's working.",
+              title: "Visitor Tracking",
+              text: "Trust Card views, widget impressions, click-through rates. You know what's working and what's not.",
               tag: "Growth",
             },
             {
               icon: MessageCircle,
               title: "Review Collection",
-              text: "Send customers a link, get structured testimonials. AI asks follow-up questions so you get specific proof, not vague praise.",
+              text: "Send customers a link, get back structured testimonials. Our AI asks follow-up questions so you get specific proof (\"every guest asked where I got them\") instead of generic praise.",
               tag: "Growth",
             },
             {
               icon: Target,
               title: "Customer Ratings",
-              text: "Let visitors rate your business directly from your Trust Card. More ratings = higher ranking = more visibility.",
+              text: "Visitors can rate your business directly from your Trust Card. More ratings, more visibility, more trust.",
               tag: "Growth",
             },
           ].map((feat, i) => (
@@ -367,7 +372,7 @@ export default function TheRitzyRosePitchPage() {
           <div className="inline-flex items-center gap-3 px-6 py-3 rounded-xl bg-slate-50 border border-slate-200">
             <Megaphone className="w-5 h-5 text-emerald" />
             <p className="text-[14px] text-slate-700">
-              <span className="font-semibold">All of this from the reviews you already have.</span> No new content to create. No ads to run.
+              <span className="font-semibold">All from reviews you already have.</span> No new content to create. No ads to run. No budget to spend.
             </p>
           </div>
         </div>
@@ -377,7 +382,7 @@ export default function TheRitzyRosePitchPage() {
       <section className="bg-slate-50/80 border-y border-slate-100">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-12">
-            Why This Works (The Numbers)
+            Why this works. Not theory. Research.
           </h2>
           <div className="grid sm:grid-cols-3 gap-6">
             {[
@@ -397,8 +402,10 @@ export default function TheRitzyRosePitchPage() {
             ))}
           </div>
           <p className="text-[15px] text-slate-600 text-center mt-8 max-w-lg mx-auto">
-            For handmade products, trust is the only thing between "nice" and "bought."
-            Your 24,500 reviews are your best marketing asset. They just need a system to work through.
+            For handmade products, this matters even more. Someone buying a $30 mass-produced
+            sign doesn't need much convincing. Someone buying a custom wedding sign for their
+            ceremony? They need to trust you. Your 24,500 reviews are the most valuable
+            marketing asset you have. They just need to be where your customers actually are.
           </p>
         </div>
       </section>
@@ -406,13 +413,13 @@ export default function TheRitzyRosePitchPage() {
       {/* ── Real Reviews + AI Hook ── */}
       <section className="max-w-5xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
-          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">AI-powered review marketing</p>
+          <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">Your reviews, sharpened</p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Your Best Reviews. The AI-Extracted Money Line.
+            Your best reviews. The sentence that does the selling.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-lg mx-auto">
-            Every review has one sentence that does more work than the rest. Our AI finds it.
-            The <span className="text-emerald font-semibold">highlighted text</span> is what we'd use in your marketing.
+            Every review has one line that works harder than the rest. Our AI finds it.
+            The <span className="text-emerald font-semibold">highlighted text</span> is what goes on your product pages, your Trust Card, your Google results.
           </p>
         </div>
 
@@ -461,7 +468,7 @@ export default function TheRitzyRosePitchPage() {
           <div className="text-center mb-12">
             <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">Setup</p>
             <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-              From Zero to Full Marketing System in 30 Minutes
+              30 minutes. That's it.
             </h2>
           </div>
           <div className="grid sm:grid-cols-3 gap-8">
@@ -469,20 +476,20 @@ export default function TheRitzyRosePitchPage() {
               {
                 step: "1",
                 icon: Import,
-                title: "We Import Everything",
-                text: "Your Etsy reviews, Amazon ratings, press mentions. We pull it all in automatically. You just send us the links.",
+                title: "We import everything",
+                text: "Your Etsy reviews, Amazon ratings, press mentions. You send us the links. We do the rest.",
               },
               {
                 step: "2",
                 icon: Sparkles,
-                title: "AI Builds Your Assets",
-                text: "Our AI extracts the best quotes, creates your Trust Card, generates SEO schema, and prepares your Shopify widgets.",
+                title: "AI builds your assets",
+                text: "Best quotes extracted, Trust Card created, SEO schema generated, Shopify widgets ready. All automatic.",
               },
               {
                 step: "3",
                 icon: Zap,
-                title: "Your System Goes Live",
-                text: "Trust Card live. Shopify widgets embedded. Google indexing your reviews. Analytics tracking. All working while you sleep.",
+                title: "It goes live",
+                text: "Trust Card is up. Widgets on your product pages. Google starts indexing your reviews. You go back to making beautiful products.",
               },
             ].map((item, i) => (
               <div key={i} className="text-center space-y-4">
@@ -505,10 +512,10 @@ export default function TheRitzyRosePitchPage() {
         <div className="text-center mb-12">
           <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">Live preview</p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            We Already Built It for You
+            We didn't just plan this. We built it.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-md mx-auto">
-            This is a real, working Trust Card for TheRitzyRose. Your logo, your reviews, your brand colors. Live right now.
+            This is a real, working Trust Card for TheRitzyRose. Your logo, your reviews, your brand colors. It's live right now.
           </p>
         </div>
 
@@ -525,11 +532,12 @@ export default function TheRitzyRosePitchPage() {
         <div className="max-w-4xl mx-auto px-6 py-20">
           <div className="text-center mb-10">
             <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-              Press Coverage That Sells
+              You have press most brands would kill for. Use it.
             </h2>
             <p className="text-[15px] text-slate-500 mt-4 max-w-lg mx-auto">
-              Most brands spend years trying to get featured anywhere. TheRitzyRose has been in the biggest
-              publications in the world. That credibility should be working for you 24/7, not buried in an archive.
+              Most businesses spend years trying to get featured anywhere. You've been in the
+              New York Times, Good Morning America, and Martha Stewart Weddings. Miranda Lambert
+              wore your products. That credibility should be working for you every single day.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-3">
@@ -541,10 +549,10 @@ export default function TheRitzyRosePitchPage() {
           </div>
           <div className="mt-8 rounded-xl bg-emerald/5 border border-emerald/20 p-6 text-center">
             <p className="text-[15px] text-slate-700">
-              <span className="font-semibold">NYT + GMA + Martha Stewart + Miranda Lambert + 24,500 reviews</span>
+              <span className="font-semibold">NYT + GMA + Martha Stewart + Miranda Lambert + 24,500 reviews.</span>
             </p>
             <p className="text-[14px] text-slate-500 mt-1">
-              All visible on your Trust Card and Shopify site. This is advertising you don't have to pay for.
+              All of this goes on your Trust Card and your Shopify site. This is the kind of advertising money can't buy. And you already have it.
             </p>
           </div>
         </div>
@@ -554,10 +562,10 @@ export default function TheRitzyRosePitchPage() {
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            The Value of This System
+            What this would cost to build yourself.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-lg mx-auto">
-            Compare what you'd pay building this yourself vs. what ProofPost delivers out of the box.
+            Spoiler: the real savings aren't in the table. They're in the Etsy fees you stop paying.
           </p>
         </div>
 
@@ -588,6 +596,22 @@ export default function TheRitzyRosePitchPage() {
             <span className="text-center text-[14px] font-bold text-slate-400">$3,000+/year</span>
             <span className="text-center text-[14px] font-bold text-emerald">$39/month</span>
           </div>
+
+          {/* Etsy ROI callout */}
+          <div className="mt-8 rounded-xl bg-emerald/5 border border-emerald/20 p-6 space-y-3">
+            <p className="text-[15px] text-slate-700 font-semibold text-center">
+              But here's the real math.
+            </p>
+            <p className="text-[14px] text-slate-600 text-center leading-relaxed max-w-xl mx-auto">
+              The real comparison isn't $3,000 vs $468. It's how much you're paying Etsy
+              because your website doesn't have the trust to convert on its own.
+              If this system moves even 10% of your Etsy sales to your own site,
+              you save <span className="font-bold text-emerald">$15,000-$30,000 a year</span> in Etsy fees alone.
+            </p>
+            <p className="text-[14px] text-slate-500 text-center">
+              $39/month to potentially save $15K+/year. That's not a marketing expense. That's basic math.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -597,15 +621,15 @@ export default function TheRitzyRosePitchPage() {
           <div className="text-center mb-10">
             <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">Getting started</p>
             <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-              14-Day Trial. No Risk. Just Results.
+              14 days. Full access. No risk.
             </h2>
           </div>
           <div className="space-y-4">
             {[
-              { label: "Trial", value: "14 days, full access to the entire marketing system" },
-              { label: "Setup", value: "We handle everything. Import, Trust Card, widgets, SEO. You just approve." },
-              { label: "What we track", value: "Trust Card views, widget impressions, click-through rates, Google indexing status" },
-              { label: "After 14 days", value: "If the numbers work, Pro plan is $39/mo. If not, you walk away with zero cost." },
+              { label: "Trial", value: "14 days, everything included. The whole system." },
+              { label: "Setup", value: "We handle it all. Import, Trust Card, widgets, SEO. You approve, we build." },
+              { label: "What we measure", value: "Trust Card views, widget impressions, click-through rates, Google indexing status. Real numbers, not promises." },
+              { label: "After 14 days", value: "If the numbers make sense, Pro plan is $39/mo. If not, you walk away. No cost, no drama." },
             ].map((row, i) => (
               <div key={i} className="flex flex-col sm:flex-row gap-2 sm:gap-6 rounded-xl bg-white/5 border border-white/10 px-5 py-4">
                 <span className="text-[13px] font-bold text-emerald uppercase tracking-wider min-w-[120px]">
@@ -621,16 +645,16 @@ export default function TheRitzyRosePitchPage() {
       {/* ── Next Steps ── */}
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-10">
-          Next Steps
+          Here's what happens next.
         </h2>
         <div className="space-y-4">
           {[
-            "We finalize TheRitzyRose's Trust Card together (already 80% done)",
+            "We finalize your Trust Card together (it's already 80% done)",
             "Import your full review catalog from Etsy and Amazon",
-            "Embed review widgets on your top Shopify product pages",
-            "Activate SEO schema for Google star ratings",
-            "Track performance for 14 days",
-            "Review the data together and decide on next steps",
+            "Add review widgets to your top Shopify product pages",
+            "Activate SEO schema so Google shows your stars",
+            "Track everything for 14 days",
+            "Look at the data together and decide",
           ].map((step, i) => (
             <div key={i} className="flex items-start gap-4 rounded-xl bg-white border border-slate-200 px-5 py-4">
               <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald/10 text-[14px] font-bold text-emerald flex-shrink-0">
@@ -646,16 +670,15 @@ export default function TheRitzyRosePitchPage() {
       <section className="bg-navy">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-6">
           <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider">
-            The New Standard for Business Advertising
+            Your customers already wrote your best marketing
           </p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-            Your customers already wrote your best marketing.
+            24,500 reviews. NYT press. A Miranda Lambert moment.
             <br />
-            <span className="text-emerald">Let's put it to work.</span>
+            <span className="text-emerald">All of it, working for your website. Every day.</span>
           </h2>
           <p className="text-[15px] text-slate-400 max-w-md mx-auto">
-            24,500 five-star reviews. NYT press. A Miranda Lambert moment.
-            All of it, working for you, 24/7. That's what ProofPost builds.
+            That's what this does.
           </p>
           <Link
             href="https://proofpst.com/login"
