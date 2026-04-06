@@ -22,57 +22,6 @@ export const metadata: Metadata = {
   robots: "noindex, nofollow",
 };
 
-const REVIEWS = [
-  {
-    quote:
-      "These are perfect, they made my fiancé and I both cry when we saw them.",
-    hookLine: "made my fiancé and I both cry",
-    author: "Amazon Customer",
-    context: "Wedding signs",
-    source: "amazon" as const,
-  },
-  {
-    quote:
-      "It's so much more beautiful than I expected and super high quality. Definitely the best place to buy from!",
-    hookLine: "Definitely the best place to buy from",
-    author: "Amazon Customer",
-    context: "Custom order",
-    source: "amazon" as const,
-  },
-  {
-    quote:
-      "Speedy delivery and all around great product. So gorgeous I contacted the store and did the rest of my wedding signage through them.",
-    hookLine: "did the rest of my wedding signage through them",
-    author: "Amazon Customer",
-    context: "Wedding signage",
-    source: "amazon" as const,
-  },
-  {
-    quote:
-      "These are absolutely beautiful! They have gorgeous stitching and the paper is very high quality, bigger than I anticipated and I am so glad!",
-    hookLine: "gorgeous stitching and the paper is very high quality",
-    author: "Amazon Customer",
-    context: "Reserved signs",
-    source: "amazon" as const,
-  },
-  {
-    quote:
-      "Came packaged nicely, colors were exactly what I asked for, and the sign had cute stitching along the edges that I wasn't expecting. Very happy with this!",
-    hookLine: "colors were exactly what I asked for",
-    author: "Amazon Customer",
-    context: "Custom color order",
-    source: "amazon" as const,
-  },
-  {
-    quote:
-      "I love this!! Beautifully made. Love it so much I'm ordering another for a friend!",
-    hookLine: "ordering another for a friend",
-    author: "Amazon Customer",
-    context: "Gift purchase",
-    source: "amazon" as const,
-  },
-];
-
 const PRESS = [
   "The New York Times",
   "Good Morning America",
@@ -280,76 +229,9 @@ export default function TheRitzyRosePitchPage() {
             </a>
           </p>
 
-          {/* Real verified reviews with AI highlights */}
-          <div className="grid sm:grid-cols-3 gap-5 mt-12">
-            {REVIEWS.slice(0, 3).map((review, i) => (
-              <div key={i} className="rounded-xl border border-slate-200 bg-white p-5 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <span className="flex items-center gap-1 text-[10px] font-medium text-emerald bg-emerald/10 px-2 py-0.5 rounded-full">
-                    <Shield className="w-3 h-3" />
-                    {review.source === "amazon" ? "Verified Amazon" : "Verified Etsy"}
-                  </span>
-                </div>
-                <p className="text-[13px] text-slate-700 leading-relaxed">
-                  &ldquo;{review.quote.split(review.hookLine).map((part, idx) => (
-                    <span key={idx}>
-                      {part}
-                      {idx === 0 && (
-                        <span className="bg-emerald/15 text-emerald font-semibold px-1 rounded">
-                          {review.hookLine}
-                        </span>
-                      )}
-                    </span>
-                  ))}&rdquo;
-                </p>
-                <p className="text-[11px] text-slate-400">
-                  {review.author} · {review.context}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Second row */}
-          <div className="grid sm:grid-cols-3 gap-5 mt-5">
-            {REVIEWS.slice(3).map((review, i) => (
-              <div key={i} className="rounded-xl border border-slate-200 bg-white p-5 space-y-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex gap-0.5">
-                    {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                    ))}
-                  </div>
-                  <span className="flex items-center gap-1 text-[10px] font-medium text-emerald bg-emerald/10 px-2 py-0.5 rounded-full">
-                    <Shield className="w-3 h-3" />
-                    {review.source === "amazon" ? "Verified Amazon" : "Verified Etsy"}
-                  </span>
-                </div>
-                <p className="text-[13px] text-slate-700 leading-relaxed">
-                  &ldquo;{review.quote.split(review.hookLine).map((part, idx) => (
-                    <span key={idx}>
-                      {part}
-                      {idx === 0 && (
-                        <span className="bg-emerald/15 text-emerald font-semibold px-1 rounded">
-                          {review.hookLine}
-                        </span>
-                      )}
-                    </span>
-                  ))}&rdquo;
-                </p>
-                <p className="text-[11px] text-slate-400">
-                  {review.author} · {review.context}
-                </p>
-              </div>
-            ))}
-          </div>
-
-          <p className="text-[12px] text-slate-400 text-center mt-4">
-            <span className="text-emerald font-medium">Highlighted</span> = the AI-extracted line we'd use in your marketing · All reviews verified from Amazon &amp; Etsy
+          <p className="text-[13px] text-slate-500 text-center mt-6 max-w-md mx-auto">
+            Scroll through the reviews above — the <span className="text-emerald font-semibold">highlighted lines</span> are
+            the AI-extracted sentences we'd use in your marketing. All reviews verified from Amazon &amp; Etsy.
           </p>
         </div>
       </section>
