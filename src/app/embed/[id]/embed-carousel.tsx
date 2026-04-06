@@ -251,26 +251,52 @@ export function EmbedCarousel({
           </span>
         )}
 
-        {/* Quote text */}
-        {(!review.videoUrl || (review.quote && review.quote !== "Video testimonial")) && (
-          <p
-            dir={currentRTL ? "rtl" : "ltr"}
-            style={{
-              fontSize: review.videoUrl ? "13px" : "15px",
-              lineHeight: 1.625,
-              color: quoteColor,
-              margin: 0,
-              fontStyle: "italic",
-              minHeight: review.videoUrl ? "auto" : "48px",
-              transition: "opacity 0.3s ease",
-              opacity: isAnimating ? 0 : 1,
-              direction: currentRTL ? "rtl" : "ltr",
-              textAlign: "center",
-            }}
-          >
-            {review.videoUrl ? review.quote : review.quote}
-          </p>
-        )}
+        {/* Quote text with hookLine highlighting */}
+        {(!review.videoUrl || (review.quote && review.quote !== "Video testimonial")) && (() => {
+          const activeHookText = getActiveHook(review).text;
+          const hasHook = activeHookText && review.quote.includes(activeHookText);
+          return (
+            <p
+              dir={currentRTL ? "rtl" : "ltr"}
+              style={{
+                fontSize: review.videoUrl ? "13px" : "15px",
+                lineHeight: 1.625,
+                color: quoteColor,
+                margin: 0,
+                fontStyle: "italic",
+                minHeight: review.videoUrl ? "auto" : "48px",
+                transition: "opacity 0.3s ease",
+                opacity: isAnimating ? 0 : 1,
+                direction: currentRTL ? "rtl" : "ltr",
+                textAlign: "center",
+              }}
+            >
+              {hasHook ? (
+                review.quote.split(activeHookText).map((part, idx, arr) => (
+                  <span key={idx}>
+                    {part}
+                    {idx < arr.length - 1 && (
+                      <span
+                        style={{
+                          color: primaryColor,
+                          backgroundColor: `${primaryColor}18`,
+                          fontWeight: 600,
+                          fontStyle: "normal",
+                          padding: "1px 4px",
+                          borderRadius: "4px",
+                        }}
+                      >
+                        {activeHookText}
+                      </span>
+                    )}
+                  </span>
+                ))
+              ) : (
+                review.quote
+              )}
+            </p>
+          );
+        })()}
 
         {/* Reviewer - horizontal layout like hero */}
         <div

@@ -13,6 +13,7 @@ interface Review {
   verified: boolean;
   verification_url: string | null;
   image_url: string | null;
+  hook_line: string | null;
 }
 
 interface TrustCardReviewsProps {

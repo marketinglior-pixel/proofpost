@@ -13,6 +13,7 @@ interface Review {
   verified: boolean;
   verification_url: string | null;
   image_url: string | null;
+  hook_line: string | null;
 }
 
 interface TrustCardReviewItemProps {
@@ -77,7 +78,28 @@ export function TrustCardReviewItem({ review, accentColor, index }: TrustCardRev
       {/* Review text (skip generic placeholder for screenshot-only reviews) */}
       {review.review_text && review.review_text !== "Screenshot review" && (
         <p className="text-[14px] leading-[1.7] text-white/60">
-          &ldquo;{review.review_text}&rdquo;
+          &ldquo;
+          {review.hook_line && review.review_text.includes(review.hook_line) ? (
+            review.review_text.split(review.hook_line).map((part, idx, arr) => (
+              <span key={idx}>
+                {part}
+                {idx < arr.length - 1 && (
+                  <span
+                    className="font-semibold px-1 rounded"
+                    style={{
+                      color: accentColor,
+                      backgroundColor: `${accentColor}20`,
+                    }}
+                  >
+                    {review.hook_line}
+                  </span>
+                )}
+              </span>
+            ))
+          ) : (
+            review.review_text
+          )}
+          &rdquo;
         </p>
       )}
 

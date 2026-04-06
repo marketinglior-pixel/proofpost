@@ -338,6 +338,7 @@ export interface Database {
           display_on_trust_card: boolean;
           display_order: number;
           image_url: string | null;
+          hook_line: string | null;
         };
         Insert: {
           id?: string;
@@ -358,6 +359,7 @@ export interface Database {
           display_on_trust_card?: boolean;
           display_order?: number;
           image_url?: string | null;
+          hook_line?: string | null;
         };
         Update: {
           id?: string;
@@ -378,6 +380,7 @@ export interface Database {
           display_on_trust_card?: boolean;
           display_order?: number;
           image_url?: string | null;
+          hook_line?: string | null;
         };
         Relationships: [];
       };
