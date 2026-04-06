@@ -26,16 +26,21 @@ export function TrustCardHeader({ card, accentColor }: TrustCardHeaderProps) {
     <div className="text-center">
       {/* Avatar */}
       {card.avatar_url ? (
-        <div className="w-24 h-24 rounded-full mx-auto mb-5 ring-4 ring-white shadow-lg bg-white flex items-center justify-center overflow-hidden p-1">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={card.avatar_url}
-            alt={card.display_name}
-            width={88}
-            height={88}
-            className="w-full h-full rounded-full object-contain"
-          />
-        </div>
+        (() => {
+          const isLogo = card.avatar_url!.endsWith(".png") || card.avatar_url!.endsWith(".svg");
+          return (
+            <div className={`rounded-full mx-auto mb-5 ring-4 ring-white shadow-lg bg-white flex items-center justify-center overflow-hidden ${isLogo ? "w-28 h-28 p-3" : "w-24 h-24"}`}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={card.avatar_url!}
+                alt={card.display_name}
+                width={isLogo ? 80 : 96}
+                height={isLogo ? 80 : 96}
+                className={`rounded-full ${isLogo ? "w-full h-full object-contain" : "w-full h-full object-cover"}`}
+              />
+            </div>
+          );
+        })()
       ) : (
         <div
           className="w-24 h-24 rounded-full mx-auto mb-5 flex items-center justify-center text-3xl font-bold text-white shadow-lg"
