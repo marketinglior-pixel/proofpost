@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { StickyMobileCTA } from "../sticky-mobile-cta";
 import { IPhoneMockup } from "./iphone-mockup";
+import { MacbookMockup } from "./macbook-mockup";
 import { PricingSection } from "../pricing-section";
 import {
   ArrowRight,
@@ -214,6 +215,28 @@ export default function GoPage() {
             ))}
           </div>
         </div>
+      </section>
+
+      {/* ── Desktop + Mobile Preview ── */}
+      <section className="max-w-5xl mx-auto px-6 py-20">
+        <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
+          See It in Action
+        </h2>
+        <p className="text-[15px] text-slate-500 text-center mb-10 max-w-md mx-auto">
+          Your Trust Card works on every device. Desktop, tablet, mobile.
+        </p>
+
+        {/* Desktop */}
+        <div className="macbook-container mb-6">
+          <MacbookMockup src="https://proofpst.com/lio" />
+        </div>
+        <p className="text-[12px] text-slate-400 text-center mb-10">Desktop view</p>
+
+        {/* Mobile */}
+        <div className="flex justify-center">
+          <IPhoneMockup src="https://proofpst.com/lio" />
+        </div>
+        <p className="text-[12px] text-slate-400 text-center mt-4">Mobile view</p>
       </section>
 
       {/* ── Features ── */}
