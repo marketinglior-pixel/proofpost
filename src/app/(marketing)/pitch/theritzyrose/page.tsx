@@ -137,16 +137,89 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 2. SOLUTION ── */}
+      {/* ── 2. WHY A TRUST CARD ── */}
       <section className="max-w-3xl mx-auto px-6 py-20">
         <div className="text-center mb-10">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            ProofPost brings your Etsy reputation to your own site.
+            Your website sells your product.
+            <br />
+            Your Trust Card sells your reputation.
+          </h2>
+          <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
+            When someone asks "why should I trust you?" your website doesn't answer that.
+            Your Trust Card does. One link with all your verified reviews, press mentions,
+            and ratings from every platform. Think of it as Linktree, but for proof.
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 gap-4 mb-12">
+          {[
+            {
+              question: "\"What do you sell?\"",
+              answer: "Your website",
+              detail: "Products, photos, prices, categories",
+              good: false,
+            },
+            {
+              question: "\"Can I trust you?\"",
+              answer: "Your Trust Card",
+              detail: "Verified reviews, press, ratings, proof",
+              good: true,
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className={`rounded-xl p-6 space-y-2 ${
+                item.good
+                  ? "bg-emerald/5 border-2 border-emerald/20"
+                  : "bg-slate-50 border border-slate-200"
+              }`}
+            >
+              <p className="text-[14px] text-slate-400 font-medium">{item.question}</p>
+              <p className={`text-[18px] font-bold ${item.good ? "text-emerald" : "text-slate-700"}`}>
+                → {item.answer}
+              </p>
+              <p className="text-[13px] text-slate-500">{item.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="space-y-3 mb-12">
+          {[
+            {
+              title: "Works where your website doesn't",
+              text: "Instagram DMs, email signatures, WhatsApp, Pinterest bio. When someone asks \"show me results,\" you drop one link.",
+            },
+            {
+              title: "Verified badges your site can't have",
+              text: "\"Verified on Amazon\" and \"Verified on Etsy\" carry weight because anyone can write a review on their own site. These are real.",
+            },
+            {
+              title: "Stars in Google search results",
+              text: "Schema markup so your 5-star rating shows up before anyone clicks. Free organic traffic to your site, not Etsy.",
+            },
+          ].map((item, i) => (
+            <div key={i} className="flex items-start gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4">
+              <Check className="w-5 h-5 text-emerald flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[14px] font-semibold text-slate-900">{item.title}</p>
+                <p className="text-[13px] text-slate-500 mt-0.5">{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── 3. HOW IT WORKS ── */}
+      <section className="bg-slate-50/80 border-y border-slate-100">
+        <div className="max-w-3xl mx-auto px-6 py-16">
+        <div className="text-center mb-10">
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
+            How ProofPost builds yours.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
             We pull your reviews from Etsy and Amazon, our AI finds the sentence
-            that sells, and we put it everywhere it matters: your Shopify pages,
-            Google search results, and a branded Trust Card you can share anywhere.
+            that sells, and we put it everywhere it matters.
           </p>
         </div>
 
@@ -177,9 +250,10 @@ export default function TheRitzyRosePitchPage() {
             </div>
           ))}
         </div>
+        </div>
       </section>
 
-      {/* ── 3. DISPLAY ── */}
+      {/* ── 4. DISPLAY ── */}
       <section className="bg-slate-50/80 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-6 py-20">
           <div className="text-center mb-10">
@@ -280,7 +354,7 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 4. POTENTIAL ── */}
+      {/* ── 5. POTENTIAL ── */}
       <section className="bg-navy">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight text-center mb-10">
@@ -326,7 +400,7 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 5. BENEFITS ── */}
+      {/* ── 6. BENEFITS ── */}
       <section className="max-w-3xl mx-auto px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-10">
           What's included.
@@ -364,7 +438,7 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 6. FOOTER / CTA ── */}
+      {/* ── 7. FOOTER / CTA ── */}
       <section className="bg-navy">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-6">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
