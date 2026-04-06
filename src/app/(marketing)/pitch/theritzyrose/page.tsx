@@ -501,7 +501,7 @@ export default function TheRitzyRosePitchPage() {
       </section>
 
       {/* ── Live Demo ── */}
-      <section className="max-w-5xl mx-auto px-6 py-20">
+      <section className="max-w-6xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <p className="text-[13px] text-emerald font-semibold uppercase tracking-wider mb-3">Live preview</p>
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
@@ -512,20 +512,11 @@ export default function TheRitzyRosePitchPage() {
           </p>
         </div>
 
-        {/* Desktop view */}
-        <div className="macbook-container">
+        <div className="macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
           <MacbookMockup src="https://proofpst.com/theritzyrose" />
         </div>
-        <p className="text-[12px] text-slate-400 text-center mt-4 mb-12">
-          Desktop view of your Trust Card
-        </p>
-
-        {/* Mobile view */}
-        <div className="flex justify-center">
-          <IPhoneMockup src="https://proofpst.com/theritzyrose" />
-        </div>
-        <p className="text-[12px] text-slate-400 text-center mt-4">
-          Mobile view | Try it yourself: <a href="https://proofpst.com/theritzyrose" target="_blank" rel="noopener noreferrer" className="text-emerald hover:underline">proofpst.com/theritzyrose</a>
+        <p className="text-[12px] text-slate-400 text-center mt-6">
+          Try it yourself: <a href="https://proofpst.com/theritzyrose" target="_blank" rel="noopener noreferrer" className="text-emerald hover:underline">proofpst.com/theritzyrose</a>
         </p>
       </section>
 
