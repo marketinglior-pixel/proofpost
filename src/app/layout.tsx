@@ -30,15 +30,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://proofpst.com"),
   title: {
-    default: "ProofPost | Your Verified Trust Page in 60 Seconds",
+    default: "ProofPost — Free Trust Card & Proof Card Builder | Verified Reviews",
     template: "%s | ProofPost",
   },
   description:
-    "Create a premium Trust Card that showcases your verified reviews from Google, G2 & LinkedIn. One link. Instant trust. Set up in 60 seconds.",
+    "Create your free Trust Card in 60 seconds. Import verified reviews from Google, G2 & LinkedIn into one shareable proof card. Your link, instant credibility.",
   openGraph: {
-    title: "ProofPost | Your Verified Trust Page in 60 Seconds",
+    title: "ProofPost — Free Trust Card & Proof Card Builder | Verified Reviews",
     description:
-      "Create a premium Trust Card that showcases your verified reviews. One link. Instant trust. 60 seconds.",
+      "Create your free Trust Card in 60 seconds. Import verified reviews from Google, G2 & LinkedIn into one shareable proof card.",
     type: "website",
     locale: "en_US",
     url: "https://proofpst.com",
