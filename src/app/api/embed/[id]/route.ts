@@ -12,7 +12,7 @@ const CORS_HEADERS = {
   "Cache-Control": "public, max-age=300",
 };
 
-const FREE_IMPRESSION_LIMIT = 500;
+import { getEffectivePlan, getPlanLimits, type Plan } from "@/lib/plans";
 
 interface HookVariant {
   id: string;
@@ -47,13 +47,16 @@ async function getBrandKit(userId: string) {
   return data;
 }
 
-async function getUserPlan(userId: string): Promise<string> {
+async function getUserPlanInfo(userId: string): Promise<{ plan: Plan; trialEndsAt: string | null }> {
   const { data } = await supabase
     .from("profiles")
-    .select("plan")
+    .select("plan, trial_ends_at")
     .eq("id", userId)
     .single();
-  return (data as { plan: string } | null)?.plan || "free";
+  return {
+    plan: ((data as { plan: string } | null)?.plan || "free") as Plan,
+    trialEndsAt: (data as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null,
+  };
 }
 
 async function getMonthlyImpressions(userId: string): Promise<number> {
@@ -139,12 +142,12 @@ async function trackImpression(
   });
 }
 
-function formatReview(content: { id: string; llm_output: unknown }, isPro: boolean) {
+function formatReview(content: { id: string; llm_output: unknown }, showHookVariants: boolean) {
   const llm = content.llm_output as LlmOutput;
   return {
     id: content.id,
     hookLine: llm.hookLine,
-    hookVariants: isPro ? (llm.hookVariants || []) : [],
+    hookVariants: showHookVariants ? (llm.hookVariants || []) : [],
     quote: (llm.slides as { body: string }[])?.[1]?.body || llm.hookLine,
     reviewer: llm.reviewer || { name: "Customer", title: "", company: "" },
     reviewerPhotoUrl: llm.reviewerPhotoUrl || null,
@@ -177,12 +180,13 @@ export async function GET(
       isWidget = true;
       widgetId = widget.id;
       userId = widget.user_id;
-      const widgetPlan = await getUserPlan(userId!);
-      const proUser = widgetPlan === "pro";
+      const widgetPlanInfo = await getUserPlanInfo(userId!);
+      const widgetEffective = getEffectivePlan(widgetPlanInfo.plan, widgetPlanInfo.trialEndsAt);
+      const widgetLimits = getPlanLimits(widgetEffective);
       const contentIds = widget.content_ids as string[];
       for (const cid of contentIds) {
         const content = await getContentById(cid);
-        if (content) reviews.push(formatReview(content, proUser));
+        if (content) reviews.push(formatReview(content, widgetLimits.hasHookAnalytics));
       }
 
       // Also include approved video submissions
@@ -219,17 +223,19 @@ export async function GET(
       }
       userId = content.user_id;
       contentId = content.id;
-      const contentPlan = await getUserPlan(userId!);
-      const proUser = contentPlan === "pro";
-      reviews = [formatReview(content, proUser)];
+      const contentPlanInfo = await getUserPlanInfo(userId!);
+      const contentEffective = getEffectivePlan(contentPlanInfo.plan, contentPlanInfo.trialEndsAt);
+      const contentLimits = getPlanLimits(contentEffective);
+      reviews = [formatReview(content, contentLimits.hasHookAnalytics)];
     }
 
-    // Get impression count (plan already fetched above)
-    const plan = await getUserPlan(userId!);
+    // Get impression count with tier-aware limits
+    const planInfo = await getUserPlanInfo(userId!);
+    const effectivePlan = getEffectivePlan(planInfo.plan, planInfo.trialEndsAt);
+    const limits = getPlanLimits(effectivePlan);
     const monthlyImpressions = await getMonthlyImpressions(userId!);
-    const isPro = plan === "pro";
-    const showWatermark = !isPro;
-    const limitReached = !isPro && monthlyImpressions >= FREE_IMPRESSION_LIMIT;
+    const showWatermark = limits.showWatermark;
+    const limitReached = limits.impressionsPerMonth !== null && monthlyImpressions >= limits.impressionsPerMonth;
 
     // Track impression (filters bots, owner, deduplicates)
     trackImpression(request, userId!, contentId, widgetId, id);
@@ -255,7 +261,7 @@ export async function GET(
         limitReached,
         impressions: {
           current: monthlyImpressions,
-          limit: isPro ? null : FREE_IMPRESSION_LIMIT,
+          limit: limits.impressionsPerMonth,
         },
       },
       { headers: CORS_HEADERS }

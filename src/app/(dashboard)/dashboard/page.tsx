@@ -109,8 +109,13 @@ export default async function DashboardPage() {
   ];
 
   const { data: profile } = await supabase
-    .from("profiles").select("plan").eq("id", user!.id).single();
-  const isPro = (profile as { plan: string } | null)?.plan === "pro";
+    .from("profiles").select("plan, trial_ends_at").eq("id", user!.id).single();
+  const rawPlan = ((profile as { plan: string } | null)?.plan || "free") as import("@/lib/plans").Plan;
+  const trialEndsAt = (profile as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null;
+  const { getEffectivePlan: gep, getPlanLimits: gpl, isPaidPlan: ipp, getPlanLabel: gplb } = await import("@/lib/plans");
+  const effectivePlan = gep(rawPlan, trialEndsAt);
+  const limits = gpl(effectivePlan);
+  const isPro = ipp(effectivePlan);
 
   function getHookLine(llmOutput: Json): string {
     const obj = llmOutput as Record<string, unknown>;
@@ -151,7 +156,7 @@ export default async function DashboardPage() {
       {/* Stats row */}
       <div className="grid grid-cols-3 gap-3 sm:gap-4">
         {[
-          { label: "Monthly Views", value: monthly, icon: Eye, color: "text-emerald", bg: "bg-emerald/10", suffix: isPro ? "" : " / 500" },
+          { label: "Monthly Views", value: monthly, icon: Eye, color: "text-emerald", bg: "bg-emerald/10", suffix: limits.impressionsPerMonth ? ` / ${limits.impressionsPerMonth.toLocaleString()}` : "" },
           { label: "Total Impressions", value: total, icon: TrendingUp, color: "text-blue-500", bg: "bg-blue-50" },
           { label: "Carousels", value: carousels, icon: Layers, color: "text-violet-500", bg: "bg-violet-50" },
         ].map((stat) => (
@@ -293,17 +298,17 @@ export default async function DashboardPage() {
             <div className="flex items-center justify-between">
               <span className="text-[12px] font-semibold text-slate-400 uppercase tracking-wider">Plan</span>
               <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${isPro ? "bg-emerald/15 text-emerald-dark" : "bg-slate-100 text-slate-500"}`}>
-                {isPro ? "Pro" : "Free"}
+                {gplb(effectivePlan)}
               </span>
             </div>
             <div className="space-y-2.5 text-[13px]">
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Carousels</span>
-                <span className="font-medium text-slate-700 tabular-nums">{carousels}{!isPro ? " / 3" : ""}</span>
+                <span className="font-medium text-slate-700 tabular-nums">{carousels}{limits.carouselsPerMonth ? ` / ${limits.carouselsPerMonth}` : ""}</span>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-500">Impressions</span>
-                <span className="font-medium text-slate-700 tabular-nums">{monthly.toLocaleString()}{!isPro ? " / 500" : ""}</span>
+                <span className="font-medium text-slate-700 tabular-nums">{monthly.toLocaleString()}{limits.impressionsPerMonth ? ` / ${limits.impressionsPerMonth.toLocaleString()}` : ""}</span>
               </div>
               {!isPro && (
                 <div className="pt-2">

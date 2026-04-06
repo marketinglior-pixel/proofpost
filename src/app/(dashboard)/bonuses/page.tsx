@@ -51,7 +51,8 @@ export default async function BonusesPage() {
     .eq("id", user!.id)
     .single();
   const plan = (profile as { plan: string } | null)?.plan || "free";
-  const isPro = plan === "pro";
+  const { isPaidPlan } = await import("@/lib/plans");
+  const isPro = isPaidPlan(plan as import("@/lib/plans").Plan);
 
   if (!isPro) {
     return (

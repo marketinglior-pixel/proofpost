@@ -7,6 +7,7 @@ import { TrustCardMarquee } from "./components/trust-card-marquee";
 import { TrustCardCta } from "./components/trust-card-cta";
 import { TrustCardFooter } from "./components/trust-card-footer";
 import { Star } from "lucide-react";
+import { getEffectivePlan, getPlanLimits, isPaidPlan, type Plan } from "@/lib/plans";
 
 export const revalidate = 60;
 
@@ -32,12 +33,17 @@ async function getTrustCardData(username: string) {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("plan, payment_type")
+    .select("plan, payment_type, trial_ends_at")
     .eq("id", card.user_id)
     .limit(1)
     .single();
 
-  const reviewLimit = profile?.plan === "pro" ? 1000 : 5;
+  const effectivePlan = getEffectivePlan(
+    (profile?.plan || "free") as Plan,
+    profile?.trial_ends_at ?? null
+  );
+  const limits = getPlanLimits(effectivePlan);
+  const reviewLimit = limits.reviews;
 
   const { data: reviews } = await supabase
     .from("imported_reviews")
@@ -48,7 +54,7 @@ async function getTrustCardData(username: string) {
     .order("imported_at", { ascending: false })
     .limit(reviewLimit);
 
-  return { card, profile, reviews: reviews || [] };
+  return { card, profile, reviews: reviews || [], effectivePlan };
 }
 
 export async function generateMetadata(
@@ -76,8 +82,8 @@ export default async function TrustCardPage({ params }: PageProps) {
   const data = await getTrustCardData(username);
   if (!data) notFound();
 
-  const { card, profile, reviews } = data;
-  const isPro = profile?.plan === "pro";
+  const { card, profile, reviews, effectivePlan } = data;
+  const isPro = isPaidPlan(effectivePlan);
   const accentColor = card.accent_color || "#10B981";
 
   // Record view

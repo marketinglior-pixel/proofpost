@@ -20,9 +20,13 @@ export default async function AnalyticsPage() {
   const { data: { user } } = await supabase.auth.getUser();
 
   const { data: profile } = await supabase
-    .from("profiles").select("plan").eq("id", user!.id).single();
-  const plan = (profile as { plan: string } | null)?.plan || "free";
-  const isPro = plan === "pro";
+    .from("profiles").select("plan, trial_ends_at").eq("id", user!.id).single();
+  const rawPlan = ((profile as { plan: string } | null)?.plan || "free") as import("@/lib/plans").Plan;
+  const trialEndsAt = (profile as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null;
+  const { getEffectivePlan, getPlanLimits, isPaidPlan, getPlanLabel } = await import("@/lib/plans");
+  const effectivePlan = getEffectivePlan(rawPlan, trialEndsAt);
+  const limits = getPlanLimits(effectivePlan);
+  const isPro = isPaidPlan(effectivePlan);
 
   // Monthly impressions
   const startOfMonth = new Date();
@@ -98,7 +102,7 @@ export default async function AnalyticsPage() {
     });
   }
 
-  const impressionLimit = isPro ? null : 500;
+  const impressionLimit = limits.impressionsPerMonth;
   const usagePercent = impressionLimit
     ? Math.min((monthly / impressionLimit) * 100, 100)
     : 0;
@@ -252,7 +256,7 @@ export default async function AnalyticsPage() {
               <div className="flex justify-between">
                 <span>Impressions this month</span>
                 <span className="font-medium text-slate-700 tabular-nums">
-                  {monthly.toLocaleString()}{!isPro ? " / 500" : ""}
+                  {monthly.toLocaleString()}{limits.impressionsPerMonth ? ` / ${limits.impressionsPerMonth.toLocaleString()}` : ""}
                 </span>
               </div>
               <div className="flex justify-between">

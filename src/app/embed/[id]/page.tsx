@@ -98,11 +98,15 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
 
       const { data: profile } = await supabase
         .from("profiles")
-        .select("plan")
+        .select("plan, trial_ends_at")
         .eq("id", widget.user_id)
         .single();
 
-      const isPro = (profile as { plan: string } | null)?.plan === "pro";
+      const { getEffectivePlan, getPlanLimits } = await import("@/lib/plans");
+      const ep = getEffectivePlan(
+        ((profile as { plan: string } | null)?.plan || "free") as import("@/lib/plans").Plan,
+        (profile as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null
+      );
 
       data = {
         type: "widget" as const,
@@ -114,7 +118,7 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
           primaryColor: brandKit.primary_color,
           secondaryColor: brandKit.secondary_color,
         } : null,
-        showWatermark: !isPro,
+        showWatermark: getPlanLimits(ep).showWatermark,
         limitReached: false,
       };
       widgetCustomStyle = widget.style || null;
@@ -136,11 +140,15 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
 
         const { data: profile } = await supabase
           .from("profiles")
-          .select("plan")
+          .select("plan, trial_ends_at")
           .eq("id", content.user_id)
           .single();
 
-        const isPro = (profile as { plan: string } | null)?.plan === "pro";
+        const { getEffectivePlan: gep2, getPlanLimits: gpl2 } = await import("@/lib/plans");
+        const ep2 = gep2(
+          ((profile as { plan: string } | null)?.plan || "free") as import("@/lib/plans").Plan,
+          (profile as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null
+        );
 
         data = {
           type: "single" as const,
@@ -159,7 +167,7 @@ export default async function EmbedPage({ params, searchParams }: PageProps) {
             primaryColor: brandKit.primary_color,
             secondaryColor: brandKit.secondary_color,
           } : null,
-          showWatermark: !isPro,
+          showWatermark: gpl2(ep2).showWatermark,
           limitReached: false,
         };
       }

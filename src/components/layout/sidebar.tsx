@@ -168,14 +168,14 @@ function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: s
 
       {/* Bottom */}
       <div className="px-3 py-4 space-y-2 relative z-10">
-        {plan === "pro" ? (
+        {plan !== "free" ? (
           <Link
             href="/settings"
             onClick={onNavigate}
             className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
           >
-            <span className="text-[12px] font-medium text-emerald">
-              Pro Plan
+            <span className="text-[12px] font-medium text-emerald capitalize">
+              {plan} Plan
             </span>
           </Link>
         ) : (

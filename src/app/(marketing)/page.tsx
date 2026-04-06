@@ -528,13 +528,13 @@ export default function LandingPage() {
         </h2>
         <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
           {[
-            { q: "How is this different from Senja or Testimonial.to?", a: "Senja and Testimonial.to show your full reviews in static grids. We take a different approach: AI pulls the one sentence that actually converts, we animate it, and the whole thing costs $19/mo. They charge $29 to $50 for static text. We also do video testimonials, G2/Google import, and AI collection forms." },
+            { q: "How is this different from Senja or Testimonial.to?", a: "Senja and Testimonial.to show your full reviews in static grids. We take a different approach: AI pulls the one sentence that actually converts, we animate it, and plans start at $19/mo. They charge $29 to $50 for static text. We also do video testimonials, G2/Google/Amazon/Etsy import, and AI collection forms." },
             { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
-            { q: "Can I import reviews from G2, Google, or Capterra?", a: "Yes. Connect your G2 or Google profile and we pull reviews automatically. Or paste a link from Capterra, Trustpilot, or LinkedIn. Screenshot import works too." },
+            { q: "Can I import reviews from G2, Google, Amazon, or Etsy?", a: "Yes. Connect your G2, Google, Amazon, or Etsy profile and we pull reviews automatically. Or paste a link from Capterra, Trustpilot, or LinkedIn. Screenshot import works too. Amazon and Etsy import available on Pro and Business plans." },
             { q: "Do you support video testimonials?", a: "Yes. Record through our collection form or upload existing clips. AI pulls the highlight reel and the best quote. You can embed video widgets alongside text carousels." },
             { q: "What if the AI extracts the wrong quote?", a: "You keep the original review. Edit the hook with one click. You control what gets published." },
             { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. AI asks follow-up questions so you get specific proof instead of vague praise. Reviews can auto-flow into your widget or wait for your approval." },
-            { q: "What's the free tier?", a: "3 carousels per month, no credit card. Includes AI hook extraction, animated widgets, and one-line embed. Upgrade to Pro ($19/mo) for unlimited widgets, video, analytics, and platform import." },
+            { q: "What's the free tier?", a: "14-day free trial with full access, no credit card. After that, 3 carousels per month with AI hook extraction and animated widgets. Upgrade to Starter ($19/mo) or Pro ($39/mo) for more reviews, imports, and analytics." },
             { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to get more out of what you have. That's exactly what our AI does." },
             { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
           ].map((faq, i) => (
@@ -619,6 +619,16 @@ export default function LandingPage() {
             <div className="flex gap-10">
               <div className="space-y-2">
                 <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Product</p>
+                <div className="flex flex-col gap-1.5">
+                  <Link href="/what-is-a-trust-card" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Trust Card</Link>
+                  <Link href="/proof-card" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Proof Card</Link>
+                  <Link href="/free-trust-page" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Free Trust Page</Link>
+                  <Link href="/free-landing-page" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Free Landing Page</Link>
+                  <Link href="/free-digital-business-card" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Digital Business Card</Link>
+                </div>
+              </div>
+              <div className="space-y-2">
+                <p className="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Resources</p>
                 <div className="flex flex-col gap-1.5">
                   <Link href="/demo" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Demo</Link>
                   <Link href="/guide" className="text-[13px] text-slate-500 hover:text-slate-900 transition-colors">Install Guide</Link>

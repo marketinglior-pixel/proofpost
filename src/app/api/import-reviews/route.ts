@@ -2,16 +2,24 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { importFromG2 } from "@/lib/importers/g2-importer";
 import { importFromGoogle } from "@/lib/importers/google-importer";
+import { importFromAmazon } from "@/lib/importers/amazon-importer";
+import { importFromEtsy } from "@/lib/importers/etsy-importer";
 import { processImportedReviews } from "@/lib/importers/process-import";
 import { rateLimit } from "@/lib/rate-limit";
+import { getEffectivePlan, getPlanLimits, type Plan } from "@/lib/plans";
 
-const VALID_PLATFORMS = ["g2", "google"] as const;
+const VALID_PLATFORMS = ["g2", "google", "amazon", "etsy"] as const;
 type Platform = (typeof VALID_PLATFORMS)[number];
 
 const URL_PATTERNS: Record<Platform, RegExp> = {
   g2: /^https?:\/\/(www\.)?g2\.com\//,
   google: /^https?:\/\/(www\.)?(google\.com\/maps|maps\.google|search\.google)/,
+  amazon: /^https?:\/\/(www\.)?amazon\.(com|co\.uk|ca|de|fr|it|es|co\.jp|com\.au)/,
+  etsy: /^https?:\/\/(www\.)?etsy\.com\//,
 };
+
+// Platforms that require a paid plan (Pro or Business)
+const PRO_ONLY_PLATFORMS: Platform[] = ["amazon", "etsy"];
 
 export async function POST(request: NextRequest) {
   try {
@@ -52,6 +60,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check plan for Pro-only platforms (Amazon, Etsy)
+    if (PRO_ONLY_PLATFORMS.includes(platform as Platform)) {
+      const { data: profile } = await supabase
+        .from("profiles")
+        .select("plan, trial_ends_at")
+        .eq("id", user.id)
+        .single();
+
+      const rawPlan = ((profile as { plan: string } | null)?.plan || "free") as Plan;
+      const trialEndsAt = (profile as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null;
+      const effectivePlan = getEffectivePlan(rawPlan, trialEndsAt);
+      const limits = getPlanLimits(effectivePlan);
+
+      if (!limits.hasAmazonEtsyImport) {
+        return NextResponse.json(
+          { error: `${platform.charAt(0).toUpperCase() + platform.slice(1)} import is available on Pro and Business plans. Upgrade to access this feature.` },
+          { status: 403 }
+        );
+      }
+    }
+
     if (!url && !csv && !text) {
       return NextResponse.json(
         { error: "Provide a URL, CSV data, or pasted review text" },
@@ -77,11 +106,21 @@ export async function POST(request: NextRequest) {
     const input = text || csv || url!;
 
     let reviews;
-    if (platform === "g2") {
-      reviews = await importFromG2(input, inputType);
-    } else {
-      // For Google: if text is provided, parse it as pasted reviews
-      reviews = await importFromGoogle(input, text ? "url" : inputType);
+    switch (platform) {
+      case "g2":
+        reviews = await importFromG2(input, inputType);
+        break;
+      case "google":
+        reviews = await importFromGoogle(input, text ? "url" : inputType);
+        break;
+      case "amazon":
+        reviews = await importFromAmazon(input, inputType);
+        break;
+      case "etsy":
+        reviews = await importFromEtsy(input, inputType);
+        break;
+      default:
+        return NextResponse.json({ error: "Unsupported platform" }, { status: 400 });
     }
 
     if (reviews.length === 0) {

@@ -11,13 +11,14 @@ export default async function SettingsPage() {
 
   const { data: profile } = await supabase
     .from("profiles")
-    .select("plan, display_name, created_at")
+    .select("plan, display_name, created_at, trial_ends_at")
     .eq("id", user!.id)
     .single();
 
-  const p = profile as { plan: string; display_name: string | null; created_at: string } | null;
+  const p = profile as { plan: string; display_name: string | null; created_at: string; trial_ends_at?: string | null } | null;
   const plan = p?.plan || "free";
-  const isPro = plan === "pro";
+  const { isPaidPlan, getPlanLabel } = await import("@/lib/plans");
+  const isPro = isPaidPlan(plan as import("@/lib/plans").Plan);
   const displayName = p?.display_name || user?.email?.split("@")[0] || "";
   const memberSince = p?.created_at
     ? new Date(p.created_at).toLocaleDateString("en-US", { month: "long", year: "numeric" })
@@ -58,7 +59,7 @@ export default async function SettingsPage() {
                   : "bg-slate-100 text-slate-500"
               }`}
             >
-              {isPro ? "Pro" : "Free"}
+              {getPlanLabel(plan as import("@/lib/plans").Plan)}
             </span>
           </div>
           {memberSince && (

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { rateLimit } from "@/lib/rate-limit";
+import { getPlanFromProductId } from "@/lib/plans";
 
 const DODO_API_BASE = process.env.DODO_PAYMENTS_ENVIRONMENT === "live_mode"
   ? "https://live.dodopayments.com"
@@ -18,13 +19,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Valid email required" }, { status: 400 });
   }
 
+  // Validate product ID maps to a known plan
+  const plan = getPlanFromProductId(productId);
+  if (!plan) {
+    return NextResponse.json({ error: "Invalid product" }, { status: 400 });
+  }
+
   if (!rateLimit(`checkout:${email}`, { maxRequests: 5, windowMs: 60_000 }).success) {
     return NextResponse.json({ error: "Too many requests. Please wait a minute." }, { status: 429 });
   }
 
   try {
-    const isLTD = productId === process.env.DODO_LTD_PRODUCT_ID;
-
     const body: Record<string, unknown> = {
       billing: { city: "", country: "US", state: "", street: "", zipcode: "" },
       customer: { email, name: email.split("@")[0] },
@@ -38,8 +43,8 @@ export async function GET(request: NextRequest) {
       body.discount_code = discountCode;
     }
 
-    // LTD uses one-time payments endpoint, subscriptions use recurring
-    const endpoint = isLTD ? `${DODO_API_BASE}/payments` : `${DODO_API_BASE}/subscriptions`;
+    // All plans use subscriptions endpoint (LTD is deprecated)
+    const endpoint = `${DODO_API_BASE}/subscriptions`;
     const res = await fetch(endpoint, {
       method: "POST",
       headers: {

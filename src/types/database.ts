@@ -18,6 +18,8 @@ export interface Database {
           plan: string;
           username: string | null;
           payment_type: string;
+          trial_ends_at: string | null;
+          subscription_product_id: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -28,6 +30,8 @@ export interface Database {
           plan?: string;
           username?: string | null;
           payment_type?: string;
+          trial_ends_at?: string | null;
+          subscription_product_id?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -38,6 +42,8 @@ export interface Database {
           plan?: string;
           username?: string | null;
           payment_type?: string;
+          trial_ends_at?: string | null;
+          subscription_product_id?: string | null;
           created_at?: string;
           updated_at?: string;
         };

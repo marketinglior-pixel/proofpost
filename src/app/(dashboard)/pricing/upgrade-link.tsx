@@ -10,7 +10,7 @@ export function UpgradeLink({
   children,
 }: {
   href: string;
-  plan: "monthly" | "annual";
+  plan: string;
   className?: string;
   children: React.ReactNode;
 }) {

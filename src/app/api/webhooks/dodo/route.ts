@@ -1,22 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 import crypto from "crypto";
+import { getPlanFromProductId, type Plan } from "@/lib/plans";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 );
 
-async function upgradeUser(email: string, paymentType: "subscription" | "ltd" = "subscription") {
+async function upgradeUser(email: string, plan: Plan, productId: string) {
   const { data: users } = await supabase.auth.admin.listUsers();
   const user = users?.users?.find((u) => u.email === email);
   if (!user) { console.error("User not found:", email); return; }
   await supabase.from("profiles").update({
-    plan: "pro",
-    payment_type: paymentType,
+    plan,
+    payment_type: "subscription",
+    subscription_product_id: productId,
     updated_at: new Date().toISOString(),
   }).eq("id", user.id);
-  console.log(`Upgraded to pro (${paymentType}):`, user.id);
+  console.log(`Upgraded to ${plan}:`, user.id);
 }
 
 async function downgradeUser(email: string) {
@@ -24,7 +26,7 @@ async function downgradeUser(email: string) {
   const user = users?.users?.find((u) => u.email === email);
   if (!user) return;
 
-  // Never downgrade LTD users — they paid once, forever
+  // Never downgrade LTD users — they paid once, forever (grandfathered)
   const { data: profile } = await supabase
     .from("profiles")
     .select("payment_type")
@@ -36,7 +38,11 @@ async function downgradeUser(email: string) {
     return;
   }
 
-  await supabase.from("profiles").update({ plan: "free", updated_at: new Date().toISOString() }).eq("id", user.id);
+  await supabase.from("profiles").update({
+    plan: "free",
+    subscription_product_id: null,
+    updated_at: new Date().toISOString(),
+  }).eq("id", user.id);
   console.log("Downgraded to free:", user.id);
 }
 
@@ -54,7 +60,6 @@ export async function POST(request: NextRequest) {
     const signature = request.headers.get("webhook-signature") || request.headers.get("x-dodo-signature") || "";
     const webhookKey = process.env.DODO_PAYMENTS_WEBHOOK_KEY || "";
 
-    // Always verify webhook signature in production
     if (!webhookKey) {
       console.error("DODO_PAYMENTS_WEBHOOK_KEY is not configured");
       return NextResponse.json({ error: "Webhook not configured" }, { status: 500 });
@@ -67,15 +72,21 @@ export async function POST(request: NextRequest) {
     const payload = JSON.parse(body);
     const eventType = payload.type || payload.event_type || "";
     const email = payload.data?.customer?.email || payload.customer?.email || "";
+    const productId = payload.data?.product_id || payload.product_id || "";
 
-    console.log("Dodo webhook:", eventType, email);
+    console.log("Dodo webhook:", eventType, email, productId);
 
     if (eventType.includes("payment.succeeded") || eventType.includes("subscription.active")) {
       if (email) {
-        // Detect LTD by checking product_id
-        const productId = payload.data?.product_id || payload.product_id || "";
-        const isLTD = productId === process.env.DODO_LTD_PRODUCT_ID;
-        await upgradeUser(email, isLTD ? "ltd" : "subscription");
+        // Map product ID to plan tier
+        const plan = getPlanFromProductId(productId);
+        if (plan) {
+          await upgradeUser(email, plan, productId);
+        } else {
+          // Unknown product — default to pro for safety, log warning
+          console.warn("Unknown product ID in webhook:", productId, "— defaulting to pro");
+          await upgradeUser(email, "pro", productId);
+        }
       }
     }
 

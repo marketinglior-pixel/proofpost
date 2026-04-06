@@ -5,6 +5,7 @@ import type { ReviewerInfo } from "@/lib/ai/generate-carousel";
 import type { Database } from "@/types/database";
 import { rateLimit } from "@/lib/rate-limit";
 import { appendLeadToSheet } from "@/lib/google-sheets";
+import { getEffectivePlan, getPlanLimits, type Plan } from "@/lib/plans";
 
 type BrandKit = Database["public"]["Tables"]["brand_kits"]["Row"];
 
@@ -62,13 +63,16 @@ export async function POST(request: NextRequest) {
     // Check plan
     const { data: profileData } = await supabase
       .from("profiles")
-      .select("plan")
+      .select("plan, trial_ends_at")
       .eq("id", user.id)
       .single();
 
-    const plan = (profileData as { plan: string } | null)?.plan || "free";
+    const rawPlan = ((profileData as { plan: string; trial_ends_at: string | null } | null)?.plan || "free") as Plan;
+    const trialEndsAt = (profileData as { trial_ends_at: string | null } | null)?.trial_ends_at ?? null;
+    const effectivePlan = getEffectivePlan(rawPlan, trialEndsAt);
+    const limits = getPlanLimits(effectivePlan);
 
-    if (plan !== "pro") {
+    if (limits.carouselsPerMonth !== null) {
       const startOfMonth = new Date();
       startOfMonth.setDate(1);
       startOfMonth.setHours(0, 0, 0, 0);
@@ -79,11 +83,11 @@ export async function POST(request: NextRequest) {
         .eq("user_id", user.id)
         .gte("created_at", startOfMonth.toISOString());
 
-      if ((count ?? 0) >= 3) {
+      if ((count ?? 0) >= limits.carouselsPerMonth) {
         return NextResponse.json(
           {
             error:
-              "You've reached your free plan limit (3/month). Upgrade to Pro for unlimited.",
+              `You've reached your plan limit (${limits.carouselsPerMonth}/month). Upgrade your plan for more.`,
           },
           { status: 403 }
         );
@@ -126,7 +130,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     // Log lead to Google Sheets (fire-and-forget)
-    appendLeadToSheet(user.email ?? "unknown", plan).catch((err) =>
+    appendLeadToSheet(user.email ?? "unknown", effectivePlan).catch((err) =>
       console.error("Google Sheets error:", err)
     );
 
