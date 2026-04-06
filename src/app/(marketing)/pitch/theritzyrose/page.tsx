@@ -142,141 +142,13 @@ export default function TheRitzyRosePitchPage() {
               </div>
             </div>
 
-            {/* TheRitzyRose Trust Card Mockup (matches real Trust Card design) */}
+            {/* Live TheRitzyRose Trust Card (real product, iframe) */}
             <div className="hidden lg:flex justify-center relative">
-              <div className="absolute inset-0 bg-emerald/5 rounded-full blur-[80px]" />
-              <div className="relative w-[360px]">
-                {/* Subtle accent gradient */}
-                <div className="absolute -top-8 left-0 right-0 h-[200px] bg-[radial-gradient(ellipse_at_top,_rgba(236,72,153,0.08)_0%,_transparent_60%)] pointer-events-none rounded-t-3xl" />
-
-                {/* Profile card (matches real Trust Card layout) */}
-                <div className="relative rounded-3xl bg-white border border-slate-100 shadow-[0_8px_30px_rgb(0,0,0,0.08)] p-7 space-y-5">
-                  {/* Avatar */}
-                  <div className="text-center">
-                    <div className="w-[72px] h-[72px] rounded-full bg-gradient-to-br from-pink-400 to-rose-500 mx-auto flex items-center justify-center text-white text-[28px] font-bold shadow-lg ring-4 ring-white">
-                      R
-                    </div>
-                    <h3 className="text-[18px] font-bold text-slate-900 mt-3">The Ritzy Rose</h3>
-                    <p className="text-[13px] text-pink-500 font-medium">Handmade Signs & Brooch Bouquets</p>
-                    <p className="text-[12px] text-slate-400 mt-1 leading-relaxed">
-                      Crafted with love in Columbus, Ohio since 2010. Featured in NYT, GMA & Martha Stewart Weddings.
-                    </p>
-                  </div>
-
-                  {/* Social links */}
-                  <div className="flex justify-center gap-2">
-                    {["E", "A", "W"].map((letter, i) => (
-                      <span key={i} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-[11px] text-slate-400 font-semibold">
-                        {letter}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Stats row */}
-                  <div className="flex justify-center gap-6 py-3 border-t border-b border-slate-100">
-                    <div className="text-center">
-                      <div className="flex items-center gap-1 justify-center">
-                        <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                        <span className="text-[16px] font-bold text-slate-900">5.0</span>
-                      </div>
-                      <p className="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Rating</p>
-                    </div>
-                    <div className="text-center">
-                      <span className="text-[16px] font-bold text-slate-900">24.5K</span>
-                      <p className="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Reviews</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="flex items-center gap-1 justify-center">
-                        <Shield className="w-3.5 h-3.5 text-emerald" />
-                        <span className="text-[12px] font-semibold text-emerald">Verified</span>
-                      </div>
-                      <p className="text-[9px] text-slate-400 uppercase tracking-wider mt-0.5">Etsy & Amazon</p>
-                    </div>
-                  </div>
-
-                  {/* CTA */}
-                  <a className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl text-white font-semibold text-[14px] bg-gradient-to-r from-pink-500 to-rose-500 shadow-lg shadow-pink-200/50">
-                    Shop TheRitzyRose
-                    <ArrowRight className="w-4 h-4" />
-                  </a>
-                </div>
-
-                {/* Review cards (matching real Trust Card review style) */}
-                <div className="mt-4 space-y-3">
-                  <div className="flex items-center gap-3 px-1">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-slate-400 font-semibold">What customers say</p>
-                    <div className="flex-1 h-px bg-slate-200" />
-                  </div>
-
-                  {/* Review 1 */}
-                  <div className="rounded-2xl bg-white border border-slate-100 shadow-[0_2px_12px_rgb(0,0,0,0.04)] p-4 space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                        ))}
-                      </div>
-                      <span className="flex items-center gap-1 text-[10px] text-emerald font-medium">
-                        <Shield className="w-3 h-3" /> Verified on Etsy
-                      </span>
-                    </div>
-                    <p className="text-[13px] text-slate-700 leading-relaxed">
-                      &ldquo;The quality was amazing and <span className="bg-emerald/10 text-emerald font-semibold px-1 rounded">it blew my expectations away</span>!&rdquo;
-                    </p>
-                    <div className="flex items-center gap-2 pt-1.5 border-t border-slate-50">
-                      <div className="w-6 h-6 rounded-full bg-pink-100 flex items-center justify-center text-[10px] text-pink-500 font-bold">J</div>
-                      <div>
-                        <p className="text-[11px] font-medium text-slate-700">Jessica M.</p>
-                        <p className="text-[10px] text-slate-400">Wedding customer</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Review 2 */}
-                  <div className="rounded-2xl bg-white border border-slate-100 shadow-[0_2px_12px_rgb(0,0,0,0.04)] p-4 space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex gap-0.5">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                        ))}
-                      </div>
-                      <span className="flex items-center gap-1 text-[10px] text-emerald font-medium">
-                        <Shield className="w-3 h-3" /> Verified on Etsy
-                      </span>
-                    </div>
-                    <p className="text-[13px] text-slate-700 leading-relaxed">
-                      &ldquo;These signs are gorgeous. <span className="bg-emerald/10 text-emerald font-semibold px-1 rounded">I will definitely be ordering more</span> in the future!&rdquo;
-                    </p>
-                    <div className="flex items-center gap-2 pt-1.5 border-t border-slate-50">
-                      <div className="w-6 h-6 rounded-full bg-rose-100 flex items-center justify-center text-[10px] text-rose-500 font-bold">S</div>
-                      <div>
-                        <p className="text-[11px] font-medium text-slate-700">Sarah K.</p>
-                        <p className="text-[10px] text-slate-400">Repeat buyer</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Fade hint (shows more reviews exist) */}
-                  <div className="rounded-2xl bg-white/60 border border-slate-100/50 p-4 opacity-40">
-                    <div className="flex gap-0.5 mb-2">
-                      {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                      ))}
-                    </div>
-                    <p className="text-[13px] text-slate-400">&ldquo;Super Fast Shipping and Perfect for my Wedding...&rdquo;</p>
-                  </div>
-                </div>
-
-                {/* Watermark */}
-                <div className="mt-4 text-center">
-                  <span className="text-[11px] text-slate-300">
-                    Built with <span className="text-emerald font-medium">ProofPost</span>
-                  </span>
-                </div>
-
-                {/* Label */}
-                <p className="text-[11px] text-slate-500 text-center mt-2">
-                  proofpst.com/theritzyrose (preview)
+              <div className="absolute inset-0 bg-pink-500/5 rounded-full blur-[80px]" />
+              <div className="relative">
+                <IPhoneMockup src="https://proofpst.com/theritzyrose" />
+                <p className="text-[11px] text-slate-500 text-center mt-4">
+                  Live Trust Card (proofpst.com/theritzyrose)
                 </p>
               </div>
             </div>
@@ -573,10 +445,10 @@ export default function TheRitzyRosePitchPage() {
             your 24,500 reviews, and your press logos.
           </p>
           <div className="flex justify-center">
-            <IPhoneMockup src="https://proofpst.com/lio" />
+            <IPhoneMockup src="https://proofpst.com/theritzyrose" />
           </div>
           <p className="text-[12px] text-slate-400 text-center mt-6">
-            Live interactive demo at proofpst.com/lio
+            Live interactive demo at proofpst.com/theritzyrose
           </p>
         </div>
       </section>
@@ -725,7 +597,7 @@ export default function TheRitzyRosePitchPage() {
             <p className="text-[12px] text-slate-600 mt-3">
               <a href="https://proofpst.com" className="text-emerald hover:underline">proofpst.com</a>
               {" | "}
-              <a href="https://proofpst.com/lio" className="text-emerald hover:underline">See a live demo</a>
+              <a href="https://proofpst.com/theritzyrose" className="text-emerald hover:underline">See a live demo</a>
             </p>
           </div>
         </div>
