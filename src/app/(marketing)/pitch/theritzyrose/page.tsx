@@ -25,24 +25,51 @@ export const metadata: Metadata = {
 const REVIEWS = [
   {
     quote:
-      "Every single guest asked where I got my reserved signs. They added such a special touch to our ceremony.",
-    hookLine: "Every single guest asked",
-    author: "Lauren H.",
-    context: "Wedding customer",
+      "These are perfect, they made my fiancé and I both cry when we saw them.",
+    hookLine: "made my fiancé and I both cry",
+    author: "Amazon Customer",
+    context: "Wedding signs",
+    source: "amazon" as const,
   },
   {
     quote:
-      "Came out perfect, very responsive to my questions. I felt like I was working with a friend, not a vendor.",
-    hookLine: "working with a friend, not a vendor",
-    author: "Emily W.",
+      "It's so much more beautiful than I expected and super high quality. Definitely the best place to buy from!",
+    hookLine: "Definitely the best place to buy from",
+    author: "Amazon Customer",
     context: "Custom order",
+    source: "amazon" as const,
   },
   {
     quote:
-      "These signs are gorgeous. I'm so impressed with how beautiful they turned out. I will definitely be ordering more in the future!",
-    hookLine: "I will definitely be ordering more",
-    author: "Sarah K.",
-    context: "Repeat buyer",
+      "Speedy delivery and all around great product. So gorgeous I contacted the store and did the rest of my wedding signage through them.",
+    hookLine: "did the rest of my wedding signage through them",
+    author: "Amazon Customer",
+    context: "Wedding signage",
+    source: "amazon" as const,
+  },
+  {
+    quote:
+      "These are absolutely beautiful! They have gorgeous stitching and the paper is very high quality, bigger than I anticipated and I am so glad!",
+    hookLine: "gorgeous stitching and the paper is very high quality",
+    author: "Amazon Customer",
+    context: "Reserved signs",
+    source: "amazon" as const,
+  },
+  {
+    quote:
+      "Came packaged nicely, colors were exactly what I asked for, and the sign had cute stitching along the edges that I wasn't expecting. Very happy with this!",
+    hookLine: "colors were exactly what I asked for",
+    author: "Amazon Customer",
+    context: "Custom color order",
+    source: "amazon" as const,
+  },
+  {
+    quote:
+      "I love this!! Beautifully made. Love it so much I'm ordering another for a friend!",
+    hookLine: "ordering another for a friend",
+    author: "Amazon Customer",
+    context: "Gift purchase",
+    source: "amazon" as const,
   },
 ];
 
@@ -81,16 +108,18 @@ export default function TheRitzyRosePitchPage() {
           </h1>
 
           <p className="text-[16px] text-slate-400 leading-relaxed max-w-xl mx-auto mt-6">
-            You have 24,500 five-star reviews on Etsy, but theritzyrose.com shows zero.
-            When customers Google you and land on your site, they see great products
-            and no proof. So they go to Etsy. And Etsy takes 15%.
+            You have 24,500+ five-star reviews on Etsy and 628+ ratings on Amazon,
+            but theritzyrose.com shows zero. When customers Google you and land on
+            your site, they see great products and no proof. So they go to Etsy.
+            And Etsy takes 15%.
           </p>
 
           {/* Stats */}
           <div className="flex flex-wrap justify-center gap-4 mt-8">
             {[
               { icon: Star, value: "86,409+", label: "Etsy Sales" },
-              { icon: Shield, value: "24,500+", label: "5-Star Reviews" },
+              { icon: Shield, value: "24,500+", label: "5-Star Reviews (Etsy)" },
+              { icon: Shield, value: "628+", label: "Amazon Ratings" },
               { icon: Award, value: "Star Seller", label: "Since 2010" },
             ].map((stat, i) => (
               <div
@@ -115,9 +144,9 @@ export default function TheRitzyRosePitchPage() {
             ProofPost brings your Etsy reputation to your own site.
           </h2>
           <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
-            We pull your reviews from Etsy, our AI finds the sentence that sells,
-            and we put it everywhere it matters: your Shopify pages, Google search results,
-            and a branded Trust Card you can share anywhere.
+            We pull your reviews from Etsy and Amazon, our AI finds the sentence
+            that sells, and we put it everywhere it matters: your Shopify pages,
+            Google search results, and a branded Trust Card you can share anywhere.
           </p>
         </div>
 
@@ -125,8 +154,8 @@ export default function TheRitzyRosePitchPage() {
           {[
             {
               icon: Import,
-              title: "Import reviews",
-              text: "Your Etsy and Amazon reviews, pulled in automatically. Verified and synced.",
+              title: "Import from Etsy & Amazon",
+              text: "25,000+ verified reviews pulled in automatically. Each one tagged with its source.",
             },
             {
               icon: Sparkles,
@@ -177,14 +206,20 @@ export default function TheRitzyRosePitchPage() {
             </a>
           </p>
 
-          {/* Best 3 reviews with AI highlights */}
+          {/* Real verified reviews with AI highlights */}
           <div className="grid sm:grid-cols-3 gap-5 mt-12">
-            {REVIEWS.map((review, i) => (
+            {REVIEWS.slice(0, 3).map((review, i) => (
               <div key={i} className="rounded-xl border border-slate-200 bg-white p-5 space-y-3">
-                <div className="flex gap-0.5">
-                  {[...Array(5)].map((_, j) => (
-                    <Star key={j} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                  ))}
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <span className="flex items-center gap-1 text-[10px] font-medium text-emerald bg-emerald/10 px-2 py-0.5 rounded-full">
+                    <Shield className="w-3 h-3" />
+                    {review.source === "amazon" ? "Verified Amazon" : "Verified Etsy"}
+                  </span>
                 </div>
                 <p className="text-[13px] text-slate-700 leading-relaxed">
                   &ldquo;{review.quote.split(review.hookLine).map((part, idx) => (
@@ -199,13 +234,48 @@ export default function TheRitzyRosePitchPage() {
                   ))}&rdquo;
                 </p>
                 <p className="text-[11px] text-slate-400">
-                  {review.author}, {review.context}
+                  {review.author} · {review.context}
                 </p>
               </div>
             ))}
           </div>
+
+          {/* Second row */}
+          <div className="grid sm:grid-cols-3 gap-5 mt-5">
+            {REVIEWS.slice(3).map((review, i) => (
+              <div key={i} className="rounded-xl border border-slate-200 bg-white p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex gap-0.5">
+                    {[...Array(5)].map((_, j) => (
+                      <Star key={j} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <span className="flex items-center gap-1 text-[10px] font-medium text-emerald bg-emerald/10 px-2 py-0.5 rounded-full">
+                    <Shield className="w-3 h-3" />
+                    {review.source === "amazon" ? "Verified Amazon" : "Verified Etsy"}
+                  </span>
+                </div>
+                <p className="text-[13px] text-slate-700 leading-relaxed">
+                  &ldquo;{review.quote.split(review.hookLine).map((part, idx) => (
+                    <span key={idx}>
+                      {part}
+                      {idx === 0 && (
+                        <span className="bg-emerald/15 text-emerald font-semibold px-1 rounded">
+                          {review.hookLine}
+                        </span>
+                      )}
+                    </span>
+                  ))}&rdquo;
+                </p>
+                <p className="text-[11px] text-slate-400">
+                  {review.author} · {review.context}
+                </p>
+              </div>
+            ))}
+          </div>
+
           <p className="text-[12px] text-slate-400 text-center mt-4">
-            <span className="text-emerald font-medium">Highlighted</span> = the AI-extracted line we'd use in your marketing
+            <span className="text-emerald font-medium">Highlighted</span> = the AI-extracted line we'd use in your marketing · All reviews verified from Amazon &amp; Etsy
           </p>
         </div>
       </section>
@@ -265,7 +335,7 @@ export default function TheRitzyRosePitchPage() {
         <div className="space-y-4">
           {[
             { icon: Shield, title: "Trust Card", desc: "Branded proof page at proofpst.com/theritzyrose. One link, share everywhere." },
-            { icon: Import, title: "Review Import", desc: "Etsy + Amazon reviews pulled in automatically. Verified and synced." },
+            { icon: Import, title: "Review Import", desc: "Etsy + Amazon reviews pulled in automatically. Each tagged \"Verified Amazon\" or \"Verified Etsy\"." },
             { icon: Sparkles, title: "AI Hook Extraction", desc: "Finds the one sentence in each review that converts." },
             { icon: Search, title: "Google SEO", desc: "Schema markup so your star ratings show up in Google search results." },
             { icon: Globe, title: "Shopify Widgets", desc: "Animated review widgets on your product pages. Branded to match your look." },
