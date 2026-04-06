@@ -142,15 +142,134 @@ export default function TheRitzyRosePitchPage() {
               </div>
             </div>
 
-            {/* iPhone mockup */}
+            {/* TheRitzyRose Trust Card Mockup */}
             <div className="hidden lg:flex justify-center relative">
               <div className="absolute inset-0 bg-emerald/5 rounded-full blur-[80px]" />
-              <div className="relative">
-                <IPhoneMockup src="https://proofpst.com/lio" />
+              <div className="relative w-[340px]">
+                {/* Card frame */}
+                <div className="rounded-2xl bg-[#0c1220] border border-white/10 shadow-2xl shadow-emerald/10 overflow-hidden">
+                  {/* Header */}
+                  <div className="p-6 pb-4 text-center">
+                    {/* Avatar placeholder with brand initial */}
+                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 mx-auto flex items-center justify-center text-white text-[24px] font-bold shadow-lg">
+                      R
+                    </div>
+                    <h3 className="text-[18px] font-bold text-white mt-3">The Ritzy Rose</h3>
+                    <p className="text-[13px] text-emerald font-medium">Handmade Signs & Brooch Bouquets</p>
+                    <p className="text-[12px] text-slate-400 mt-1">Crafted with love in Columbus, Ohio since 2010</p>
+                    {/* Social icons */}
+                    <div className="flex justify-center gap-2 mt-3">
+                      {["etsy", "amazon", "web"].map((p) => (
+                        <span key={p} className="w-7 h-7 rounded-full bg-white/10 flex items-center justify-center text-[10px] text-slate-400 font-medium uppercase">
+                          {p[0]}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Stats bar */}
+                  <div className="flex justify-center gap-6 px-6 py-3 border-t border-white/5">
+                    <div className="text-center">
+                      <div className="flex items-center gap-1">
+                        <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                        <span className="text-[15px] font-bold text-white">5.0</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider">Rating</p>
+                    </div>
+                    <div className="text-center">
+                      <span className="text-[15px] font-bold text-white">24.5K</span>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider">Reviews</p>
+                    </div>
+                    <div className="text-center flex flex-col items-center">
+                      <div className="flex items-center gap-1">
+                        <Shield className="w-3 h-3 text-emerald" />
+                        <span className="text-[11px] font-semibold text-emerald">Verified</span>
+                      </div>
+                      <p className="text-[10px] text-slate-500 uppercase tracking-wider">Etsy & Amazon</p>
+                    </div>
+                  </div>
+
+                  {/* Reviews section */}
+                  <div className="px-4 pb-2 pt-3 border-t border-white/5">
+                    <p className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold mb-3 px-2">What Customers Say</p>
+
+                    {/* Review card 1 */}
+                    <div className="rounded-xl bg-white/5 border border-white/8 p-3.5 mb-2.5">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                          ))}
+                        </div>
+                        <span className="text-[9px] text-emerald font-medium flex items-center gap-1">
+                          <Shield className="w-2.5 h-2.5" /> Verified on Etsy
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-slate-300 leading-relaxed">
+                        &ldquo;The quality was amazing and <span className="text-emerald font-semibold">it blew my expectations away</span>!&rdquo;
+                      </p>
+                      <p className="text-[10px] text-slate-500 mt-1.5">Wedding customer, 2024</p>
+                    </div>
+
+                    {/* Review card 2 */}
+                    <div className="rounded-xl bg-white/5 border border-white/8 p-3.5 mb-2.5">
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex gap-0.5">
+                          {[...Array(5)].map((_, i) => (
+                            <Star key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                          ))}
+                        </div>
+                        <span className="text-[9px] text-emerald font-medium flex items-center gap-1">
+                          <Shield className="w-2.5 h-2.5" /> Verified on Etsy
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-slate-300 leading-relaxed">
+                        &ldquo;These signs are gorgeous. <span className="text-emerald font-semibold">I will definitely be ordering more</span> in the future!&rdquo;
+                      </p>
+                      <p className="text-[10px] text-slate-500 mt-1.5">Repeat buyer</p>
+                    </div>
+
+                    {/* Review card 3 (partial, shows there are more) */}
+                    <div className="rounded-xl bg-white/5 border border-white/8 p-3.5 mb-3 opacity-60">
+                      <div className="flex gap-0.5 mb-2">
+                        {[...Array(5)].map((_, i) => (
+                          <Star key={i} className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                        ))}
+                      </div>
+                      <p className="text-[12px] text-slate-400 leading-relaxed">
+                        &ldquo;Super Fast Shipping and <span className="text-emerald/70">Perfect for my Wedding</span>...&rdquo;
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <div className="px-4 pb-5">
+                    <div className="w-full h-10 rounded-xl bg-gradient-to-r from-pink-500 to-rose-500 flex items-center justify-center text-white text-[13px] font-semibold">
+                      Shop TheRitzyRose
+                    </div>
+                  </div>
+
+                  {/* Press bar */}
+                  <div className="px-4 pb-4">
+                    <p className="text-[9px] text-slate-500 text-center uppercase tracking-widest mb-2">As Seen In</p>
+                    <div className="flex flex-wrap justify-center gap-x-3 gap-y-1">
+                      {["NYT", "GMA", "Martha Stewart", "People", "ET"].map((name) => (
+                        <span key={name} className="text-[9px] text-slate-500 font-medium">{name}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Watermark */}
+                  <div className="py-2.5 border-t border-white/5 text-center">
+                    <span className="text-[10px] text-slate-600">Built with <span className="text-emerald font-medium">ProofPost</span></span>
+                  </div>
+                </div>
+
+                {/* Label under card */}
+                <p className="text-[11px] text-slate-500 text-center mt-4">
+                  proofpst.com/theritzyrose (preview)
+                </p>
               </div>
-              <p className="absolute -bottom-6 text-[11px] text-slate-500 text-center w-full">
-                Live Trust Card demo (proofpst.com/lio)
-              </p>
             </div>
           </div>
         </div>
