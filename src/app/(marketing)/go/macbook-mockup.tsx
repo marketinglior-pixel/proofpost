@@ -2,7 +2,7 @@
 
 export function MacbookMockup({ src }: { src: string }) {
   return (
-    <div className="relative mx-auto" style={{ maxWidth: "1100px" }}>
+    <div className="relative mx-auto" style={{ maxWidth: "1400px" }}>
       {/* Screen */}
       <div className="relative bg-gray-900 rounded-t-2xl border-[10px] border-gray-900 overflow-hidden shadow-2xl shadow-slate-400/30">
         {/* Camera dot */}
