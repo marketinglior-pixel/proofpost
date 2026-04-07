@@ -13,6 +13,7 @@ interface Review {
   rating: number;
   verified: boolean;
   image_url: string | null;
+  hook_line: string | null;
 }
 
 interface TrustCardMarqueeProps {
@@ -53,10 +54,31 @@ function ReviewCard({ review, accentColor }: { review: Review; accentColor: stri
         </span>
       </div>
 
-      {/* Review text */}
+      {/* Review text with hook_line highlighting */}
       {review.review_text && review.review_text !== "Screenshot review" && (
         <p className="text-[14px] text-slate-600 leading-relaxed">
-          &ldquo;{review.review_text}&rdquo;
+          &ldquo;
+          {review.hook_line && review.review_text.includes(review.hook_line) ? (
+            review.review_text.split(review.hook_line).map((part, idx, arr) => (
+              <span key={idx}>
+                {part}
+                {idx < arr.length - 1 && (
+                  <span
+                    className="font-semibold px-0.5 rounded"
+                    style={{
+                      color: accentColor,
+                      backgroundColor: `${accentColor}15`,
+                    }}
+                  >
+                    {review.hook_line}
+                  </span>
+                )}
+              </span>
+            ))
+          ) : (
+            review.review_text
+          )}
+          &rdquo;
         </p>
       )}
 
