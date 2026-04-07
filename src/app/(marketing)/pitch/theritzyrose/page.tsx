@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { IPhoneMockup } from "../../go/iphone-mockup";
 import { MacbookMockup } from "../../go/macbook-mockup";
 import { StickyMobileCTA } from "../../sticky-mobile-cta";
 import {
@@ -40,48 +41,63 @@ export default function TheRitzyRosePitchPage() {
       <section className="relative bg-navy overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald/5 rounded-full blur-[150px] -translate-y-1/3 translate-x-1/4" />
 
-        <div className="max-w-3xl mx-auto px-6 pt-16 pb-20 sm:pt-24 sm:pb-28 relative text-center">
-          {/* Badge */}
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20 text-[12px] font-semibold text-emerald uppercase tracking-wider mb-8">
-            <Award className="w-3.5 h-3.5" />
-            Prepared exclusively for TheRitzyRose
-          </span>
+        <div className="max-w-6xl mx-auto px-6 pt-16 pb-20 sm:pt-24 sm:pb-28 relative">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Text */}
+            <div className="space-y-6 text-center lg:text-left">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald/10 border border-emerald/20 text-[12px] font-semibold text-emerald uppercase tracking-wider">
+                <Award className="w-3.5 h-3.5" />
+                Prepared exclusively for TheRitzyRose
+              </span>
 
-          <h1
-            className="font-bold text-white tracking-tight leading-[1.1]"
-            style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
-          >
-            Your reviews are doing nothing
-            <br />
-            <span className="text-emerald">for your website.</span>
-          </h1>
-
-          <p className="text-[16px] text-slate-400 leading-relaxed max-w-xl mx-auto mt-6">
-            You have 24,500+ five-star reviews on Etsy and 628+ ratings on Amazon,
-            but theritzyrose.com shows zero. When customers Google you and land on
-            your site, they see great products and no proof. So they go to Etsy.
-            And Etsy takes 15%.
-          </p>
-
-          {/* Stats */}
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
-            {[
-              { icon: Star, value: "86,409+", label: "Etsy Sales" },
-              { icon: Shield, value: "24,500+", label: "5-Star Reviews (Etsy)" },
-              { icon: Shield, value: "628+", label: "Amazon Ratings" },
-              { icon: Award, value: "Star Seller", label: "Since 2010" },
-            ].map((stat, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10"
+              <h1
+                className="font-bold text-white tracking-tight leading-[1.1]"
+                style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
-                <stat.icon className="w-4 h-4 text-emerald" />
-                <div>
-                  <p className="text-[14px] font-bold text-white tabular-nums">{stat.value}</p>
-                  <p className="text-[11px] text-slate-400">{stat.label}</p>
-                </div>
+                Your reviews are doing nothing
+                <br />
+                <span className="text-emerald">for your website.</span>
+              </h1>
+
+              <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                You have 24,500+ five-star reviews on Etsy and 628+ ratings on Amazon,
+                but theritzyrose.com shows zero. When customers Google you and land on
+                your site, they see great products and no proof. So they go to Etsy.
+                And Etsy takes 15%.
+              </p>
+
+              {/* Stats */}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
+                {[
+                  { icon: Star, value: "86,409+", label: "Etsy Sales" },
+                  { icon: Shield, value: "24,500+", label: "5-Star Reviews (Etsy)" },
+                  { icon: Shield, value: "628+", label: "Amazon Ratings" },
+                  { icon: Award, value: "Star Seller", label: "Since 2010" },
+                ].map((stat, i) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-white/5 border border-white/10"
+                  >
+                    <stat.icon className="w-4 h-4 text-emerald" />
+                    <div>
+                      <p className="text-[14px] font-bold text-white tabular-nums">{stat.value}</p>
+                      <p className="text-[11px] text-slate-400">{stat.label}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
+
+            {/* Right: iPhone mockup */}
+            <div className="hidden lg:flex justify-center relative">
+              <div className="absolute inset-0 bg-emerald/5 rounded-full blur-[80px]" />
+              <div className="relative">
+                <IPhoneMockup src="https://proofpst.com/theritzyrose" />
+                <p className="text-[11px] text-slate-500 text-center mt-4">
+                  Live Trust Card — proofpst.com/theritzyrose
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
