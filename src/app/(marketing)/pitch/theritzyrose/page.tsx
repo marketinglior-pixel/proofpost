@@ -352,7 +352,7 @@ export default function TheRitzyRosePitchPage() {
               you save <span className="text-emerald font-bold text-[20px]">$15,000–$30,000/year</span> in Etsy fees.
             </p>
             <p className="text-[14px] text-slate-400">
-              ProofPost costs $39/month. That's $468/year. The ROI is 32x–64x.
+              ProofPost costs $19/month. That's $228/year. The ROI is 66x–132x.
             </p>
           </div>
 
@@ -413,7 +413,7 @@ export default function TheRitzyRosePitchPage() {
 
         <div className="mt-8 text-center">
           <p className="text-[15px] text-slate-700">
-            <span className="font-bold text-emerald">$39/month</span>
+            <span className="font-bold text-emerald">$19/month</span>
             <span className="text-slate-400 mx-2">·</span>
             14-day free trial
             <span className="text-slate-400 mx-2">·</span>

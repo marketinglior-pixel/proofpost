@@ -166,7 +166,7 @@ export default function LandingPage() {
               { stat: "3x", label: "more attention", desc: "Animated widgets get 3x more eye-tracking time than static text grids." },
               { stat: "60s", label: "setup time", desc: "From raw review to live animated widget on your site. We timed it." },
               { stat: "5+", label: "import sources", desc: "Pull reviews from G2, Google, Capterra, Trustpilot, LinkedIn. Video or text." },
-              { stat: "$19", label: "per month", desc: "Unlimited widgets. Senja charges $29. Testimonial.to charges $50. Both static." },
+              { stat: "$9", label: "per month", desc: "Unlimited widgets. Senja charges $29. Testimonial.to charges $50. Both static." },
             ].map((s) => (
               <div key={s.label} className="space-y-2">
                 <p className="text-[48px] font-bold text-emerald tabular-nums">{s.stat}</p>
@@ -496,7 +496,7 @@ export default function LandingPage() {
             { feature: "Brand Kit Auto-Sync", pp: true, others: false, diy: false },
             { feature: "Widget Load Speed", pp: "<12kb async", others: "Known slow", diy: "Varies" },
             { feature: "Setup Time", pp: "60 seconds", others: "Under 5 min", diy: "Hours" },
-            { feature: "Price", pp: "$19/mo", others: "$29-59/mo", diy: "Free + hours" },
+            { feature: "Price", pp: "$9/mo", others: "$29-59/mo", diy: "Free + hours" },
           ].map((row, i) => (
             <div key={i} className="grid grid-cols-4 px-5 py-3 border-t border-slate-100 text-[13px]">
               <span className="text-slate-700">{row.feature}</span>
@@ -528,13 +528,13 @@ export default function LandingPage() {
         </h2>
         <div className="rounded-xl border border-slate-200 divide-y divide-slate-100 overflow-hidden">
           {[
-            { q: "How is this different from Senja or Testimonial.to?", a: "Senja and Testimonial.to show your full reviews in static grids. We take a different approach: AI pulls the one sentence that actually converts, we animate it, and plans start at $19/mo. They charge $29 to $50 for static text. We also do video testimonials, G2/Google/Amazon/Etsy import, and AI collection forms." },
+            { q: "How is this different from Senja or Testimonial.to?", a: "Senja and Testimonial.to show your full reviews in static grids. We take a different approach: AI pulls the one sentence that actually converts, we animate it, and plans start at $9/mo. They charge $29 to $50 for static text. We also do video testimonials, G2/Google/Amazon/Etsy import, and AI collection forms." },
             { q: "Will this slow down my website?", a: "No. Scripts load async, under 12kb. Zero impact on Core Web Vitals." },
-            { q: "Can I import reviews from G2, Google, Amazon, or Etsy?", a: "Yes. Connect your G2, Google, Amazon, or Etsy profile and we pull reviews automatically. Or paste a link from Capterra, Trustpilot, or LinkedIn. Screenshot import works too. Amazon and Etsy import available on Pro and Business plans." },
+            { q: "Can I import reviews from G2, Google, Amazon, or Etsy?", a: "Yes. Connect your G2, Google, Amazon, or Etsy profile and we pull reviews automatically. Or paste a link from Capterra, Trustpilot, or LinkedIn. Screenshot import works too. Amazon and Etsy import available on the Pro plan." },
             { q: "Do you support video testimonials?", a: "Yes. Record through our collection form or upload existing clips. AI pulls the highlight reel and the best quote. You can embed video widgets alongside text carousels." },
             { q: "What if the AI extracts the wrong quote?", a: "You keep the original review. Edit the hook with one click. You control what gets published." },
             { q: "Can my customers submit reviews directly?", a: "Yes. Create a collection form, share the link. AI asks follow-up questions so you get specific proof instead of vague praise. Reviews can auto-flow into your widget or wait for your approval." },
-            { q: "What's the free tier?", a: "14-day free trial with full access, no credit card. After that, 3 carousels per month with AI hook extraction and animated widgets. Upgrade to Starter ($19/mo) or Pro ($39/mo) for more reviews, imports, and analytics." },
+            { q: "What's the free tier?", a: "14-day free trial with full access, no credit card. After that, 3 carousels per month with AI hook extraction and animated widgets. Upgrade to Starter ($9/mo) or Pro ($19/mo) for more reviews, imports, and analytics." },
             { q: "I only have 3 reviews. Is that enough?", a: "Products with 5 reviews are 270% more likely to sell. You don't need hundreds. You need to get more out of what you have. That's exactly what our AI does." },
             { q: "Can I cancel easily?", a: "One click. No calls, no hoops." },
           ].map((faq, i) => (
@@ -613,7 +613,7 @@ export default function LandingPage() {
                 <span className="text-[13px] font-semibold text-slate-700">ProofPost</span>
               </div>
               <p className="text-[12px] text-slate-400 max-w-[240px]">
-                Testimonial widgets that convert. Video + text. Animated. $19/mo.
+                Testimonial widgets that convert. Video + text. Animated. From $9/mo.
               </p>
             </div>
             <div className="flex gap-10">

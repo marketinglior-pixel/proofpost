@@ -26,9 +26,9 @@ const tiers = [
   {
     name: "Starter",
     id: "starter",
-    monthly: 19,
-    annual: 12,
-    annualTotal: 144,
+    monthly: 9,
+    annual: 7,
+    annualTotal: 84,
     description: "For solopreneurs",
     features: [
       "25 reviews",
@@ -45,9 +45,9 @@ const tiers = [
   {
     name: "Pro",
     id: "pro",
-    monthly: 39,
-    annual: 29,
-    annualTotal: 348,
+    monthly: 19,
+    annual: 15,
+    annualTotal: 180,
     description: "For growing businesses",
     features: [
       "100 reviews",
@@ -62,25 +62,6 @@ const tiers = [
     href: "/login",
     highlighted: true,
     badge: "Most Popular",
-  },
-  {
-    name: "Business",
-    id: "business",
-    monthly: 79,
-    annual: 59,
-    annualTotal: 708,
-    description: "For teams & agencies",
-    features: [
-      "1,000 reviews",
-      "Multi-location",
-      "White-label branding",
-      "API access",
-      "Unlimited AI hooks",
-      "Unlimited forms",
-    ],
-    cta: "Start 14-Day Trial",
-    href: "/login",
-    highlighted: false,
   },
 ];
 
@@ -116,13 +97,13 @@ export function PricingSection() {
           </span>
           {annual && (
             <span className="px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald/15 text-emerald">
-              Save up to 37%
+              Save up to 26%
             </span>
           )}
         </div>
 
-        {/* Cards — 3 columns on desktop (Free hidden, shown as text below) */}
-        <div className="grid md:grid-cols-3 gap-6">
+        {/* Cards — 2 columns on desktop (Free hidden, shown as text below) */}
+        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
           {tiers.filter(t => t.monthly > 0).map((tier) => {
             const price = annual ? tier.annual : tier.monthly;
             const isHighlighted = tier.highlighted;

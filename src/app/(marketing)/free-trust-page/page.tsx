@@ -51,7 +51,7 @@ const faqItems = [
   {
     question: "Can I upgrade later?",
     answer:
-      "Yes. Plans start at $19/month (or $12/month billed annually). You keep everything from the free tier plus more reviews, no watermark, and full brand customization. Try free for 14 days.",
+      "Yes. Plans start at $9/month (or $7/month billed annually). You keep everything from the free tier plus more reviews, no watermark, and full brand customization. Try free for 14 days.",
   },
   {
     question: "Do I need a website to use a trust page?",
@@ -237,7 +237,7 @@ export default function FreeTrustPagePage() {
           <div className="grid grid-cols-3 bg-slate-50 px-5 py-3 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
             <span>Feature</span>
             <span className="text-center">Free</span>
-            <span className="text-center">Pro (from $29/mo)</span>
+            <span className="text-center">Pro (from $15/mo)</span>
           </div>
           {[
             { feature: "Verified reviews", free: "Up to 5", pro: "Unlimited" },

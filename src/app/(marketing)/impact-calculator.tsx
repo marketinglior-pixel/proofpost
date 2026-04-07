@@ -18,7 +18,7 @@ export function ImpactCalculator() {
   const baselineRevenue = Math.round(visitors * baselineConversion * aov);
   const newRevenue = Math.round(visitors * newConversion * aov);
   const extraRevenue = newRevenue - baselineRevenue;
-  const rawRoi = extraRevenue / 19; // $19/mo plan
+  const rawRoi = extraRevenue / 9; // $9/mo plan
   const roi = Math.min(Math.round(rawRoi), 200); // Cap display at 200x to stay credible
 
   return (
@@ -133,7 +133,7 @@ export function ImpactCalculator() {
               +${extraRevenue.toLocaleString()}
             </p>
             <p className="text-[12px] text-slate-400">
-              That&apos;s a <span className="text-emerald font-semibold">{rawRoi > 200 ? "200+" : roi}x return</span> on $19/mo
+              That&apos;s a <span className="text-emerald font-semibold">{rawRoi > 200 ? "200+" : roi}x return</span> on $9/mo
             </p>
           </div>
 

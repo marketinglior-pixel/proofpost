@@ -412,7 +412,7 @@ export default function SocialProofStatisticsPage() {
             <ArrowRight className="w-4 h-4" />
           </Link>
           <p className="mt-3 text-[13px] text-slate-500">
-            No credit card required &middot; $19/mo after trial
+            No credit card required &middot; $9/mo after trial
           </p>
         </div>
       </section>

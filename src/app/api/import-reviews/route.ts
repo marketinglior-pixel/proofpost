@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
 
       if (!limits.hasAmazonEtsyImport) {
         return NextResponse.json(
-          { error: `${platform.charAt(0).toUpperCase() + platform.slice(1)} import is available on Pro and Business plans. Upgrade to access this feature.` },
+          { error: `${platform.charAt(0).toUpperCase() + platform.slice(1)} import is available on the Pro plan. Upgrade to access this feature.` },
           { status: 403 }
         );
       }

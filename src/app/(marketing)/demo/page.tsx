@@ -396,7 +396,7 @@ export default function DemoPage() {
       <section className="bg-slate-900 py-20">
         <div className="max-w-2xl mx-auto px-6 text-center">
           <h2 className="text-[28px] font-bold text-white tracking-tight">
-            $19/mo — Everything you need
+            $9/mo — Everything you need
           </h2>
           <p className="mt-4 text-[16px] text-slate-400 max-w-md mx-auto leading-relaxed">
             Unlimited widgets, unlimited reviews, custom branding, analytics

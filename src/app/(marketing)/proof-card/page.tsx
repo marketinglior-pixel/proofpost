@@ -349,9 +349,9 @@ export default function ProofCardPage() {
                 Popular
               </span>
               <h3 className="text-[18px] font-bold text-white">
-                Pro — from $29/mo
+                Pro — from $15/mo
               </h3>
-              <p className="text-[13px] text-slate-400">Billed annually ($348/year)</p>
+              <p className="text-[13px] text-slate-400">Billed annually ($180/year)</p>
               <ul className="space-y-2">
                 {[
                   "Unlimited reviews",

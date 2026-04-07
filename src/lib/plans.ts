@@ -106,9 +106,8 @@ export const PLAN_LIMITS: Record<Plan, PlanLimits> = {
 // ─── Pricing ─────────────────────────────────────────────────────────────────
 
 export const PLAN_PRICING = {
-  starter: { monthly: 19, annual: 12, annualTotal: 144 },
-  pro: { monthly: 39, annual: 29, annualTotal: 348 },
-  business: { monthly: 79, annual: 59, annualTotal: 708 },
+  starter: { monthly: 9, annual: 7, annualTotal: 84 },
+  pro: { monthly: 19, annual: 15, annualTotal: 180 },
 } as const;
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -157,9 +156,9 @@ function initProductMap() {
     [process.env.DODO_STARTER_ANNUAL_ID, "starter"],
     [process.env.DODO_PRO_MONTHLY_ID, "pro"],
     [process.env.DODO_PRO_ANNUAL_ID, "pro"],
+    // Backward compat: grandfathered LTD + old business subscribers
     [process.env.DODO_BUSINESS_MONTHLY_ID, "business"],
     [process.env.DODO_BUSINESS_ANNUAL_ID, "business"],
-    // Backward compat: old LTD product → business
     [process.env.DODO_LTD_PRODUCT_ID, "business"],
   ];
   for (const [id, plan] of mappings) {

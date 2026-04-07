@@ -9,25 +9,20 @@ const PRODUCT_IDS = {
   "starter-annual": process.env.DODO_STARTER_ANNUAL_ID,
   "pro-monthly": process.env.DODO_PRO_MONTHLY_ID,
   "pro-annual": process.env.DODO_PRO_ANNUAL_ID,
-  "business-monthly": process.env.DODO_BUSINESS_MONTHLY_ID,
-  "business-annual": process.env.DODO_BUSINESS_ANNUAL_ID,
 } as const;
 
 const features = [
-  { name: "Trust Card reviews", free: "5", starter: "25", pro: "100", business: "1,000" },
-  { name: "Testimonial carousels", free: "3 / month", starter: "10 / month", pro: "Unlimited", business: "Unlimited" },
-  { name: "Widget impressions", free: "500 / month", starter: "2,000 / month", pro: "Unlimited", business: "Unlimited" },
-  { name: "AI Hook Extraction", free: "1 hook", starter: "1 hook", pro: "3 variants", business: "Unlimited" },
-  { name: "Collection Forms", free: "1", starter: "3", pro: "Unlimited", business: "Unlimited" },
-  { name: "Remove watermark", free: false, starter: true, pro: true, business: true },
-  { name: "Amazon & Etsy import", free: false, starter: false, pro: true, business: true },
-  { name: "SEO Rich Snippets", free: false, starter: "Basic", pro: "Full", business: "Full" },
-  { name: "A/B Hook Testing", free: false, starter: false, pro: true, business: true },
-  { name: "Analytics dashboard", free: false, starter: "Basic", pro: "Full", business: "Full" },
-  { name: "Multi-location", free: false, starter: false, pro: false, business: true },
-  { name: "White-label", free: false, starter: false, pro: false, business: true },
-  { name: "API access", free: false, starter: false, pro: false, business: true },
-  { name: "Priority support", free: false, starter: false, pro: true, business: true },
+  { name: "Trust Card reviews", free: "5", starter: "25", pro: "100" },
+  { name: "Testimonial carousels", free: "3 / month", starter: "10 / month", pro: "Unlimited" },
+  { name: "Widget impressions", free: "500 / month", starter: "2,000 / month", pro: "Unlimited" },
+  { name: "AI Hook Extraction", free: "1 hook", starter: "1 hook", pro: "3 variants" },
+  { name: "Collection Forms", free: "1", starter: "3", pro: "Unlimited" },
+  { name: "Remove watermark", free: false, starter: true, pro: true },
+  { name: "Amazon & Etsy import", free: false, starter: false, pro: true },
+  { name: "SEO Rich Snippets", free: false, starter: "Basic", pro: "Full" },
+  { name: "A/B Hook Testing", free: false, starter: false, pro: true },
+  { name: "Analytics dashboard", free: false, starter: "Basic", pro: "Full" },
+  { name: "Priority support", free: false, starter: false, pro: true },
 ];
 
 export default async function PricingPage({
@@ -63,10 +58,9 @@ export default async function PricingPage({
   const tiers: { name: string; plan: Plan; monthlyId?: string; annualId?: string }[] = [
     { name: "Starter", plan: "starter", monthlyId: PRODUCT_IDS["starter-monthly"], annualId: PRODUCT_IDS["starter-annual"] },
     { name: "Pro", plan: "pro", monthlyId: PRODUCT_IDS["pro-monthly"], annualId: PRODUCT_IDS["pro-annual"] },
-    { name: "Business", plan: "business", monthlyId: PRODUCT_IDS["business-monthly"], annualId: PRODUCT_IDS["business-annual"] },
   ];
 
-  const tierOrder: Plan[] = ["free", "starter", "pro", "business"];
+  const tierOrder: Plan[] = ["free", "starter", "pro"];
   const currentTierIndex = tierOrder.indexOf(rawPlan);
 
   return (
@@ -123,12 +117,12 @@ export default async function PricingPage({
           Annual
         </Link>
         {isAnnual && (
-          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald/15 text-emerald">Save up to 37%</span>
+          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald/15 text-emerald">Save up to 26%</span>
         )}
       </div>
 
       {/* Pricing cards */}
-      <div className="grid sm:grid-cols-3 gap-5">
+      <div className="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
         {tiers.map((tier) => {
           const pricing = PLAN_PRICING[tier.plan as keyof typeof PLAN_PRICING];
           const price = isAnnual ? pricing.annual : pricing.monthly;
@@ -213,17 +207,16 @@ export default async function PricingPage({
       {/* Feature comparison */}
       <div className="rounded-xl border border-slate-200 overflow-x-auto">
         <div className="min-w-[600px]">
-          <div className="grid grid-cols-5 bg-slate-50 px-5 py-3 text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
+          <div className="grid grid-cols-4 bg-slate-50 px-5 py-3 text-[12px] font-semibold text-slate-400 uppercase tracking-wider">
             <span>Feature</span>
             <span className="text-center">Free</span>
             <span className="text-center">Starter</span>
             <span className="text-center">Pro</span>
-            <span className="text-center">Business</span>
           </div>
           {features.map((feat, i) => (
-            <div key={i} className="grid grid-cols-5 px-5 py-3 border-t border-slate-100 text-[13px]">
+            <div key={i} className="grid grid-cols-4 px-5 py-3 border-t border-slate-100 text-[13px]">
               <span className="text-slate-700">{feat.name}</span>
-              {(["free", "starter", "pro", "business"] as const).map((tier) => {
+              {(["free", "starter", "pro"] as const).map((tier) => {
                 const val = feat[tier];
                 return (
                   <span key={tier} className="text-center">

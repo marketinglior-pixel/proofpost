@@ -324,11 +324,11 @@ export default function GoPage() {
               },
               {
                 q: "Do I need another subscription?",
-                a: "14 days free, plans from $12/month (annual). That's one coffee a week. And unlike coffee, this actually helps you make money while you sleep.",
+                a: "14 days free, plans from $7/month (annual). That's less than one coffee a week. And unlike coffee, this actually helps you make money while you sleep.",
               },
               {
                 q: "What about Senja or Testimonial.to?",
-                a: "They show your full reviews in static grids ($29-50/mo). We find the one sentence that converts, highlight it, and add Amazon/Etsy import. For $19/mo. They're review walls. We're a sales tool.",
+                a: "They show your full reviews in static grids ($29-50/mo). We find the one sentence that converts, highlight it, and add Amazon/Etsy import. For $9/mo. They're review walls. We're a sales tool.",
               },
             ].map((item, i) => (
               <div key={i} className="rounded-xl bg-white border border-slate-200 p-6 space-y-3">
@@ -353,11 +353,11 @@ export default function GoPage() {
             },
             {
               q: "Can I import reviews from Amazon and Etsy?",
-              a: "Yes. On Pro and Business plans, paste your product URL and we pull your rating and reviews. The platform logo appears on your Trust Card. Borrowed authority, zero effort.",
+              a: "Yes. On the Pro plan, paste your product URL and we pull your rating and reviews. The platform logo appears on your Trust Card. Borrowed authority, zero effort.",
             },
             {
               q: "What happens after the 14-day trial?",
-              a: "Your Trust Card stays live with 5 reviews and a watermark (free tier). To keep unlimited reviews, no watermark, and premium features, upgrade to Starter ($19/mo), Pro ($39/mo), or Business ($79/mo).",
+              a: "Your Trust Card stays live with 5 reviews and a watermark (free tier). To keep unlimited reviews, no watermark, and premium features, upgrade to Starter ($9/mo) or Pro ($19/mo).",
             },
             {
               q: "Do I need a website?",
