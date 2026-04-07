@@ -86,7 +86,41 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 2. WHY A TRUST CARD ── */}
+      {/* ── 2. DISPLAY (right after hero) ── */}
+      <section className="bg-slate-50/80 border-y border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 py-20">
+          <div className="text-center mb-10">
+            <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
+              We already built yours.
+            </h2>
+            <p className="text-[15px] text-slate-500 mt-3">
+              This is a real, working Trust Card for TheRitzyRose. Live right now.
+            </p>
+          </div>
+
+          <div className="macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
+            <MacbookMockup src="https://proofpst.com/theritzyrose" />
+          </div>
+          <p className="text-[12px] text-slate-400 text-center mt-6">
+            Try it:{" "}
+            <a
+              href="https://proofpst.com/theritzyrose"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-emerald hover:underline"
+            >
+              proofpst.com/theritzyrose
+            </a>
+          </p>
+
+          <p className="text-[13px] text-slate-500 text-center mt-6 max-w-md mx-auto">
+            The <span className="text-emerald font-semibold">highlighted lines</span> are
+            the AI-extracted sentences we'd use in your marketing. All reviews verified from Amazon &amp; Etsy.
+          </p>
+        </div>
+      </section>
+
+      {/* ── 3. WHY A TRUST CARD ── */}
       <section className="max-w-3xl mx-auto px-6 py-20">
         <div className="text-center mb-10">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
@@ -278,40 +312,6 @@ export default function TheRitzyRosePitchPage() {
             </div>
           ))}
         </div>
-        </div>
-      </section>
-
-      {/* ── 4. DISPLAY ── */}
-      <section className="bg-slate-50/80 border-y border-slate-100">
-        <div className="max-w-6xl mx-auto px-6 py-20">
-          <div className="text-center mb-10">
-            <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-              We already built yours.
-            </h2>
-            <p className="text-[15px] text-slate-500 mt-3">
-              This is a real, working Trust Card for TheRitzyRose. Live right now.
-            </p>
-          </div>
-
-          <div className="macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
-            <MacbookMockup src="https://proofpst.com/theritzyrose" />
-          </div>
-          <p className="text-[12px] text-slate-400 text-center mt-6">
-            Try it:{" "}
-            <a
-              href="https://proofpst.com/theritzyrose"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-emerald hover:underline"
-            >
-              proofpst.com/theritzyrose
-            </a>
-          </p>
-
-          <p className="text-[13px] text-slate-500 text-center mt-6 max-w-md mx-auto">
-            Scroll through the reviews above — the <span className="text-emerald font-semibold">highlighted lines</span> are
-            the AI-extracted sentences we'd use in your marketing. All reviews verified from Amazon &amp; Etsy.
-          </p>
         </div>
       </section>
 
