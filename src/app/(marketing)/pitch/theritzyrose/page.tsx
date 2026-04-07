@@ -133,7 +133,7 @@ export default function TheRitzyRosePitchPage() {
           ))}
         </div>
 
-        <div className="space-y-3 mb-12">
+        <div className="space-y-3 mb-14">
           {[
             {
               title: "Works where your website doesn't",
@@ -156,6 +156,85 @@ export default function TheRitzyRosePitchPage() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Linktree vs Trust Card comparison */}
+        <div className="mb-4">
+          <h3 className="text-[20px] sm:text-[22px] font-bold text-slate-900 tracking-tight text-center mb-2">
+            Your Linktree vs. Your Trust Card
+          </h3>
+          <p className="text-[14px] text-slate-400 text-center mb-8">
+            Right now, your Instagram bio links to{" "}
+            <a href="https://linktr.ee/theritzyrose" target="_blank" rel="noopener noreferrer" className="text-emerald hover:underline">
+              linktr.ee/theritzyrose
+            </a>
+            . Here's what each one actually does for your business.
+          </p>
+
+          <div className="grid sm:grid-cols-2 gap-5">
+            {/* Linktree */}
+            <div className="rounded-xl border-2 border-red-200 bg-red-50/30 p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] font-bold text-red-500 bg-red-100 px-2.5 py-1 rounded uppercase tracking-wider">
+                  Linktree
+                </span>
+                <span className="text-[11px] text-red-400">linktr.ee/theritzyrose</span>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  { label: "What it does", value: "Lists links to Instagram, Amazon, Etsy, Email" },
+                  { label: "Reviews shown", value: "Zero" },
+                  { label: "Star ratings", value: "None" },
+                  { label: "Press mentions", value: "None" },
+                  { label: "SEO value", value: "None (noindex)" },
+                  { label: "Drives sales?", value: "Sends traffic, doesn't convert it" },
+                  { label: "Trust building", value: "None — just a list of links" },
+                ].map((row, i) => (
+                  <div key={i} className="flex justify-between text-[13px]">
+                    <span className="text-slate-500">{row.label}</span>
+                    <span className="text-red-400 font-medium text-right">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Trust Card */}
+            <div className="rounded-xl border-2 border-emerald/30 bg-emerald/5 p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] font-bold text-emerald bg-emerald/15 px-2.5 py-1 rounded uppercase tracking-wider">
+                  Trust Card
+                </span>
+                <span className="text-[11px] text-emerald">proofpst.com/theritzyrose</span>
+              </div>
+              <div className="space-y-2.5">
+                {[
+                  { label: "What it does", value: "Shows your proof, drives purchases" },
+                  { label: "Reviews shown", value: "24,500+ from Etsy & Amazon" },
+                  { label: "Star ratings", value: "5.0 verified, visible in Google" },
+                  { label: "Press mentions", value: "NYT, GMA, Martha Stewart & more" },
+                  { label: "SEO value", value: "Schema markup, Google rich snippets" },
+                  { label: "Drives sales?", value: "AI highlights the line that converts" },
+                  { label: "Trust building", value: "Verified badges, real proof, branded" },
+                ].map((row, i) => (
+                  <div key={i} className="flex justify-between text-[13px]">
+                    <span className="text-slate-500">{row.label}</span>
+                    <span className="text-emerald font-semibold text-right">{row.value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-6 rounded-xl bg-slate-50 border border-slate-200 p-5 text-center">
+            <p className="text-[14px] text-slate-700">
+              <span className="font-semibold">Linktree tells people where to go.</span>
+              {" "}
+              <span className="font-semibold text-emerald">Trust Card tells people why to buy.</span>
+            </p>
+            <p className="text-[13px] text-slate-400 mt-1">
+              Replace the link in your Instagram bio and every visitor sees proof, not a menu.
+            </p>
+          </div>
         </div>
       </section>
 
