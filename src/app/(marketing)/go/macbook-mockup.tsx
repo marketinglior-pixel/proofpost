@@ -2,7 +2,7 @@
 
 export function MacbookMockup({ src }: { src: string }) {
   return (
-    <div className="relative mx-auto max-w-4xl">
+    <div className="relative mx-auto max-w-5xl">
       {/* Screen */}
       <div className="relative bg-gray-900 rounded-t-xl border-[8px] border-gray-900 overflow-hidden shadow-2xl shadow-slate-300/50">
         {/* Camera dot */}
@@ -35,9 +35,9 @@ export function MacbookMockup({ src }: { src: string }) {
 
       {/* Scale CSS variable based on container width */}
       <style>{`
-        @media (min-width: 1024px) { .macbook-container { --macbook-scale: 0.68; } }
-        @media (max-width: 1023px) { .macbook-container { --macbook-scale: 0.5; } }
-        @media (max-width: 640px) { .macbook-container { --macbook-scale: 0.3; } }
+        @media (min-width: 1024px) { .macbook-container { --macbook-scale: 0.82; } }
+        @media (max-width: 1023px) { .macbook-container { --macbook-scale: 0.58; } }
+        @media (max-width: 640px) { .macbook-container { --macbook-scale: 0.35; } }
       `}</style>
     </div>
   );

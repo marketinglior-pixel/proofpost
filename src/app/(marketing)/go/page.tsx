@@ -228,12 +228,12 @@ export default function GoPage() {
 
         {/* Desktop: MacBook */}
         <div className="hidden md:block macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
-          <MacbookMockup src="https://proofpst.com/theritzyrose" />
+          <MacbookMockup src="https://proofpst.com/lio" />
         </div>
 
         {/* Mobile: iPhone */}
         <div className="flex md:hidden justify-center">
-          <IPhoneMockup src="https://proofpst.com/theritzyrose" />
+          <IPhoneMockup src="https://proofpst.com/lio" />
         </div>
       </section>
 
