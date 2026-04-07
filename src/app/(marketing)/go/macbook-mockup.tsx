@@ -15,9 +15,9 @@ export function MacbookMockup({ src }: { src: string }) {
             title="Trust Card Desktop Preview"
             className="absolute inset-0 border-none"
             style={{
-              width: "200%",
-              height: "200%",
-              transform: "scale(0.5)",
+              width: "250%",
+              height: "250%",
+              transform: "scale(0.4)",
               transformOrigin: "top left",
               pointerEvents: "none",
             }}
