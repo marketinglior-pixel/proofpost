@@ -20,15 +20,15 @@ import {
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ProofPost - Turn Reviews Into Trust. Plans from $19/mo",
+  title: "ProofPost — The Trust Card. Linktree showed your links. This sells for you.",
   description:
-    "Import reviews from Google, Amazon, Etsy. AI extracts the best line. Your Trust Card is live in 60 seconds. Start free, no credit card.",
+    "Your Linktree lists links. Your Trust Card shows proof. Import reviews from Google, Amazon, Etsy. AI finds the sentence that converts. Live in 60 seconds.",
 };
 
 export default function GoPage() {
   return (
     <>
-      <StickyMobileCTA label="Start Free - 14 Days" />
+      <StickyMobileCTA label="Get Your Trust Card" />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
@@ -36,25 +36,29 @@ export default function GoPage() {
         <div className="max-w-5xl mx-auto px-6 pt-20 pb-16 sm:pt-28 sm:pb-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
+              <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald/10 border border-emerald/20 text-[11px] font-semibold text-emerald uppercase tracking-wider">
+                <Sparkles className="w-3 h-3" />
+                The new standard for 2026
+              </span>
               <h1
                 className="font-bold text-slate-900 tracking-tight leading-[1.1]"
                 style={{ fontSize: "clamp(2rem, 4.5vw, 3rem)" }}
               >
-                Your reviews are scattered.
+                Linktree showed your links.
                 <br />
-                <span className="text-emerald">Your Trust Card fixes that.</span>
+                <span className="text-emerald">Your Trust Card sells for you.</span>
               </h1>
               <p className="text-[17px] text-slate-500 leading-relaxed max-w-lg">
-                Import reviews from Google, Amazon, Etsy, G2. AI pulls the one sentence
-                that converts. Your proof page is live in 60 seconds. Share one link
-                instead of ugly screenshots.
+                People stopped clicking link lists. They want proof. Your Trust Card
+                pulls reviews from Google, Amazon, Etsy, and shows the one sentence
+                that makes people buy. One link, in your bio, that actually converts.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/login"
                   className="flex items-center justify-center gap-2 h-13 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
                 >
-                  Start Free - 14 Days, No Card
+                  Get Your Trust Card Free
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -62,7 +66,7 @@ export default function GoPage() {
                 <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> 60-second setup</span>
                 <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> Verified reviews</span>
                 <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5" /> No website needed</span>
-                <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> Cancel anytime</span>
+                <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> 14 days free</span>
               </div>
             </div>
             <div className="hidden lg:flex justify-center">
@@ -72,32 +76,33 @@ export default function GoPage() {
         </div>
       </section>
 
-      {/* ── Problem ── */}
+      {/* ── The Shift ── */}
       <section className="bg-slate-50/80 border-y border-slate-100">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
-            Sound familiar?
+            Links don't sell. Proof does.
           </h2>
           <p className="text-[15px] text-slate-500 text-center mb-12 max-w-lg mx-auto">
-            Your best clients love you. But when a prospect asks for proof,
-            you scramble.
+            In 2024, everyone got a Linktree. In 2026, everyone needs a Trust Card.
+            Because your customers don't want another list of links. They want to
+            know why they should trust you.
           </p>
           <div className="grid sm:grid-cols-3 gap-5">
             {[
               {
                 emoji: "📱",
-                title: "The DM scramble",
-                text: "Prospect asks 'show me results.' You dig through old chats, screenshot a Google review, crop it in Canva. It takes 20 minutes and looks amateur.",
+                title: "Your bio link is a dead end",
+                text: "You send people to a Linktree. They see 5 links, click maybe one, and forget you. No reviews, no proof, no reason to buy.",
               },
               {
                 emoji: "📄",
-                title: "The Notion link",
-                text: "You send a Google Doc or Notion page with pasted reviews. They click it, see a wall of text, and bounce. You never hear back.",
+                title: "Screenshots look fake",
+                text: "You screenshot a Google review, crop it in Canva, paste it in a DM. It takes 20 minutes and looks like you made it up. Because anyone can.",
               },
               {
                 emoji: "💸",
-                title: "The lost deal",
-                text: "Your competitor sent a clean proof page. Same service, higher price, but they looked more established. You lost on perception, not quality.",
+                title: "Your competitor looks more legit",
+                text: "Same service, higher price, but they have a clean proof page with verified reviews. You lost on perception, not quality. That one stings.",
               },
             ].map((card, i) => (
               <div key={i} className="rounded-xl bg-white border border-slate-200 p-6 space-y-3">
@@ -110,68 +115,64 @@ export default function GoPage() {
         </div>
       </section>
 
-      {/* ── Before / After ── */}
+      {/* ── Linktree vs Trust Card ── */}
       <section className="max-w-4xl mx-auto px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
-          Same reviews. Different impact.
+          Same spot in your bio. Very different results.
         </h2>
         <p className="text-[15px] text-slate-500 text-center mb-12 max-w-md mx-auto">
-          One looks like a draft. The other closes deals.
+          One lists your links. The other closes your deals.
         </p>
         <div className="grid sm:grid-cols-2 gap-6">
-          {/* Before */}
+          {/* Linktree */}
           <div className="rounded-xl border-2 border-red-200 bg-red-50/30 p-6 space-y-4">
             <span className="inline-block px-2.5 py-1 rounded text-[11px] font-bold text-red-500 bg-red-100 uppercase tracking-wider">
-              Before
+              Linktree
             </span>
-            <div className="rounded-lg bg-white border border-slate-200 p-4 space-y-3 font-mono text-[12px] text-slate-500">
-              <div className="h-3 w-24 bg-slate-200 rounded" />
-              <div className="space-y-1.5">
-                <div className="h-2 w-full bg-slate-100 rounded" />
-                <div className="h-2 w-5/6 bg-slate-100 rounded" />
-                <div className="h-2 w-4/6 bg-slate-100 rounded" />
-              </div>
-              <div className="border-t border-dashed border-slate-200 pt-3 space-y-1.5">
-                <div className="h-2 w-full bg-slate-100 rounded" />
-                <div className="h-2 w-3/4 bg-slate-100 rounded" />
-              </div>
+            <div className="space-y-2.5">
+              {[
+                { label: "What visitors see", value: "A list of links" },
+                { label: "Reviews", value: "None" },
+                { label: "Trust signals", value: "None" },
+                { label: "SEO value", value: "Zero (noindex)" },
+                { label: "Converts?", value: "Sends clicks, not customers" },
+              ].map((row, i) => (
+                <div key={i} className="flex justify-between text-[13px]">
+                  <span className="text-slate-500">{row.label}</span>
+                  <span className="text-red-400 font-medium text-right">{row.value}</span>
+                </div>
+              ))}
             </div>
-            <p className="text-[13px] text-red-400">
-              Google Doc with pasted reviews. No branding, no verification, no trust.
-            </p>
           </div>
 
-          {/* After */}
+          {/* Trust Card */}
           <div className="rounded-xl border-2 border-emerald/30 bg-emerald/5 p-6 space-y-4">
             <span className="inline-block px-2.5 py-1 rounded text-[11px] font-bold text-emerald bg-emerald/15 uppercase tracking-wider">
-              After
+              Trust Card
             </span>
-            <div className="rounded-lg bg-navy p-4 space-y-3">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-emerald/20" />
-                <div>
-                  <div className="h-2.5 w-20 bg-slate-600 rounded" />
-                  <div className="h-2 w-14 bg-slate-700 rounded mt-1" />
+            <div className="space-y-2.5">
+              {[
+                { label: "What visitors see", value: "Your proof, your story" },
+                { label: "Reviews", value: "Verified from Google, Amazon, Etsy" },
+                { label: "Trust signals", value: "Badges, ratings, press mentions" },
+                { label: "SEO value", value: "Google rich snippets with stars" },
+                { label: "Converts?", value: "AI highlights the line that sells" },
+              ].map((row, i) => (
+                <div key={i} className="flex justify-between text-[13px]">
+                  <span className="text-slate-500">{row.label}</span>
+                  <span className="text-emerald font-semibold text-right">{row.value}</span>
                 </div>
-              </div>
-              <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                ))}
-              </div>
-              <div className="space-y-1.5">
-                <div className="h-2 w-full bg-slate-600 rounded" />
-                <div className="h-2 w-4/5 bg-slate-600 rounded" />
-              </div>
-              <div className="flex items-center gap-1 mt-2">
-                <Shield className="w-3 h-3 text-emerald" />
-                <span className="text-[10px] text-emerald font-medium">Verified on Google</span>
-              </div>
+              ))}
             </div>
-            <p className="text-[13px] text-emerald">
-              Trust Card with verified reviews, AI hooks, branding. One link does the job.
-            </p>
           </div>
+        </div>
+
+        <div className="mt-6 rounded-xl bg-slate-50 border border-slate-200 p-5 text-center">
+          <p className="text-[14px] text-slate-700">
+            <span className="font-semibold">Linktree tells people where to go.</span>
+            {" "}
+            <span className="font-semibold text-emerald">Trust Card tells people why to buy.</span>
+          </p>
         </div>
       </section>
 
@@ -179,27 +180,27 @@ export default function GoPage() {
       <section className="bg-navy">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight text-center mb-12">
-            Live in 60 seconds. Seriously.
+            Live in 60 seconds. Not exaggerating.
           </h2>
           <div className="grid sm:grid-cols-3 gap-8">
             {[
               {
                 step: "1",
                 icon: Import,
-                title: "Import from anywhere",
-                text: "Google, Amazon, Etsy, G2, LinkedIn. Paste a URL or upload screenshots. We pull the reviews.",
+                title: "Import your reviews",
+                text: "Google, Amazon, Etsy, G2, LinkedIn. Paste a URL or upload screenshots. We pull everything in.",
               },
               {
                 step: "2",
                 icon: Sparkles,
-                title: "AI extracts the hook",
-                text: "Our AI reads every review and pulls the one sentence that makes prospects say 'I need this.'",
+                title: "AI finds the money line",
+                text: "Every review has one sentence that converts. Our AI finds it and highlights it. That's your new marketing.",
               },
               {
                 step: "3",
                 icon: Zap,
-                title: "Share your Trust Card",
-                text: "Your proof page is live at proofpst.com/yourname. Drop it in DMs, emails, proposals. Done.",
+                title: "Drop it in your bio",
+                text: "Your Trust Card is live at proofpst.com/yourname. Replace your Linktree. Every visitor now sees proof, not a menu.",
               },
             ].map((item, i) => (
               <div key={i} className="text-center space-y-4">
@@ -220,10 +221,10 @@ export default function GoPage() {
       {/* ── Desktop Preview ── */}
       <section className="max-w-6xl mx-auto px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
-          See It in Action
+          This is what your customers see.
         </h2>
         <p className="text-[15px] text-slate-500 text-center mb-10 max-w-md mx-auto">
-          Your Trust Card. Live on desktop. Ready to share.
+          Not a list of links. A reason to buy.
         </p>
 
         {/* Desktop: MacBook */}
@@ -240,47 +241,47 @@ export default function GoPage() {
       {/* ── Features ── */}
       <section className="max-w-5xl mx-auto px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
-          Everything you need to turn reviews into revenue
+          What you get. No fluff.
         </h2>
         <p className="text-[15px] text-slate-500 text-center mb-12 max-w-md mx-auto">
-          Not just a proof page. A marketing system.
+          Everything a Linktree doesn't do. And a few things nobody else does either.
         </p>
         <div className="grid sm:grid-cols-2 gap-5">
           {[
             {
               icon: Shield,
               title: "Trust Card",
-              text: "Premium proof page at proofpst.com/yourname. Glassmorphism design, animated carousel, mobile-first. No website or developer needed.",
+              text: "Your proof page at proofpst.com/yourname. Verified reviews, press mentions, social links. One link that actually converts.",
               badge: null,
             },
             {
               icon: Sparkles,
               title: "AI Hook Extraction",
-              text: "Our AI reads every review and finds the one line that converts. Up to 3 variants on Pro for A/B testing.",
+              text: "Every review has one sentence that does the selling. Our AI finds it. You stop guessing which quote to use.",
               badge: null,
             },
             {
               icon: Import,
               title: "Amazon & Etsy Import",
-              text: "Pull reviews from Amazon and Etsy into your Trust Card. Show '4.8 stars on Amazon' with the logo. Borrowed authority, instant trust.",
+              text: "Pull reviews from Amazon and Etsy. The platform logo shows up on your card. Borrowed authority that you already earned.",
               badge: "Pro",
             },
             {
               icon: Search,
-              title: "SEO & Google Visibility",
-              text: "Trust Card pages are indexed by Google with rich snippets. Your reviews help you rank. Prospects find you, not just your competitors.",
+              title: "Google SEO",
+              text: "Your Trust Card gets indexed with rich snippets. Star ratings in Google search results. Free traffic, no ads.",
               badge: "Pro",
             },
             {
               icon: BarChart3,
-              title: "Analytics Dashboard",
-              text: "See who views your Trust Card, which reviews get attention, and how your proof converts. Data, not guessing.",
+              title: "Analytics",
+              text: "Who viewed your card, which reviews get attention, what converts. Real data instead of hoping for the best.",
               badge: "Starter+",
             },
             {
               icon: MessageCircle,
-              title: "Collection Forms",
-              text: "Send a link, get structured testimonials. AI asks follow-up questions so you get specific proof, not vague praise.",
+              title: "Review Collection",
+              text: "Send a link, get back a structured testimonial. AI asks follow-up questions so you get specific proof, not \"great to work with.\"",
               badge: null,
             },
           ].map((feat, i) => (
@@ -309,25 +310,25 @@ export default function GoPage() {
       <section className="bg-slate-50/80 border-y border-slate-100">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-12">
-            Still thinking about it?
+            Yeah, but...
           </h2>
           <div className="grid sm:grid-cols-2 gap-5">
             {[
               {
-                q: "I don't have many testimonials yet.",
-                a: "Products with just 5 reviews are 270% more likely to sell (Spiegel Research). You don't need hundreds. You need to get more out of what you have. Start with what you've got.",
+                q: "I only have a few reviews.",
+                a: "Products with just 5 reviews are 270% more likely to sell (Spiegel Research). You don't need hundreds. You need the right sentence from each one. That's what the AI does.",
               },
               {
-                q: "I'm not technical.",
-                a: "If you can paste a link, you can use ProofPost. No code, no design skills, no developer. 60 seconds from signup to live Trust Card. We tested it.",
+                q: "I already have a Linktree.",
+                a: "Keep it if you want. But ask yourself: does it actually help you close deals? Or does it just organize your links? Your Trust Card goes in the same spot, but it sells for you.",
               },
               {
-                q: "Do I really need another subscription?",
-                a: "Start with 14 days free. Plans from $12/month (annual). That's less than one coffee a week. And unlike coffee, this actually helps you close deals.",
+                q: "Do I need another subscription?",
+                a: "14 days free, plans from $12/month (annual). That's one coffee a week. And unlike coffee, this actually helps you make money while you sleep.",
               },
               {
-                q: "How is this different from Senja?",
-                a: "Senja shows your full reviews in static grids ($29/mo). ProofPost AI finds the one sentence that converts, animates it, and costs $19/mo. Plus we import from Amazon and Etsy. They don't.",
+                q: "What about Senja or Testimonial.to?",
+                a: "They show your full reviews in static grids ($29-50/mo). We find the one sentence that converts, highlight it, and add Amazon/Etsy import. For $19/mo. They're review walls. We're a sales tool.",
               },
             ].map((item, i) => (
               <div key={i} className="rounded-xl bg-white border border-slate-200 p-6 space-y-3">
@@ -348,11 +349,11 @@ export default function GoPage() {
           {[
             {
               q: "What is a Trust Card?",
-              a: "A Trust Card is your verified proof page at proofpst.com/yourname. It shows your best reviews in an animated carousel with source badges (Google, Amazon, Etsy). Share one link instead of screenshots.",
+              a: "Your verified proof page at proofpst.com/yourname. It shows your best reviews with AI-highlighted converting sentences, source badges (Google, Amazon, Etsy), and your branding. One link instead of screenshots.",
             },
             {
               q: "Can I import reviews from Amazon and Etsy?",
-              a: "Yes. On Pro and Business plans, paste your Amazon or Etsy product URL and we pull your rating and reviews. The platform logo appears on your Trust Card for instant credibility.",
+              a: "Yes. On Pro and Business plans, paste your product URL and we pull your rating and reviews. The platform logo appears on your Trust Card. Borrowed authority, zero effort.",
             },
             {
               q: "What happens after the 14-day trial?",
@@ -360,15 +361,15 @@ export default function GoPage() {
             },
             {
               q: "Do I need a website?",
-              a: "No. Your Trust Card lives at proofpst.com/yourname. Share the link in DMs, emails, proposals, or add it to your bio. No website, domain, or hosting required.",
+              a: "No. That's kind of the point. Your Trust Card lives at proofpst.com/yourname. Put it in your bio, DMs, emails, proposals. No website, no domain, no hosting.",
             },
             {
               q: "Can I cancel anytime?",
-              a: "One click. No calls, no hoops, no guilt trips. Your Trust Card reverts to the free tier.",
+              a: "One click. No calls, no hoops. Your Trust Card reverts to free tier.",
             },
             {
-              q: "What makes ProofPost different from competitors?",
-              a: "Three things: (1) AI Hook Extraction finds the converting sentence instead of showing full reviews. (2) Amazon and Etsy import that no competitor offers. (3) Plans from $19/mo vs $29-50/mo for Senja and Testimonial.to.",
+              q: "Why not just use Linktree?",
+              a: "Linktree lists your links. It doesn't show reviews, doesn't have verified badges, doesn't get indexed by Google, and doesn't help anyone decide to buy from you. Different tools, different jobs. Linktree organizes. Trust Card converts.",
             },
           ].map((faq, i) => (
             <details key={i} className="group">
@@ -388,20 +389,19 @@ export default function GoPage() {
       <section className="bg-navy">
         <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-6">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-            Your next prospect will ask for proof.
+            Your Linktree lists links.
             <br />
-            <span className="text-emerald">Will you be ready?</span>
+            <span className="text-emerald">Your Trust Card closes deals.</span>
           </h2>
           <p className="text-[15px] text-slate-400 max-w-md mx-auto">
-            14 days free. No credit card. Live Trust Card in 60 seconds.
-            <br />
-            The only thing you lose by trying is the deals you keep losing without it.
+            Same spot in your bio. Very different results.
+            14 days free, 60 seconds to set up. The only risk is staying invisible.
           </p>
           <Link
             href="/login"
             className="inline-flex items-center justify-center gap-2 h-13 px-10 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
           >
-            Create Your Trust Card Free
+            Get Your Trust Card Free
             <ArrowRight className="w-4 h-4" />
           </Link>
           <div className="flex items-center justify-center gap-4 text-[12px] text-slate-500">
