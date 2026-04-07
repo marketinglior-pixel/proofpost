@@ -114,9 +114,16 @@ export default function TheRitzyRosePitchPage() {
             </p>
           </div>
 
-          <div className="macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
+          {/* Desktop: MacBook mockup */}
+          <div className="hidden md:block macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
             <MacbookMockup src="https://proofpst.com/theritzyrose" />
           </div>
+
+          {/* Mobile: iPhone mockup */}
+          <div className="flex md:hidden justify-center">
+            <IPhoneMockup src="https://proofpst.com/theritzyrose" />
+          </div>
+
           <p className="text-[12px] text-slate-400 text-center mt-6">
             Try it:{" "}
             <a
