@@ -104,7 +104,7 @@ export default async function TrustCardPage({ params }: PageProps) {
     .slice(0, 50)
     .map((r) => ({
       "@type": "Review",
-      itemReviewed: { "@type": "Person", name: card.display_name },
+      itemReviewed: { "@type": "Organization", name: card.display_name },
       reviewBody: r.review_text,
       author: { "@type": "Person", name: r.reviewer_name },
       reviewRating: {
@@ -118,11 +118,11 @@ export default async function TrustCardPage({ params }: PageProps) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Person",
+    "@type": "Organization",
     name: card.display_name,
     url: `https://proofpst.com/${username}`,
-    ...(card.headline ? { jobTitle: card.headline } : {}),
-    ...(card.avatar_url ? { image: card.avatar_url } : {}),
+    ...(card.headline ? { description: card.headline } : {}),
+    ...(card.avatar_url ? { logo: card.avatar_url, image: card.avatar_url } : {}),
     ...(totalReviews > 0 ? {
       aggregateRating: { "@type": "AggregateRating", ratingValue: avgRating, reviewCount: totalReviews, bestRating: 5 },
     } : {}),
