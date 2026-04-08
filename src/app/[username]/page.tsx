@@ -104,6 +104,7 @@ export default async function TrustCardPage({ params }: PageProps) {
     .slice(0, 50)
     .map((r) => ({
       "@type": "Review",
+      itemReviewed: { "@type": "Person", name: card.display_name },
       reviewBody: r.review_text,
       author: { "@type": "Person", name: r.reviewer_name },
       reviewRating: {
