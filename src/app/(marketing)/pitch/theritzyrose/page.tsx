@@ -341,22 +341,27 @@ export default function TheRitzyRosePitchPage() {
 
           {/* Press mentions */}
           <div className="mt-10 pt-8 border-t border-white/10 text-center">
-            <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-3">Featured in</p>
+            <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-3">Your press, on your Trust Card</p>
             <p className="text-[13px] text-slate-400">
               {PRESS.join(" · ")}
             </p>
             <p className="text-[12px] text-slate-500 mt-2">
-              All visible on your Trust Card. Advertising money can't buy.
+              You earned all of this. We just put it where buyers actually see it. Advertising money can't buy this.
             </p>
           </div>
         </div>
       </section>
 
-      {/* ── 6. BENEFITS ── */}
+      {/* ── 6. PRICING / WHAT YOU PAY FOR ── */}
       <section className="max-w-3xl mx-auto px-6 py-20">
-        <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-10">
-          What's included.
-        </h2>
+        <div className="text-center mb-10">
+          <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
+            Inside your $19/month.
+          </h2>
+          <p className="text-[14px] text-slate-500 mt-3">
+            Six things working for TheRitzyRose every day, for less than the cost of one Etsy fee on a single sale.
+          </p>
+        </div>
 
         <div className="space-y-4">
           {[
@@ -415,7 +420,7 @@ export default function TheRitzyRosePitchPage() {
           <div className="pt-8 border-t border-white/10 mt-8 text-left max-w-md mx-auto">
             <p className="text-[12px] text-slate-500 uppercase tracking-wider mb-4 text-center">Next steps</p>
             {[
-              "Finalize your Trust Card (already 80% done)",
+              "Polish the final details on your Trust Card together (preview is already live)",
               "Import full review catalog from Etsy",
               "Add widgets to your top Shopify pages",
               "Track for 14 days, review the data together",
