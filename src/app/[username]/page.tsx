@@ -99,32 +99,59 @@ export default async function TrustCardPage({ params }: PageProps) {
   // JSON-LD — per-review Review objects so each quote is individually indexable
   // (not just the aggregate star rating). Cap at 50 to keep HTML lean while
   // still giving Google a rich corpus to parse.
+  const itemReviewedRef = { "@type": "Organization" as const, name: card.display_name };
+
   const reviewSchema = reviews
     .filter((r) => r.review_text && r.review_text !== "Screenshot review" && r.reviewer_name)
     .slice(0, 50)
-    .map((r) => ({
-      "@type": "Review",
-      itemReviewed: { "@type": "Organization", name: card.display_name },
-      reviewBody: r.review_text,
-      author: { "@type": "Person", name: r.reviewer_name },
-      reviewRating: {
-        "@type": "Rating",
-        ratingValue: r.rating || 5,
-        bestRating: 5,
-      },
-      ...(r.platform ? { publisher: { "@type": "Organization", name: r.platform } } : {}),
-      ...(r.imported_at ? { datePublished: new Date(r.imported_at).toISOString().split("T")[0] } : {}),
-    }));
+    .map((r) => {
+      const snippetName =
+        r.hook_line ||
+        (r.review_text as string).split(/[.!?]/)[0].slice(0, 80).trim() ||
+        `Review by ${r.reviewer_name}`;
+      return {
+        "@type": "Review",
+        name: snippetName,
+        itemReviewed: itemReviewedRef,
+        reviewBody: r.review_text,
+        author: { "@type": "Person", name: r.reviewer_name },
+        reviewRating: {
+          "@type": "Rating",
+          ratingValue: r.rating || 5,
+          bestRating: 5,
+          worstRating: 1,
+        },
+        ...(r.platform ? { publisher: { "@type": "Organization", name: r.platform } } : {}),
+        ...(r.imported_at ? { datePublished: new Date(r.imported_at).toISOString().split("T")[0] } : {}),
+      };
+    });
+
+  // Collect social profile URLs for sameAs (helps Google entity resolution)
+  const socialLinks = Array.isArray(card.social_links)
+    ? (card.social_links as Array<{ url?: string }>)
+        .map((s) => s?.url)
+        .filter((u): u is string => typeof u === "string" && u.length > 0)
+    : [];
+  const sameAs = [...socialLinks, ...(card.cta_url ? [card.cta_url] : [])].filter(
+    (v, i, a) => a.indexOf(v) === i
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Organization",
     name: card.display_name,
     url: `https://proofpst.com/${username}`,
-    ...(card.headline ? { description: card.headline } : {}),
+    ...(card.headline || card.bio ? { description: card.headline || card.bio } : {}),
     ...(card.avatar_url ? { logo: card.avatar_url, image: card.avatar_url } : {}),
+    ...(sameAs.length > 0 ? { sameAs } : {}),
     ...(totalReviews > 0 ? {
-      aggregateRating: { "@type": "AggregateRating", ratingValue: avgRating, reviewCount: totalReviews, bestRating: 5 },
+      aggregateRating: {
+        "@type": "AggregateRating",
+        ratingValue: avgRating,
+        reviewCount: totalReviews,
+        bestRating: 5,
+        worstRating: 1,
+      },
     } : {}),
     ...(reviewSchema.length > 0 ? { review: reviewSchema } : {}),
   };

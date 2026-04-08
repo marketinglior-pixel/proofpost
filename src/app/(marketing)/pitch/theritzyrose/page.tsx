@@ -202,8 +202,8 @@ export default function TheRitzyRosePitchPage() {
               text: "\"Verified on Amazon\" and \"Verified on Etsy\" carry weight because anyone can write a review on their own site. These are real.",
             },
             {
-              title: "Stars in Google search results",
-              text: "Schema markup so your 5-star rating shows up before anyone clicks. Free organic traffic to your site, not Etsy.",
+              title: "Google-validated rich snippets",
+              text: "Not just stars — every individual review quote is indexable. Your Trust Card already passes Google's Rich Results Test with 9 valid structured-data items. Free organic traffic to your site, not Etsy.",
             },
           ].map((item, i) => (
             <div key={i} className="flex items-start gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4">
