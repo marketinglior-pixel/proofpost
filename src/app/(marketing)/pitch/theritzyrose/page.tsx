@@ -154,7 +154,8 @@ export default function TheRitzyRosePitchPage() {
           <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
             When someone asks "why should I trust you?" your website doesn't answer that.
             Your Trust Card does. One link with all your verified reviews, press mentions,
-            and ratings from every platform. Think of it as Linktree, but for proof.
+            and ratings from every platform — built exclusively for small business owners
+            who earned their reputation the hard way.
           </p>
         </div>
 
@@ -215,81 +216,48 @@ export default function TheRitzyRosePitchPage() {
           ))}
         </div>
 
-        {/* Linktree vs Trust Card comparison */}
+        {/* Built for TheRitzyRose */}
         <div className="mb-4">
           <h3 className="text-[20px] sm:text-[22px] font-bold text-slate-900 tracking-tight text-center mb-2">
-            Your Linktree vs. Your Trust Card
+            Built for TheRitzyRose. Not for everyone.
           </h3>
-          <p className="text-[14px] text-slate-400 text-center mb-8">
-            Right now, your Instagram bio links to{" "}
-            <a href="https://linktr.ee/theritzyrose" target="_blank" rel="noopener noreferrer" className="text-emerald hover:underline">
-              linktr.ee/theritzyrose
-            </a>
-            . Here's what each one actually does for your business.
+          <p className="text-[14px] text-slate-400 text-center mb-8 max-w-xl mx-auto">
+            The big link-in-bio tools are built for influencers, creators, and everyone at once.
+            ProofPost is built for one kind of person: the small business owner who lives
+            or dies by their reputation.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-5">
-            {/* Linktree */}
-            <div className="rounded-xl border-2 border-red-200 bg-red-50/30 p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] font-bold text-red-500 bg-red-100 px-2.5 py-1 rounded uppercase tracking-wider">
-                  Linktree
-                </span>
-                <span className="text-[11px] text-red-400">linktr.ee/theritzyrose</span>
-              </div>
-              <div className="space-y-2.5">
-                {[
-                  { label: "What it does", value: "Lists links to Instagram, Amazon, Etsy, Email" },
-                  { label: "Reviews shown", value: "Zero" },
-                  { label: "Star ratings", value: "None" },
-                  { label: "Press mentions", value: "None" },
-                  { label: "SEO value", value: "None (noindex)" },
-                  { label: "Drives sales?", value: "Sends traffic, doesn't convert it" },
-                  { label: "Trust building", value: "None — just a list of links" },
-                ].map((row, i) => (
-                  <div key={i} className="flex justify-between text-[13px]">
-                    <span className="text-slate-500">{row.label}</span>
-                    <span className="text-red-400 font-medium text-right">{row.value}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Trust Card */}
-            <div className="rounded-xl border-2 border-emerald/30 bg-emerald/5 p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] font-bold text-emerald bg-emerald/15 px-2.5 py-1 rounded uppercase tracking-wider">
-                  Trust Card
-                </span>
-                <span className="text-[11px] text-emerald">proofpst.com/theritzyrose</span>
-              </div>
-              <div className="space-y-2.5">
-                {[
-                  { label: "What it does", value: "Shows your proof, drives purchases" },
-                  { label: "Reviews shown", value: "24,500+ from Etsy & Amazon" },
-                  { label: "Star ratings", value: "5.0 verified, visible in Google" },
-                  { label: "Press mentions", value: "NYT, GMA, Martha Stewart & more" },
-                  { label: "SEO value", value: "Schema markup, Google rich snippets" },
-                  { label: "Drives sales?", value: "AI highlights the line that converts" },
-                  { label: "Trust building", value: "Verified badges, real proof, branded" },
-                ].map((row, i) => (
-                  <div key={i} className="flex justify-between text-[13px]">
-                    <span className="text-slate-500">{row.label}</span>
-                    <span className="text-emerald font-semibold text-right">{row.value}</span>
-                  </div>
-                ))}
-              </div>
+          <div className="rounded-2xl border-2 border-emerald/30 bg-emerald/5 p-7 sm:p-8">
+            <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-4 text-center">
+              What you get as a TheRitzyRose customer
+            </p>
+            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+              {[
+                "Your 24,500+ Etsy & Amazon reviews, verified and visible",
+                "Press mentions from NYT, GMA, Martha Stewart on one page",
+                "Star ratings in Google search results (schema markup)",
+                "AI-highlighted money lines from every review",
+                "Branded Trust Card at proofpst.com/theritzyrose",
+                "Shopify widgets on your product pages",
+                "One link that replaces your entire bio menu",
+                "Setup handled by us — you don't lift a finger",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2.5">
+                  <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[13px] text-slate-700 leading-snug">{item}</span>
+                </div>
+              ))}
             </div>
           </div>
 
           <div className="mt-6 rounded-xl bg-slate-50 border border-slate-200 p-5 text-center">
             <p className="text-[14px] text-slate-700">
-              <span className="font-semibold">Linktree tells people where to go.</span>
+              <span className="font-semibold">A bio menu lists where to go.</span>
               {" "}
-              <span className="font-semibold text-emerald">Trust Card tells people why to buy.</span>
+              <span className="font-semibold text-emerald">A Trust Card tells people why to buy.</span>
             </p>
             <p className="text-[13px] text-slate-400 mt-1">
-              Replace the link in your Instagram bio and every visitor sees proof, not a menu.
+              Replace the link in your Instagram bio and every visitor sees proof, not a directory.
             </p>
           </div>
         </div>
