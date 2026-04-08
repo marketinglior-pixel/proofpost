@@ -96,16 +96,36 @@ export default async function TrustCardPage({ params }: PageProps) {
     : "5.0";
   const platforms = [...new Set(reviews.map((r) => r.platform))];
 
-  // JSON-LD
+  // JSON-LD — per-review Review objects so each quote is individually indexable
+  // (not just the aggregate star rating). Cap at 50 to keep HTML lean while
+  // still giving Google a rich corpus to parse.
+  const reviewSchema = reviews
+    .filter((r) => r.review_text && r.review_text !== "Screenshot review" && r.reviewer_name)
+    .slice(0, 50)
+    .map((r) => ({
+      "@type": "Review",
+      reviewBody: r.review_text,
+      author: { "@type": "Person", name: r.reviewer_name },
+      reviewRating: {
+        "@type": "Rating",
+        ratingValue: r.rating || 5,
+        bestRating: 5,
+      },
+      ...(r.platform ? { publisher: { "@type": "Organization", name: r.platform } } : {}),
+      ...(r.imported_at ? { datePublished: new Date(r.imported_at).toISOString().split("T")[0] } : {}),
+    }));
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
     name: card.display_name,
+    url: `https://proofpst.com/${username}`,
     ...(card.headline ? { jobTitle: card.headline } : {}),
     ...(card.avatar_url ? { image: card.avatar_url } : {}),
     ...(totalReviews > 0 ? {
       aggregateRating: { "@type": "AggregateRating", ratingValue: avgRating, reviewCount: totalReviews, bestRating: 5 },
     } : {}),
+    ...(reviewSchema.length > 0 ? { review: reviewSchema } : {}),
   };
 
   return (
