@@ -2,24 +2,13 @@ import Link from "next/link";
 import { IPhoneMockup } from "../../go/iphone-mockup";
 import { MacbookMockup } from "../../go/macbook-mockup";
 import { StickyMobileCTA } from "../../sticky-mobile-cta";
-import {
-  ArrowRight,
-  Check,
-  Star,
-  Shield,
-  Sparkles,
-  Import,
-  BarChart3,
-  Award,
-  Search,
-  Globe,
-} from "lucide-react";
+import { ArrowRight, Check, Star, Shield, Award } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "ProofPost x TheRitzyRose | Your Reviews Are Doing Nothing for Your Website",
   description:
-    "TheRitzyRose has 24,500 five-star Etsy reviews, but none of them show up on theritzyrose.com. ProofPost fixes that.",
+    "TheRitzyRose has 24,500 five-star reviews, but none of them show up on theritzyrose.com. ProofPost fixes that.",
   robots: "noindex, nofollow",
 };
 
@@ -37,7 +26,7 @@ export default function TheRitzyRosePitchPage() {
     <>
       <StickyMobileCTA label="Start 14-Day Trial" />
 
-      {/* ── 1. PROBLEM ── */}
+      {/* ───────────────────────────── 1. PROBLEM ───────────────────────────── */}
       <section className="relative bg-navy overflow-hidden">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald/5 rounded-full blur-[150px] -translate-y-1/3 translate-x-1/4" />
 
@@ -60,17 +49,17 @@ export default function TheRitzyRosePitchPage() {
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                You have 24,500+ five-star reviews on Etsy and 628+ ratings on Amazon,
-                but theritzyrose.com shows zero. When customers Google you and land on
-                your site, they see great products and no proof. So they go to Etsy.
-                And Etsy takes 15%.
+                You have 24,500+ five-star reviews and 628+ Amazon ratings.
+                Your website shows zero. When buyers Google you, they see
+                beautiful products — not proof. And a buyer with doubt is a
+                buyer who doesn't click Buy.
               </p>
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
                 {[
-                  { icon: Star, value: "86,409+", label: "Etsy Sales" },
-                  { icon: Shield, value: "24,500+", label: "5-Star Reviews (Etsy)" },
+                  { icon: Star, value: "86,409+", label: "Total Sales" },
+                  { icon: Shield, value: "24,500+", label: "5-Star Reviews" },
                   { icon: Shield, value: "628+", label: "Amazon Ratings" },
                   { icon: Award, value: "Star Seller", label: "Since 2010" },
                 ].map((stat, i) => (
@@ -102,7 +91,63 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ── 2. DISPLAY (right after hero) ── */}
+      {/* ───────────────────────────── 2. SOLUTION ───────────────────────────── */}
+      <section className="max-w-3xl mx-auto px-6 py-20">
+        <div className="text-center mb-12">
+          <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 tracking-tight leading-tight">
+            One link. All your proof.
+            <br />
+            <span className="text-emerald">Built for you.</span>
+          </h2>
+          <p className="text-[15px] text-slate-500 mt-5 max-w-xl mx-auto leading-relaxed">
+            A Trust Card is the page your website can't be. Every verified
+            review, every press mention, every star rating — on one branded
+            link you drop anywhere a customer asks{" "}
+            <span className="text-slate-700 font-medium">"can I trust you?"</span>
+          </p>
+        </div>
+
+        <div className="space-y-3 mb-10">
+          {[
+            {
+              title: "Works where your website doesn't",
+              text: "Instagram DMs, email signatures, WhatsApp, Pinterest bio. When a buyer says \"show me results,\" you drop one link.",
+            },
+            {
+              title: "Verified badges your site can't have",
+              text: "\"Verified on Amazon\" and \"Verified on Etsy\" carry weight because anyone can write a review on their own site. These are real.",
+            },
+            {
+              title: "Google-validated rich snippets",
+              text: "Not just stars — every individual review quote is indexable. Your Trust Card already passes Google's Rich Results Test with 9 valid structured-data items.",
+            },
+          ].map((item, i) => (
+            <div
+              key={i}
+              className="flex items-start gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4"
+            >
+              <Check className="w-5 h-5 text-emerald flex-shrink-0 mt-0.5" />
+              <div>
+                <p className="text-[14px] font-semibold text-slate-900">{item.title}</p>
+                <p className="text-[13px] text-slate-500 mt-0.5">{item.text}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="rounded-2xl border-2 border-emerald/30 bg-emerald/5 p-7 sm:p-8 text-center">
+          <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-2">
+            Built for TheRitzyRose. Not for everyone.
+          </p>
+          <p className="text-[15px] text-slate-700 leading-relaxed max-w-lg mx-auto">
+            Big link-in-bio tools are built for influencers, creators, and
+            everyone at once. ProofPost is built for one kind of person: the
+            small business owner who lives or dies by their reputation.
+          </p>
+        </div>
+      </section>
+
+      {/* ───────────────────────────── 3. DISPLAY ───────────────────────────── */}
       <section className="bg-slate-50/80 border-y border-slate-100">
         <div className="max-w-6xl mx-auto px-6 py-20">
           <div className="text-center mb-10">
@@ -110,12 +155,15 @@ export default function TheRitzyRosePitchPage() {
               We already built yours.
             </h2>
             <p className="text-[15px] text-slate-500 mt-3">
-              This is a real, working Trust Card for TheRitzyRose. Live right now.
+              A real, working Trust Card for TheRitzyRose. Live right now.
             </p>
           </div>
 
           {/* Desktop: MacBook mockup */}
-          <div className="hidden md:block macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
+          <div
+            className="hidden md:block macbook-container"
+            style={{ "--macbook-scale": "0.82" } as React.CSSProperties}
+          >
             <MacbookMockup src="https://proofpst.com/theritzyrose" />
           </div>
 
@@ -136,271 +184,65 @@ export default function TheRitzyRosePitchPage() {
             </a>
           </p>
 
-          <p className="text-[13px] text-slate-500 text-center mt-6 max-w-md mx-auto">
+          <p className="text-[13px] text-slate-500 text-center mt-4 max-w-md mx-auto">
             The <span className="text-emerald font-semibold">highlighted lines</span> are
-            the AI-extracted sentences we'd use in your marketing. All reviews verified from Amazon &amp; Etsy.
+            the AI-extracted sentences we'd use in your marketing. Every review
+            verified from Amazon &amp; Etsy.
           </p>
+
+          {/* Press strip */}
+          <div className="mt-12 pt-8 border-t border-slate-200 text-center">
+            <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-3">
+              Your press, on your Trust Card
+            </p>
+            <p className="text-[13px] text-slate-600">{PRESS.join(" · ")}</p>
+          </div>
         </div>
       </section>
 
-      {/* ── 3. WHY A TRUST CARD ── */}
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <div className="text-center mb-10">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Your website sells your product.
-            <br />
-            Your Trust Card sells your reputation.
-          </h2>
-          <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
-            When someone asks "why should I trust you?" your website doesn't answer that.
-            Your Trust Card does. One link with all your verified reviews, press mentions,
-            and ratings from every platform — built exclusively for small business owners
-            who earned their reputation the hard way.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-2 gap-4 mb-12">
-          {[
-            {
-              question: "\"What do you sell?\"",
-              answer: "Your website",
-              detail: "Products, photos, prices, categories",
-              good: false,
-            },
-            {
-              question: "\"Can I trust you?\"",
-              answer: "Your Trust Card",
-              detail: "Verified reviews, press, ratings, proof",
-              good: true,
-            },
-          ].map((item, i) => (
-            <div
-              key={i}
-              className={`rounded-xl p-6 space-y-2 ${
-                item.good
-                  ? "bg-emerald/5 border-2 border-emerald/20"
-                  : "bg-slate-50 border border-slate-200"
-              }`}
-            >
-              <p className="text-[14px] text-slate-400 font-medium">{item.question}</p>
-              <p className={`text-[18px] font-bold ${item.good ? "text-emerald" : "text-slate-700"}`}>
-                → {item.answer}
-              </p>
-              <p className="text-[13px] text-slate-500">{item.detail}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="space-y-3 mb-14">
-          {[
-            {
-              title: "Works where your website doesn't",
-              text: "Instagram DMs, email signatures, WhatsApp, Pinterest bio. When someone asks \"show me results,\" you drop one link.",
-            },
-            {
-              title: "Verified badges your site can't have",
-              text: "\"Verified on Amazon\" and \"Verified on Etsy\" carry weight because anyone can write a review on their own site. These are real.",
-            },
-            {
-              title: "Google-validated rich snippets",
-              text: "Not just stars — every individual review quote is indexable. Your Trust Card already passes Google's Rich Results Test with 9 valid structured-data items. Free organic traffic to your site, not Etsy.",
-            },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4">
-              <Check className="w-5 h-5 text-emerald flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[14px] font-semibold text-slate-900">{item.title}</p>
-                <p className="text-[13px] text-slate-500 mt-0.5">{item.text}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Built for TheRitzyRose */}
-        <div className="mb-4">
-          <h3 className="text-[20px] sm:text-[22px] font-bold text-slate-900 tracking-tight text-center mb-2">
-            Built for TheRitzyRose. Not for everyone.
-          </h3>
-          <p className="text-[14px] text-slate-400 text-center mb-8 max-w-xl mx-auto">
-            The big link-in-bio tools are built for influencers, creators, and everyone at once.
-            ProofPost is built for one kind of person: the small business owner who lives
-            or dies by their reputation.
-          </p>
-
-          <div className="rounded-2xl border-2 border-emerald/30 bg-emerald/5 p-7 sm:p-8">
-            <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-4 text-center">
-              What you get as a TheRitzyRose customer
+      {/* ───────────────────────────── 4. OFFER ───────────────────────────── */}
+      <section className="bg-navy">
+        <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-8">
+          <div>
+            <h2 className="text-[26px] sm:text-[32px] font-bold text-white tracking-tight">
+              Your customers already wrote
+              <br />
+              <span className="text-emerald">your best marketing.</span>
+            </h2>
+            <p className="text-[14px] text-slate-400 mt-4">
+              Let us put it where buyers actually see it.
             </p>
-            <div className="grid sm:grid-cols-2 gap-x-6 gap-y-3">
+          </div>
+
+          {/* Pricing card */}
+          <div className="rounded-2xl bg-white/5 border border-emerald/20 p-8 text-center max-w-md mx-auto">
+            <p className="text-[12px] text-emerald uppercase tracking-wider font-semibold mb-3">
+              The offer
+            </p>
+            <p className="text-[48px] font-bold text-white tabular-nums leading-none">
+              $19<span className="text-[18px] text-slate-400 font-normal">/month</span>
+            </p>
+            <p className="text-[13px] text-slate-400 mt-2">
+              14-day free trial · We handle all setup
+            </p>
+
+            <div className="mt-6 pt-6 border-t border-white/10 space-y-2.5 text-left">
               {[
-                "Your 24,500+ Etsy & Amazon reviews, verified and visible",
-                "Press mentions from NYT, GMA, Martha Stewart on one page",
-                "Star ratings in Google search results (schema markup)",
-                "AI-highlighted money lines from every review",
+                "Your 24,500+ Etsy & Amazon reviews, verified",
                 "Branded Trust Card at proofpst.com/theritzyrose",
-                "Shopify widgets on your product pages",
+                "AI-highlighted money lines from every review",
+                "Google rich snippets — validated, already passing",
+                "Shopify widgets for your product pages",
                 "One link that replaces your entire bio menu",
-                "Setup handled by us — you don't lift a finger",
+                "Full setup done by us — you don't lift a finger",
               ].map((item, i) => (
                 <div key={i} className="flex items-start gap-2.5">
                   <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
-                  <span className="text-[13px] text-slate-700 leading-snug">{item}</span>
+                  <span className="text-[13px] text-slate-300 leading-snug">{item}</span>
                 </div>
               ))}
             </div>
           </div>
-
-          <div className="mt-6 rounded-xl bg-slate-50 border border-slate-200 p-5 text-center">
-            <p className="text-[14px] text-slate-700">
-              <span className="font-semibold">A bio menu lists where to go.</span>
-              {" "}
-              <span className="font-semibold text-emerald">A Trust Card tells people why to buy.</span>
-            </p>
-            <p className="text-[13px] text-slate-400 mt-1">
-              Replace the link in your Instagram bio and every visitor sees proof, not a directory.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 3. HOW IT WORKS ── */}
-      <section className="bg-slate-50/80 border-y border-slate-100">
-        <div className="max-w-3xl mx-auto px-6 py-16">
-        <div className="text-center mb-10">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            How ProofPost builds yours.
-          </h2>
-          <p className="text-[15px] text-slate-500 mt-4 max-w-xl mx-auto leading-relaxed">
-            We pull your reviews from Etsy and Amazon, our AI finds the sentence
-            that sells, and we put it everywhere it matters.
-          </p>
-        </div>
-
-        <div className="grid sm:grid-cols-3 gap-5">
-          {[
-            {
-              icon: Import,
-              title: "Import from Etsy & Amazon",
-              text: "25,000+ verified reviews pulled in automatically. Each one tagged with its source.",
-            },
-            {
-              icon: Sparkles,
-              title: "AI finds the money line",
-              text: "Every review has one sentence that converts. Our AI extracts it.",
-            },
-            {
-              icon: Globe,
-              title: "Live on your site + Google",
-              text: "Shopify widgets, SEO schema for Google star ratings, branded Trust Card.",
-            },
-          ].map((item, i) => (
-            <div key={i} className="rounded-xl border border-slate-200 bg-white p-6 space-y-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-emerald/10">
-                <item.icon className="w-5 h-5 text-emerald" />
-              </div>
-              <h3 className="text-[15px] font-semibold text-slate-900">{item.title}</h3>
-              <p className="text-[13px] text-slate-500 leading-relaxed">{item.text}</p>
-            </div>
-          ))}
-        </div>
-        </div>
-      </section>
-
-      {/* ── 5. POTENTIAL ── */}
-      <section className="bg-navy">
-        <div className="max-w-4xl mx-auto px-6 py-20">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight text-center mb-10">
-            The math.
-          </h2>
-
-          {/* Etsy ROI */}
-          <div className="rounded-2xl bg-white/5 border border-emerald/20 p-8 text-center space-y-4 mb-10">
-            <p className="text-[15px] text-slate-300 leading-relaxed max-w-lg mx-auto">
-              If ProofPost moves just 10% of your Etsy sales to your own site,
-              you save <span className="text-emerald font-bold text-[20px]">$15,000–$30,000/year</span> in Etsy fees.
-            </p>
-            <p className="text-[14px] text-slate-400">
-              ProofPost costs $19/month. That's $228/year. The ROI is 66x–132x.
-            </p>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-3 gap-4">
-            {[
-              { value: "270%", label: "more conversions with reviews on product pages", source: "Spiegel Research" },
-              { value: "62%", label: "more revenue per visitor with social proof on-site", source: "Bazaarvoice" },
-              { value: "93%", label: "of buyers say reviews impact their purchase", source: "Podium" },
-            ].map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-[32px] sm:text-[36px] font-bold text-white tabular-nums">{stat.value}</p>
-                <p className="text-[12px] text-slate-400 mt-1 leading-snug">{stat.label}</p>
-                <p className="text-[10px] text-slate-500 mt-1">{stat.source}</p>
-              </div>
-            ))}
-          </div>
-
-          {/* Press mentions */}
-          <div className="mt-10 pt-8 border-t border-white/10 text-center">
-            <p className="text-[11px] text-slate-500 uppercase tracking-wider mb-3">Your press, on your Trust Card</p>
-            <p className="text-[13px] text-slate-400">
-              {PRESS.join(" · ")}
-            </p>
-            <p className="text-[12px] text-slate-500 mt-2">
-              You earned all of this. We just put it where buyers actually see it. Advertising money can't buy this.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 6. PRICING / WHAT YOU PAY FOR ── */}
-      <section className="max-w-3xl mx-auto px-6 py-20">
-        <div className="text-center mb-10">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Inside your $19/month.
-          </h2>
-          <p className="text-[14px] text-slate-500 mt-3">
-            Six things working for TheRitzyRose every day, for less than the cost of one Etsy fee on a single sale.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          {[
-            { icon: Shield, title: "Trust Card", desc: "Branded proof page at proofpst.com/theritzyrose. One link, share everywhere." },
-            { icon: Import, title: "Review Import", desc: "Etsy + Amazon reviews pulled in automatically. Each tagged \"Verified Amazon\" or \"Verified Etsy\"." },
-            { icon: Sparkles, title: "AI Hook Extraction", desc: "Finds the one sentence in each review that converts." },
-            { icon: Search, title: "Google SEO", desc: "Schema markup so your star ratings show up in Google search results." },
-            { icon: Globe, title: "Shopify Widgets", desc: "Animated review widgets on your product pages. Branded to match your look." },
-            { icon: BarChart3, title: "Analytics", desc: "Track views, impressions, click-throughs. Know what's working." },
-          ].map((item, i) => (
-            <div key={i} className="flex items-start gap-4 rounded-xl bg-white border border-slate-200 px-5 py-4">
-              <div className="flex items-center justify-center w-9 h-9 rounded-lg bg-emerald/10 flex-shrink-0 mt-0.5">
-                <item.icon className="w-4 h-4 text-emerald" />
-              </div>
-              <div>
-                <h3 className="text-[14px] font-semibold text-slate-900">{item.title}</h3>
-                <p className="text-[13px] text-slate-500 mt-0.5">{item.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 text-center">
-          <p className="text-[15px] text-slate-700">
-            <span className="font-bold text-emerald">$19/month</span>
-            <span className="text-slate-400 mx-2">·</span>
-            14-day free trial
-            <span className="text-slate-400 mx-2">·</span>
-            We handle all setup
-          </p>
-        </div>
-      </section>
-
-      {/* ── 7. FOOTER / CTA ── */}
-      <section className="bg-navy">
-        <div className="max-w-3xl mx-auto px-6 py-20 text-center space-y-6">
-          <h2 className="text-[26px] sm:text-[30px] font-bold text-white tracking-tight">
-            Your customers already wrote your best marketing.
-          </h2>
 
           <Link
             href="https://proofpst.com/login"
@@ -411,14 +253,22 @@ export default function TheRitzyRosePitchPage() {
           </Link>
 
           <div className="flex items-center justify-center gap-4 text-[12px] text-slate-500">
-            <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-emerald" /> No credit card</span>
-            <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-emerald" /> Full access</span>
-            <span className="flex items-center gap-1"><Check className="w-3.5 h-3.5 text-emerald" /> Cancel anytime</span>
+            <span className="flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-emerald" /> No credit card
+            </span>
+            <span className="flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-emerald" /> Full access
+            </span>
+            <span className="flex items-center gap-1">
+              <Check className="w-3.5 h-3.5 text-emerald" /> Cancel anytime
+            </span>
           </div>
 
           {/* Next steps */}
-          <div className="pt-8 border-t border-white/10 mt-8 text-left max-w-md mx-auto">
-            <p className="text-[12px] text-slate-500 uppercase tracking-wider mb-4 text-center">Next steps</p>
+          <div className="pt-8 border-t border-white/10 text-left max-w-md mx-auto">
+            <p className="text-[12px] text-slate-500 uppercase tracking-wider mb-4 text-center">
+              Next steps
+            </p>
             {[
               "Polish the final details on your Trust Card together (preview is already live)",
               "Import full review catalog from Etsy",
@@ -432,11 +282,18 @@ export default function TheRitzyRosePitchPage() {
             ))}
           </div>
 
-          <div className="pt-8 border-t border-white/10 mt-4">
+          <div className="pt-6 border-t border-white/10">
             <p className="text-[12px] text-slate-600">
-              <a href="https://proofpst.com" className="text-emerald hover:underline">proofpst.com</a>
+              <a href="https://proofpst.com" className="text-emerald hover:underline">
+                proofpst.com
+              </a>
               {" · "}
-              <a href="https://proofpst.com/theritzyrose" className="text-emerald hover:underline">See TheRitzyRose demo</a>
+              <a
+                href="https://proofpst.com/theritzyrose"
+                className="text-emerald hover:underline"
+              >
+                See TheRitzyRose demo
+              </a>
             </p>
           </div>
         </div>
