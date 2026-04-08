@@ -8,7 +8,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "ProofPost x TheRitzyRose | Your Reviews Are Doing Nothing for Your Website",
   description:
-    "TheRitzyRose has 24,500 five-star reviews, but none of them show up on theritzyrose.com. ProofPost fixes that.",
+    "TheRitzyRose has 24,200 five-star reviews, but none of them show up on theritzyrose.com. ProofPost fixes that.",
   robots: "noindex, nofollow",
 };
 
@@ -16,7 +16,7 @@ const PRESS = [
   "The New York Times",
   "Good Morning America",
   "Martha Stewart Weddings",
-  "People Magazine",
+  "Refinery29",
   "Entertainment Tonight",
   "Brides.com",
 ];
@@ -49,7 +49,7 @@ export default function TheRitzyRosePitchPage() {
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                You have 24,500+ five-star reviews and 628+ Amazon ratings.
+                You have 24,200+ five-star reviews and 628+ Amazon ratings.
                 Your website shows zero. When buyers Google you, they see
                 beautiful products — not proof. And a buyer with doubt is a
                 buyer who doesn't click Buy.
@@ -58,8 +58,8 @@ export default function TheRitzyRosePitchPage() {
               {/* Stats */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
                 {[
-                  { icon: Star, value: "86,409+", label: "Total Sales" },
-                  { icon: Shield, value: "24,500+", label: "5-Star Reviews" },
+                  { icon: Star, value: "108,900+", label: "Total Sales" },
+                  { icon: Shield, value: "24,200+", label: "5-Star Reviews" },
                   { icon: Shield, value: "628+", label: "Amazon Ratings" },
                   { icon: Award, value: "Star Seller", label: "Since 2010" },
                 ].map((stat, i) => (
@@ -228,7 +228,7 @@ export default function TheRitzyRosePitchPage() {
 
             <div className="mt-6 pt-6 border-t border-white/10 space-y-2.5 text-left">
               {[
-                "Your 24,500+ Etsy & Amazon reviews, verified",
+                "Your 24,200+ Etsy & Amazon reviews, verified",
                 "Branded Trust Card at proofpst.com/theritzyrose",
                 "AI-highlighted money lines from every review",
                 "Google rich snippets — validated, already passing",
