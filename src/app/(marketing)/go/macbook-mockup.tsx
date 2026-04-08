@@ -2,7 +2,7 @@
 
 export function MacbookMockup({ src }: { src: string }) {
   return (
-    <div className="relative mx-auto" style={{ maxWidth: "1400px" }}>
+    <div className="relative mx-auto w-full" style={{ maxWidth: "1400px" }}>
       {/* Screen */}
       <div className="relative bg-gray-900 rounded-t-2xl border-[10px] border-gray-900 overflow-hidden shadow-2xl shadow-slate-400/30">
         {/* Camera dot */}
@@ -15,10 +15,8 @@ export function MacbookMockup({ src }: { src: string }) {
             title="Trust Card Desktop Preview"
             className="absolute inset-0 border-none"
             style={{
-              width: "250%",
-              height: "250%",
-              transform: "scale(0.4)",
-              transformOrigin: "top left",
+              width: "100%",
+              height: "100%",
               pointerEvents: "none",
             }}
             loading="lazy"

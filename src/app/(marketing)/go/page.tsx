@@ -219,7 +219,7 @@ export default function GoPage() {
       </section>
 
       {/* ── Desktop Preview ── */}
-      <section className="max-w-[1500px] mx-auto px-6 py-20">
+      <section className="px-6 py-20">
         <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight text-center mb-4">
           This is what your customers see.
         </h2>
@@ -228,7 +228,7 @@ export default function GoPage() {
         </p>
 
         {/* Desktop: MacBook */}
-        <div className="hidden md:block macbook-container" style={{ "--macbook-scale": "0.82" } as React.CSSProperties}>
+        <div className="hidden md:block">
           <MacbookMockup src="https://proofpst.com/lio" />
         </div>
 
