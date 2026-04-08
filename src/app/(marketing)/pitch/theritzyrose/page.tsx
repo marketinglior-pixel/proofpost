@@ -49,18 +49,18 @@ export default function TheRitzyRosePitchPage() {
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                You have 24,200+ five-star reviews and 628+ Amazon ratings.
-                Your website shows zero. When buyers Google you, they see
-                beautiful products — not proof. And a buyer with doubt is a
-                buyer who doesn't click Buy.
+                You have 24,200+ five-star reviews on Etsy and 108,900+
+                sales since 2010. Your website shows zero of that. When
+                buyers Google you, they see beautiful products — not proof.
+                And a buyer with doubt is a buyer who doesn't click Buy.
               </p>
 
               {/* Stats */}
               <div className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2">
                 {[
-                  { icon: Star, value: "108,900+", label: "Total Sales" },
+                  { icon: Star, value: "108,900+", label: "Etsy Sales" },
                   { icon: Shield, value: "24,200+", label: "5-Star Reviews" },
-                  { icon: Shield, value: "628+", label: "Amazon Ratings" },
+                  { icon: Award, value: "5.0", label: "Average Rating" },
                   { icon: Award, value: "Star Seller", label: "Since 2010" },
                 ].map((stat, i) => (
                   <div
@@ -115,7 +115,7 @@ export default function TheRitzyRosePitchPage() {
             },
             {
               title: "Verified badges your site can't have",
-              text: "\"Verified on Amazon\" and \"Verified on Etsy\" carry weight because anyone can write a review on their own site. These are real.",
+              text: "\"Verified on Etsy\" carries weight because anyone can write a review on their own site. Yours are the real thing — 24,200+ of them.",
             },
             {
               title: "Google-validated rich snippets",
@@ -187,7 +187,7 @@ export default function TheRitzyRosePitchPage() {
           <p className="text-[13px] text-slate-500 text-center mt-4 max-w-md mx-auto">
             The <span className="text-emerald font-semibold">highlighted lines</span> are
             the AI-extracted sentences we'd use in your marketing. Every review
-            verified from Amazon &amp; Etsy.
+            verified straight from Etsy.
           </p>
 
           {/* Press strip */}
@@ -228,7 +228,7 @@ export default function TheRitzyRosePitchPage() {
 
             <div className="mt-6 pt-6 border-t border-white/10 space-y-2.5 text-left">
               {[
-                "Your 24,200+ Etsy & Amazon reviews, verified",
+                "Your 24,200+ verified Etsy reviews on one page",
                 "Branded Trust Card at proofpst.com/theritzyrose",
                 "AI-highlighted money lines from every review",
                 "Google rich snippets — validated, already passing",
