@@ -1,6 +1,8 @@
 "use client";
 
 import Script from "next/script";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useRef } from "react";
 
 /**
  * Facebook Pixel + LinkedIn Insight Tag.
@@ -13,6 +15,23 @@ import Script from "next/script";
 export function AdTrackingPixels() {
   const fbPixelId = process.env.NEXT_PUBLIC_FB_PIXEL_ID;
   const linkedinPartnerId = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID;
+
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const lastTrackedUrl = useRef<string | null>(null);
+
+  // Fire PageView on route changes (App Router doesn't trigger full reloads).
+  // The init script no longer fires PageView, so this is the single source of truth.
+  useEffect(() => {
+    if (!fbPixelId) return;
+    if (typeof window === "undefined") return;
+    const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
+    if (typeof fbq !== "function") return;
+    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
+    if (lastTrackedUrl.current === url) return;
+    lastTrackedUrl.current = url;
+    fbq("track", "PageView");
+  }, [pathname, searchParams, fbPixelId]);
 
   return (
     <>
@@ -33,7 +52,8 @@ export function AdTrackingPixels() {
                 s.parentNode.insertBefore(t,s)}(window, document,'script',
                 'https://connect.facebook.net/en_US/fbevents.js');
                 fbq('init', '${fbPixelId}');
-                fbq('track', 'PageView');
+                // PageView is fired by the React effect below on route changes,
+                // to avoid duplicate fires from React Strict Mode or Script re-mounts.
               `,
             }}
           />

@@ -28,7 +28,7 @@ export const metadata: Metadata = {
 export default function GoPage() {
   return (
     <>
-      <StickyMobileCTA label="Get Your Trust Card" />
+      <StickyMobileCTA label="Paste Your First Review" />
 
       {/* ── Hero ── */}
       <section className="relative overflow-hidden">
@@ -38,33 +38,35 @@ export default function GoPage() {
             <div className="space-y-6">
               <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald/10 border border-emerald/20 text-[11px] font-semibold text-emerald uppercase tracking-wider">
                 <Sparkles className="w-3 h-3" />
-                The new standard for 2026
+                +270% conversion with 5 reviews · Spiegel Research
               </span>
               <h1
                 className="font-bold text-slate-900 tracking-tight leading-[1.1]"
                 style={{ fontSize: "clamp(2rem, 4.5vw, 3rem)" }}
               >
-                Linktree showed your links.
+                Your bio link should
                 <br />
-                <span className="text-emerald">Your Trust Card sells for you.</span>
+                close clients.{" "}
+                <span className="text-emerald">Not just list them.</span>
               </h1>
               <p className="text-[17px] text-slate-500 leading-relaxed max-w-lg">
-                People stopped clicking link lists. They want proof. Your Trust Card
-                pulls reviews from Google, Amazon, Etsy, and shows the one sentence
-                that makes people buy. One link, in your bio, that actually converts.
+                Paste one review. Get a verified proof page at{" "}
+                <span className="font-semibold text-slate-700">proofpst.com/yourname</span>
+                {" "}— with the one sentence that makes people buy, highlighted by AI.
+                Live in 60 seconds. No website needed.
               </p>
               <div className="flex flex-col sm:flex-row gap-3">
                 <Link
                   href="/login"
                   className="flex items-center justify-center gap-2 h-13 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
                 >
-                  Get Your Trust Card Free
+                  Paste Your First Review — Free
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
               <div className="flex flex-wrap gap-x-5 gap-y-2 text-[13px] text-slate-400">
                 <span className="flex items-center gap-1.5"><Clock className="w-3.5 h-3.5" /> 60-second setup</span>
-                <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> Verified reviews</span>
+                <span className="flex items-center gap-1.5"><Shield className="w-3.5 h-3.5" /> No credit card</span>
                 <span className="flex items-center gap-1.5"><Globe className="w-3.5 h-3.5" /> No website needed</span>
                 <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> 14 days free</span>
               </div>
@@ -401,7 +403,7 @@ export default function GoPage() {
             href="/login"
             className="inline-flex items-center justify-center gap-2 h-13 px-10 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors duration-200 glow-emerald"
           >
-            Get Your Trust Card Free
+            Paste Your First Review — Free
             <ArrowRight className="w-4 h-4" />
           </Link>
           <div className="flex items-center justify-center gap-4 text-[12px] text-slate-500">
