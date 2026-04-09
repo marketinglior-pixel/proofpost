@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowRight, Loader2, Star, ShieldCheck } from "lucide-react";
+import { ArrowRight, Loader2, Star, ShieldCheck, Mail } from "lucide-react";
 import posthog from "posthog-js";
 import { trackFbEvent, trackLinkedinConversion } from "@/components/ad-tracking-pixels";
 
@@ -17,6 +17,9 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(defaultMode === "login");
   const [loading, setLoading] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string | null>(null);
+  const [resending, setResending] = useState(false);
+  const [resendCooldown, setResendCooldown] = useState(0);
   const [message, setMessage] = useState<{
     type: "error" | "success";
     text: string;
@@ -54,14 +57,40 @@ function LoginForm() {
         posthog.capture("user_signed_up", { method: "email" });
         trackFbEvent("Lead", { content_name: "signup", method: "email" });
         trackLinkedinConversion(process.env.NEXT_PUBLIC_LINKEDIN_SIGNUP_CONVERSION_ID ?? "");
-        setMessage({
-          type: "success",
-          text: "Check your email for a confirmation link!",
-        });
+        setPendingEmail(email);
       }
     }
 
     setLoading(false);
+  }
+
+  async function handleResend() {
+    if (!pendingEmail || resending || resendCooldown > 0) return;
+    setResending(true);
+    const { error } = await supabase.auth.resend({
+      type: "signup",
+      email: pendingEmail,
+      options: {
+        emailRedirectTo: `${window.location.origin}/callback`,
+      },
+    });
+    setResending(false);
+    if (error) {
+      setMessage({ type: "error", text: error.message });
+    } else {
+      setMessage({ type: "success", text: "Confirmation email resent." });
+      // 30-second cooldown
+      setResendCooldown(30);
+      const iv = setInterval(() => {
+        setResendCooldown((c) => {
+          if (c <= 1) {
+            clearInterval(iv);
+            return 0;
+          }
+          return c - 1;
+        });
+      }, 1000);
+    }
   }
 
   return (
@@ -128,6 +157,66 @@ function LoginForm() {
             </span>
           </div>
 
+          {pendingEmail ? (
+            <div className="space-y-6">
+              <div className="w-14 h-14 rounded-2xl bg-emerald-50 flex items-center justify-center">
+                <Mail className="w-7 h-7 text-emerald-500" />
+              </div>
+              <div className="space-y-2">
+                <h2 className="text-[28px] text-slate-900 font-bold tracking-tight">
+                  Check your email
+                </h2>
+                <p className="text-[15px] text-slate-500">
+                  We sent a confirmation link to{" "}
+                  <span className="font-semibold text-slate-900">{pendingEmail}</span>.
+                  Click it to activate your account.
+                </p>
+                <p className="text-[13px] text-slate-400">
+                  It usually arrives in under a minute. Check spam if you don&apos;t see it.
+                </p>
+              </div>
+
+              {message && (
+                <div
+                  className={`text-sm rounded-xl px-4 py-3 ${
+                    message.type === "error"
+                      ? "bg-red-50 text-red-700 border border-red-100"
+                      : "bg-emerald-50 text-emerald-700 border border-emerald-100"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              )}
+
+              <div className="space-y-3">
+                <Button
+                  type="button"
+                  onClick={handleResend}
+                  disabled={resending || resendCooldown > 0}
+                  className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white text-[15px] font-semibold rounded-xl"
+                >
+                  {resending ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : resendCooldown > 0 ? (
+                    `Resend in ${resendCooldown}s`
+                  ) : (
+                    "Resend confirmation email"
+                  )}
+                </Button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setPendingEmail(null);
+                    setMessage(null);
+                  }}
+                  className="w-full text-[13px] text-slate-400 hover:text-slate-600 transition-colors"
+                >
+                  Use a different email
+                </button>
+              </div>
+            </div>
+          ) : (
+          <>
           <div className="space-y-2">
             <h2 className="text-[28px] text-slate-900 font-bold tracking-tight">
               {isLogin ? "Welcome back" : "Create your Trust Card"}
@@ -144,6 +233,15 @@ function LoginForm() {
             type="button"
             onClick={async () => {
               posthog.capture("user_auth_started", { method: "google" });
+              // Fire Lead BEFORE redirect — once the browser leaves for Google,
+              // the pixel is gone. Post-OAuth firing on dashboard mount is unreliable
+              // with 3rd-party cookie restrictions.
+              trackFbEvent("Lead", { content_name: "signup", method: "google" });
+              trackLinkedinConversion(
+                process.env.NEXT_PUBLIC_LINKEDIN_SIGNUP_CONVERSION_ID ?? ""
+              );
+              // Give the pixel ~250ms to flush before navigating away.
+              await new Promise((r) => setTimeout(r, 250));
               await supabase.auth.signInWithOAuth({
                 provider: "google",
                 options: {
@@ -244,6 +342,8 @@ function LoginForm() {
             </button>
             <div className="flex-1 h-px bg-slate-200" />
           </div>
+          </>
+          )}
         </div>
       </div>
     </div>
