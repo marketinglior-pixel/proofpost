@@ -71,8 +71,13 @@ export default function GoPage() {
                 <span className="flex items-center gap-1.5"><Star className="w-3.5 h-3.5" /> 14 days free</span>
               </div>
             </div>
-            <div className="hidden lg:flex justify-center">
-              <IPhoneMockup src="https://proofpst.com/lio" />
+            <div className="flex justify-center">
+              <div className="lg:hidden">
+                <IPhoneMockup src="https://proofpst.com/lio" scale={0.75} />
+              </div>
+              <div className="hidden lg:block">
+                <IPhoneMockup src="https://proofpst.com/lio" />
+              </div>
             </div>
           </div>
         </div>

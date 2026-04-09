@@ -1,8 +1,12 @@
 "use client";
 
-export function IPhoneMockup({ src }: { src: string }) {
+export function IPhoneMockup({ src, scale = 1 }: { src: string; scale?: number }) {
   return (
-    <div className="relative mx-auto" style={{ width: 300, height: 614 }}>
+    <div className="relative mx-auto" style={{ width: 300 * scale, height: 614 * scale }}>
+      <div
+        className="absolute top-0 left-0"
+        style={{ width: 300, height: 614, transform: `scale(${scale})`, transformOrigin: "top left" }}
+      >
       {/* Device shadow */}
       <div className="absolute inset-0 rounded-[2.5rem] shadow-2xl shadow-slate-300/60" />
 
@@ -37,6 +41,7 @@ export function IPhoneMockup({ src }: { src: string }) {
 
         {/* Home indicator */}
         <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-[120px] h-[4px] bg-gray-600 rounded-full z-20" />
+      </div>
       </div>
     </div>
   );
