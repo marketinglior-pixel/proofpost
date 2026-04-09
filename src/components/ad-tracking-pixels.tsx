@@ -26,6 +26,9 @@ export function AdTrackingPixels() {
   useEffect(() => {
     if (!fbPixelId) return;
     if (typeof window === "undefined") return;
+    // Skip when rendered inside an iframe (e.g. the Trust Card preview iframe on /go).
+    // Otherwise every marketing page load also fires a second PageView from the embedded Trust Card.
+    if (window.self !== window.top) return;
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
     if (typeof fbq !== "function") return;
     if (lastTrackedPath.current === pathname) return;
