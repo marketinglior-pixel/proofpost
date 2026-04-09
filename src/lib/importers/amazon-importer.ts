@@ -3,9 +3,13 @@ import type { ImportedReview } from "./g2-importer";
 
 export type { ImportedReview };
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 const AMAZON_URL_PATTERN = /^https?:\/\/(www\.)?amazon\.(com|co\.uk|ca|de|fr|it|es|co\.jp|com\.au)/;
 
@@ -52,7 +56,7 @@ async function extractFromURL(url: string): Promise<ImportedReview[]> {
   // Trim HTML to avoid token limits
   const trimmed = html.slice(0, 15000);
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [
@@ -91,7 +95,7 @@ async function extractFromText(text: string): Promise<ImportedReview[]> {
   const trimmed = text.trim().slice(0, 10000);
   if (!trimmed) return [];
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     response_format: { type: "json_object" },
     messages: [

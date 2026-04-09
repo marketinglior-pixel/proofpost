@@ -1,9 +1,13 @@
 import OpenAI from "openai";
 import { z } from "zod";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 export const caseStudySchema = z.object({
   title: z.string(),
@@ -73,7 +77,7 @@ export async function generateCaseStudy(
   reviewerCompany: string,
   companyName: string
 ): Promise<CaseStudyOutput> {
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.7,
     max_tokens: 1200,

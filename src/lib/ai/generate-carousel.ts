@@ -1,9 +1,13 @@
 import OpenAI from "openai";
 import { z } from "zod";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 const hookVariantSchema = z.object({
   id: z.string(),
@@ -84,7 +88,7 @@ export async function generateCarouselContent(
     ? `\nReviewer info:\n- Name: ${reviewerInfo.name || "Unknown"}\n- Title: ${reviewerInfo.title || "Unknown"}\n- Company: ${reviewerInfo.company || "Unknown"}`
     : "";
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0.7,
     max_tokens: 1200,

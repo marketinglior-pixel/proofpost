@@ -3,7 +3,13 @@ import mql from "@microlink/mql";
 import OpenAI from "openai";
 import { rateLimit } from "@/lib/rate-limit";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 interface ExtractedPost {
   reviewerName: string;
@@ -72,7 +78,7 @@ export async function POST(request: NextRequest) {
         ? contextParts.join("\n")
         : `URL: ${url} (no metadata available)`;
 
-    const response = await openai.chat.completions.create({
+    const response = await getOpenAI().chat.completions.create({
       model: "gpt-4o-mini",
       temperature: 0.3,
       max_tokens: 500,

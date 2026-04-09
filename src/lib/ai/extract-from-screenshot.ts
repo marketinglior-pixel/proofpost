@@ -1,9 +1,13 @@
 import OpenAI from "openai";
 import { z } from "zod";
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 const extractedReviewSchema = z.object({
   reviewerName: z.string(),
@@ -62,7 +66,7 @@ export async function extractReviewsFromScreenshot(
 ): Promise<ExtractionResult> {
   let response;
   try {
-    response = await openai.chat.completions.create({
+    response = await getOpenAI().chat.completions.create({
       model: "gpt-4o",
       messages: [
         { role: "system", content: SYSTEM_PROMPT },

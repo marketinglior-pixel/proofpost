@@ -10,9 +10,13 @@ export interface ImportedReview {
   source_url?: string;
 }
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+let _openai: OpenAI | null = null;
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return _openai;
+}
 
 /**
  * Parse G2 CSV export data into structured reviews.
@@ -134,7 +138,7 @@ async function extractFromURL(url: string): Promise<ImportedReview[]> {
   // Trim to a reasonable size for the LLM
   const trimmed = html.slice(0, 60_000);
 
-  const response = await openai.chat.completions.create({
+  const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
     temperature: 0,
     max_tokens: 4000,
