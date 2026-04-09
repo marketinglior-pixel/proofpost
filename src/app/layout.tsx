@@ -6,6 +6,7 @@ import { PostHogProvider } from "@/components/posthog-provider";
 import { PostHogPageview } from "@/components/posthog-pageview";
 import { AdTrackingPixels } from "@/components/ad-tracking-pixels";
 import { FeedbackWidget } from "@/components/feedback-widget";
+import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -81,6 +82,7 @@ export default function RootLayout({
         </PostHogProvider>
         <FeedbackWidget />
         <Toaster position="top-center" richColors />
+        <Analytics />
       </body>
     </html>
   );
