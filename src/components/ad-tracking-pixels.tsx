@@ -1,7 +1,7 @@
 "use client";
 
 import Script from "next/script";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 
 /**
@@ -17,21 +17,21 @@ export function AdTrackingPixels() {
   const linkedinPartnerId = process.env.NEXT_PUBLIC_LINKEDIN_PARTNER_ID;
 
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const lastTrackedUrl = useRef<string | null>(null);
+  const lastTrackedPath = useRef<string | null>(null);
 
   // Fire PageView on route changes (App Router doesn't trigger full reloads).
   // The init script no longer fires PageView, so this is the single source of truth.
+  // We intentionally ignore searchParams to avoid forcing all pages into client rendering
+  // (useSearchParams requires a Suspense boundary and breaks static generation of marketing pages).
   useEffect(() => {
     if (!fbPixelId) return;
     if (typeof window === "undefined") return;
     const fbq = (window as { fbq?: (...args: unknown[]) => void }).fbq;
     if (typeof fbq !== "function") return;
-    const url = pathname + (searchParams?.toString() ? `?${searchParams.toString()}` : "");
-    if (lastTrackedUrl.current === url) return;
-    lastTrackedUrl.current = url;
+    if (lastTrackedPath.current === pathname) return;
+    lastTrackedPath.current = pathname;
     fbq("track", "PageView");
-  }, [pathname, searchParams, fbPixelId]);
+  }, [pathname, fbPixelId]);
 
   return (
     <>
