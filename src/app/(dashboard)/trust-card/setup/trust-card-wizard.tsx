@@ -21,6 +21,8 @@ import {
   Link as LinkIcon,
   Share2,
 } from "lucide-react";
+import { usePostHog } from "posthog-js/react";
+import { PostTrustCardQuestionnaire } from "./post-trust-card-questionnaire";
 
 const PROOFPOST_HOST = "https://proofpst.com";
 
@@ -43,8 +45,10 @@ interface TrustCardWizardProps {
 export function TrustCardWizard({ userId }: TrustCardWizardProps) {
   const router = useRouter();
   const supabase = createClient();
+  const posthog = usePostHog();
 
   const [step, setStep] = useState(1);
+  const [showQuestionnaire, setShowQuestionnaire] = useState(false);
 
   // Step 1: Username
   const [displayName, setDisplayName] = useState("");
@@ -111,6 +115,28 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
 
     return () => clearTimeout(timer);
   }, [username]);
+
+  // Show questionnaire on step 4 (first trust card only)
+  useEffect(() => {
+    if (step !== 4) return;
+    posthog?.capture("trust_card_completed", { username });
+
+    const timer = setTimeout(async () => {
+      const { data } = await supabase
+        .from("questionnaire_responses")
+        .select("id")
+        .eq("user_id", userId)
+        .eq("questionnaire", "post_first_trust_card")
+        .limit(1)
+        .single();
+
+      if (!data) {
+        setShowQuestionnaire(true);
+      }
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [step]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Step 1: Claim username
   async function handleClaimUsername() {
@@ -613,6 +639,12 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
             >
               Go to Editor <ArrowRight className="w-4 h-4 ml-1" />
             </Button>
+
+            <PostTrustCardQuestionnaire
+              open={showQuestionnaire}
+              onClose={() => setShowQuestionnaire(false)}
+              userId={userId}
+            />
           </div>
         )}
       </div>
