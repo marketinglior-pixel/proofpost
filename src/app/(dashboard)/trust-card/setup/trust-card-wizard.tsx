@@ -367,6 +367,16 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
                 <>Claim Username <ArrowRight className="w-4 h-4 ml-1" /></>
               )}
             </Button>
+            <button
+              type="button"
+              onClick={() => {
+                posthog?.capture("trust_card_wizard_skipped", { step: 1 });
+                router.push("/dashboard");
+              }}
+              className="w-full text-center text-[13px] text-white/30 hover:text-white/50 transition-colors pt-1"
+            >
+              Skip — I&apos;ll set this up later
+            </button>
           </div>
         )}
 
