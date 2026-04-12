@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import {
   Dialog,
   DialogContent,
@@ -23,8 +24,20 @@ const categories = [
 
 type Category = (typeof categories)[number]["value"];
 
+// Pages where the feedback widget should NOT appear
+const HIDDEN_PATHS = ["/login", "/callback"];
+// Match public trust card pages: single-segment paths like /username
+const isPublicTrustCard = (path: string) =>
+  /^\/[a-z0-9][a-z0-9-]*$/.test(path) && !HIDDEN_PATHS.includes(path);
+
 export function FeedbackWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
+
+  // Hide on public trust card pages and auth pages
+  if (HIDDEN_PATHS.includes(pathname) || isPublicTrustCard(pathname)) {
+    return null;
+  }
   const [category, setCategory] = useState<Category | null>(null);
   const [message, setMessage] = useState("");
   const [email, setEmail] = useState("");
