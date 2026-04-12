@@ -149,7 +149,7 @@ export function CarouselPreview({ slides, brand, reviewer, plan = "free" }: Caro
   async function handleDownloadPdf() {
     if (plan !== "pro") {
       toast.error("PDF download is a Pro feature. Upgrade to unlock.", {
-        action: { label: "Upgrade", onClick: () => window.location.href = "/pricing" },
+        action: { label: "Upgrade", onClick: () => window.location.href = "/billing" },
       });
       return;
     }

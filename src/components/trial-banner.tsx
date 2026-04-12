@@ -23,7 +23,7 @@ export function TrialBanner({ trialEndsAt }: { trialEndsAt: string }) {
         <strong className="text-emerald">{daysLeft} day{daysLeft !== 1 ? "s" : ""}</strong> left in your free trial.
       </span>
       <Link
-        href="/pricing"
+        href="/billing"
         className="font-semibold text-emerald hover:text-emerald-dark underline underline-offset-2"
       >
         Upgrade now

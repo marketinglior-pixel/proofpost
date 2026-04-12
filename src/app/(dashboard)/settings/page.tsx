@@ -101,7 +101,7 @@ export default async function SettingsPage() {
                 Upgrade to remove watermarks, get unlimited impressions, and access analytics.
               </p>
               <Link
-                href="/pricing"
+                href="/billing"
                 className="inline-flex items-center gap-1.5 h-9 px-4 bg-emerald text-white text-[13px] font-medium rounded-lg hover:bg-emerald-dark transition-colors"
               >
                 Upgrade to Pro

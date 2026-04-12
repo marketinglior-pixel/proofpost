@@ -69,7 +69,7 @@ export default async function BonusesPage() {
             templates, DM scripts, and the trust touchpoints checklist.
           </p>
           <Link
-            href="/pricing"
+            href="/billing"
             className="inline-flex items-center gap-2 h-12 px-8 bg-emerald hover:bg-emerald-dark text-white text-[15px] font-semibold rounded-xl transition-colors glow-emerald"
           >
             Upgrade to Pro

@@ -77,6 +77,11 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
   // Step 4: Live
   const [copied, setCopied] = useState(false);
 
+  // Track wizard start
+  useEffect(() => {
+    posthog?.capture("trust_card_wizard_started");
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Auto-generate username from display name
   useEffect(() => {
     if (displayName && !username) {
@@ -154,6 +159,7 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
         return;
       }
       toast.success("Username claimed!");
+      posthog?.capture("trust_card_step_completed", { step: 1, step_name: "username", username });
       setStep(2);
     } catch {
       toast.error("Something went wrong. Please try again.");
@@ -240,6 +246,13 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
         toast.error("Failed to save. Please try again.");
         return;
       }
+      posthog?.capture("trust_card_step_completed", {
+        step: 3,
+        step_name: "customize",
+        has_headline: !!headline,
+        has_bio: !!bio,
+        has_cta: !!ctaUrl,
+      });
       setStep(4);
     } catch {
       toast.error("Something went wrong.");
@@ -468,7 +481,15 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
                 <ArrowLeft className="w-4 h-4" />
               </Button>
               <Button
-                onClick={() => setStep(3)}
+                onClick={() => {
+                  posthog?.capture("trust_card_step_completed", {
+                    step: 2,
+                    step_name: "import",
+                    reviews_added: importedCount,
+                    skipped: importedCount === 0,
+                  });
+                  setStep(3);
+                }}
                 className="flex-1 h-11 bg-white/10 hover:bg-white/15 text-white font-semibold rounded-xl"
               >
                 {importedCount > 0 ? "Next" : "Skip for now"}
@@ -571,6 +592,13 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
                 )}
               </Button>
             </div>
+            <button
+              type="button"
+              onClick={handleSaveCustomization}
+              className="w-full text-center text-[13px] text-white/30 hover:text-white/50 transition-colors"
+            >
+              Skip — I&apos;ll customize later
+            </button>
           </div>
         )}
 

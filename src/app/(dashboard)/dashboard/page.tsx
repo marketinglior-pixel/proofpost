@@ -320,7 +320,7 @@ export default async function DashboardPage() {
             </div>
             {!isPro && (
               <Link
-                href="/pricing"
+                href="/billing"
                 className="flex items-center justify-center w-full h-9 rounded-lg bg-navy hover:bg-navy-light text-white text-[13px] font-medium transition-colors"
               >
                 <Sparkles className="w-3.5 h-3.5 mr-1.5" aria-hidden="true" />

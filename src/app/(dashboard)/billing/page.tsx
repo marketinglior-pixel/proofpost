@@ -105,13 +105,13 @@ export default async function PricingPage({
       {/* Billing toggle */}
       <div className="flex items-center justify-center gap-3">
         <Link
-          href={`/pricing${discountCode ? `?code=${discountCode}&` : "?"}billing=monthly`}
+          href={`/billing${discountCode ? `?code=${discountCode}&` : "?"}billing=monthly`}
           className={`text-sm font-medium ${!isAnnual ? "text-slate-900" : "text-slate-400 hover:text-slate-600"}`}
         >
           Monthly
         </Link>
         <Link
-          href={`/pricing${discountCode ? `?code=${discountCode}` : ""}`}
+          href={`/billing${discountCode ? `?code=${discountCode}` : ""}`}
           className={`text-sm font-medium ${isAnnual ? "text-slate-900" : "text-slate-400 hover:text-slate-600"}`}
         >
           Annual

@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
     "/history",
     "/analytics",
     "/brand-kit",
-    "/pricing",
+    "/billing",
     "/onboarding",
     "/widgets",
     "/trust-card",

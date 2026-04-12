@@ -180,7 +180,7 @@ function SidebarContent({ onNavigate, plan }: { onNavigate?: () => void; plan: s
           </Link>
         ) : (
           <Link
-            href="/pricing"
+            href="/billing"
             onClick={onNavigate}
             className="block px-3 py-3 rounded-lg bg-emerald/10 border border-emerald/20 hover:bg-emerald/15 transition-colors"
           >

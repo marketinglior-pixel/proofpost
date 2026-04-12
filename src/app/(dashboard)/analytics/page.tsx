@@ -280,7 +280,7 @@ export default async function AnalyticsPage() {
                 3 AI hook variants per review. See which converts best.
               </p>
               <Link
-                href="/pricing"
+                href="/billing"
                 className="relative z-10 inline-flex items-center gap-1.5 h-9 px-5 bg-emerald text-white text-[13px] font-medium rounded-lg transition-colors duration-200 hover:bg-emerald-dark glow-emerald"
               >
                 <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
