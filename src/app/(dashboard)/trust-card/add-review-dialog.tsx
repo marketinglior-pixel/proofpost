@@ -23,10 +23,12 @@ interface AddReviewDialogProps {
 export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps) {
   const supabase = createClient();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
 
   const [reviewerName, setReviewerName] = useState("");
   const [reviewerTitle, setReviewerTitle] = useState("");
@@ -34,6 +36,7 @@ export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps)
   const [rating, setRating] = useState(5);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [reviewerPhotoUrl, setReviewerPhotoUrl] = useState<string | null>(null);
 
   function reset() {
     setReviewerName("");
@@ -42,6 +45,7 @@ export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps)
     setRating(5);
     setImageUrl(null);
     setImagePreview(null);
+    setReviewerPhotoUrl(null);
   }
 
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -87,6 +91,41 @@ export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps)
     setUploading(false);
   }
 
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please upload an image file");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error("Photo must be under 2MB");
+      return;
+    }
+
+    setUploadingPhoto(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${userId}/reviewer/${Date.now()}.${ext}`;
+
+    const { error } = await supabase.storage
+      .from("review-images")
+      .upload(path, file, { contentType: file.type });
+
+    if (error) {
+      toast.error("Upload failed: " + error.message);
+      setUploadingPhoto(false);
+      return;
+    }
+
+    const { data: { publicUrl } } = supabase.storage
+      .from("review-images")
+      .getPublicUrl(path);
+
+    setReviewerPhotoUrl(publicUrl);
+    setUploadingPhoto(false);
+  }
+
   async function handleSubmit() {
     if (!reviewerName.trim()) {
       toast.error("Customer name is required");
@@ -108,6 +147,7 @@ export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps)
           review_text: reviewText || "Screenshot review",
           rating,
           image_url: imageUrl,
+          reviewer_photo_url: reviewerPhotoUrl,
         }),
       });
       const data = await res.json();
@@ -184,15 +224,49 @@ export function AddReviewDialog({ userId, onReviewAdded }: AddReviewDialogProps)
         />
       </div>
 
-      {/* Name */}
+      {/* Name + Photo */}
       <div>
         <label className="text-xs text-slate-500 mb-1 block">Customer name *</label>
-        <Input
-          value={reviewerName}
-          onChange={(e) => setReviewerName(e.target.value)}
-          placeholder="Sarah Chen"
-          maxLength={100}
-        />
+        <div className="flex items-center gap-3">
+          {/* Reviewer photo upload */}
+          <button
+            type="button"
+            onClick={() => photoInputRef.current?.click()}
+            className="shrink-0 w-10 h-10 rounded-full border-2 border-dashed border-slate-200 hover:border-emerald-300 flex items-center justify-center overflow-hidden transition-colors group"
+            title="Add customer photo"
+          >
+            {uploadingPhoto ? (
+              <Loader2 className="w-4 h-4 animate-spin text-slate-400" />
+            ) : reviewerPhotoUrl ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={reviewerPhotoUrl} alt="" className="w-full h-full object-cover" />
+            ) : (
+              <Camera className="w-4 h-4 text-slate-300 group-hover:text-emerald-400 transition-colors" />
+            )}
+          </button>
+          <input
+            ref={photoInputRef}
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={handlePhotoUpload}
+          />
+          <Input
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+            placeholder="Sarah Chen"
+            maxLength={100}
+            className="flex-1"
+          />
+        </div>
+        {reviewerPhotoUrl && (
+          <button
+            onClick={() => setReviewerPhotoUrl(null)}
+            className="text-[11px] text-slate-400 hover:text-red-400 mt-1 ml-[52px]"
+          >
+            Remove photo
+          </button>
+        )}
       </div>
 
       {/* Title/Role */}

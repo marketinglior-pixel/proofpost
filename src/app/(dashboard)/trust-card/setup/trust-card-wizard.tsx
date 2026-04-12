@@ -64,6 +64,8 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
   const [importedCount, setImportedCount] = useState(0);
   const [manualName, setManualName] = useState("");
   const [manualText, setManualText] = useState("");
+  const [manualPhotoUrl, setManualPhotoUrl] = useState<string | null>(null);
+  const [uploadingManualPhoto, setUploadingManualPhoto] = useState(false);
   const [addingManual, setAddingManual] = useState(false);
 
   // Step 3: Customize
@@ -196,7 +198,32 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
     }
   }
 
-  // Step 2b: Manual add
+  // Step 2b: Upload reviewer photo
+  async function handleManualPhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file || !file.type.startsWith("image/") || file.size > 2 * 1024 * 1024) {
+      if (file && file.size > 2 * 1024 * 1024) toast.error("Photo must be under 2MB");
+      return;
+    }
+    setUploadingManualPhoto(true);
+    const ext = file.name.split(".").pop() || "jpg";
+    const path = `${userId}/reviewer/${Date.now()}.${ext}`;
+    const { error } = await supabase.storage
+      .from("review-images")
+      .upload(path, file, { contentType: file.type });
+    if (error) {
+      toast.error("Upload failed");
+      setUploadingManualPhoto(false);
+      return;
+    }
+    const { data: { publicUrl } } = supabase.storage
+      .from("review-images")
+      .getPublicUrl(path);
+    setManualPhotoUrl(publicUrl);
+    setUploadingManualPhoto(false);
+  }
+
+  // Step 2c: Manual add
   async function handleManualAdd() {
     if (!manualName.trim() || !manualText.trim()) return;
     setAddingManual(true);
@@ -208,6 +235,7 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
           reviewer_name: manualName,
           review_text: manualText,
           rating: 5,
+          reviewer_photo_url: manualPhotoUrl,
         }),
       });
       if (!res.ok) {
@@ -218,6 +246,7 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
       setImportedCount((prev) => prev + 1);
       setManualName("");
       setManualText("");
+      setManualPhotoUrl(null);
       toast.success("Review added!");
     } catch {
       toast.error("Something went wrong");
@@ -417,13 +446,31 @@ export function TrustCardWizard({ userId }: TrustCardWizardProps) {
               <div className="space-y-4">
                 <div>
                   <label className="text-xs text-white/40 mb-1.5 block">Customer name *</label>
-                  <Input
-                    value={manualName}
-                    onChange={(e) => setManualName(e.target.value)}
-                    placeholder="Sarah Chen"
-                    className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 h-11"
-                    maxLength={100}
-                  />
+                  <div className="flex items-center gap-3">
+                    <label className="shrink-0 w-10 h-10 rounded-full border-2 border-dashed border-white/20 hover:border-emerald-400/50 flex items-center justify-center overflow-hidden cursor-pointer transition-colors group">
+                      {uploadingManualPhoto ? (
+                        <Loader2 className="w-4 h-4 animate-spin text-white/40" />
+                      ) : manualPhotoUrl ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img src={manualPhotoUrl} alt="" className="w-full h-full object-cover" />
+                      ) : (
+                        <User className="w-4 h-4 text-white/20 group-hover:text-emerald-400/60 transition-colors" />
+                      )}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleManualPhotoUpload}
+                      />
+                    </label>
+                    <Input
+                      value={manualName}
+                      onChange={(e) => setManualName(e.target.value)}
+                      placeholder="Sarah Chen"
+                      className="bg-white/[0.06] border-white/10 text-white placeholder:text-white/20 h-11 flex-1"
+                      maxLength={100}
+                    />
+                  </div>
                 </div>
                 <div>
                   <label className="text-xs text-white/40 mb-1.5 block">What did they say?</label>

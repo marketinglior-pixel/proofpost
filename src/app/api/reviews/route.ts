@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   const body = await request.json();
-  const { reviewer_name, review_text, rating, image_url } = body;
+  const { reviewer_name, review_text, rating, image_url, reviewer_photo_url } = body;
 
   if (!reviewer_name || (!review_text && !image_url)) {
     return NextResponse.json(
@@ -35,6 +35,7 @@ export async function POST(request: NextRequest) {
       review_text: (review_text || "").trim() || "Screenshot review",
       rating: rating || 5,
       image_url: image_url || null,
+      reviewer_photo_url: reviewer_photo_url || null,
       verified: false,
       display_on_trust_card: true,
     } as never)
