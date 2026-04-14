@@ -164,16 +164,15 @@ export default function TheRitzyRosePitchPage() {
       <section className="max-w-3xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 tracking-tight leading-tight">
-            We don't just display your reviews.
+            Your reviews are a gold mine.
             <br />
-            <span className="text-emerald">We turn them into a marketing system.</span>
+            <span className="text-emerald">We help you dig.</span>
           </h2>
           <p className="text-[15px] text-slate-500 mt-5 max-w-xl mx-auto leading-relaxed">
-            A Trust Card is one piece of it. But the real value? A 30-day
-            process where we go through your reviews, build your proof
-            pages, put them where your buyers actually look, and track
-            what happens. You get someone who knows marketing and the
-            tech to make it work.
+            We take your 34,000+ reviews and turn them into things that
+            actually sell: proof pages, email campaigns, SEO snippets,
+            social content. All built around the words your customers
+            already wrote for you.
           </p>
         </div>
 
