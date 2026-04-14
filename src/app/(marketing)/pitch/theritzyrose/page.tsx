@@ -51,32 +51,6 @@ const PROCESS_WEEKS = [
   },
 ];
 
-const DELIVERABLES = [
-  {
-    title: "Trust Card with 3-platform reviews",
-    text: "Your Etsy, Amazon, and Google reviews on one branded page. Verified badges so people know they're real.",
-  },
-  {
-    title: "AI-extracted money lines",
-    text: "The sentences from your reviews that actually convince people to buy. Highlighted and ready to use in your marketing.",
-  },
-  {
-    title: "Google SEO rich snippets",
-    text: "Star ratings that show up in Google search results. We already tested yours, it passes.",
-  },
-  {
-    title: "Website widget integration",
-    text: "Reviews on your product pages and homepage. Where buyers are already looking.",
-  },
-  {
-    title: "Marketing strategy + campaign copy",
-    text: "Emails, social posts, and ad copy. All built around what your customers actually said.",
-  },
-  {
-    title: "30-day results report",
-    text: "What changed, what worked, what didn't. Traffic, clicks, conversions. No fluff.",
-  },
-];
 
 const PILOT_INCLUDES = [
   "Full review audit across Etsy, Amazon, and Google",
@@ -377,27 +351,129 @@ export default function TheRitzyRosePitchPage() {
         </div>
       </section>
 
-      {/* ───────────────────────────── 4. WHAT YOU GET ───────────────────────────── */}
+      {/* ───────────────────────────── 5. WHAT YOU GET ───────────────────────────── */}
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Here's what you get.
+            Here's what you actually get.
           </h2>
+          <p className="text-[15px] text-slate-500 mt-3">
+            Not features. Outcomes.
+          </p>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
-          {DELIVERABLES.map((item, i) => (
-            <div
-              key={i}
-              className="flex items-start gap-3 rounded-xl bg-white border border-slate-200 px-5 py-4"
-            >
-              <Check className="w-5 h-5 text-emerald flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-[14px] font-semibold text-slate-900">{item.title}</p>
-                <p className="text-[13px] text-slate-500 mt-0.5">{item.text}</p>
-              </div>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {/* Trust Card */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">Trust Card</h3>
+            <p className="text-[13px] text-slate-500">One branded page with all your proof. Send it anywhere.</p>
+            <div className="space-y-1.5">
+              {[
+                "Reviews from Etsy, Amazon, and Google on one page",
+                "Verified badges so people know they're real",
+                "Press mentions (NYT, GMA, Martha Stewart)",
+                "One link for DMs, emails, proposals, bios",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* AI Money Lines */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">AI Money Lines</h3>
+            <p className="text-[13px] text-slate-500">The sentences from your reviews that actually sell. Ready to use.</p>
+            <div className="space-y-1.5">
+              {[
+                "AI picks the most convincing line from each review",
+                "Highlighted and ready for emails, ads, social",
+                "Copy you don't have to write, your customers wrote it",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* SEO */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">Google SEO</h3>
+            <p className="text-[13px] text-slate-500">Stars in Google search results. Organic traffic that grows.</p>
+            <div className="space-y-1.5">
+              {[
+                "Rich snippets with star ratings in search",
+                "Trust Card pages indexed and crawlable",
+                "Schema markup (yours already passes validation)",
+                "More clicks from Google, without paying for ads",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Website Widget */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">Website Widgets</h3>
+            <p className="text-[13px] text-slate-500">Reviews on your site, where buying actually happens.</p>
+            <div className="space-y-1.5">
+              {[
+                "Reviews on product pages and homepage",
+                "Carousel, marquee, or grid layouts",
+                "Matches your site's look and feel",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Marketing Campaign */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">Marketing Campaign</h3>
+            <p className="text-[13px] text-slate-500">We write the emails, the posts, the ads. You just approve.</p>
+            <div className="space-y-1.5">
+              {[
+                "Email/SMS campaign to past customers",
+                "Social content built from your best reviews",
+                "\"Share with a friend\" flows",
+                "Trust Card link in email signature, bio, DMs",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Tracking */}
+          <div className="rounded-xl border border-slate-200 p-5 space-y-3">
+            <h3 className="text-[15px] font-bold text-slate-900">Tracking + Results</h3>
+            <p className="text-[13px] text-slate-500">Real numbers. Not guesses. You see what's working.</p>
+            <div className="space-y-1.5">
+              {[
+                "Trust Card views, clicks, and time on page",
+                "UTM tracking on every link to your site",
+                "Weekly report during the pilot",
+                "Before/after comparison on sales",
+              ].map((item, i) => (
+                <div key={i} className="flex items-start gap-2">
+                  <Check className="w-3.5 h-3.5 text-emerald flex-shrink-0 mt-0.5" />
+                  <span className="text-[12px] text-slate-600">{item}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
