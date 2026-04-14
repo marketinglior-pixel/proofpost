@@ -6,7 +6,7 @@ import { ArrowRight, Check, Star, Shield, Award } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "ProofPost x TheRitzyRose | Your Reviews Are Doing Nothing for Your Website",
+  title: "ProofPost x TheRitzyRose | 34,000 Five-Star Reviews. Let's Put Them to Work.",
   description:
     "TheRitzyRose has 34,000+ five-star reviews across Etsy and Amazon, but none show up on theritzyrose.com. We fix that in 30 days.",
   robots: "noindex, nofollow",
@@ -116,9 +116,9 @@ export default function TheRitzyRosePitchPage() {
                 className="font-bold text-white tracking-tight leading-[1.1]"
                 style={{ fontSize: "clamp(1.8rem, 4vw, 2.8rem)" }}
               >
-                Your reviews are doing nothing
+                34,000 five-star reviews.
                 <br />
-                <span className="text-emerald">for your website.</span>
+                <span className="text-emerald">Let's put them to work.</span>
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
