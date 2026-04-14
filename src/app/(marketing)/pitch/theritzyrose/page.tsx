@@ -32,49 +32,49 @@ const PROCESS_WEEKS = [
   {
     week: 1,
     title: "Audit + Build",
-    text: "We pull your best reviews from Etsy, Amazon, and Google. AI extracts the sentences that sell. Your Trust Card goes live with verified badges and rich snippets.",
+    text: "We go through your reviews on Etsy, Amazon, and Google. Our AI picks out the lines that actually sell. By the end of the week, your Trust Card is live.",
   },
   {
     week: 2,
     title: "Integrate Everywhere",
-    text: "We embed proof on your website, add it to your email signature, update your social bios, and place it at every customer touchpoint. Your reviews start working 24/7.",
+    text: "We put your proof on your website, in your email signature, on your social bios. Basically anywhere a customer might look before buying. Your reviews start working for you around the clock.",
   },
   {
     week: 3,
     title: "Campaign Launch",
-    text: "If you have a customer list: targeted email/SMS campaign featuring your best reviews. If not: social and retargeting ads with your Trust Card as the proof layer.",
+    text: "Got a customer list? We send them a campaign built around your best reviews. No list? We run social and retargeting ads with your Trust Card doing the convincing.",
   },
   {
     week: 4,
     title: "Measure + Report",
-    text: "Before-and-after report with real numbers. Click-through rates, conversion changes, traffic from proof pages. Data you can see and act on.",
+    text: "We put together a before-and-after report. Click-through rates, conversion changes, traffic from your proof pages. Real numbers, not vanity metrics.",
   },
 ];
 
 const DELIVERABLES = [
   {
     title: "Trust Card with 3-platform reviews",
-    text: "Reviews from Etsy, Amazon, and Google on one branded page with verified source badges.",
+    text: "Your Etsy, Amazon, and Google reviews on one branded page. Verified badges so people know they're real.",
   },
   {
     title: "AI-extracted money lines",
-    text: "The strongest selling sentences from every review, highlighted and ready for marketing.",
+    text: "The sentences from your reviews that actually convince people to buy. Highlighted and ready to use in your marketing.",
   },
   {
     title: "Google SEO rich snippets",
-    text: "Schema markup that puts star ratings in search results. Already passing Google's Rich Results Test.",
+    text: "Star ratings that show up in Google search results. We already tested yours, it passes.",
   },
   {
     title: "Website widget integration",
-    text: "Reviews embedded directly on your product pages and homepage.",
+    text: "Reviews on your product pages and homepage. Where buyers are already looking.",
   },
   {
     title: "Marketing strategy + campaign copy",
-    text: "Email sequences, social posts, and ad copy built around your actual customer words.",
+    text: "Emails, social posts, and ad copy. All built around what your customers actually said.",
   },
   {
     title: "30-day results report",
-    text: "Before-and-after metrics: traffic, clicks, conversions. Proof that proof works.",
+    text: "What changed, what worked, what didn't. Traffic, clicks, conversions. No fluff.",
   },
 ];
 
@@ -122,10 +122,11 @@ export default function TheRitzyRosePitchPage() {
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                We help you drive sales by turning your 24,517 Etsy reviews,
-                10,000+ Amazon reviews, and 110,042 sales into a marketing
-                system that works across your website, emails, and social —
-                so every buyer sees your proof before they click Buy.
+                You've got 24,517 Etsy reviews, 10,000+ on Amazon, and over
+                110,000 sales. That's a lot of trust sitting in places your
+                website visitors never see. We turn those reviews into
+                something that actually helps you sell more, across your
+                site, your emails, and your social.
               </p>
 
               {/* Stats */}
@@ -151,7 +152,7 @@ export default function TheRitzyRosePitchPage() {
               <div className="relative">
                 <IPhoneMockup src="https://proofpst.com/theritzyrose" />
                 <p className="text-[11px] text-slate-500 text-center mt-4">
-                  Live Trust Card — proofpst.com/theritzyrose
+                  Live Trust Card at proofpst.com/theritzyrose
                 </p>
               </div>
             </div>
@@ -168,11 +169,11 @@ export default function TheRitzyRosePitchPage() {
             <span className="text-emerald">We turn them into a marketing system.</span>
           </h2>
           <p className="text-[15px] text-slate-500 mt-5 max-w-xl mx-auto leading-relaxed">
-            A Trust Card is one piece. The real value is a 30-day marketing
-            process where we audit your reviews, build your proof assets,
-            integrate them into every customer touchpoint, and measure the
-            results. You get a marketing strategist and the technology to back
-            it up.
+            A Trust Card is one piece of it. But the real value? A 30-day
+            process where we go through your reviews, build your proof
+            pages, put them where your buyers actually look, and track
+            what happens. You get someone who knows marketing and the
+            tech to make it work.
           </p>
         </div>
 
@@ -180,15 +181,15 @@ export default function TheRitzyRosePitchPage() {
           {[
             {
               title: "More than a widget",
-              text: "Most review tools stop at \"embed reviews on your site.\" We start there — then build campaigns, write copy, and place your proof everywhere buyers look.",
+              text: "Most review tools stop at \"embed reviews on your site.\" We start there, but then we build campaigns, write copy, and put your proof where buyers actually look.",
             },
             {
               title: "AI-extracted money lines",
-              text: "Your 34,000+ reviews contain sentences that sell. Our AI finds the exact phrases — \"arrived faster than expected,\" \"better quality than the photo\" — and puts them front and center.",
+              text: "Somewhere in your 34,000+ reviews are the sentences that actually convince people to buy. Our AI finds them (things like \"arrived faster than expected\" or \"better quality than the photo\") and puts them front and center.",
             },
             {
               title: "Hands-on, not hands-off",
-              text: "This isn't a self-serve tool you'll forget about. We work directly with your team for 30 days to build, launch, and measure a real marketing campaign around your reviews.",
+              text: "This isn't another tool you'll sign up for and forget about. We work with your team for 30 days. We build the campaign, we launch it, we measure what works.",
             },
           ].map((item, i) => (
             <div
@@ -209,14 +210,145 @@ export default function TheRitzyRosePitchPage() {
             Built for TheRitzyRose. Not a generic tool.
           </p>
           <p className="text-[15px] text-slate-700 leading-relaxed max-w-lg mx-auto">
-            We've already analyzed your Etsy and Amazon reviews, built your
-            Trust Card, and identified the campaigns that will move the needle.
-            This proposal is ready to execute.
+            We already went through your Etsy and Amazon reviews, built
+            your Trust Card, and figured out which campaigns would work
+            best. This isn't a template. It's ready to go.
           </p>
         </div>
       </section>
 
-      {/* ───────────────────────────── 3. THE PROCESS ───────────────────────────── */}
+      {/* ───────────────────────────── 3. GOLD MINE ───────────────────────────── */}
+      <section className="bg-slate-50/80 border-y border-slate-100">
+        <div className="max-w-4xl mx-auto px-6 py-20">
+          <div className="text-center mb-12">
+            <h2 className="text-[26px] sm:text-[32px] font-bold text-slate-900 tracking-tight leading-tight">
+              Your existing customers are
+              <br />
+              <span className="text-emerald">your best salespeople.</span>
+            </h2>
+            <p className="text-[15px] text-slate-500 mt-5 max-w-xl mx-auto leading-relaxed">
+              You have 110,000+ people who already bought from you and loved
+              it. That's not just a nice number. That's a sales engine waiting
+              to be turned on.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-6 mb-10">
+            {/* Sell TO existing customers */}
+            <div className="rounded-2xl bg-white border border-slate-200 p-6 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald/10 text-[11px] font-semibold text-emerald uppercase tracking-wider">
+                Sell to existing customers
+              </div>
+              <h3 className="text-[18px] font-bold text-slate-900">
+                Bring them back to buy again
+              </h3>
+              <p className="text-[14px] text-slate-500 leading-relaxed">
+                Someone who bought a wedding sign probably knows someone else
+                getting married. A quick email with their favorite review and
+                a Trust Card link can bring them back, or send them to a
+                friend.
+              </p>
+              <div className="space-y-2 pt-2">
+                {[
+                  "Re-engagement email campaigns to past buyers",
+                  "\"Share with a friend\" flows built into Trust Card",
+                  "Seasonal offers tied to your best-reviewed products",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
+                    <span className="text-[13px] text-slate-600">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Sell THROUGH existing customers */}
+            <div className="rounded-2xl bg-white border border-slate-200 p-6 space-y-4">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald/10 text-[11px] font-semibold text-emerald uppercase tracking-wider">
+                Sell through existing customers
+              </div>
+              <h3 className="text-[18px] font-bold text-slate-900">
+                Turn every review into a sales rep
+              </h3>
+              <p className="text-[14px] text-slate-500 leading-relaxed">
+                Every review someone wrote about you is a recommendation
+                that works 24/7. Right now those reviews sit on Etsy and
+                Amazon. We put them where they actually close deals, on
+                your site, in your DMs, in Google search results.
+              </p>
+              <div className="space-y-2 pt-2">
+                {[
+                  "Best reviews on your website (where buying happens)",
+                  "Trust Card link in every email, DM, and proposal",
+                  "SEO indexing so Google shows your stars in search",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
+                    <span className="text-[13px] text-slate-600">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Tracking + SEO */}
+          <div className="grid sm:grid-cols-2 gap-6">
+            {/* How we track */}
+            <div className="rounded-xl bg-navy p-6 space-y-4">
+              <h3 className="text-[16px] font-semibold text-white">
+                How we know it's working
+              </h3>
+              <p className="text-[13px] text-slate-400 leading-relaxed">
+                Every Trust Card link is tracked. We see who visits, what
+                they click, and where they go next. We can't promise exact
+                sales attribution (no one honestly can), but we give you
+                real numbers on traffic, clicks, and engagement.
+              </p>
+              <div className="space-y-2 pt-1">
+                {[
+                  "Trust Card views, clicks, and time on page",
+                  "UTM tracking on every link to your website",
+                  "Weekly report during the pilot",
+                  "Before/after comparison on overall sales",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
+                    <span className="text-[13px] text-slate-300">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* SEO */}
+            <div className="rounded-xl bg-navy p-6 space-y-4">
+              <h3 className="text-[16px] font-semibold text-white">
+                Google works for you too
+              </h3>
+              <p className="text-[13px] text-slate-400 leading-relaxed">
+                When someone Googles "TheRitzyRose reviews," your Trust
+                Card page shows up with star ratings right in the search
+                results. We set up schema markup so Google knows your
+                ratings are real and shows them to buyers.
+              </p>
+              <div className="space-y-2 pt-1">
+                {[
+                  "Rich snippets with stars in Google results",
+                  "Trust Card pages indexed and crawlable",
+                  "AggregateRating schema (already passing validation)",
+                  "Organic traffic that grows over time",
+                ].map((item, i) => (
+                  <div key={i} className="flex items-start gap-2">
+                    <Check className="w-4 h-4 text-emerald flex-shrink-0 mt-0.5" />
+                    <span className="text-[13px] text-slate-300">{item}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────────────────────── 4. THE PROCESS ───────────────────────────── */}
       <section className="bg-navy">
         <div className="max-w-4xl mx-auto px-6 py-20">
           <div className="text-center mb-12">
@@ -225,7 +357,7 @@ export default function TheRitzyRosePitchPage() {
               <span className="text-emerald">Week by week.</span>
             </h2>
             <p className="text-[15px] text-slate-400 mt-3">
-              Here's exactly what happens after you say go.
+              Here's what the first 30 days look like.
             </p>
           </div>
 
@@ -250,7 +382,7 @@ export default function TheRitzyRosePitchPage() {
       <section className="max-w-4xl mx-auto px-6 py-20">
         <div className="text-center mb-12">
           <h2 className="text-[26px] sm:text-[30px] font-bold text-slate-900 tracking-tight">
-            Everything included in your pilot.
+            Here's what you get.
           </h2>
         </div>
 
@@ -333,7 +465,7 @@ export default function TheRitzyRosePitchPage() {
               <span className="text-emerald">your best marketing.</span>
             </h2>
             <p className="text-[14px] text-slate-400 mt-4">
-              Let's put it to work. 30 days, measurable results.
+              Let's put it to work. 30 days. Real numbers.
             </p>
           </div>
 
@@ -346,7 +478,7 @@ export default function TheRitzyRosePitchPage() {
               30-Day Marketing Pilot
             </p>
             <p className="text-[13px] text-slate-400 mt-2">
-              Hands-on marketing strategy + ProofPost technology
+              Marketing strategy + the tech to back it up
             </p>
 
             <div className="mt-6 pt-6 border-t border-white/10 space-y-2.5 text-left">
