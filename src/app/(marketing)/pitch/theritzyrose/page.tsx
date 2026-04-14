@@ -122,10 +122,10 @@ export default function TheRitzyRosePitchPage() {
               </h1>
 
               <p className="text-[16px] text-slate-400 leading-relaxed max-w-lg mx-auto lg:mx-0">
-                You have 24,517 five-star reviews on Etsy, 10,000+ on Amazon,
-                and 110,042 sales since 2010. Your website shows zero of that.
-                When buyers Google you, they see beautiful products — not proof.
-                And a buyer with doubt is a buyer who doesn't click Buy.
+                We help you drive sales by turning your 24,517 Etsy reviews,
+                10,000+ Amazon reviews, and 110,042 sales into a marketing
+                system that works across your website, emails, and social —
+                so every buyer sees your proof before they click Buy.
               </p>
 
               {/* Stats */}
