@@ -161,8 +161,8 @@ export default function TheRitzyRosePitchPage() {
               text: "Somewhere in your 34,000+ reviews are the sentences that actually convince people to buy. Our AI finds them (things like \"arrived faster than expected\" or \"better quality than the photo\") and puts them front and center.",
             },
             {
-              title: "Hands-on, not hands-off",
-              text: "This isn't another tool you'll sign up for and forget about. We work with your team for 30 days. We build the campaign, we launch it, we measure what works.",
+              title: "You don't have to do anything",
+              text: "We build it, we launch it, we measure it. You just approve. No learning a new tool, no hiring a marketer, no extra hours. We handle the whole thing.",
             },
           ].map((item, i) => (
             <div
@@ -180,12 +180,12 @@ export default function TheRitzyRosePitchPage() {
 
         <div className="rounded-2xl border-2 border-emerald/30 bg-emerald/5 p-7 sm:p-8 text-center">
           <p className="text-[13px] font-semibold text-emerald uppercase tracking-wider mb-2">
-            Built for TheRitzyRose. Not a generic tool.
+            Your time investment: close to zero.
           </p>
           <p className="text-[15px] text-slate-700 leading-relaxed max-w-lg mx-auto">
             We already went through your Etsy and Amazon reviews, built
             your Trust Card, and figured out which campaigns would work
-            best. This isn't a template. It's ready to go.
+            best. All you need to do is say go. We take it from there.
           </p>
         </div>
       </section>
