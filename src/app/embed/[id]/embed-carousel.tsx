@@ -139,6 +139,17 @@ export function EmbedCarousel({
     }, 300);
   }, [reviews, current, trackHookEvent]);
 
+  const goToPrev = useCallback(() => {
+    if (reviews.length <= 1) return;
+    setIsAnimating(true);
+    setTimeout(() => {
+      const prevIdx = (current - 1 + reviews.length) % reviews.length;
+      setCurrent(prevIdx);
+      setIsAnimating(false);
+      trackHookEvent(reviews[prevIdx], "impression");
+    }, 300);
+  }, [reviews, current, trackHookEvent]);
+
   // Track impression on mount
   useEffect(() => {
     fetch(`/api/embed/${embedId}`).catch(() => {});
@@ -184,6 +195,14 @@ export function EmbedCarousel({
     return name.split(" ").map((w) => w[0]).join("").toUpperCase().slice(0, 2);
   }
 
+  function cleanField(v: string | null | undefined): string {
+    if (!v) return "";
+    const trimmed = v.trim();
+    if (!trimmed) return "";
+    if (/^unknown$/i.test(trimmed)) return "";
+    return trimmed;
+  }
+
   // Detect RTL per current review (not entire widget)
   function isReviewRTL(r: Review): boolean {
     return /[\u0590-\u05FF\u0600-\u06FF]/.test(r.quote + r.hookLine);
@@ -216,8 +235,69 @@ export function EmbedCarousel({
         direction: currentRTL ? "rtl" : "ltr",
         maxWidth: "448px",
         margin: "0 auto",
+        position: "relative",
       }}
     >
+      {/* Arrow navigation */}
+      {reviews.length > 1 && (
+        <>
+          <button
+            aria-label="Previous review"
+            onClick={goToPrev}
+            style={{
+              position: "absolute",
+              left: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              border: "1px solid rgba(226,232,240,0.9)",
+              background: "rgba(255,255,255,0.95)",
+              color: textColor,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+              boxShadow: "0 2px 6px rgba(15,23,42,0.08)",
+              zIndex: 2,
+              fontSize: "16px",
+              lineHeight: 1,
+            }}
+          >
+            ‹
+          </button>
+          <button
+            aria-label="Next review"
+            onClick={goToNext}
+            style={{
+              position: "absolute",
+              right: "8px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "32px",
+              height: "32px",
+              borderRadius: "50%",
+              border: "1px solid rgba(226,232,240,0.9)",
+              background: "rgba(255,255,255,0.95)",
+              color: textColor,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 0,
+              boxShadow: "0 2px 6px rgba(15,23,42,0.08)",
+              zIndex: 2,
+              fontSize: "16px",
+              lineHeight: 1,
+            }}
+          >
+            ›
+          </button>
+        </>
+      )}
+
       {/* Card content */}
       <div
         style={{
@@ -342,12 +422,12 @@ export function EmbedCarousel({
           )}
           <div style={{ textAlign: "left" }}>
             <div style={{ fontSize: "13px", fontWeight: 600, color: textColor }}>
-              {review.reviewer.name}
+              {cleanField(review.reviewer.name) || "Customer"}
             </div>
             <div style={{ fontSize: "11px", color: `${textColor}80` }}>
               {[
-                showTitle ? review.reviewer.title : null,
-                showCompany ? review.reviewer.company : null,
+                showTitle ? cleanField(review.reviewer.title) : null,
+                showCompany ? cleanField(review.reviewer.company) : null,
               ].filter(Boolean).join(", ")}
             </div>
           </div>

@@ -84,9 +84,13 @@ export async function generateCarouselContent(
   companyName: string,
   reviewerInfo?: ReviewerInfo
 ): Promise<CarouselOutput> {
-  const reviewerContext = reviewerInfo
-    ? `\nReviewer info:\n- Name: ${reviewerInfo.name || "Unknown"}\n- Title: ${reviewerInfo.title || "Unknown"}\n- Company: ${reviewerInfo.company || "Unknown"}`
-    : "";
+  const reviewerLines: string[] = [];
+  if (reviewerInfo?.name) reviewerLines.push(`- Name: ${reviewerInfo.name}`);
+  if (reviewerInfo?.title) reviewerLines.push(`- Title: ${reviewerInfo.title}`);
+  if (reviewerInfo?.company) reviewerLines.push(`- Company: ${reviewerInfo.company}`);
+  const reviewerContext = reviewerLines.length
+    ? `\nReviewer info (use EXACTLY these values — do not invent or fill missing fields with "Unknown"; leave missing fields as empty strings):\n${reviewerLines.join("\n")}`
+    : `\nReviewer info: none provided. Leave reviewer.title and reviewer.company as empty strings "" — do NOT write "Unknown".`;
 
   const response = await getOpenAI().chat.completions.create({
     model: "gpt-4o-mini",
